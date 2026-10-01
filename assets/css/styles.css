@@ -183,8 +183,9 @@ header{
   transition:opacity 0.25s ease;
 }
 .updates-chips{
-  display:flex;
-  flex-wrap:wrap;
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(210px, 1fr));
+  grid-auto-rows:1fr;
   gap:10px;
   transition:opacity 0.25s ease;
 }
@@ -197,8 +198,8 @@ header{
   display:flex;
   flex-direction:column;
   gap:2px;
-  min-width:150px;
-  max-width:340px;
+  min-width:0;
+  min-height:92px;
 }
 .updates-chip-tag{
   font-size:0.68rem;
