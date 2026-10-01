@@ -1534,7 +1534,8 @@ a.resource-link{border-bottom-color:var(--sky);}
 .bio-page h2{font-family:var(--sans); font-weight:700; font-size:1.4rem; margin:32px 0 8px;}
 .bio-page p{max-width:65ch; color:var(--ink-soft);}
 .bio-top{display:flex; gap:24px; align-items:center; flex-wrap:wrap;}
-.bio-top img{width:140px; height:140px; object-fit:contain;}
+.bio-top .bio-photo{width:260px; max-width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:12px;}
+.bio-top p{flex:1; min-width:240px;}
 .gallery-grid{
   display:grid;
   grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));

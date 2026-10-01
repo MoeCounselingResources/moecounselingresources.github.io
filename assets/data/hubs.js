@@ -10,7 +10,7 @@ const HUBS = {
   school: {
     title: "School Counseling",
     page: "school-counseling.html",
-    blurb: "Support for how you learn and grow at Moeller — study skills, academic help, and resources for families.",
+    blurb: "With a best-in-class student to counselor ratio, the young men of Moeller build genuine relationships with their counselors over their four-year education journey. Moeller’s counseling program delivers holistic, individualized, data-driven counseling activities and interventions to support students in their social and emotional development, academic growth, and college and career planning. Counselors provide support for students who need help adjusting to high school, seek mental and emotional support, need strategies for managing stress, struggle with anxiety and depression, and/or experience sudden life changes.",
     cardBlurb: "Support for how you learn and grow at Moeller — study skills, academic help, and resources for families.",
     boxes: [
       {title:"Study Tips & How to Study", desc:"Proven ways to study, take notes, and prepare for tests.", href:"study-tips.html"},
