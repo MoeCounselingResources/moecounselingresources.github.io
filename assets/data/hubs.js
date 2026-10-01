@@ -34,22 +34,23 @@ const HUBS = {
     page: "college-counseling.html",
     blurb: "Everything you need to explore options and plan your path after Moeller, from first ideas to final applications.",
     boxes: [
-      {title:"Application Resources", desc:"Checklists, the Common App cheat sheet, deadlines, essays, and fee waivers.", href:"seniors.html", leads:"Opens the Seniors page"},
+      {title:"Application Resources", desc:"Checklists, the Common App cheat sheet, deadlines, essays, and fee waivers.", href:"seniors.html"},
       {title:"College Exploration", desc:"Researching schools, campus visits, and building a balanced list.", href:"college-exploration.html"},
       {title:"Military", desc:"Service academies, ROTC, and enlistment pathways.", href:"military.html"},
       {title:"CCP / AP", desc:"Earning college credit while you're still in high school.", href:"ccp-ap.html"},
       {title:"ACT / SAT", desc:"Test dates, prep resources, and how to send your scores.", href:"act-sat.html"},
       {title:"Career Exploration", desc:"Tools for connecting your interests and strengths to future careers.", href:"career-exploration.html"}
     ],
-    classHeading: "Your class",
-    classIntro: "Each class page has a college view built for where you are in the process.",
-    cross: {
-      heading: "From School Counseling",
-      intro: "Strong study habits and support make every step of college planning easier.",
-      links: [
-        {text:"School Counseling hub", href:"school-counseling.html", note:"Study skills, academic support, parent education"},
-        {text:"Academic Support", href:"academic-support.html", note:"Study groups, Chem Block, tutors"},
-        {text:"Study Tips & How to Study", href:"study-tips.html", note:"Getting the grades that open doors"}
+    classHeading: "Class of\u2026",
+    hideClassPrograms: true,
+    // Weekly newsletter box shown under "Announcements from School Counseling".
+    // Update "week" and "items" each week. Each item is {title, text}.
+    newsletter: {
+      heading: "Announcements from School Counseling",
+      week: "Week of October 5 (placeholder)",
+      items: [
+        {title:"Placeholder: weekly update", text:"Replace this with this week's news from School Counseling."},
+        {title:"Placeholder: reminders", text:"Add reminders, deadlines, or shout-outs here."}
       ]
     }
   }

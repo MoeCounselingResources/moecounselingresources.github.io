@@ -72,10 +72,10 @@ function heroHtml(stage, title, blurb, hub, extra){
   `;
 }
 
-function classLinksHtml(view){
+function classLinksHtml(view, hidePrograms){
   return `<div class="class-row">${GRADE_PAGES.map(g=>{
     const y = gradeData(g.key) || {};
-    const program = view === 'school' ? 'School & Academics' : (y.collegeLabel || '');
+    const program = hidePrograms ? '' : view === 'school' ? 'School & Academics' : (y.collegeLabel || '');
     return `
       <a class="class-link" href="${gradeHref(g, view)}">
         <span class="grade">${escapeHtml(g.name)}</span>
@@ -128,7 +128,7 @@ function renderLanding(){
   document.getElementById('hero').innerHTML = heroHtml(
     null,
     'Moeller Counseling',
-    'One department, two teams. School Counseling supports how you learn and grow here. College Counseling helps you plan what comes next. Your class page brings both together.'
+    ''
   );
   const doorList = hub => HUBS[hub].boxes.map(b=>`<li><a${linkAttrs(b.href)}>${escapeHtml(b.title)}</a></li>`).join('');
   document.getElementById('doorways').innerHTML = `
@@ -171,9 +171,22 @@ function renderHub(hubKey){
         </a>`).join('')}
     </div>`;
   document.getElementById('classes').innerHTML = `
-    <div class="block-head"><h2>${escapeHtml(h.classHeading)}</h2><p>${escapeHtml(h.classIntro)}</p></div>
-    ${classLinksHtml(hubKey)}`;
-  document.getElementById('cross').innerHTML = `
+    <div class="block-head"><h2>${escapeHtml(h.classHeading)}</h2>${h.classIntro ? `<p>${escapeHtml(h.classIntro)}</p>` : ''}</div>
+    ${classLinksHtml(hubKey, h.hideClassPrograms)}`;
+  document.getElementById('cross').innerHTML = h.newsletter ? `
+    <div class="newsletter-box">
+      <div class="newsletter-head">
+        <h2>${escapeHtml(h.newsletter.heading)}</h2>
+        ${h.newsletter.week ? `<span class="newsletter-week">${escapeHtml(h.newsletter.week)}</span>` : ''}
+      </div>
+      <div class="newsletter-items">
+        ${h.newsletter.items.map(n=>`
+          <div class="newsletter-item">
+            <h3>${escapeHtml(n.title)}</h3>
+            <p>${escapeHtml(n.text)}</p>
+          </div>`).join('')}
+      </div>
+    </div>` : `
     <div class="cross-strip">
       <div><h2>${escapeHtml(h.cross.heading)}</h2><p>${escapeHtml(h.cross.intro)}</p></div>
       <ul class="cross-links">

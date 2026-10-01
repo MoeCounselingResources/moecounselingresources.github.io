@@ -300,7 +300,7 @@ const MODALS = {
 const COUNSELORS = [
   {role:"College Counseling Program Director", name:"Angela Davies", email:"adavies@moeller.org", crest:"assets/img/crest-college-director.png"},
   {role:"Counseling Administrative Assistant, Testing Coordinator", name:"Ann Niehaus", email:"aniehaus@moeller.org", crest:"assets/img/crest-admin-assistant.png"},
-  {role:"Director of Happiness", name:"Sidon", crest:"assets/img/crest-sidon.png"},
+  {role:"Director of Happiness", name:"Sidon", crest:"assets/img/crest-sidon.png", moreInfo:"sidon.html"},
   {role:"Eveslage House", name:"Jessica Fager", email:"jfager@moeller.org", crest:"assets/img/crest-eveslage.png"},
   {role:"Pillar House", name:"Allison Oakley", email:"aoakley@moeller.org", crest:"assets/img/crest-pillar.png"},
   {role:"Quiroga House", name:"Catherine Allen", email:"callen@moeller.org", crest:"assets/img/crest-quiroga.png"},

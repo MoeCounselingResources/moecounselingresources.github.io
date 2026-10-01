@@ -1460,3 +1460,103 @@ h1{letter-spacing:-0.01em;}
 /* links: navy text with a sky-blue underline */
 a.resource-link{border-bottom-color:var(--sky);}
 .cross-links a, .back-link{text-decoration:underline; text-decoration-color:var(--sky); text-decoration-thickness:2px; text-underline-offset:3px;}
+
+/* ---------- Weekly newsletter box (hub pages) ---------- */
+.newsletter-box{
+  background:var(--ink);
+  border:1px solid var(--accent);
+  border-radius:12px;
+  padding:22px 26px;
+  color:var(--paper);
+}
+.newsletter-head{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:8px 16px;
+  margin-bottom:14px;
+}
+.newsletter-head h2{
+  font-family:var(--sans);
+  font-weight:700;
+  font-size:1.2rem;
+  margin:0;
+  color:var(--paper);
+}
+.newsletter-week{
+  font-size:0.8rem;
+  font-weight:700;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  color:var(--sky);
+}
+.newsletter-items{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+  gap:10px;
+}
+.newsletter-item{
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.22);
+  border-left:4px solid var(--accent);
+  border-radius:8px;
+  padding:12px 16px;
+}
+.newsletter-item h3{
+  font-family:var(--sans);
+  font-size:1rem;
+  margin:0 0 4px;
+  color:var(--paper);
+}
+.newsletter-item p{
+  margin:0;
+  font-size:0.9rem;
+  color:rgba(255,255,255,0.82);
+}
+
+/* ---------- "More info" button on counselor cards ---------- */
+.panel-card .more-info{
+  align-self:flex-start;
+  margin-top:12px;
+  background:var(--accent);
+  color:var(--ink);
+  font-weight:700;
+  font-size:0.85rem;
+  text-decoration:none;
+  padding:7px 14px;
+  border-radius:6px;
+}
+.panel-card .more-info:hover{opacity:0.85;}
+
+/* ---------- Sidon page ---------- */
+.bio-page{max-width:1000px; margin:0 auto 72px; padding:0 24px;}
+.bio-page h2{font-family:var(--sans); font-weight:700; font-size:1.4rem; margin:32px 0 8px;}
+.bio-page p{max-width:65ch; color:var(--ink-soft);}
+.bio-top{display:flex; gap:24px; align-items:center; flex-wrap:wrap;}
+.bio-top img{width:140px; height:140px; object-fit:contain;}
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
+  gap:12px;
+  margin-top:12px;
+}
+.gallery-grid figure{margin:0;}
+.gallery-grid img,
+.gallery-slot{
+  width:100%;
+  aspect-ratio:4/3;
+  object-fit:cover;
+  border-radius:10px;
+  display:block;
+}
+.gallery-slot{
+  background:var(--paper-soft);
+  border:2px dashed var(--cloud);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--slate);
+  font-size:0.9rem;
+}
+.gallery-grid figcaption{font-size:0.85rem; color:var(--ink-soft); margin-top:6px;}

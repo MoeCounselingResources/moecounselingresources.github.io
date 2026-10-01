@@ -504,6 +504,7 @@ function renderCounselors(){
       <div class="meta">
         ${c.email ? `<div>${escapeHtml(c.email)}</div>` : ''}
       </div>
+      ${c.moreInfo ? `<a class="more-info" href="${escapeHtml(c.moreInfo)}">More info</a>` : ''}
     </div>
   `).join('');
 }
