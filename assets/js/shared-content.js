@@ -325,8 +325,23 @@ const ANNOUNCEMENTS = [
   },
   {
     date: "2026-10-01", expires: "2026-10-01",
-    title: "College Rep Visits",
-    body: "Hofstra University, Indiana University, Purdue University, and Northwestern University visit today."
+    title: "Hofstra University",
+    body: "College rep visit."
+  },
+  {
+    date: "2026-10-01", expires: "2026-10-01",
+    title: "Indiana University",
+    body: "College rep visit."
+  },
+  {
+    date: "2026-10-01", expires: "2026-10-01",
+    title: "Purdue University",
+    body: "College rep visit."
+  },
+  {
+    date: "2026-10-01", expires: "2026-10-01",
+    title: "Northwestern University",
+    body: "College rep visit."
   },
   {
     date: "2026-10-02", expires: "2026-10-02",
@@ -335,18 +350,28 @@ const ANNOUNCEMENTS = [
   },
   {
     date: "2026-10-02", expires: "2026-10-02",
-    title: "College Rep Visit",
-    body: "DePauw University visits today."
+    title: "DePauw University",
+    body: "College rep visit."
   },
   {
     date: "2026-10-05", expires: "2026-10-05",
-    title: "College Rep Visit",
-    body: "Texas Christian University visits today."
+    title: "Texas Christian University",
+    body: "College rep visit."
   },
   {
     date: "2026-10-06", expires: "2026-10-06",
-    title: "College Rep Visits",
-    body: "Rose-Hulman Institute, Wabash College, and Hanover College visit today."
+    title: "Rose-Hulman Institute",
+    body: "College rep visit."
+  },
+  {
+    date: "2026-10-06", expires: "2026-10-06",
+    title: "Wabash College",
+    body: "College rep visit."
+  },
+  {
+    date: "2026-10-06", expires: "2026-10-06",
+    title: "Hanover College",
+    body: "College rep visit."
   },
   {
     date: "2026-10-06", expires: "2026-10-06",
@@ -355,13 +380,13 @@ const ANNOUNCEMENTS = [
   },
   {
     date: "2026-10-07", expires: "2026-10-07",
-    title: "College Rep Visit",
-    body: "Lipscomb University visits today."
+    title: "Lipscomb University",
+    body: "College rep visit."
   },
   {
     date: "2026-10-08", expires: "2026-10-08",
-    title: "College Rep Visit",
-    body: "Vanderbilt University visits today."
+    title: "Vanderbilt University",
+    body: "College rep visit."
   },
   {
     date: "2026-10-08", expires: "2026-10-08",
@@ -375,8 +400,18 @@ const ANNOUNCEMENTS = [
   },
   {
     date: "2026-10-12", expires: "2026-10-12",
-    title: "College Rep Visits",
-    body: "Virginia Tech, Wright State University, and Waynesburg University visit today."
+    title: "Virginia Tech",
+    body: "College rep visit."
+  },
+  {
+    date: "2026-10-12", expires: "2026-10-12",
+    title: "Wright State University",
+    body: "College rep visit."
+  },
+  {
+    date: "2026-10-12", expires: "2026-10-12",
+    title: "Waynesburg University",
+    body: "College rep visit."
   },
   {
     date: "2026-10-12", expires: "2026-10-12",
@@ -385,8 +420,23 @@ const ANNOUNCEMENTS = [
   },
   {
     date: "2026-10-13", expires: "2026-10-13",
-    title: "College Rep Visits",
-    body: "Tufts University, University of Arizona, Bellarmine University, and University of Rochester visit today."
+    title: "Tufts University",
+    body: "College rep visit."
+  },
+  {
+    date: "2026-10-13", expires: "2026-10-13",
+    title: "University of Arizona",
+    body: "College rep visit."
+  },
+  {
+    date: "2026-10-13", expires: "2026-10-13",
+    title: "Bellarmine University",
+    body: "College rep visit."
+  },
+  {
+    date: "2026-10-13", expires: "2026-10-13",
+    title: "University of Rochester",
+    body: "College rep visit."
   },
   {
     date: "2026-10-13", expires: "2026-10-13",
@@ -405,13 +455,28 @@ const ANNOUNCEMENTS = [
   },
   {
     date: "2026-10-15", expires: "2026-10-15",
-    title: "College Rep Visit",
-    body: "Belmont University visits today."
+    title: "Belmont University",
+    body: "College rep visit."
   },
   {
     date: "2026-10-16", expires: "2026-10-16",
-    title: "College Rep Visits",
-    body: "Kenyon College, University of Connecticut, Case Western Reserve, and Villanova University visit today."
+    title: "Kenyon College",
+    body: "College rep visit."
+  },
+  {
+    date: "2026-10-16", expires: "2026-10-16",
+    title: "University of Connecticut",
+    body: "College rep visit."
+  },
+  {
+    date: "2026-10-16", expires: "2026-10-16",
+    title: "Case Western Reserve",
+    body: "College rep visit."
+  },
+  {
+    date: "2026-10-16", expires: "2026-10-16",
+    title: "Villanova University",
+    body: "College rep visit."
   },
   {
     date: "2026-10-18", expires: "2026-10-18",
@@ -420,8 +485,23 @@ const ANNOUNCEMENTS = [
   },
   {
     date: "2026-10-19", expires: "2026-10-19",
-    title: "College Rep Visits",
-    body: "Saint Louis University, Ole Miss, Tulane University, and Drexel University visit today."
+    title: "Saint Louis University",
+    body: "College rep visit."
+  },
+  {
+    date: "2026-10-19", expires: "2026-10-19",
+    title: "Ole Miss",
+    body: "College rep visit."
+  },
+  {
+    date: "2026-10-19", expires: "2026-10-19",
+    title: "Tulane University",
+    body: "College rep visit."
+  },
+  {
+    date: "2026-10-19", expires: "2026-10-19",
+    title: "Drexel University",
+    body: "College rep visit."
   },
   {
     date: "2026-10-19", expires: "2026-10-19",
@@ -430,23 +510,58 @@ const ANNOUNCEMENTS = [
   },
   {
     date: "2026-10-20", expires: "2026-10-20",
-    title: "College Rep Visits",
-    body: "Marquette, St. John's, Holy Cross, and Valparaiso visit today, plus 2 more."
+    title: "Marquette",
+    body: "College rep visit."
+  },
+  {
+    date: "2026-10-20", expires: "2026-10-20",
+    title: "St. John's",
+    body: "College rep visit."
+  },
+  {
+    date: "2026-10-20", expires: "2026-10-20",
+    title: "Holy Cross",
+    body: "College rep visit."
+  },
+  {
+    date: "2026-10-20", expires: "2026-10-20",
+    title: "Valparaiso",
+    body: "College rep visit."
+  },
+  {
+    date: "2026-10-20", expires: "2026-10-20",
+    title: "2 More College Rep Visits",
+    body: "Check SCOIR or the TVs for the colleges and times."
   },
   {
     date: "2026-10-21", expires: "2026-10-21",
-    title: "College Rep Visits",
-    body: "DePaul University, Loyola University Chicago, Hillsdale College, and Furman University visit today."
+    title: "DePaul University",
+    body: "College rep visit."
+  },
+  {
+    date: "2026-10-21", expires: "2026-10-21",
+    title: "Loyola University Chicago",
+    body: "College rep visit."
+  },
+  {
+    date: "2026-10-21", expires: "2026-10-21",
+    title: "Hillsdale College",
+    body: "College rep visit."
+  },
+  {
+    date: "2026-10-21", expires: "2026-10-21",
+    title: "Furman University",
+    body: "College rep visit."
   },
   {
     date: "2026-10-22", expires: "2026-10-22",
-    title: "College Rep Visit",
-    body: "Centre College visits today."
+    title: "Centre College",
+    body: "College rep visit."
   },
   {
     date: "2026-10-26", expires: "2026-10-26",
-    title: "College Rep Visit",
-    body: "High Point University visits today."
+    title: "High Point University",
+    body: "College rep visit."
   },
   {
     date: "2026-10-26", expires: "2026-10-26",
@@ -455,18 +570,18 @@ const ANNOUNCEMENTS = [
   },
   {
     date: "2026-10-28", expires: "2026-10-28",
-    title: "College Rep Visit",
-    body: "Fairfield University visits today."
+    title: "Fairfield University",
+    body: "College rep visit."
   },
   {
     date: "2026-10-29", expires: "2026-10-29",
-    title: "College Rep Visit",
-    body: "Shawnee State University visits today."
+    title: "Shawnee State University",
+    body: "College rep visit."
   },
   {
     date: "2026-10-30", expires: "2026-10-30",
-    title: "College Rep Visit",
-    body: "Eckerd College visits today."
+    title: "Eckerd College",
+    body: "College rep visit."
   },
   {
     date: "2026-11-01", expires: "2026-11-01",
