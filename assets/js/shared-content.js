@@ -309,6 +309,8 @@ const COUNSELORS = [
   {role:"Zehler House", name:"Kristen Merica", email:"kmerica@moeller.org", crest:"assets/img/crest-zehler.png"}
 ];
 
+// College rep visits: list each college in "visits". To add a time, write the
+// college as "Hofstra University|9:30 AM" (name, then | then time).
 // Upcoming Events — shown at the top of every tab.
 // Each one is its OWN individual event: a "date" (YYYY-MM-DD, shown in the
 // badge), a headline, and a body sentence or two. "expires" is the last day
@@ -325,23 +327,8 @@ const ANNOUNCEMENTS = [
   },
   {
     date: "2026-10-01", expires: "2026-10-01",
-    title: "Hofstra University",
-    body: "College rep visit."
-  },
-  {
-    date: "2026-10-01", expires: "2026-10-01",
-    title: "Indiana University",
-    body: "College rep visit."
-  },
-  {
-    date: "2026-10-01", expires: "2026-10-01",
-    title: "Purdue University",
-    body: "College rep visit."
-  },
-  {
-    date: "2026-10-01", expires: "2026-10-01",
-    title: "Northwestern University",
-    body: "College rep visit."
+    title: "College Rep Visits",
+    visits: ["Hofstra University", "Indiana University", "Purdue University", "Northwestern University"]
   },
   {
     date: "2026-10-02", expires: "2026-10-02",
@@ -350,28 +337,18 @@ const ANNOUNCEMENTS = [
   },
   {
     date: "2026-10-02", expires: "2026-10-02",
-    title: "DePauw University",
-    body: "College rep visit."
+    title: "College Rep Visits",
+    visits: ["DePauw University"]
   },
   {
     date: "2026-10-05", expires: "2026-10-05",
-    title: "Texas Christian University",
-    body: "College rep visit."
+    title: "College Rep Visits",
+    visits: ["Texas Christian University"]
   },
   {
     date: "2026-10-06", expires: "2026-10-06",
-    title: "Rose-Hulman Institute",
-    body: "College rep visit."
-  },
-  {
-    date: "2026-10-06", expires: "2026-10-06",
-    title: "Wabash College",
-    body: "College rep visit."
-  },
-  {
-    date: "2026-10-06", expires: "2026-10-06",
-    title: "Hanover College",
-    body: "College rep visit."
+    title: "College Rep Visits",
+    visits: ["Rose-Hulman Institute", "Wabash College", "Hanover College"]
   },
   {
     date: "2026-10-06", expires: "2026-10-06",
@@ -380,13 +357,13 @@ const ANNOUNCEMENTS = [
   },
   {
     date: "2026-10-07", expires: "2026-10-07",
-    title: "Lipscomb University",
-    body: "College rep visit."
+    title: "College Rep Visits",
+    visits: ["Lipscomb University"]
   },
   {
     date: "2026-10-08", expires: "2026-10-08",
-    title: "Vanderbilt University",
-    body: "College rep visit."
+    title: "College Rep Visits",
+    visits: ["Vanderbilt University"]
   },
   {
     date: "2026-10-08", expires: "2026-10-08",
@@ -400,18 +377,8 @@ const ANNOUNCEMENTS = [
   },
   {
     date: "2026-10-12", expires: "2026-10-12",
-    title: "Virginia Tech",
-    body: "College rep visit."
-  },
-  {
-    date: "2026-10-12", expires: "2026-10-12",
-    title: "Wright State University",
-    body: "College rep visit."
-  },
-  {
-    date: "2026-10-12", expires: "2026-10-12",
-    title: "Waynesburg University",
-    body: "College rep visit."
+    title: "College Rep Visits",
+    visits: ["Virginia Tech", "Wright State University", "Waynesburg University"]
   },
   {
     date: "2026-10-12", expires: "2026-10-12",
@@ -420,23 +387,8 @@ const ANNOUNCEMENTS = [
   },
   {
     date: "2026-10-13", expires: "2026-10-13",
-    title: "Tufts University",
-    body: "College rep visit."
-  },
-  {
-    date: "2026-10-13", expires: "2026-10-13",
-    title: "University of Arizona",
-    body: "College rep visit."
-  },
-  {
-    date: "2026-10-13", expires: "2026-10-13",
-    title: "Bellarmine University",
-    body: "College rep visit."
-  },
-  {
-    date: "2026-10-13", expires: "2026-10-13",
-    title: "University of Rochester",
-    body: "College rep visit."
+    title: "College Rep Visits",
+    visits: ["Tufts University", "University of Arizona", "Bellarmine University", "University of Rochester"]
   },
   {
     date: "2026-10-13", expires: "2026-10-13",
@@ -455,28 +407,13 @@ const ANNOUNCEMENTS = [
   },
   {
     date: "2026-10-15", expires: "2026-10-15",
-    title: "Belmont University",
-    body: "College rep visit."
+    title: "College Rep Visits",
+    visits: ["Belmont University"]
   },
   {
     date: "2026-10-16", expires: "2026-10-16",
-    title: "Kenyon College",
-    body: "College rep visit."
-  },
-  {
-    date: "2026-10-16", expires: "2026-10-16",
-    title: "University of Connecticut",
-    body: "College rep visit."
-  },
-  {
-    date: "2026-10-16", expires: "2026-10-16",
-    title: "Case Western Reserve",
-    body: "College rep visit."
-  },
-  {
-    date: "2026-10-16", expires: "2026-10-16",
-    title: "Villanova University",
-    body: "College rep visit."
+    title: "College Rep Visits",
+    visits: ["Kenyon College", "University of Connecticut", "Case Western Reserve", "Villanova University"]
   },
   {
     date: "2026-10-18", expires: "2026-10-18",
@@ -485,23 +422,8 @@ const ANNOUNCEMENTS = [
   },
   {
     date: "2026-10-19", expires: "2026-10-19",
-    title: "Saint Louis University",
-    body: "College rep visit."
-  },
-  {
-    date: "2026-10-19", expires: "2026-10-19",
-    title: "Ole Miss",
-    body: "College rep visit."
-  },
-  {
-    date: "2026-10-19", expires: "2026-10-19",
-    title: "Tulane University",
-    body: "College rep visit."
-  },
-  {
-    date: "2026-10-19", expires: "2026-10-19",
-    title: "Drexel University",
-    body: "College rep visit."
+    title: "College Rep Visits",
+    visits: ["Saint Louis University", "Ole Miss", "Tulane University", "Drexel University"]
   },
   {
     date: "2026-10-19", expires: "2026-10-19",
@@ -510,58 +432,23 @@ const ANNOUNCEMENTS = [
   },
   {
     date: "2026-10-20", expires: "2026-10-20",
-    title: "Marquette",
-    body: "College rep visit."
-  },
-  {
-    date: "2026-10-20", expires: "2026-10-20",
-    title: "St. John's",
-    body: "College rep visit."
-  },
-  {
-    date: "2026-10-20", expires: "2026-10-20",
-    title: "Holy Cross",
-    body: "College rep visit."
-  },
-  {
-    date: "2026-10-20", expires: "2026-10-20",
-    title: "Valparaiso",
-    body: "College rep visit."
-  },
-  {
-    date: "2026-10-20", expires: "2026-10-20",
-    title: "2 More College Rep Visits",
-    body: "Check SCOIR or the TVs for the colleges and times."
+    title: "College Rep Visits",
+    visits: ["Marquette", "St. John's", "Holy Cross", "Valparaiso", "2 more colleges (see SCOIR)"]
   },
   {
     date: "2026-10-21", expires: "2026-10-21",
-    title: "DePaul University",
-    body: "College rep visit."
-  },
-  {
-    date: "2026-10-21", expires: "2026-10-21",
-    title: "Loyola University Chicago",
-    body: "College rep visit."
-  },
-  {
-    date: "2026-10-21", expires: "2026-10-21",
-    title: "Hillsdale College",
-    body: "College rep visit."
-  },
-  {
-    date: "2026-10-21", expires: "2026-10-21",
-    title: "Furman University",
-    body: "College rep visit."
+    title: "College Rep Visits",
+    visits: ["DePaul University", "Loyola University Chicago", "Hillsdale College", "Furman University"]
   },
   {
     date: "2026-10-22", expires: "2026-10-22",
-    title: "Centre College",
-    body: "College rep visit."
+    title: "College Rep Visits",
+    visits: ["Centre College"]
   },
   {
     date: "2026-10-26", expires: "2026-10-26",
-    title: "High Point University",
-    body: "College rep visit."
+    title: "College Rep Visits",
+    visits: ["High Point University"]
   },
   {
     date: "2026-10-26", expires: "2026-10-26",
@@ -570,18 +457,18 @@ const ANNOUNCEMENTS = [
   },
   {
     date: "2026-10-28", expires: "2026-10-28",
-    title: "Fairfield University",
-    body: "College rep visit."
+    title: "College Rep Visits",
+    visits: ["Fairfield University"]
   },
   {
     date: "2026-10-29", expires: "2026-10-29",
-    title: "Shawnee State University",
-    body: "College rep visit."
+    title: "College Rep Visits",
+    visits: ["Shawnee State University"]
   },
   {
     date: "2026-10-30", expires: "2026-10-30",
-    title: "Eckerd College",
-    body: "College rep visit."
+    title: "College Rep Visits",
+    visits: ["Eckerd College"]
   },
   {
     date: "2026-11-01", expires: "2026-11-01",

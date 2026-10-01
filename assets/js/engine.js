@@ -523,14 +523,27 @@ function renderAnnouncements(){
   if(!box) return;
   const today = new Date();
   today.setHours(0,0,0,0);
-  const items = ANNOUNCEMENTS
+  const upcoming = ANNOUNCEMENTS
     .filter(a => !a.expires || new Date(a.expires + 'T23:59:59') >= today)
     .sort((a,b) => new Date(a.date) - new Date(b.date));
+  // One bar per date; every event that day is its own box on that bar.
+  const items = [];
+  upcoming.forEach(a => {
+    let g = items.find(x => x.date === a.date);
+    if(!g){ g = {date:a.date, chips:[]}; items.push(g); }
+    if(a.visits){
+      a.visits.forEach(v => {
+        const [name, time] = v.split('|');
+        g.chips.push({title:name, body:time || '', tag:'College Rep'});
+      });
+    } else {
+      g.chips.push({title:a.title, body:a.body, tag:''});
+    }
+  });
 
   if(!items.length){ box.style.display = 'none'; return; }
 
-  const titleEl = document.getElementById('updates-title');
-  const bodyEl = document.getElementById('updates-body');
+  const chipsEl = document.getElementById('updates-chips');
   const monthEl = document.getElementById('updates-month');
   const dayEl = document.getElementById('updates-day');
   const dotsEl = document.getElementById('updates-dots');
@@ -556,8 +569,12 @@ function renderAnnouncements(){
 
   const show = () => {
     const item = items[i];
-    titleEl.textContent = item.title || "";
-    bodyEl.textContent = item.body || "";
+    chipsEl.innerHTML = item.chips.map(c => `
+      <div class="updates-chip">
+        ${c.tag ? `<span class="updates-chip-tag">${escapeHtml(c.tag)}</span>` : ''}
+        <span class="updates-chip-title">${escapeHtml(c.title || '')}</span>
+        ${c.body ? `<span class="updates-chip-body">${escapeHtml(c.body)}</span>` : ''}
+      </div>`).join('');
     const badge = formatBadge(item.date);
     monthEl.textContent = badge.month;
     dayEl.textContent = badge.day;
