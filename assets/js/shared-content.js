@@ -309,8 +309,8 @@ const COUNSELORS = [
   {role:"Zehler House", name:"Kristen Merica", email:"kmerica@moeller.org", crest:"assets/img/crest-zehler.png"}
 ];
 
-// College rep visits: list each college in "visits". To add a time, write the
-// college as "Hofstra University|9:30 AM" (name, then | then time).
+// College rep visits are NOT listed here. They load from assets/data/rep-visits.js,
+// which a weekly GitHub Action rebuilds from the Outlook rep-visits calendar.
 // Upcoming Events — shown at the top of every tab.
 // Each one is its OWN individual event: a "date" (YYYY-MM-DD, shown in the
 // badge), a headline, and a body sentence or two. "expires" is the last day
@@ -326,44 +326,14 @@ const ANNOUNCEMENTS = [
     body: "Gym, M-Block — 45 colleges in one place. No registration needed."
   },
   {
-    date: "2026-10-01", expires: "2026-10-01",
-    title: "College Rep Visits",
-    visits: ["Hofstra University", "Indiana University", "Purdue University", "Northwestern University"]
-  },
-  {
     date: "2026-10-02", expires: "2026-10-02",
     title: "Teacher Letters of Recommendation Due",
     body: "Due to Counseling today."
   },
   {
-    date: "2026-10-02", expires: "2026-10-02",
-    title: "College Rep Visits",
-    visits: ["DePauw University"]
-  },
-  {
-    date: "2026-10-05", expires: "2026-10-05",
-    title: "College Rep Visits",
-    visits: ["Texas Christian University"]
-  },
-  {
-    date: "2026-10-06", expires: "2026-10-06",
-    title: "College Rep Visits",
-    visits: ["Rose-Hulman Institute", "Wabash College", "Hanover College"]
-  },
-  {
     date: "2026-10-06", expires: "2026-10-06",
     title: "Junior Mental Health Session",
     body: "11th grade, M-Block, by house."
-  },
-  {
-    date: "2026-10-07", expires: "2026-10-07",
-    title: "College Rep Visits",
-    visits: ["Lipscomb University"]
-  },
-  {
-    date: "2026-10-08", expires: "2026-10-08",
-    title: "College Rep Visits",
-    visits: ["Vanderbilt University"]
   },
   {
     date: "2026-10-08", expires: "2026-10-08",
@@ -377,18 +347,8 @@ const ANNOUNCEMENTS = [
   },
   {
     date: "2026-10-12", expires: "2026-10-12",
-    title: "College Rep Visits",
-    visits: ["Virginia Tech", "Wright State University", "Waynesburg University"]
-  },
-  {
-    date: "2026-10-12", expires: "2026-10-12",
     title: "College Application Office Hours",
     body: "Drop-in help with your applications, M-Block."
-  },
-  {
-    date: "2026-10-13", expires: "2026-10-13",
-    title: "College Rep Visits",
-    visits: ["Tufts University", "University of Arizona", "Bellarmine University", "University of Rochester"]
   },
   {
     date: "2026-10-13", expires: "2026-10-13",
@@ -406,24 +366,9 @@ const ANNOUNCEMENTS = [
     body: "Clemson, South Carolina, UNC, UGA, UT Austin, and more are due today."
   },
   {
-    date: "2026-10-15", expires: "2026-10-15",
-    title: "College Rep Visits",
-    visits: ["Belmont University"]
-  },
-  {
-    date: "2026-10-16", expires: "2026-10-16",
-    title: "College Rep Visits",
-    visits: ["Kenyon College", "University of Connecticut", "Case Western Reserve", "Villanova University"]
-  },
-  {
     date: "2026-10-18", expires: "2026-10-18",
     title: "Cincinnati National College Fair",
     body: "A citywide fair with a wide range of colleges — no registration needed."
-  },
-  {
-    date: "2026-10-19", expires: "2026-10-19",
-    title: "College Rep Visits",
-    visits: ["Saint Louis University", "Ole Miss", "Tulane University", "Drexel University"]
   },
   {
     date: "2026-10-19", expires: "2026-10-19",
@@ -431,44 +376,9 @@ const ANNOUNCEMENTS = [
     body: "M-Block, by house."
   },
   {
-    date: "2026-10-20", expires: "2026-10-20",
-    title: "College Rep Visits",
-    visits: ["Marquette", "St. John's", "Holy Cross", "Valparaiso", "2 more colleges (see SCOIR)"]
-  },
-  {
-    date: "2026-10-21", expires: "2026-10-21",
-    title: "College Rep Visits",
-    visits: ["DePaul University", "Loyola University Chicago", "Hillsdale College", "Furman University"]
-  },
-  {
-    date: "2026-10-22", expires: "2026-10-22",
-    title: "College Rep Visits",
-    visits: ["Centre College"]
-  },
-  {
-    date: "2026-10-26", expires: "2026-10-26",
-    title: "College Rep Visits",
-    visits: ["High Point University"]
-  },
-  {
     date: "2026-10-26", expires: "2026-10-26",
     title: "College Application Office Hours",
     body: "Drop-in help with your applications, M-Block."
-  },
-  {
-    date: "2026-10-28", expires: "2026-10-28",
-    title: "College Rep Visits",
-    visits: ["Fairfield University"]
-  },
-  {
-    date: "2026-10-29", expires: "2026-10-29",
-    title: "College Rep Visits",
-    visits: ["Shawnee State University"]
-  },
-  {
-    date: "2026-10-30", expires: "2026-10-30",
-    title: "College Rep Visits",
-    visits: ["Eckerd College"]
   },
   {
     date: "2026-11-01", expires: "2026-11-01",

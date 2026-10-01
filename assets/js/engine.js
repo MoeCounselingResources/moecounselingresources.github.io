@@ -523,8 +523,13 @@ function renderAnnouncements(){
   if(!box) return;
   const today = new Date();
   today.setHours(0,0,0,0);
+  const todayIso = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
+  const visits = (typeof REP_VISITS !== 'undefined' ? REP_VISITS : [])
+    .filter(v => v.date >= todayIso)
+    .map(v => ({date:v.date, visits:[v.name + (v.time ? '|' + v.time : '')]}));
   const upcoming = ANNOUNCEMENTS
     .filter(a => !a.expires || new Date(a.expires + 'T23:59:59') >= today)
+    .concat(visits)
     .sort((a,b) => new Date(a.date) - new Date(b.date));
   // One bar per date; every event that day is its own box on that bar.
   const items = [];
