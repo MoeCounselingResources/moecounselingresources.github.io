@@ -58,7 +58,7 @@ def fmt(dt):
     return dt.strftime("%I:%M %p").lstrip("0")
 
 def unescape(t):
-    return t.replace("\\n", " ").replace("\\,", ",").replace("\;", ";").replace("\\\\", "\\").strip()
+    return t.replace("\\n", " ").replace("\\,", ",").replace("\\;", ";").replace("\\\\", "\\").strip()
 
 today = date.today()
 last = today + timedelta(days=DAYS_AHEAD)
