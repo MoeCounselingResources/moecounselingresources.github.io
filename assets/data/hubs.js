@@ -11,6 +11,7 @@ const HUBS = {
     title: "School Counseling",
     page: "school-counseling.html",
     blurb: "Support for how you learn and grow at Moeller — study skills, academic help, and resources for families.",
+    cardBlurb: "Support for how you learn and grow at Moeller — study skills, academic help, and resources for families.",
     boxes: [
       {title:"Study Tips & How to Study", desc:"Proven ways to study, take notes, and prepare for tests.", href:"study-tips.html"},
       {title:"Education for Parents", desc:"Guidance and sessions to help families support their students.", href:"parent-education.html"},
@@ -32,7 +33,8 @@ const HUBS = {
   college: {
     title: "College Counseling",
     page: "college-counseling.html",
-    blurb: "Everything you need to explore options and plan your path after Moeller, from first ideas to final applications.",
+    blurb: "Moeller offers a comprehensive college counseling program designed to guide students towards their academic and career goals. College and career planning begins as early as freshman year, providing students ample time to explore options and make informed decisions. Students participate in assessments and discussions to identify potential career paths that align with their interests and strengths. Counselors provide individual, small group, and classroom counseling sessions to assist students with college research, application processes, and essay writing. Counselors also meet with students and their families to generate college lists and discuss application best practices.",
+    cardBlurb: "Everything you need to explore options and plan your path after Moeller, from first ideas to final applications.",
     boxes: [
       {title:"Application Resources", desc:"Checklists, the Common App cheat sheet, deadlines, essays, and fee waivers.", href:"seniors.html"},
       {title:"College Exploration", desc:"Researching schools, campus visits, and building a balanced list.", href:"college-exploration.html"},
