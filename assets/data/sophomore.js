@@ -87,7 +87,8 @@ YEARS.sophomore = {
           desc: "Study groups, Chem Block, and tutoring available to sophomores.",
           items: [
             {title:"Study groups & Chem Block", desc:"Placeholder — when and where they meet.", url:"academic-support.html"},
-            {title:"Peer & teacher tutoring", desc:"Placeholder — how to sign up.", url:"academic-support.html"}
+            {title:"Peer & teacher tutoring", desc:"Placeholder — how to sign up.", url:"academic-support.html"},
+            {title:"GPA Calculator", desc:"Figure your yearly and cumulative GPA, weighted and unweighted, and see where you stand for Latin Honors.", url:"gpa-calculator.html"}
           ]
         },
         forParents: {

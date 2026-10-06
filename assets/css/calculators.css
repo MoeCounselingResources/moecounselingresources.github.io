@@ -1,0 +1,107 @@
+/* =========================================================================
+   GPA & Honor Roll Calculators — uses the brand colors and fonts from
+   styles.css. Everything here is scoped to .calc so it can't affect other pages.
+   ========================================================================= */
+.calc{
+  --bad:#B3261E; --good:#1E6B3A; --gold-soft:#FFF4C2;
+  max-width:1000px; margin:0 auto; padding:0 24px 56px;
+}
+.calc .calc-tabs{display:inline-flex;flex-wrap:wrap;gap:4px;background:var(--paper-soft);border:1px solid var(--rule);border-radius:12px;padding:5px;margin:0 0 24px}
+.calc .tab{font-family:var(--sans);font-weight:700;font-size:.95rem;color:var(--ink-soft);background:transparent;border:0;border-radius:8px;padding:8px 16px;cursor:pointer;text-align:left}
+.calc .tab small{display:block;font-weight:500;font-size:.75rem;opacity:.85}
+.calc .tab:hover{color:var(--ink)}
+.calc .tab[aria-selected="true"]{background:var(--ink);color:var(--paper);box-shadow:inset 0 -3px 0 var(--gold)}
+.calc .calc-grid{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:28px;align-items:start}
+.calc h2{font-size:1.5rem;margin:0 0 12px;line-height:1.15}
+.calc .panel-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.calc .hint{color:var(--ink-soft);font-size:.9rem;margin:0}
+.calc .callout{background:var(--paper);border:1px solid var(--rule);border-left:6px solid var(--gold);border-radius:8px;padding:12px 16px;margin:0 0 16px;font-size:.95rem;max-width:72ch}
+.calc .callout b{font-weight:700}
+.calc .rows{display:flex;flex-direction:column;gap:10px}
+.calc .row{background:var(--paper);border:1px solid var(--rule);border-left:4px solid var(--rule);border-radius:8px;padding:12px 12px 12px 14px;display:grid;grid-template-columns:minmax(0,2.6fr) minmax(0,1.1fr) 68px 76px 64px 30px;gap:10px;align-items:end}
+.calc #panel .row:not(:has(.level)){grid-template-columns:minmax(0,1fr) 80px 96px 80px 34px}
+.calc .row.lvl-H,.calc .row.lvl-HP{border-left-color:var(--sky)}
+.calc .row.lvl-AP,.calc .row.lvl-CCP{border-left-color:var(--gold)}
+.calc .row.fail{border-left-color:var(--bad)}
+.calc .f label{display:block;font-size:.75rem;color:var(--ink-soft);font-weight:600;margin-bottom:3px}
+.calc .f select,.calc .f input{width:100%;height:40px;border:1px solid var(--rule);border-radius:6px;background:var(--paper);padding:0 8px;font:inherit;color:var(--ink)}
+.calc .f input.grade{font-family:var(--serif);font-size:1.15rem;font-weight:700;text-align:center}
+.calc .custom-name{margin-top:6px}
+.calc .pts{text-align:center;padding-bottom:6px}
+.calc .pts b{display:block;font-family:var(--serif);font-size:1.25rem;line-height:1.1}
+.calc .pts span{font-size:.7rem;color:var(--ink-soft);white-space:nowrap}
+.calc .del{height:40px;width:34px;border:0;background:transparent;color:var(--ink-soft);cursor:pointer;border-radius:6px;font-size:1.3rem;line-height:1}
+.calc .del:hover{background:var(--paper-soft);color:var(--bad)}
+.calc .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.calc .btn{font:inherit;font-weight:700;border:1px solid var(--ink);background:var(--ink);color:var(--paper);padding:9px 16px;border-radius:8px;cursor:pointer}
+.calc .btn.ghost{background:transparent;color:var(--ink);border-color:var(--rule)}
+.calc .btn.ghost:hover{border-color:var(--slate)}
+.calc .empty{background:var(--paper-soft);border:1px dashed var(--rule);border-radius:8px;padding:22px;text-align:center;color:var(--ink-soft)}
+.calc a{text-decoration:underline;text-decoration-color:var(--sky);text-decoration-thickness:2px;text-underline-offset:3px;font-weight:600}
+
+/* readout panel */
+.calc .readout{position:sticky;top:96px;background:var(--navy);color:#fff;border-radius:12px;overflow:hidden;border:1px solid var(--navy)}
+.calc .ro-head{padding:14px 18px 0;font-weight:600;color:var(--cloud);font-size:.9rem}
+.calc .nums{display:grid;grid-template-columns:1fr 1fr;padding:6px 18px 14px;gap:8px}
+.calc .num b,.calc .big b{display:block;font-family:var(--serif);font-weight:800;font-size:2.7rem;line-height:1}
+.calc .num span,.calc .big span{font-size:.8rem;color:var(--cloud)}
+.calc .num.w b,.calc .big b{color:var(--gold)}
+.calc .big{padding:4px 18px 0;display:flex;align-items:baseline;gap:10px}
+.calc .big b{font-size:3.4rem}
+.calc .meter{position:relative;margin:18px 18px 8px;height:36px}
+.calc .track{position:absolute;left:0;right:0;top:8px;height:12px;border-radius:6px;background:#2A4269;overflow:hidden}
+.calc .zone{position:absolute;top:0;bottom:0}
+.calc .zone.second{background:var(--sky)}
+.calc .zone.first{background:var(--gold)}
+.calc .tick{position:absolute;top:24px;font-size:.7rem;color:var(--cloud);transform:translateX(-50%)}
+.calc .marker{position:absolute;top:0;width:4px;height:28px;margin-left:-2px;background:#fff;border-radius:2px;box-shadow:0 0 0 2px var(--navy);transition:left .25s ease}
+.calc .ro-body{background:var(--paper);color:var(--ink);padding:14px 18px 16px;border-top:4px solid var(--gold)}
+.calc .ro-body a{color:var(--ink)}
+.calc .status{font-weight:800;font-family:var(--serif);font-size:1.25rem;line-height:1.2;margin:0 0 4px}
+.calc .status-note,.calc .note{color:var(--ink-soft);font-size:.86rem;margin:0 0 12px}
+.calc .ro-body dl{display:grid;grid-template-columns:1fr auto;gap:4px 12px;margin:0;font-size:.9rem}
+.calc .ro-body dt{color:var(--ink-soft)} .calc .ro-body dd{margin:0;font-weight:600;text-align:right}
+.calc .bad{color:var(--bad)} .calc .good{color:var(--good)}
+
+/* overall tab */
+.calc .tblwrap{overflow-x:auto}
+.calc table.years{width:100%;border-collapse:collapse;background:var(--paper);border:1px solid var(--rule)}
+.calc table.years th,.calc table.years td{padding:10px 12px;text-align:right;border-bottom:1px solid var(--rule-soft)}
+.calc table.years th:first-child,.calc table.years td:first-child{text-align:left}
+.calc table.years thead th{font-size:.8rem;color:var(--ink-soft);font-weight:600;background:var(--paper-soft)}
+.calc table.years tfoot td{font-weight:800;font-family:var(--serif);font-size:1.1rem}
+.calc .tiers{margin-top:12px;display:grid;gap:6px}
+.calc .tier{display:grid;grid-template-columns:1fr auto;padding:9px 12px;border-radius:8px;background:var(--paper);border:1px solid var(--rule)}
+.calc .tier.on{border-color:var(--gold);border-left:6px solid var(--gold);background:var(--gold-soft);font-weight:700}
+.calc .tier span:last-child{color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.calc .check{display:flex;gap:8px;align-items:center;margin-top:14px}
+.calc .check input{width:18px;height:18px}
+
+.calc details.how{margin-top:28px;background:var(--paper-soft);border:1px solid var(--rule);border-radius:8px;padding:4px 16px}
+.calc details.how summary{cursor:pointer;font-weight:700;padding:10px 0}
+.calc details.how p,.calc details.how li{font-size:.9rem;color:var(--ink-soft);max-width:72ch}
+.calc .scale{font-size:.8rem;border-collapse:collapse;margin:8px 0 14px;font-variant-numeric:tabular-nums;background:var(--paper)}
+.calc .scale th,.calc .scale td{border:1px solid var(--rule);padding:3px 8px;text-align:right}
+.calc .scale th{background:var(--paper-soft)}
+
+@media (max-width:860px){
+  .calc .calc-grid{grid-template-columns:minmax(0,1fr)}
+  .calc{padding-bottom:170px}
+  .calc .readout{position:fixed;left:0;right:0;bottom:0;top:auto;border-radius:12px 12px 0 0;z-index:15;padding-bottom:env(safe-area-inset-bottom,0px);box-shadow:0 -6px 20px rgba(0,0,0,.25)}
+  .calc .ro-head,.calc .ro-body dl,.calc .status-note,.calc .note{display:none}
+  .calc .nums{padding:10px 18px 4px}
+  .calc .num b,.calc .big b{font-size:2.1rem}
+  .calc .meter{margin:8px 18px 4px}
+  .calc .ro-body{padding:8px 18px 10px;border-top-width:3px}
+  .calc .status{font-size:1rem;margin:0}
+}
+@media (max-width:640px){
+  .calc .calc-tabs{display:flex}
+  .calc .tab{flex:1;padding:8px 6px;text-align:center}
+  .calc .tab small{display:none}
+  .calc .row,.calc #panel .row:not(:has(.level)){grid-template-columns:1fr 1fr 1fr}
+  .calc .row .f.course{grid-column:1 / 3;grid-row:1}
+  .calc .row .f.level{grid-column:1 / 3}
+  .calc .row .del{grid-row:1;grid-column:3;justify-self:end;align-self:start}
+}
+@media (prefers-reduced-motion:reduce){.calc *{transition:none!important}}

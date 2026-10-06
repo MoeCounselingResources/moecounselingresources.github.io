@@ -15,7 +15,9 @@ const HUBS = {
     boxes: [
       {title:"Study Tips & How to Study", desc:"Proven ways to study, take notes, and prepare for tests.", href:"study-tips.html"},
       {title:"Education for Parents", desc:"Guidance and sessions to help families support their students.", href:"parent-education.html"},
-      {title:"Academic Support", desc:"Study groups, Chem Block, and the tutors we have in school.", href:"academic-support.html"}
+      {title:"Academic Support", desc:"Study groups, Chem Block, and the tutors we have in school.", href:"academic-support.html"},
+      {title:"GPA Calculator", desc:"Figure your yearly and cumulative GPA, weighted and unweighted, and see where you stand for Latin Honors.", href:"gpa-calculator.html"},
+      {title:"Honor Roll Calculator", desc:"Check whether your quarter grades put you on First or Second Honors.", href:"honor-roll.html"}
     ],
     classHeading: "Your class",
     classIntro: "Each class page has a School & Academics view with support for that year.",

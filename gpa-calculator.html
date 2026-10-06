@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GPA Calculator · Moeller Counseling</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+<link rel="stylesheet" href="assets/css/styles.css">
+<link rel="stylesheet" href="assets/css/calculators.css">
+</head>
+<body data-kind="tool" data-hub="school">
+<!-- GPA Calculator. Courses: assets/data/courses.js · Visit counting: assets/js/calc-tracking.js -->
+
+<header id="site-header"></header>
+
+<section class="hero">
+  <a class="back-link" href="school-counseling.html">← Back to School Counseling</a><br>
+  <span class="hero-stage hub-school">Calculator</span>
+  <h1>GPA Calculator</h1>
+  <p>Pick your courses and enter your final grades from your transcript to see your unweighted and weighted GPA for each year, your cumulative GPA, and where you stand for Latin Honors. Checking honor roll for a quarter? Use the <a id="hrlink" href="honor-roll.html">Honor Roll Calculator</a>.</p>
+</section>
+
+<div class="calc">
+  <nav class="calc-tabs" role="tablist" id="tabs" aria-label="Choose what to calculate"></nav>
+  <div class="calc-grid">
+    <section id="panel"></section>
+    <aside class="readout" id="readout" aria-live="polite"></aside>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    Based on the Grading and GPA Scales in the Moeller Curriculum Guide. This is an estimate for planning; your official GPA and honor roll come from the school. Your entries are saved only on this device.
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modal-overlay" hidden>
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button type="button" class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script src="assets/js/shared-content.js"></script>
+<script src="assets/data/rep-visits.js"></script>
+<script src="assets/data/senior.js"></script>
+<script src="assets/data/junior.js"></script>
+<script src="assets/data/sophomore.js"></script>
+<script src="assets/data/freshman.js"></script>
+<script src="assets/data/hubs.js"></script>
+<script src="assets/js/engine.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/data/courses.js"></script>
+<script src="assets/js/calc-tracking.js"></script>
+<script src="assets/js/gpa-calculator.js"></script>
+</body>
+</html>

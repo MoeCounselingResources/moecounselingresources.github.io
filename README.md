@@ -10,7 +10,9 @@ index.html                  Moeller Counseling (main page)
 ├── school-counseling.html  School Counseling hub
 │   ├── study-tips.html
 │   ├── parent-education.html
-│   └── academic-support.html
+│   ├── academic-support.html
+│   ├── gpa-calculator.html     GPA Calculator (yearly, cumulative, Latin Honors)
+│   └── honor-roll.html         Honor Roll Calculator (quarterly, unweighted)
 ├── college-counseling.html College Counseling hub
 │   ├── seniors.html  ← "Application Resources" box opens this
 │   ├── college-exploration.html
@@ -42,6 +44,8 @@ Links from the School Counseling hub open a class page in its School view
 | Brand colors and fonts                     | top of `assets/css/styles.css`         |
 | Heading font files (Produkt / Bitter)      | `assets/fonts/` — see the note at the top of styles.css |
 | Images (Common App screenshots, house crests) | `assets/img/`                       |
+| Courses in the GPA / Honor Roll Calculators (update each year) | `assets/data/courses.js` |
+| Turn on visit counting for the calculators | `assets/js/calc-tracking.js`        |
 
 You shouldn't need to touch `engine.js` or `site.js`.
 
@@ -77,3 +81,19 @@ From then on, every commit to GitHub updates the live site automatically in abou
 Double-clicking an HTML file works for a quick look. For an exact preview,
 open a terminal in this folder and run `python3 -m http.server`, then visit
 http://localhost:8000.
+
+## GPA and Honor Roll Calculators
+
+`gpa-calculator.html` and `honor-roll.html` use the school's grading scale from
+the Curriculum Guide. Students' grades are saved only in their own browser;
+nothing is sent anywhere.
+
+- **Each spring:** update `assets/data/courses.js` from the new Curriculum Guide
+  (add new courses, remove retired ones, fix levels or credits). Leave old
+  courses in for a few years so upperclassmen can still find them.
+- **Counting visits (optional):** sign up at https://www.goatcounter.com, then put
+  your code in `assets/js/calc-tracking.js`. The dashboard shows visits to each
+  calculator plus events such as `gpa-entered-grade` and `honor-roll-entered-grade`
+  (each counted at most once per visit).
+- The scale math lives in `assets/js/gpa-calculator.js` and `assets/js/honor-roll.js`.
+  You shouldn't need to edit those unless the grading scale itself changes.
