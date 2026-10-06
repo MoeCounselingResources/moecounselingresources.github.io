@@ -108,6 +108,6 @@ nothing is sent anywhere.
 the schools there each cycle.
 
 The tracker saves only in each student's own browser (localStorage key
-`moeller-app-tracker-v1`); nothing is sent anywhere. "Download as Excel" loads
-SheetJS from cdnjs.cloudflare.com only when clicked. The original spreadsheet
+`moeller-app-tracker-v1`); nothing is sent anywhere. "Open Excel version" and the spreadsheet box open the
+original tracker on OneDrive. The original spreadsheet
 is linked from `app-tracker.html` (a OneDrive link; students use File → Save a copy).

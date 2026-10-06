@@ -314,48 +314,12 @@
     if(tab === 'activities') renderActivities(el);
   }
 
-  /* ---------- download as Excel ---------- */
-  function loadSheetJS(){
-    if(window.XLSX) return Promise.resolve(window.XLSX);
-    return new Promise((res, rej) => {
-      const s = document.createElement('script');
-      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
-      s.onload = () => res(window.XLSX);
-      s.onerror = rej;
-      document.head.appendChild(s);
-    });
-  }
   function downloadBlob(blob, name){
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob); a.download = name;
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   }
-  async function exportExcel(){
-    const btn = document.getElementById('at-export');
-    btn.disabled = true; btn.textContent = 'Preparing…';
-    try{
-      const XLSX = await loadSheetJS();
-      const wb = XLSX.utils.book_new();
-      const apps = [['School','Status','Major','Average GPA','Middle 50% ACT/SAT','Fit: Reach, Target, Likely','Acceptance rate: Overall, Early','Type of Application','Deadline Type','My Deadline','Deadline Details','Do they require an SRAR/SSAR?','Do they require teacher letters of recommendation? How many?','Does my school need to send a transcript?','Do they require standardized testing?','Test Reporting Plan','Special Application Requirements for Major/Program','Financial Aid Applications','Financial Aid Deadlines','School Scholarships', ...CHECKS.map(c => c[1]),'Notes','Link']];
-      data.colleges.forEach(c => apps.push([c.name,c.status,c.major,c.gpa,c.testRange,c.fit,c.acceptance,c.appType,c.deadlineType,c.deadline,c.deadlineNote,c.srar,c.recs,c.transcript,c.testingRequired,c.testPlan,c.special,c.aidApps,c.aidDeadlines,c.scholarships, ...CHECKS.map(([k]) => c.checks && c.checks[k] ? 'Yes' : ''), c.notes, c.link]));
-      const essays = [['College Name','Deadline','Application Platform','Essay Prompt','Word Limit','Essay Progress','Notes']];
-      data.essays.forEach(e => essays.push([e.college,e.deadline,e.platform,e.prompt,e.limit,e.progress,e.notes]));
-      const acts = [['Type of Activity','Organization Name','Title/Position','Grade(s) Participated','Avg hours per week','Avg weeks per year','Description','Character Count (150 max)']];
-      data.activities.forEach(a => acts.push([a.type,a.org,a.title,a.grades,a.hours,a.weeks,a.desc,(a.desc || '').length]));
-      [['Application Tracker',apps],['Essay Tracker',essays],['Activities',acts]].forEach(([name, rows]) => {
-        const ws = XLSX.utils.aoa_to_sheet(rows);
-        ws['!cols'] = rows[0].map(() => ({wch: 22}));
-        XLSX.utils.book_append_sheet(wb, ws, name);
-      });
-      XLSX.writeFile(wb, 'My-College-Application-Tracker.xlsx');
-    }catch(err){
-      alert('The Excel download needs an internet connection. Try again, or use Print instead.');
-    }finally{
-      btn.disabled = false; btn.textContent = 'Download as Excel';
-    }
-  }
-
   /* ---------- backup / restore ---------- */
   function backup(){
     downloadBlob(new Blob([JSON.stringify(data, null, 2)], {type:'application/json'}), 'my-app-tracker-backup.json');
@@ -375,7 +339,7 @@
   }
 
   /* ---------- start ---------- */
-  document.getElementById('at-export').addEventListener('click', exportExcel);
+  document.getElementById('at-export').addEventListener('click', () => window.open('https://archbishopmoellerh995-my.sharepoint.com/:x:/g/personal/adavies_moeller_org/EXFUMXerWwhDvgxCH6say6sBHDrTHwn4Cr-SNdo0qpepBg?e=Kv21Tf', '_blank', 'noopener'));
   document.getElementById('at-print').addEventListener('click', () => {
     document.querySelectorAll('.at-card-body').forEach(b => b.hidden = false);
     window.print();
