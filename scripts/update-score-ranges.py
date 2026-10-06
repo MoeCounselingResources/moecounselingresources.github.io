@@ -37,6 +37,7 @@ if not key:
     sys.exit("SCORECARD_API_KEY secret is not set; leaving score-ranges.js unchanged.")
 
 notes = []
+last_response = []  # most recent API response, shown in the log if a school fails
 def note(msg):
     notes.append(msg)
     print("::warning::" + msg if os.environ.get("GITHUB_ACTIONS") else "NOTE: " + msg)
@@ -44,13 +45,74 @@ def note(msg):
 def norm(s):
     return re.sub(r"[^a-z0-9]", "", s.lower())
 
+def flatten(o, prefix="", out=None):
+    """Turn any mix of nested dicts/lists into {"dotted.path": scalar}.
+    Handles flat dotted keys, nested objects (keys_nested), and lists.
+    For repeated paths the first non-null value wins."""
+    out = {} if out is None else out
+    if isinstance(o, dict):
+        for k, v in o.items():
+            flatten(v, "%s.%s" % (prefix, k) if prefix else str(k), out)
+    elif isinstance(o, list):
+        for v in o:
+            flatten(v, prefix, out)
+    elif prefix and o is not None and prefix not in out:
+        out[prefix] = o
+    return out
+
+def records(d):
+    """The API's "results" as a list of flat {path: value} dicts, whatever its shape."""
+    res = (d or {}).get("results") if isinstance(d, dict) else d
+    if isinstance(res, dict):
+        res = [res]
+    recs = []
+    for item in res or []:
+        if isinstance(item, list):
+            recs.extend(flatten(x) for x in item if isinstance(x, dict))
+        elif isinstance(item, dict):
+            recs.append(flatten(item))
+    return recs
+
+def number(v):
+    if isinstance(v, bool):
+        return None
+    if isinstance(v, (int, float)):
+        return v
+    try:
+        return float(v)
+    except (TypeError, ValueError):
+        return None
+
+def shape(o, depth=0):
+    """Short description of a response's structure (keys and types, no values)."""
+    if isinstance(o, dict):
+        if depth >= 3:
+            return "{%d keys}" % len(o)
+        return "{" + ", ".join("%s: %s" % (k, shape(v, depth + 1)) for k, v in list(o.items())[:12]) + (", ..." if len(o) > 12 else "") + "}"
+    if isinstance(o, list):
+        return "[%d x %s]" % (len(o), shape(o[0], depth + 1) if o else "empty")
+    return type(o).__name__
+
+shown = set()
+def debug(label, d, force=False):
+    """Print the response structure the first time each kind of call is made
+    (or any time force=True), so a surprise shape is visible in the log."""
+    if label in shown and not force:
+        return
+    shown.add(label)
+    top = list(d.keys()) if isinstance(d, dict) else type(d).__name__
+    print("DEBUG %s: top-level keys=%s; shape=%s" % (label, top, shape(d)))
+    print("DEBUG %s: sample=%s" % (label, json.dumps(d, default=str)[:700]))
+
 def api(params):
     """GET the API. Returns parsed JSON, or None on HTTP 400 (e.g. unknown field)."""
     q = urllib.parse.urlencode(dict(params, api_key=key))
     for attempt in range(4):
         try:
             with urllib.request.urlopen(API_URL + "?" + q, timeout=60) as r:
-                return json.load(r)
+                d = json.load(r)
+                last_response[:] = [d]
+                return d
         except urllib.error.HTTPError as e:
             if e.code == 400:
                 return None
@@ -95,8 +157,9 @@ def find_id(c):
         return prev
     want = c.get("scorecardName") or c["name"]
     d = api({"school.name": want, "fields": "id,school.name,school.state", "per_page": 50})
-    results = (d or {}).get("results", [])
-    exact = [r for r in results if norm(r.get("school.name", "")) == norm(want)]
+    debug("name search (first school)", d)
+    results = [r for r in records(d) if r.get("id") is not None]
+    exact = [r for r in results if norm(str(r.get("school.name", ""))) == norm(want)]
     if len(exact) == 1:
         return exact[0]["id"]
     if len(exact) > 1:
@@ -118,11 +181,13 @@ def year_values(school_id, year, fields):
     if d is None:
         bad_years.add(year)
         return None
-    res = d.get("results") or []
-    if not res:
-        return None
-    vals = [res[0].get(n) for n in names]
-    return vals if all(isinstance(v, (int, float)) for v in vals) else None
+    debug("score query (first school)", d)
+    merged = {}
+    for rec in records(d):
+        for k, v in rec.items():
+            merged.setdefault(k, v)
+    vals = [number(merged.get(n)) for n in names]
+    return vals if all(v is not None for v in vals) else None
 
 def newest(school_id, fields):
     this = date.today().year
@@ -161,8 +226,10 @@ for c in tracked:
             colleges[name] = entry
         if changed:
             updated += 1
-    except RuntimeError as e:
-        note("%s: %s; keeping the old value." % (name, e))
+    except Exception as e:  # one school's problem must not stop the run
+        note("%s: skipped, %s: %s; keeping the old value." % (name, type(e).__name__, e))
+        if last_response:
+            debug("failed response for " + name, last_response[0], force=True)
     time.sleep(0.15)
 
 years = [e[k]["year"] for e in colleges.values() for k in ("act", "sat") if e.get(k)]
