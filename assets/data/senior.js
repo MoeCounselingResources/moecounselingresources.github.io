@@ -14,7 +14,7 @@ YEARS.senior = {
     blurb: "These resources will help you with college research, essay writing, and filling out your applications!",
     collegeLabel: "Application Resources",
     // Junior/sophomore/freshman: set layout to "indexed" for a left-side index, or delete it for stacked sections.
-    order: ["fallChecklist","appTypes","commonAppGuide","decisionInfo","moreEssentials","responsibilities","commonAppFaq","essays","testing","research","financialAid","scholarshipReporting","testOptional","feeWaivers"],
+    order: ["fallChecklist","appTypes","commonAppGuide","decisionInfo","moreEssentials","responsibilities","commonAppFaq","essays","testing","research","appTracker","financialAid","scholarshipReporting","testOptional","feeWaivers"],
     layout: "indexed",
     sections: {
       fallChecklist: {
@@ -275,6 +275,16 @@ YEARS.senior = {
           {title:"College rep visits", desc:"Over 100 colleges visit Moeller each fall — reps are often the ones reading your application. Register in SCOIR at least 2 days ahead.", url:"#"},
           {title:"Moeller Popular Colleges", desc:"Test ranges, deadlines, and requirements for the schools Moeller students apply to most.", url:"popular-colleges.html"},
           {title:"Application Tracker", desc:"Track your colleges, deadlines, essays, and activities. Saves on your device.", url:"app-tracker.html"}
+        ]
+      },
+      appTracker: {
+        navLabel: "Application Tracker",
+        title: "Application Tracker",
+        note: "Saves on your device",
+        desc: "Keep every college, deadline, essay, and activity in one place. Your tracker saves automatically in this browser, and no one else can see it.",
+        items: [
+          {title:"Application Tracker", desc:"Track your colleges, deadlines, essays, and activities. Saves on your device.", url:"app-tracker.html"},
+          {title:"Moeller Popular Colleges", desc:"Add schools to your tracker with test ranges, deadlines, and requirements filled in.", url:"popular-colleges.html"}
         ]
       },
       essays: {
