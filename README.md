@@ -48,6 +48,7 @@ Links from the School Counseling hub open a class page in its School view
 | Images (Common App screenshots, house crests) | `assets/img/`                       |
 | Courses in the GPA / Honor Roll Calculators (update each year) | `assets/data/courses.js` |
 | Popular Colleges data (update each cycle) | `assets/data/popular-colleges.js`      |
+| Colleges tracked for ACT/SAT ranges    | `scripts/tracked-colleges.json`        |
 | Turn on visit counting for the calculators | `assets/js/calc-tracking.js`        |
 
 You shouldn't need to touch `engine.js` or `site.js`.
@@ -111,3 +112,19 @@ The tracker saves only in each student's own browser (localStorage key
 `moeller-app-tracker-v1`); nothing is sent anywhere. "Open Excel version" and the spreadsheet box open the
 original tracker on OneDrive. The original spreadsheet
 is linked from `app-tracker.html` (a OneDrive link; students use File → Save a copy).
+
+### Yearly ACT/SAT ranges (College Scorecard)
+
+Every August 1 (or any time from the **Actions** tab → *Update ACT/SAT score
+ranges* → *Run workflow*), a GitHub Action pulls each school's ACT and SAT
+25th/75th percentiles from the College Scorecard API and rewrites
+`assets/data/score-ranges.js`. The chart uses those ranges, and the page shows
+"Score data: College Scorecard, [year]". Your counselor notes, deadlines, and
+policies stay in `popular-colleges.js`.
+
+- Needs the repository secret `SCORECARD_API_KEY`.
+- To track another school, add a line to `scripts/tracked-colleges.json`. If the
+  school's Scorecard name differs, add `scorecardName`; if a name can't be
+  matched, add its `unitid`.
+- If a school or value is missing, the old value is kept and the workflow log
+  (and run summary) says which one.

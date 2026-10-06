@@ -1,0 +1,28 @@
+name: Update ACT/SAT score ranges
+
+on:
+  schedule:
+    - cron: "0 12 1 8 *"   # every August 1, about 8 AM Eastern
+  workflow_dispatch: {}      # lets you run it by hand from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pull ACT/SAT ranges from College Scorecard
+        env:
+          SCORECARD_API_KEY: ${{ secrets.SCORECARD_API_KEY }}
+        run: python3 scripts/update-score-ranges.py
+      - name: Commit if changed
+        run: |
+          if [ -n "$(git status --porcelain assets/data/score-ranges.js)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add assets/data/score-ranges.js
+            git commit -m "Update ACT/SAT score ranges from College Scorecard"
+            git push
+          fi

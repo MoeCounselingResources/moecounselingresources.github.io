@@ -30,8 +30,8 @@
       if(q && !c.name.toLowerCase().includes(q)) return false;
       if(state.policies.size && !state.policies.has(policyGroup(c.testingPolicy))) return false;
       if(state.plans.size && !c.plans.some(p => state.plans.has(p))) return false;
-      if(state.stars && c.stars === 'No') return false;
-      if(state.superscore && c.superscore === 'No') return false;
+      if(state.stars && (!c.stars || c.stars === 'No')) return false;
+      if(state.superscore && (!c.superscore || c.superscore === 'No')) return false;
       return true;
     });
     const mid = c => c[state.test] ? (c[state.test].low + c[state.test].high) / 2 : null;
@@ -56,13 +56,13 @@
     const s = parseFloat(state.score);
     const status = scoreStatus(c);
     const statusLabel = {above:'Above range', within:'In range', below:'Below range'}[status];
-    const policyLabel = c.testingPolicy === 'Required' ? 'Test required' : c.testingPolicy === 'Expected' ? 'Test expected' : 'Test optional';
+    const policyLabel = c.testingPolicy === 'Required' ? 'Test required' : c.testingPolicy === 'Expected' ? 'Test expected' : c.testingPolicy ? 'Test optional' : 'See website';
     const grid = ax.ticks.map(t => `<span class="pc-gridline" style="left:${pct(t, ax)}%"></span>`).join('');
     const bar = r
       ? `<span class="pc-bar${r.nonResident ? ' nonres' : ''}" style="left:${pct(r.low, ax)}%; width:${pct(r.high, ax) - pct(r.low, ax)}%"><span>${r.low}</span><span>${r.high}</span></span>`
       : `<span class="pc-none">No ${ax.label} range reported</span>`;
     const you = !isNaN(s) ? `<span class="pc-you" style="left:${pct(s, ax)}%" aria-hidden="true"></span>` : '';
-    const sub = [c.plans.join(' · ')];
+    const sub = [c.plans.length ? c.plans.join(' · ') : 'Score ranges only'];
     if(r && r.nonResident) sub.push('Non-resident range');
     const isOpen = state.openName === c.name;
     return `
@@ -95,6 +95,7 @@
           ${dd('Additional materials', c.additional)}
           ${dd('Testing notes', c.testingNotes)}
         </dl>
+        ${c.rangeOnly ? `<p class="pc-detail-notes">Moeller hasn't added deadlines or testing policies for this school yet. Check the college's admissions website.</p>` : ''}
         ${c.notes ? `<p class="pc-detail-notes"><strong>Counselor note:</strong> ${esc(c.notes)}</p>` : ''}
         <div class="pc-detail-actions">
           ${c.link ? `<a class="tool-btn secondary" href="${esc(c.link)}" target="_blank" rel="noopener">Admissions website ↗</a>` : ''}
@@ -146,6 +147,10 @@
 
   function init(){
     document.getElementById('pc-cycle').textContent = POPULAR_COLLEGES_CYCLE;
+    if(typeof SCORE_RANGES !== 'undefined' && SCORE_RANGES.dataYear){
+      document.getElementById('pc-scorecard-year').textContent = SCORE_RANGES.dataYear;
+      document.getElementById('pc-scorecard').hidden = false;
+    }
     chips('pc-policy', POLICY_CHOICES, state.policies);
     chips('pc-plans', PLAN_CHOICES, state.plans);
 
