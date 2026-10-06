@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moeller Popular Colleges · Moeller Counseling</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+<link rel="stylesheet" href="assets/css/styles.css">
+<link rel="stylesheet" href="assets/css/tools.css">
+</head>
+<body data-kind="tool" data-hub="college" data-page="popular-colleges">
+<!-- Popular Colleges explorer. Data: assets/data/popular-colleges.js -->
+
+<header id="site-header"></header>
+
+<section class="hero">
+  <a class="back-link" href="college-counseling.html">← Back to College Counseling</a><br>
+  <span class="hero-stage">College Counseling</span>
+  <h1>Moeller Popular Colleges</h1>
+  <p>Test score ranges, deadlines, and requirements for the colleges Moeller students apply to most. Search, filter, and add schools to your App Tracker.</p>
+</section>
+
+<main class="tool-wrap">
+  <p class="tool-note"><strong>Data from Moeller College Counseling, <span id="pc-cycle"></span>.</strong> Ranges show the middle 50% of admitted students. Deadlines and policies change every year, so always confirm on the college's website. Click any college for details.</p>
+
+  <div class="pc-controls">
+    <div>
+      <label class="tool-label" for="pc-search">Search colleges</label>
+      <input class="tool-input" id="pc-search" type="search" placeholder="Type a college name…" autocomplete="off">
+    </div>
+    <div>
+      <span class="tool-label">Show</span>
+      <div class="seg" id="pc-test">
+        <button type="button" data-test="act" aria-pressed="true">ACT</button>
+        <button type="button" data-test="sat" aria-pressed="false">SAT</button>
+      </div>
+    </div>
+    <div>
+      <label class="tool-label" for="pc-score" id="pc-score-label">My ACT score (optional)</label>
+      <input class="tool-input" id="pc-score" type="number" inputmode="numeric" min="1" max="36" placeholder="e.g., 27">
+    </div>
+    <div class="pc-filters">
+      <div><span class="tool-label">Testing policy</span><div class="chip-row" id="pc-policy"></div></div>
+      <div><span class="tool-label">Application plans</span><div class="chip-row" id="pc-plans"></div></div>
+      <div><span class="tool-label">More filters</span><div class="chip-row">
+        <button type="button" class="chip" id="pc-stars" aria-pressed="false">Uses STARS / self-reported grades</button>
+        <button type="button" class="chip" id="pc-super" aria-pressed="false">Superscores</button>
+      </div></div>
+      <div>
+        <label class="tool-label" for="pc-sort">Sort by</label>
+        <select class="tool-select" id="pc-sort">
+          <option value="name">College name (A–Z)</option>
+          <option value="high">Highest test range first</option>
+          <option value="low">Lowest test range first</option>
+          <option value="closest">Closest to my score</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="pc-meta">
+    <span id="pc-count"></span>
+    <span class="pc-legend">
+      <span><i></i> Middle 50%</span>
+      <span><i style="background:repeating-linear-gradient(135deg,#69B3E7 0 6px,#8fc6ee 6px 12px)"></i> Non-resident range</span>
+      <span><i class="you"></i> Your score</span>
+    </span>
+  </div>
+
+  <div class="pc-chart">
+    <div class="pc-axis" id="pc-axis"></div>
+    <div id="pc-rows"></div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    Built for our students, edited every year. Have a broken link or a resource we should add? Tell your counselor.
+  </div>
+</footer>
+
+<script src="assets/js/shared-content.js"></script>
+<script src="assets/data/rep-visits.js"></script>
+<script src="assets/data/senior.js"></script>
+<script src="assets/data/junior.js"></script>
+<script src="assets/data/sophomore.js"></script>
+<script src="assets/data/freshman.js"></script>
+<script src="assets/data/hubs.js"></script>
+<script src="assets/js/engine.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/data/popular-colleges.js"></script>
+<script src="assets/js/tracker-store.js"></script>
+<script src="assets/js/popular-colleges-page.js"></script>
+</body>
+</html>

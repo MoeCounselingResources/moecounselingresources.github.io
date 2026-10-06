@@ -272,7 +272,9 @@ YEARS.senior = {
           {title:"Net price calculators", desc:"Every school posts one — use it to compare real estimated cost, not sticker price.", url:"#"},
           {title:"Confirming supplemental requirements", desc:"Double-check each school's specific supplement before you submit.", url:"#"},
           {title:"Schools requiring STARS", desc:"Some schools require or encourage a Self-Reported Transcript & Academic Record — check if any of yours are on the list.", url:"#"},
-          {title:"College rep visits", desc:"Over 100 colleges visit Moeller each fall — reps are often the ones reading your application. Register in SCOIR at least 2 days ahead.", url:"#"}
+          {title:"College rep visits", desc:"Over 100 colleges visit Moeller each fall — reps are often the ones reading your application. Register in SCOIR at least 2 days ahead.", url:"#"},
+          {title:"Moeller Popular Colleges", desc:"Test ranges, deadlines, and requirements for the schools Moeller students apply to most.", url:"popular-colleges.html"},
+          {title:"Application Tracker", desc:"Track your colleges, deadlines, essays, and activities. Saves on your device.", url:"app-tracker.html"}
         ]
       },
       essays: {

@@ -39,6 +39,8 @@ const HUBS = {
     cardBlurb: "Everything you need to explore options and plan your path after Moeller, from first ideas to final applications.",
     boxes: [
       {title:"Application Resources", desc:"Checklists, the Common App cheat sheet, deadlines, essays, and fee waivers.", href:"seniors.html"},
+      {title:"Moeller Popular Colleges", desc:"Test ranges, deadlines, and requirements for the schools Moeller students apply to most.", href:"popular-colleges.html"},
+      {title:"Application Tracker", desc:"Track your colleges, deadlines, essays, and activities. Saves on your device.", href:"app-tracker.html"},
       {title:"College Exploration", desc:"Researching schools, campus visits, and building a balanced list.", href:"college-exploration.html"},
       {title:"Military", desc:"Service academies, ROTC, and enlistment pathways.", href:"military.html"},
       {title:"CCP / AP", desc:"Earning college credit while you're still in high school.", href:"ccp-ap.html"},

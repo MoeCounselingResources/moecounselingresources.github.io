@@ -25,7 +25,8 @@ YEARS.junior = {
         items: [
           {title:"Building a balanced college list", desc:"What \"reach, target, and likely\" actually mean, and how to sort your list into them.", url:"#"},
           {title:"Getting the most from a campus visit", desc:"What to look for beyond the tour, virtual or in person.", url:"#"},
-          {title:"Comparing majors & programs", desc:"How to research a school's actual offerings, not just its ranking.", url:"#"}
+          {title:"Comparing majors & programs", desc:"How to research a school's actual offerings, not just its ranking.", url:"#"},
+          {title:"Moeller Popular Colleges", desc:"Test ranges, deadlines, and requirements for the schools Moeller students apply to most.", url:"popular-colleges.html"}
         ]
       },
       essays: {

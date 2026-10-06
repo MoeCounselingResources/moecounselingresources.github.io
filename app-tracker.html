@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>College Application Tracker · Moeller Counseling</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+<link rel="stylesheet" href="assets/css/styles.css">
+<link rel="stylesheet" href="assets/css/tools.css">
+</head>
+<body data-kind="tool" data-hub="college" data-page="app-tracker">
+<!-- App Tracker. Logic: assets/js/app-tracker.js. Saves in each student's browser only. -->
+
+<header id="site-header"></header>
+
+<section class="hero">
+  <a class="back-link" href="college-counseling.html">← Back to College Counseling</a><br>
+  <span class="hero-stage">College Counseling</span>
+  <h1>College Application Tracker</h1>
+  <p>Keep every college, deadline, essay, and activity in one place. Your tracker saves automatically on this device.</p>
+</section>
+
+<main class="tool-wrap">
+  <div class="at-privacy">
+    <div>
+      <p><strong>Your tracker saves automatically on this device, in this browser.</strong></p>
+      <p>No one else can see it, including your counselor. To share it, download it as Excel or print it. Switching computers or clearing your browser history? Download a backup first.</p>
+    </div>
+    <a class="tool-btn secondary" href="popular-colleges.html" style="text-decoration:none">Browse popular colleges</a>
+  </div>
+
+  <div class="at-top">
+    <div class="at-tabs" id="at-tabs" role="tablist" aria-label="Tracker sections"></div>
+    <div class="at-actions">
+      <span class="at-saved" id="at-saved" aria-live="polite"></span>
+      <button type="button" class="tool-btn secondary small" id="at-export">Download as Excel</button>
+      <button type="button" class="tool-btn secondary small" id="at-print">Print</button>
+      <button type="button" class="tool-btn secondary small" id="at-backup">Back up</button>
+      <label class="tool-btn secondary small" style="cursor:pointer">Restore<input type="file" id="at-restore" accept=".json,application/json" hidden></label>
+      <button type="button" class="tool-btn danger small" id="at-clear">Erase all</button>
+    </div>
+  </div>
+
+  <div id="at-panel"></div>
+
+  <section class="at-sheet">
+    <span class="at-sheet-icon">XLSX</span>
+    <div>
+      <h2>Prefer a spreadsheet?</h2>
+      <p>Download the original College Application Tracker and keep your own copy in Excel, Google Sheets, or OneDrive.</p>
+    </div>
+    <a class="tool-btn gold" href="assets/files/College_Application_Tracker_Spreadsheet.xlsx" download>Download the spreadsheet</a>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    Built for our students, edited every year. Have a broken link or a resource we should add? Tell your counselor.
+  </div>
+</footer>
+
+<script src="assets/js/shared-content.js"></script>
+<script src="assets/data/rep-visits.js"></script>
+<script src="assets/data/senior.js"></script>
+<script src="assets/data/junior.js"></script>
+<script src="assets/data/sophomore.js"></script>
+<script src="assets/data/freshman.js"></script>
+<script src="assets/data/hubs.js"></script>
+<script src="assets/js/engine.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/data/popular-colleges.js"></script>
+<script src="assets/js/tracker-store.js"></script>
+<script src="assets/js/app-tracker.js"></script>
+</body>
+</html>

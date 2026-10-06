@@ -1,0 +1,407 @@
+/* =====================================================================
+   TOOLS — Popular Colleges explorer + College Application Tracker.
+   Uses the brand tokens from styles.css (load styles.css first).
+   ===================================================================== */
+
+.tool-wrap{
+  max-width:1000px;
+  margin:0 auto 56px;
+  padding:0 24px;
+}
+.tool-note{
+  font-size:0.88rem;
+  color:var(--ink-soft);
+  margin:0 0 18px;
+}
+.tool-note strong{color:var(--ink);}
+
+/* ---------- Shared form controls ---------- */
+.tool-input,
+.tool-select,
+.tool-textarea{
+  font-family:var(--sans);
+  font-size:0.95rem;
+  color:var(--ink);
+  background:var(--paper);
+  border:1px solid var(--cloud);
+  border-radius:8px;
+  padding:9px 12px;
+  width:100%;
+  box-sizing:border-box;
+}
+.tool-textarea{resize:vertical; min-height:70px; line-height:1.45;}
+.tool-input:focus,
+.tool-select:focus,
+.tool-textarea:focus{outline:2px solid var(--navy); outline-offset:1px; border-color:var(--navy);}
+.tool-label{
+  display:block;
+  font-size:0.8rem;
+  font-weight:700;
+  color:var(--ink-soft);
+  margin:0 0 5px;
+}
+.tool-btn{
+  font-family:var(--sans);
+  font-weight:700;
+  font-size:0.9rem;
+  border-radius:8px;
+  padding:9px 16px;
+  cursor:pointer;
+  border:1px solid var(--navy);
+  background:var(--navy);
+  color:var(--paper);
+  white-space:nowrap;
+}
+.tool-btn:hover{background:var(--slate); border-color:var(--slate);}
+.tool-btn.secondary{background:var(--paper); color:var(--navy); border-color:var(--cloud);}
+.tool-btn.secondary:hover{border-color:var(--navy); background:var(--paper);}
+.tool-btn.gold{background:var(--gold); border-color:var(--gold); color:var(--navy);}
+.tool-btn.gold:hover{filter:brightness(0.95);}
+.tool-btn.danger{background:var(--paper); color:var(--slate); border-color:var(--cloud);}
+.tool-btn.danger:hover{color:var(--navy); border-color:var(--navy);}
+.tool-btn.small{padding:6px 11px; font-size:0.82rem;}
+.tool-btn:disabled{opacity:0.5; cursor:default;}
+
+/* Segmented toggle (ACT / SAT) */
+.seg{
+  display:inline-flex;
+  background:var(--paper-soft);
+  border:1px solid var(--rule);
+  border-radius:10px;
+  padding:4px;
+  gap:3px;
+}
+.seg button{
+  font-family:var(--sans);
+  font-weight:700;
+  font-size:0.9rem;
+  border:none;
+  background:transparent;
+  color:var(--ink-soft);
+  padding:7px 16px;
+  border-radius:7px;
+  cursor:pointer;
+}
+.seg button[aria-pressed="true"]{background:var(--navy); color:var(--paper);}
+
+/* Filter chips */
+.chip-row{display:flex; flex-wrap:wrap; gap:7px;}
+.chip{
+  font-family:var(--sans);
+  font-size:0.84rem;
+  font-weight:600;
+  border:1px solid var(--cloud);
+  background:var(--paper);
+  color:var(--ink);
+  border-radius:999px;
+  padding:6px 13px;
+  cursor:pointer;
+}
+.chip:hover{border-color:var(--navy);}
+.chip[aria-pressed="true"]{background:var(--navy); border-color:var(--navy); color:var(--paper);}
+
+/* =====================================================================
+   POPULAR COLLEGES EXPLORER
+   ===================================================================== */
+.pc-controls{
+  border:1px solid var(--rule);
+  border-radius:12px;
+  padding:18px 20px;
+  display:grid;
+  grid-template-columns:1.4fr auto 0.8fr;
+  gap:16px 20px;
+  align-items:end;
+  margin-bottom:12px;
+  background:var(--paper);
+}
+.pc-filters{
+  grid-column:1 / -1;
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(190px, 1fr));
+  gap:14px 22px;
+  padding-top:14px;
+  border-top:1px solid var(--rule-soft);
+}
+.pc-meta{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin:14px 0 10px;
+  font-size:0.9rem;
+  color:var(--ink-soft);
+}
+.pc-legend{display:flex; gap:16px; flex-wrap:wrap; font-size:0.82rem;}
+.pc-legend span{display:inline-flex; align-items:center; gap:6px;}
+.pc-legend i{display:inline-block; width:22px; height:10px; border-radius:3px; background:var(--sky);}
+.pc-legend i.you{width:3px; height:14px; background:var(--gold); border-radius:0; box-shadow:0 0 0 1px var(--navy);}
+
+.pc-chart{border:1px solid var(--rule); border-radius:12px; overflow:hidden; background:var(--paper);}
+.pc-axis,
+.pc-row-main{
+  display:grid;
+  grid-template-columns:minmax(170px, 250px) 1fr 118px;
+  gap:14px;
+  align-items:center;
+  padding:0 18px;
+}
+.pc-axis{
+  background:var(--paper-soft);
+  border-bottom:1px solid var(--rule);
+  height:38px;
+  font-size:0.78rem;
+  font-weight:700;
+  color:var(--ink-soft);
+}
+.pc-ticks{position:relative; height:100%;}
+.pc-ticks span{position:absolute; top:50%; transform:translate(-50%, -50%);}
+.pc-row{border-bottom:1px solid var(--rule-soft);}
+.pc-row:last-child{border-bottom:none;}
+.pc-row-main{
+  min-height:52px;
+  cursor:pointer;
+  width:100%;
+  box-sizing:border-box;
+  background:none;
+  border:none;
+  font:inherit;
+  color:inherit;
+  text-align:left;
+  padding-top:8px;
+  padding-bottom:8px;
+}
+.pc-row-main:hover{background:var(--paper-soft);}
+.pc-row.open .pc-row-main{background:var(--paper-soft);}
+.pc-name{font-family:var(--serif); font-weight:700; font-size:1rem; line-height:1.2;}
+.pc-name small{display:block; font-family:var(--sans); font-weight:500; font-size:0.76rem; color:var(--ink-soft); margin-top:2px;}
+.pc-track{position:relative; height:26px;}
+.pc-track::before{
+  content:"";
+  position:absolute;
+  left:0; right:0; top:50%;
+  height:2px;
+  background:var(--rule-soft);
+}
+.pc-gridline{position:absolute; top:0; bottom:0; width:1px; background:var(--rule-soft);}
+.pc-bar{
+  position:absolute;
+  top:5px;
+  height:16px;
+  border-radius:4px;
+  background:var(--sky);
+  border:1px solid var(--navy);
+  box-sizing:border-box;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:0.72rem;
+  font-weight:800;
+  color:var(--navy);
+  padding:0 4px;
+  min-width:44px;
+}
+.pc-bar.nonres{background:repeating-linear-gradient(135deg, var(--sky) 0 6px, #8fc6ee 6px 12px);}
+.pc-none{position:absolute; top:50%; transform:translateY(-50%); font-size:0.8rem; color:var(--ink-soft); background:var(--paper); padding-right:8px;}
+.pc-you{position:absolute; top:-2px; bottom:-2px; width:3px; background:var(--gold); box-shadow:0 0 0 1px var(--navy); transform:translateX(-50%); z-index:2;}
+.pc-status{
+  justify-self:end;
+  font-size:0.76rem;
+  font-weight:700;
+  padding:4px 9px;
+  border-radius:999px;
+  border:1px solid var(--cloud);
+  color:var(--ink-soft);
+  white-space:nowrap;
+}
+.pc-status.above{background:var(--navy); color:var(--paper); border-color:var(--navy);}
+.pc-status.within{background:var(--gold); color:var(--navy); border-color:var(--gold);}
+.pc-status.below{background:var(--paper); color:var(--navy); border-color:var(--navy);}
+
+.pc-detail{padding:4px 18px 20px; background:var(--paper-soft);}
+.pc-detail-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+  gap:14px 22px;
+  margin:6px 0 14px;
+}
+.pc-detail-grid dt{font-size:0.76rem; font-weight:700; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.03em;}
+.pc-detail-grid dd{margin:3px 0 0; font-size:0.94rem;}
+.pc-detail-notes{font-size:0.94rem; margin:0 0 14px; padding:10px 14px; background:var(--paper); border-left:4px solid var(--gold); border-radius:0 8px 8px 0;}
+.pc-detail-actions{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
+.pc-detail-actions a.tool-btn{text-decoration:none;}
+.pc-added{font-size:0.86rem; font-weight:600; color:var(--navy);}
+.pc-empty{padding:28px; text-align:center; color:var(--ink-soft);}
+
+/* =====================================================================
+   APPLICATION TRACKER
+   ===================================================================== */
+.at-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:16px;
+}
+.at-tabs{display:inline-flex; gap:4px; background:var(--paper-soft); border:1px solid var(--rule); border-radius:12px; padding:5px;}
+.at-tabs button{
+  font-family:var(--sans); font-weight:700; font-size:0.95rem;
+  border:none; background:transparent; color:var(--ink-soft);
+  padding:9px 16px; border-radius:8px; cursor:pointer;
+}
+.at-tabs button[aria-selected="true"]{background:var(--navy); color:var(--paper);}
+.at-tabs .count{font-weight:600; opacity:0.75; margin-left:4px;}
+.at-actions{display:flex; gap:8px; flex-wrap:wrap;}
+.at-saved{font-size:0.82rem; color:var(--ink-soft); min-width:70px;}
+
+.at-privacy{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:16px;
+  align-items:center;
+  border:1px solid var(--rule);
+  border-left:5px solid var(--gold);
+  border-radius:10px;
+  padding:14px 18px;
+  margin-bottom:22px;
+  font-size:0.92rem;
+}
+.at-privacy p{margin:0;}
+.at-privacy p + p{margin-top:4px; color:var(--ink-soft);}
+
+.at-summary{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));
+  gap:10px;
+  margin-bottom:18px;
+}
+.at-stat{border:1px solid var(--rule); border-radius:10px; padding:12px 14px;}
+.at-stat b{display:block; font-family:var(--serif); font-size:1.5rem; line-height:1.1;}
+.at-stat span{font-size:0.82rem; color:var(--ink-soft);}
+.at-stat.next b{font-size:1.05rem; line-height:1.3;}
+
+.at-add{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:10px;
+  align-items:end;
+  margin-bottom:8px;
+}
+.at-add-hint{font-size:0.82rem; color:var(--ink-soft); margin:0 0 18px;}
+
+.at-card{
+  border:1px solid var(--rule);
+  border-radius:12px;
+  margin-bottom:12px;
+  background:var(--paper);
+  overflow:hidden;
+}
+.at-card-head{
+  display:grid;
+  grid-template-columns:1fr auto auto auto;
+  gap:10px;
+  align-items:center;
+  padding:12px 16px;
+  border-left:5px solid var(--cloud);
+}
+.at-card[data-status="Submitted"] .at-card-head{border-left-color:var(--sky);}
+.at-card[data-status="Accepted"] .at-card-head{border-left-color:var(--gold);}
+.at-card[data-status="In progress"] .at-card-head{border-left-color:var(--slate);}
+.at-card-title{
+  font-family:var(--serif); font-weight:700; font-size:1.1rem;
+  border:none; background:none; padding:4px 0; color:var(--ink); width:100%;
+}
+.at-card-title:focus{outline:2px solid var(--navy); outline-offset:2px; border-radius:4px;}
+.at-card-head .tool-select{width:auto; padding:6px 10px; font-size:0.86rem;}
+.at-toggle{
+  border:1px solid var(--cloud); background:var(--paper); color:var(--navy);
+  border-radius:8px; width:34px; height:34px; cursor:pointer; font-size:1rem;
+}
+.at-card-sub{
+  display:flex; gap:14px; flex-wrap:wrap;
+  padding:0 16px 12px 21px;
+  font-size:0.84rem; color:var(--ink-soft);
+}
+.at-card-sub b{color:var(--ink);}
+.at-card-body{padding:4px 16px 16px; border-top:1px solid var(--rule-soft);}
+.at-card-body[hidden]{display:none;}
+.at-group{
+  font-family:var(--serif); font-weight:700; font-size:0.95rem;
+  margin:16px 0 10px; color:var(--navy);
+}
+.at-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(210px, 1fr));
+  gap:12px 16px;
+}
+.at-grid .wide{grid-column:1 / -1;}
+.at-checks{display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:6px 16px;}
+.at-checks label{display:flex; gap:8px; align-items:center; font-size:0.92rem; cursor:pointer;}
+.at-checks input{width:17px; height:17px; accent-color:var(--navy);}
+.at-card-foot{display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-top:16px;}
+.at-card-foot a{font-size:0.88rem; font-weight:600;}
+
+.at-empty{
+  border:2px dashed var(--cloud); border-radius:12px;
+  padding:28px; text-align:center; color:var(--ink-soft);
+}
+
+/* Essays + activities as cards with a header row */
+.at-row{
+  border:1px solid var(--rule);
+  border-radius:12px;
+  padding:14px 16px;
+  margin-bottom:10px;
+  background:var(--paper);
+}
+.at-row-head{display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:10px;}
+.at-row-head b{font-family:var(--serif); font-size:1rem;}
+.at-count{font-size:0.8rem; font-weight:700; color:var(--ink-soft); text-align:right; margin-top:4px;}
+.at-count.over{color:var(--navy); background:var(--gold); display:inline-block; float:right; padding:1px 8px; border-radius:999px;}
+.at-section-head{display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:12px;}
+.at-section-head p{margin:0; color:var(--ink-soft); font-size:0.92rem; max-width:60ch;}
+
+/* Spreadsheet download box */
+.at-sheet{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  gap:16px;
+  align-items:center;
+  background:var(--navy);
+  color:var(--paper);
+  border-radius:12px;
+  padding:18px 22px;
+  margin-top:34px;
+}
+.at-sheet-icon{
+  width:44px; height:44px; border-radius:8px; background:var(--gold);
+  color:var(--navy); font-weight:800; display:grid; place-items:center; font-size:0.85rem;
+}
+.at-sheet h2{font-size:1.05rem; margin:0 0 3px; color:var(--paper);}
+.at-sheet p{margin:0; font-size:0.9rem; color:rgba(255,255,255,0.82);}
+.at-sheet a{text-decoration:none;}
+
+@media (max-width:760px){
+  .pc-controls{grid-template-columns:1fr;}
+  .pc-axis{display:none;}
+  .pc-row-main{grid-template-columns:1fr auto; grid-template-areas:"name status" "track track"; gap:8px 10px;}
+  .pc-row-main .pc-name{grid-area:name;}
+  .pc-row-main .pc-track{grid-area:track;}
+  .pc-row-main .pc-status{grid-area:status;}
+  .pc-bar{font-size:0.7rem;}
+  .at-card-head{grid-template-columns:1fr auto; }
+  .at-card-head .tool-select{grid-column:1 / 2;}
+  .at-privacy, .at-sheet{grid-template-columns:1fr;}
+  .at-add{grid-template-columns:1fr;}
+  .at-tabs{width:100%; box-sizing:border-box;}
+  .at-tabs button{flex:1; padding:9px 8px; font-size:0.88rem;}
+}
+
+/* Print: just the tracker content */
+@media print{
+  header, footer, .at-top .at-actions, .at-add, .at-add-hint, .at-privacy, .at-sheet, .at-toggle, .tool-btn{display:none !important;}
+  .at-card-body[hidden]{display:block !important;}
+  .at-card, .at-row{break-inside:avoid;}
+  .tool-input, .tool-select, .tool-textarea{border:none; padding:0;}
+}

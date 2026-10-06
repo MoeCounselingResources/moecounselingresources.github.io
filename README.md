@@ -15,6 +15,8 @@ index.html                  Moeller Counseling (main page)
 │   └── honor-roll.html         Honor Roll Calculator (quarterly, unweighted)
 ├── college-counseling.html College Counseling hub
 │   ├── seniors.html  ← "Application Resources" box opens this
+│   ├── popular-colleges.html   Moeller Popular Colleges (test ranges, deadlines)
+│   ├── app-tracker.html        College Application Tracker
 │   ├── college-exploration.html
 │   ├── military.html
 │   ├── ccp-ap.html
@@ -45,6 +47,7 @@ Links from the School Counseling hub open a class page in its School view
 | Heading font files (Produkt / Bitter)      | `assets/fonts/` — see the note at the top of styles.css |
 | Images (Common App screenshots, house crests) | `assets/img/`                       |
 | Courses in the GPA / Honor Roll Calculators (update each year) | `assets/data/courses.js` |
+| Popular Colleges data (update each cycle) | `assets/data/popular-colleges.js`      |
 | Turn on visit counting for the calculators | `assets/js/calc-tracking.js`        |
 
 You shouldn't need to touch `engine.js` or `site.js`.
@@ -97,3 +100,14 @@ nothing is sent anywhere.
   (each counted at most once per visit).
 - The scale math lives in `assets/js/gpa-calculator.js` and `assets/js/honor-roll.js`.
   You shouldn't need to edit those unless the grading scale itself changes.
+
+## Popular Colleges and Application Tracker
+
+`popular-colleges.html` and `app-tracker.html` share the data in
+`assets/data/popular-colleges.js`. Change `POPULAR_COLLEGES_CYCLE` and edit
+the schools there each cycle.
+
+The tracker saves only in each student's own browser (localStorage key
+`moeller-app-tracker-v1`); nothing is sent anywhere. "Download as Excel" loads
+SheetJS from cdnjs.cloudflare.com only when clicked. The original spreadsheet
+is `assets/files/College_Application_Tracker_Spreadsheet.xlsx`.
