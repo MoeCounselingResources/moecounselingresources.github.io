@@ -7,6 +7,8 @@
    • act / sat: {low, high, label} — the middle 50% range. Use null if none.
    • testingPolicy: "Required", "Expected", "Optional", or "Optional*"
      (* = optional with conditions; explain in testingPolicyFull)
+   • useMyRanges: true  → keep THIS school's act/sat ranges below (e.g. non-resident
+     ranges). The yearly College Scorecard update will never replace them.
    • plans: any of "Early Action", "Early Decision",
      "Restrictive Early Action", "Rolling", "Priority Deadline"
    ========================================================================= */
@@ -16,6 +18,7 @@ const POPULAR_COLLEGES_CYCLE = "2025–26 application cycle";
 const POPULAR_COLLEGES = [
   {
     "name": "Auburn University",
+    "useMyRanges": true,
     "earlyType": "4 EA Rounds - Earlier the better!",
     "plans": [
       "Early Action"
@@ -367,6 +370,7 @@ const POPULAR_COLLEGES = [
   },
   {
     "name": "University of Alabama",
+    "useMyRanges": true,
     "earlyType": "Priority Deadline",
     "plans": [
       "Priority Deadline"
@@ -578,6 +582,7 @@ const POPULAR_COLLEGES = [
   },
   {
     "name": "University of South Carolina",
+    "useMyRanges": true,
     "earlyType": "Early Action",
     "plans": [
       "Early Action"
@@ -608,6 +613,7 @@ const POPULAR_COLLEGES = [
   },
   {
     "name": "University of Tennessee",
+    "useMyRanges": true,
     "earlyType": "Early Action",
     "plans": [
       "Early Action"

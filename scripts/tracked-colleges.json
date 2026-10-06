@@ -26,7 +26,7 @@
     {"name": "University of Kentucky"},
     {"name": "University of Louisville"},
     {"name": "University of Michigan", "scorecardName": "University of Michigan-Ann Arbor"},
-    {"name": "University of Notre Dame"},
+    {"name": "University of Notre Dame", "unitid": 152080},
     {"name": "University of South Carolina", "scorecardName": "University of South Carolina-Columbia"},
     {"name": "University of Tennessee", "scorecardName": "The University of Tennessee-Knoxville"},
     {"name": "Xavier University"},

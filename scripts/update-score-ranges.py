@@ -14,6 +14,7 @@ newest year with data and stores:
 If a school or value can't be found, the old value is kept and a note is
 printed to the workflow log (and shown as a GitHub Actions annotation).
 Counselor notes, deadlines, and policies stay in popular-colleges.js.
+Schools marked "useMyRanges": true there are skipped; their ranges never change.
 """
 import json, os, re, sys, time, urllib.error, urllib.parse, urllib.request
 from datetime import date, datetime, timezone
@@ -129,10 +130,15 @@ def api(params):
 # ---------- the list of schools ----------
 tracked = json.load(open(LIST_FILE, encoding="utf-8"))["colleges"]
 have = {norm(c["name"]) for c in tracked}
+popular, my_ranges = [], set()
 try:
-    popular = re.findall(r'^\s*"name":\s*"([^"]+)"', open(POPULAR_FILE, encoding="utf-8").read(), re.M)
+    ptxt = open(POPULAR_FILE, encoding="utf-8").read()
+    for m in re.finditer(r'^\s*"name":\s*"([^"]+)"(.*?)(?=^\s*"name":|\Z)', ptxt, re.M | re.S):
+        popular.append(m.group(1))
+        if re.search(r'"useMyRanges":\s*true', m.group(2)):
+            my_ranges.add(norm(m.group(1)))
 except OSError:
-    popular = []
+    pass
 for n in popular:
     if norm(n) not in have:
         note("%s is in popular-colleges.js but not in tracked-colleges.json; tracking it by name. Add it to the list file." % n)
@@ -200,6 +206,10 @@ def newest(school_id, fields):
 updated = 0
 for c in tracked:
     name = c["name"]
+    if norm(name) in my_ranges:
+        colleges.pop(name, None)
+        print("Skipping %s: marked useMyRanges in popular-colleges.js (keeping your ranges)." % name)
+        continue
     try:
         sid = find_id(c)
         if not sid:

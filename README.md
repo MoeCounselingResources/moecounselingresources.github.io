@@ -128,3 +128,9 @@ policies stay in `popular-colleges.js`.
   matched, add its `unitid`.
 - If a school or value is missing, the old value is kept and the workflow log
   (and run summary) says which one.
+- **Keeping your own ranges for a school:** in `assets/data/popular-colleges.js`,
+  add `"useMyRanges": true,` to that school (right under its `"name"` line) and
+  keep the `act` / `sat` ranges you want. The yearly update skips that school and
+  the chart always shows your ranges, including the striped non-resident bar when
+  `"nonResident": true`. Currently set for Auburn, Alabama, South Carolina, and
+  Tennessee. To go back to Scorecard ranges, delete the line.
