@@ -330,7 +330,9 @@ YEARS.senior = {
           {title:"Sending your scores", desc:"Sending official scores is the student's responsibility — counselors do not send scores. Allow up to 2 weeks for processing and save your confirmation.", url:"#"},
           {title:"Testing policies by school", desc:"Which popular schools require official scores vs. allow self-reporting. See the Moeller Popular Colleges Spreadsheet for the full list.", url:"#"},
           {title:"Ohio State early action note", desc:"Send your scores by Oct. 16 if you want to be considered for Early Action.", url:"#"},
-          {title:"AP score self-reporting", desc:"Self-report any AP score of 3, 4, or 5 directly in your Common App.", url:"#"}
+          {title:"AP score self-reporting", desc:"Self-report any AP score of 3, 4, or 5 directly in your Common App.", url:"#"},
+          {title:"SAT & ACT policies and score ranges for popular colleges", desc:"Compass Prep's college profiles show testing policies and middle-50% score ranges.", url:"https://www.compassprep.com/college-profiles/"},
+          {title:"Test-optional and test-free colleges, searchable list", desc:"FairTest's list is the place to check any college's current testing policy.", url:"https://fairtest.org/test-optional-list/"}
         ]
       },
       financialAid: {

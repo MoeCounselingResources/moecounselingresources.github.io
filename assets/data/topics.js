@@ -98,11 +98,19 @@ YEARS["act-sat"] = {
   hub: "college",
   label: "ACT / SAT",
   blurb: "Test dates, prep resources, and how to send your scores.",
-  order: ["dates","prep","scores"],
+  order: ["dates","prep","scores","testingResources"],
   sections: {
     dates: placeholderSection("Test dates & registration", "This year's ACT and SAT calendar."),
     prep: placeholderSection("Test prep", "Free and low-cost ways to prepare."),
-    scores: placeholderSection("Sending scores", "How to send official scores, and test-optional decisions.")
+    scores: placeholderSection("Sending scores", "How to send official scores, and test-optional decisions."),
+    testingResources: {
+      title: "Testing resources",
+      desc: "Outside sites for checking college testing policies and score ranges.",
+      items: [
+        {title:"SAT & ACT policies and score ranges for popular colleges", desc:"Compass Prep's college profiles show testing policies and middle-50% score ranges.", url:"https://www.compassprep.com/college-profiles/"},
+        {title:"Test-optional and test-free colleges, searchable list", desc:"FairTest's list is the place to check any college's current testing policy.", url:"https://fairtest.org/test-optional-list/"}
+      ]
+    }
   }
 };
 
