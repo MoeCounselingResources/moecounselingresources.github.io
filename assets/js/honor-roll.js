@@ -16,12 +16,34 @@ const CATALOG = RAW.trim().split("\n").map((l,i)=>{const [dept,name,lv,cr]=l.spl
 const DEPTS = [...new Set(CATALOG.map(c=>c.dept))];
 const QUARTERS = ["1","2","3","4"];
 
+/* ---------- Quarter credits ----------
+   Every class counts 0.25 credit per quarter (a full-year class is 0.25 x 4 quarters;
+   a semester class is 0.25 in each of its two quarters). Physical Education I / II and
+   Recreational Fitness for Life I / II are worth 0.25 for the whole class, so 0.125 a quarter.
+   Custom ("Another course") rows are 0.25. */
+const HALF_CREDIT = /^(physical education|recreational fitness for life|fitness for life)\b/i;
+function rowCredit(r){
+  const c = typeof r.course==="number" ? CATALOG[r.course] : null;
+  return c && HALF_CREDIT.test(c.name) ? 0.125 : 0.25;
+}
+
 /* ---------- State ---------- */
 const KEY="moeller-honor-roll-v1";
 let state = load(); let tab = state.tab || "1"; let uid = Date.now();
-function load(){ try{ const s=JSON.parse(localStorage.getItem(KEY)); if(s&&s.q) return s; }catch(e){} return {q:{"1":[],"2":[],"3":[],"4":[]}, tab:"1"}; }
+function load(){
+  try{
+    const s=JSON.parse(localStorage.getItem(KEY));
+    if(s&&s.q){
+      /* Saved quarters from before quarter credits (old values were 0.5, 1, etc.): update them. */
+      Object.keys(s.q).forEach(q=>(s.q[q]||[]).forEach(r=>{ r.credits=rowCredit(r); }));
+      try{ localStorage.setItem(KEY, JSON.stringify(s)); }catch(e){}
+      return s;
+    }
+  }catch(e){}
+  return {q:{"1":[],"2":[],"3":[],"4":[]}, tab:"1"};
+}
 function save(){ state.tab=tab; try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
-function newRow(c){ return {id:"r"+(uid++), course:c?c.id:"", custom:"", credits:c?c.credits:1, pf:c?c.pf:false, grade:"", result:"P"}; }
+function newRow(c){ const r={id:"r"+(uid++), course:c?c.id:"", custom:"", credits:0.25, pf:c?c.pf:false, grade:"", result:"P"}; r.credits=rowCredit(r); return r; }
 
 /* ---------- Math ---------- */
 function rowRes(r){
@@ -32,7 +54,7 @@ function rowRes(r){
 }
 function summarize(rows){
   let cr=0,pts=0,fails=0,entered=0;
-  rows.forEach(r=>{ const x=rowRes(r); if(x.fail) fails++; if(x.counted){ cr+=+r.credits; pts+=x.u*r.credits; entered++; } });
+  rows.forEach(r=>{ const x=rowRes(r); if(x.fail) fails++; if(x.counted){ const w=rowCredit(r); cr+=w; pts+=x.u*w; entered++; } });
   return {cr, pts, fails, entered, gpa: cr?pts/cr:null, missing: rows.filter(r=>!r.pf && (r.grade===""||r.grade==null)).length};
 }
 function verdict(s){
@@ -66,14 +88,14 @@ function rowHTML(r){
   return `<div class="row ${x.fail?"fail":x.counted?"ok":""}" data-id="${r.id}">
     <div class="f course"><label for="c-${r.id}">Course</label><select id="c-${r.id}" data-k="course">${courseOptions(r)}</select>
       ${r.course==="custom"?`<input class="custom-name" data-k="custom" aria-label="Course name" placeholder="Course name" value="${esc(r.custom)}">`:""}</div>
-    <div class="f"><label for="cr-${r.id}">Credits</label><select id="cr-${r.id}" data-k="credits">${[0.25,0.5,1,1.5].map(v=>`<option value="${v}" ${+r.credits===v?"selected":""}>${v}</option>`).join("")}</select></div>
+    <div class="f"><span class="lbl">Credits</span><div class="credit" title="Credit for one quarter">${rowCredit(r)}</div></div>
     ${grade}${pts}
     <button class="del" data-del="${r.id}" aria-label="Remove this course" title="Remove">×</button></div>`;
 }
 function renderPanel(){
   const rows=state.q[tab]; const prev = QUARTERS.slice(0,QUARTERS.indexOf(tab)).reverse().find(q=>state.q[q].length);
   $("#panel").innerHTML = `<h2>Quarter ${tab}</h2>
-    <p class="callout"><b>Use your quarter grades, not your semester or final grades.</b> Enter the grade for each class from this quarter's report card. For the quarter you're in now, enter your current grades to see where you're headed. Course level doesn't matter here: an A counts as 4.0 whether the class is CP, Honors, or AP.</p>
+    <p class="callout"><b>Use your quarter grades, not your semester or final grades.</b> Enter the grade for each class from this quarter's report card. For the quarter you're in now, enter your current grades to see where you're headed. Course level doesn't matter here: an A counts as 4.0 whether the class is CP, Honors, or AP. Each class counts the same for a quarter, except PE and Rec Fitness, which count half.</p>
     <div class="rows">${rows.length?rows.map(rowHTML).join(""):`<div class="empty">No classes yet for Quarter ${tab}. ${prev?`Copy your classes from Quarter ${prev} and update the grades, or add them one at a time.`:"Add each class you're taking this quarter."}</div>`}</div>
     <div class="actions">
       <button class="btn" id="add">Add a class</button>
@@ -84,7 +106,7 @@ function renderPanel(){
       <li>First Honors: unweighted GPA of 3.80 to 4.00 with no class failures.</li>
       <li>Second Honors: unweighted GPA of 3.40 to 3.79 with no class failures.</li>
       <li>Unweighted points: 90–100 = 4.0; 89 = 3.9 down to 80 = 3.0; 79 = 2.8 down to 70 = 1.0 (0.2 per point); below 70 = 0 and counts as a failure.</li>
-      <li>Each class counts in proportion to its credits. Pass/fail classes don't count toward the GPA, but failing one still rules out honor roll.</li>
+      <li>Each class counts 0.25 credit for the quarter, except Physical Education and Recreational Fitness for Life, which count 0.125. Pass/fail classes don't count toward the GPA, but failing one still rules out honor roll.</li>
       <li>Decimal grades drop to the whole number (89.7 counts as 89), and GPAs are cut off at two decimals, so 3.799 shows as 3.79.</li>
     </ul></details>`;
 }
@@ -117,9 +139,9 @@ document.addEventListener("change",e=>{
   const rowEl=e.target.closest(".row"); if(!rowEl) return;
   const r=state.q[tab].find(x=>x.id===rowEl.dataset.id); const k=e.target.dataset.k;
   if(k==="course"){ const v=e.target.value; r.course = v==="custom"||v===""?v:+v; const c=CATALOG[r.course];
-    if(c&&typeof r.course==="number"){ r.credits=c.credits; r.pf=c.pf; } else { r.pf=false; }
+    if(c&&typeof r.course==="number"){ r.pf=c.pf; } else { r.pf=false; }
+    r.credits=rowCredit(r);
     save(); render(); (r.course==="custom"?document.querySelector(`.row[data-id="${r.id}"] .custom-name`):document.getElementById("g-"+r.id))?.focus(); return; }
-  if(k==="credits"){ r.credits=+e.target.value; save(); render(); document.getElementById("cr-"+r.id)?.focus(); return; }
   if(k==="result"){ r.result=e.target.value; save(); render(); document.getElementById("g-"+r.id)?.focus(); return; }
   if(k==="custom"){ r.custom=e.target.value; save(); }
 });

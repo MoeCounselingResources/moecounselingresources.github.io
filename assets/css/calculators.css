@@ -23,8 +23,9 @@
 .calc .row.lvl-H,.calc .row.lvl-HP{border-left-color:var(--sky)}
 .calc .row.lvl-AP,.calc .row.lvl-CCP{border-left-color:var(--gold)}
 .calc .row.fail{border-left-color:var(--bad)}
-.calc .f label{display:block;font-size:.75rem;color:var(--ink-soft);font-weight:600;margin-bottom:3px}
+.calc .f label,.calc .f .lbl{display:block;font-size:.75rem;color:var(--ink-soft);font-weight:600;margin-bottom:3px}
 .calc .f select,.calc .f input{width:100%;height:40px;border:1px solid var(--rule);border-radius:6px;background:var(--paper);padding:0 8px;font:inherit;color:var(--ink)}
+.calc .f .credit{height:40px;display:flex;align-items:center;justify-content:center;font-weight:700;font-variant-numeric:tabular-nums}
 .calc .f input.grade{font-family:var(--serif);font-size:1.15rem;font-weight:700;text-align:center}
 .calc .custom-name{margin-top:6px}
 .calc .pts{text-align:center;padding-bottom:6px}
