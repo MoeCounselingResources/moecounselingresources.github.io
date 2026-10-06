@@ -2,7 +2,10 @@ name: Update college rep visits
 
 on:
   schedule:
-    - cron: "0 11 * * 1"   # every Monday, about 7 AM Eastern
+    # Cron is UTC-only, so fire at both 10:00 and 11:00 UTC; the guard step
+    # below lets only the run that falls at 6 AM Eastern (EDT/EST) continue.
+    - cron: "0 10 * * *"
+    - cron: "0 11 * * *"
   workflow_dispatch: {}      # lets you run it by hand from the Actions tab
 
 permissions:
@@ -12,12 +15,23 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
+      - name: Only continue at 6 AM Eastern
+        id: gate
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "$(TZ=America/New_York date +%H)" != "06" ]; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          fi
       - uses: actions/checkout@v4
+        if: steps.gate.outputs.run == 'true'
       - name: Rebuild rep-visits.js from the Outlook calendar
+        if: steps.gate.outputs.run == 'true'
         env:
           OUTLOOK_ICS_URL: ${{ secrets.OUTLOOK_ICS_URL }}
         run: python3 scripts/update-rep-visits.py
       - name: Commit if changed
+        if: steps.gate.outputs.run == 'true'
         run: |
           if [ -n "$(git status --porcelain assets/data/rep-visits.js)" ]; then
             git config user.name "github-actions[bot]"
