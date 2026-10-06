@@ -10,19 +10,6 @@ const SCORE_RANGES = {
  "dataYear": 2024,
  "updated": "2026-10-06",
  "colleges": {
-  "Auburn University": {
-   "id": 100858,
-   "act": {
-    "low": 26,
-    "high": 31,
-    "year": 2024
-   },
-   "sat": {
-    "low": 1260,
-    "high": 1390,
-    "year": 2024
-   }
-  },
   "Bowling Green State University": {
    "id": 201441,
    "act": {
@@ -309,19 +296,6 @@ const SCORE_RANGES = {
     "year": 2024
    }
   },
-  "University of Alabama": {
-   "id": 100751,
-   "act": {
-    "low": 24,
-    "high": 31,
-    "year": 2024
-   },
-   "sat": {
-    "low": 1170,
-    "high": 1400,
-    "year": 2024
-   }
-  },
   "University of Cincinnati": {
    "id": 201885,
    "act": {
@@ -462,32 +436,6 @@ const SCORE_RANGES = {
    "sat": {
     "low": 1510,
     "high": 1570,
-    "year": 2024
-   }
-  },
-  "University of South Carolina": {
-   "id": 218663,
-   "act": {
-    "low": 26,
-    "high": 32,
-    "year": 2024
-   },
-   "sat": {
-    "low": 1180,
-    "high": 1360,
-    "year": 2024
-   }
-  },
-  "University of Tennessee": {
-   "id": 221759,
-   "act": {
-    "low": 25,
-    "high": 31,
-    "year": 2024
-   },
-   "sat": {
-    "low": 1200,
-    "high": 1370,
     "year": 2024
    }
   },
