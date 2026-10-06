@@ -373,6 +373,28 @@ header{
   text-transform:uppercase;
   letter-spacing:0.03em;
 }
+.group-toggle{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  width:100%;
+  padding:6px 0;
+  background:none;
+  border:0;
+  border-bottom:1px solid var(--rule-soft);
+  font:inherit;
+  color:inherit;
+  text-transform:inherit;
+  letter-spacing:inherit;
+  text-align:left;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.group-toggle[aria-expanded="false"] .chevron{transform:rotate(-90deg);}
+.checklist[hidden]{display:none;}
+.dates-note{display:block; margin-top:6px; font-size:0.84rem; color:var(--ink-faint);}
+.dates-body p a{font-weight:600;}
 .checklist{
   list-style:none;
   margin:0;

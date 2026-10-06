@@ -66,7 +66,7 @@
     if(r && r.nonResident) sub.push('Non-resident range');
     const isOpen = state.openName === c.name;
     return `
-      <div class="pc-row${isOpen ? ' open' : ''}" data-name="${esc(c.name)}">
+      <div class="pc-row${isOpen ? ' open' : ''}" id="${esc(collegeSlug(c.name))}" data-name="${esc(c.name)}">
         <button type="button" class="pc-row-main" aria-expanded="${isOpen}">
           <span class="pc-name">${esc(c.name)}<small>${esc(sub.join(' · '))}</small></span>
           <span class="pc-track" aria-label="${r ? `${ax.label} middle 50%: ${r.low} to ${r.high}` : 'No range reported'}">${grid}${bar}${you}</span>
@@ -175,4 +175,18 @@
     render();
   }
   init();
+
+  /* A link like popular-colleges.html#college-michigan opens and scrolls to that school. */
+  function openFromHash(){
+    const h = decodeURIComponent(location.hash.replace(/^#/, ''));
+    const c = POPULAR_COLLEGES.find(x => collegeSlug(x.name) === h);
+    if(!c) return;
+    state.q = ''; state.policies.clear(); state.plans.clear(); state.stars = false; state.superscore = false;
+    state.openName = c.name;
+    render();
+    const el = document.getElementById(h);
+    if(el) el.scrollIntoView({block:'center'});
+  }
+  openFromHash();
+  window.addEventListener('hashchange', openFromHash);
 })();

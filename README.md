@@ -47,6 +47,7 @@ Links from the School Counseling hub open a class page in its School view
 | Heading font files (Produkt / Bitter)      | `assets/fonts/` — see the note at the top of styles.css |
 | Images (Common App screenshots, house crests) | `assets/img/`                       |
 | Courses in the GPA / Honor Roll Calculators (update each year) | `assets/data/courses.js` |
+| Early-deadline notices on the Seniors page | `earlyDeadline` in `assets/data/popular-colleges.js` (dates listed in `senior.js` → `deadlineNotices`) |
 | Popular Colleges data (update each cycle) | `assets/data/popular-colleges.js`      |
 | Colleges tracked for ACT/SAT ranges    | `scripts/tracked-colleges.json`        |
 | Turn on visit counting for the calculators | `assets/js/calc-tracking.js`        |

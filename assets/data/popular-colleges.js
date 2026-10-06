@@ -9,6 +9,8 @@
      (* = optional with conditions; explain in testingPolicyFull)
    • useMyRanges: true  → keep THIS school's act/sat ranges below (e.g. non-resident
      ranges). The yearly College Scorecard update will never replace them.
+   • shortName (optional): how the school's name reads in the Seniors deadline notices
+     (default: "University of" / "University" trimmed, e.g. "Michigan").
    • plans: any of "Early Action", "Early Decision",
      "Restrictive Early Action", "Rolling", "Priority Deadline"
    ========================================================================= */
@@ -290,6 +292,7 @@ const POPULAR_COLLEGES = [
   },
   {
     "name": "Ohio University",
+    "shortName": "Ohio University",
     "earlyType": "Early Action",
     "plans": [
       "Early Action"

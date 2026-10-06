@@ -31,6 +31,54 @@ function renderHero(year){
   hero.classList.add('animate');
 }
 
+/* Which checklist period matches today? Each group lists its calendar months
+   (1 = January); if none match, the first group opens. */
+function currentChecklistGroup(groups){
+  const m = new Date().getMonth() + 1;
+  const i = groups.findIndex(g => (g.months || []).includes(m));
+  return i >= 0 ? i : 0;
+}
+
+/* ---------- Deadline notifications built from popular-colleges.js ---------- */
+const MONTH_NUM = {sep:9, oct:10, nov:11, dec:12};
+const MONTH_ABBR = {9:'Sept.', 10:'Oct.', 11:'Nov.', 12:'Dec.'};
+function collegeSlug(name){ return 'college-' + String(name).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
+function collegeShortName(c){
+  if(c.shortName) return c.shortName;
+  return c.name.replace(/^(The )?University of /i, '').replace(/ University$/i, '').replace(/ University /i, ' ');
+}
+/* "Sept 15, Oct 15, Nov 15" -> [{m:9,d:15},...]. Parentheticals (e.g. materials deadlines) are ignored. */
+function earlyDeadlineDates(text){
+  const out = [];
+  const re = /\b(sep|oct|nov|dec)[a-z]*\.?\s*(\d{1,2})\b/gi;
+  const clean = String(text || '').replace(/\([^)]*\)/g, '');
+  let m;
+  while((m = re.exec(clean))) out.push({m: MONTH_NUM[m[1].toLowerCase()], d: parseInt(m[2], 10)});
+  return out;
+}
+function buildDeadlineNotices(cfg, yearKey){
+  if(typeof POPULAR_COLLEGES === 'undefined') return [];
+  const classOf = parseInt((YEARS[yearKey] || {}).classOf, 10);
+  if(!classOf) return [];
+  return (cfg.dates || []).map(({month, day})=>{
+    const iso = `${classOf - 1}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    const schools = POPULAR_COLLEGES.filter(c => earlyDeadlineDates(c.earlyDeadline).some(x => x.m === month && x.d === day))
+      .sort((a, b) => collegeShortName(a).localeCompare(collegeShortName(b)));
+    if(!schools.length) return null;
+    const links = schools.map(c => `<a href="popular-colleges.html#${escapeHtml(collegeSlug(c.name))}">${escapeHtml(collegeShortName(c))}</a>`);
+    return {
+      iso, date: `${MONTH_ABBR[month]} ${day}`, title: 'Early deadline',
+      detailHtml: `Early deadline for ${links.join(', ')}.<span class="dates-note">${escapeHtml(cfg.note || '')}</span>`
+    };
+  }).filter(Boolean);
+}
+/* Fixed dates plus any generated from the college data, in date order. */
+function resolveDates(s, yearKey){
+  if(!s.dates && !s.deadlineNotices) return null;
+  const all = (s.dates || []).concat(s.deadlineNotices ? buildDeadlineNotices(s.deadlineNotices, yearKey) : []);
+  return all.sort((a, b) => String(a.iso || '').localeCompare(String(b.iso || '')));
+}
+
 function renderSectionBody(s, year, key){
   PENDING_MINI_GUIDES.length = 0;
   if(s.type === 'formEmbed'){
@@ -64,17 +112,25 @@ function renderSectionBody(s, year, key){
     return renderFeeWaiversHtml(s.waivers);
   }
   if(s.type === 'checklist'){
-    return s.groups.map((g, gi)=>`
+    const openIdx = currentChecklistGroup(s.groups);
+    return s.groups.map((g, gi)=>{
+      const gid = `crh-group-${year}-${key}-${gi}`;
+      return `
       <div class="checklist-group">
-        <h3 class="checklist-group-title">${escapeHtml(g.label)}</h3>
-        <ul class="checklist">
+        <h3 class="checklist-group-title">
+          <button type="button" class="group-toggle" aria-expanded="${gi === openIdx}" aria-controls="${escapeHtml(gid)}" data-group-key="${escapeHtml(gid)}" data-default-open="${gi === openIdx ? '1' : '0'}">
+            <span>${escapeHtml(g.label)}</span><span class="chevron" aria-hidden="true">⌄</span>
+          </button>
+        </h3>
+        <ul class="checklist" id="${escapeHtml(gid)}"${gi === openIdx ? '' : ' hidden'}>
           ${g.items.map((item, ii)=>{
             const ck = `crh-check-${year}-${key}-${gi}-${ii}`;
             return `<li><label class="check-item"><input type="checkbox" data-check-key="${escapeHtml(ck)}"><span>${escapeHtml(item)}</span></label></li>`;
           }).join('')}
         </ul>
       </div>
-    `).join('');
+    `;
+    }).join('');
   }
   if(s.type === 'responsibilities'){
     return `<div class="resp-grid">${s.groups.map((g, gi)=>{
@@ -139,7 +195,7 @@ function renderSectionBody(s, year, key){
       </div>
     </div>
   ` : '';
-  const datesHtml = s.dates ? `
+  const datesHtml = (s.dates || s.deadlineNotices) ? `
     <div class="dates-widget">
       <div class="dates-stage">
         <div class="dates-badge"></div>
@@ -201,7 +257,8 @@ function renderIndexContent(year, key){
   content.classList.add('animate');
   wireSectionInteractions();
   if(s.guide) wireGuideWidget(content.querySelector('.guide-widget'), s.guide);
-  if(s.dates) wireDatesWidget(content.querySelector('.dates-widget'), s.dates);
+  const resolvedDates = resolveDates(s, year);
+  if(resolvedDates) wireDatesWidget(content.querySelector('.dates-widget'), resolvedDates);
   if(s.tool) wireToolWidget(content.querySelector('.tscore-tool'), s.tool);
   mgQueue.forEach(({id, data}) => wireMiniGuide(content.querySelector(`[data-mgid="${id}"]`), data));
 }
@@ -400,7 +457,7 @@ function wireDatesWidget(root, dates){
     const d = dates[i];
     badge.textContent = d.date;
     titleEl.textContent = d.title;
-    textEl.textContent = d.detail;
+    if(d.detailHtml) textEl.innerHTML = d.detailHtml; else textEl.textContent = d.detail;
     renderDots();
   };
 
@@ -480,6 +537,27 @@ function wireSectionInteractions(){
         e.preventDefault();
         toggle();
       }
+    });
+  });
+
+  document.querySelectorAll('.group-toggle').forEach(btn=>{
+    if(btn.dataset.wired) return; btn.dataset.wired = '1';
+    const list = document.getElementById(btn.getAttribute('aria-controls'));
+    const key = btn.dataset.groupKey;
+    const apply = open=>{
+      list.hidden = !open;
+      btn.setAttribute('aria-expanded', String(open));
+    };
+    let open = btn.dataset.defaultOpen === '1';
+    try{
+      const saved = localStorage.getItem(key);   // '1' open, '0' closed; none = use today's default
+      if(saved === '1') open = true; else if(saved === '0') open = false;
+    }catch(e){}
+    apply(open);
+    btn.addEventListener('click', ()=>{
+      open = !open;
+      apply(open);
+      try{ localStorage.setItem(key, open ? '1' : '0'); }catch(e){}
     });
   });
 

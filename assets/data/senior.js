@@ -26,6 +26,7 @@ YEARS.senior = {
         groups: [
           {
             label: "August / September",
+            months: [8, 9],
             items: [
               "Get organized",
               "Register for the ACT/SAT",
@@ -37,6 +38,7 @@ YEARS.senior = {
           },
           {
             label: "October / November",
+            months: [10, 11],
             items: [
               "Officially send your test scores to each college you're applying to with scores",
               "Research scholarships and start applying",
@@ -47,6 +49,7 @@ YEARS.senior = {
           },
           {
             label: "Winter",
+            months: [12, 1, 2],
             items: [
               "Keep applying for scholarships",
               "Work on applications with later deadlines",
@@ -56,6 +59,7 @@ YEARS.senior = {
           },
           {
             label: "Spring",
+            months: [3, 4, 5, 6, 7],
             items: [
               "Update SCOIR with decisions",
               "Keep working hard in your classes",
@@ -103,10 +107,13 @@ YEARS.senior = {
           {iso:"2026-09-03", date:"Sept. 3", title:"College rep visits begin", detail:"Over 100 colleges and universities visit Moeller each fall. Check SCOIR for the schedule and register at least 2 days ahead."},
           {iso:"2026-09-10", date:"Sept. 10", title:"MoeParent Night", detail:"An evening session for parents and guardians on the senior-year application process."},
           {iso:"2026-09-30", date:"Sept. 30", title:"College Fair", detail:"In the Gym, M-Block. A chance to talk to a wide range of schools in one place — no registration needed."},
-          {iso:"2026-10-01", date:"Oct. 1", title:"FAFSA opens", detail:"Complete it with your parents once you've started submitting applications."},
-          {iso:"2026-10-15", date:"Oct. 15", title:"Application deadline wave", detail:"Clemson, South Carolina, UNC, UGA, UT Austin, and more are due today."},
-          {iso:"2026-11-01", date:"Nov. 1", title:"Application deadline wave", detail:"UC, OSU, Miami, UD, and many others are due today."}
+          {iso:"2026-10-01", date:"Oct. 1", title:"FAFSA opens", detail:"Complete it with your parents once you've started submitting applications."}
         ],
+        // Early-deadline notifications are built from popular-colleges.js (its earlyDeadline field).
+        deadlineNotices: {
+          dates: [{month:10, day:15}, {month:11, day:1}, {month:12, day:1}],
+          note: "Deadlines can change. Confirm on each college's website."
+        },
         stacked: true,
         items: [
           {
@@ -190,8 +197,8 @@ YEARS.senior = {
         ]
       },
       responsibilities: {
-        navLabel: "Who's Responsible",
-        title: "Who's Responsible for What",
+        navLabel: "Student Responsibilities",
+        title: "Student Responsibilities",
         note: "",
         type: "responsibilities",
         groups: [
@@ -288,8 +295,8 @@ YEARS.senior = {
         ]
       },
       essays: {
-        navLabel: "Writing Resources",
-        title: "Essay Writing Resources",
+        navLabel: "Essay Writing Tips",
+        title: "Essay Writing Tips",
         note: "Final pass",
         desc: "Tips for tightening what you've already drafted, not starting from scratch.",
         stacked: true,
