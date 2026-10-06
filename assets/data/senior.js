@@ -382,6 +382,16 @@ YEARS.senior = {
         type: "feeWaivers",
         waivers: [
           {
+            school: "Ohio State Regional Campuses: apply free through Dec. 1",
+            code: "RCW2027",
+            details: [
+              "Ohio State is waiving the application fee for students who submit a complete application to one of its regional campuses (Lima, Mansfield, Marion, Newark, or Wooster ATI) by December 1.",
+              "Applicants also get automatic scholarship consideration and a quick decision, typically in under three weeks.",
+              "Enter fee waiver code RCW2027 when prompted in the application."
+            ],
+            link: {text: "Ohio State's regional campuses admissions page", url: "https://undergrad.osu.edu/regional-campuses/admission"}
+          },
+          {
             school: "University of Cincinnati",
             details: [
               "Aug. 1 – Sept. 8: Fees waived for students who select “Free Application Days” under the Fee Waiver question.",

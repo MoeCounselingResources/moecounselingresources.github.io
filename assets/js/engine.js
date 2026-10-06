@@ -515,6 +515,7 @@ function renderFeeWaiversHtml(waivers){
       <div class="school">${escapeHtml(w.school)}</div>
       ${w.code ? `<div class="code">Code: ${escapeHtml(w.code)}</div>` : ''}
       ${w.details ? `<ul>${w.details.map(d=>`<li>${escapeHtml(d)}</li>`).join('')}</ul>` : ''}
+      ${w.link ? `<a class="more-info" href="${escapeHtml(w.link.url)}" target="_blank" rel="noopener">${escapeHtml(w.link.text)} ↗</a>` : ''}
     </div>
   `).join('')}</div>`;
 }
