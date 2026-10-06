@@ -1583,3 +1583,54 @@ a.resource-link{border-bottom-color:var(--sky);}
   font-size:0.9rem;
 }
 .gallery-grid figcaption{font-size:0.85rem; color:var(--ink-soft); margin-top:6px;}
+
+/* ---------- Supplemental Essay Guides ---------- */
+.eg-tips{
+  list-style:disc;
+  margin:0 0 24px;
+  padding:22px 28px 22px 48px;
+  border:1px solid var(--rule);
+  border-radius:10px;
+  background:var(--paper-soft);
+  color:var(--ink-soft);
+  font-size:0.96rem;
+}
+.eg-tips li{margin-bottom:8px; max-width:70ch;}
+.eg-tips li:last-child{margin-bottom:0;}
+.eg-label{display:block; font-size:0.85rem; font-weight:700; color:var(--ink-soft); margin:0 0 6px;}
+.eg-search{max-width:460px; margin-bottom:0;}
+.eg-count{margin:8px 0 0; font-size:0.85rem; color:var(--ink-soft);}
+.eg-list{
+  columns:3 200px;
+  column-gap:36px;
+  margin-top:16px;
+  padding-top:20px;
+  border-top:1px solid var(--rule);
+}
+.eg-group{break-inside:avoid; margin-bottom:22px;}
+.eg-group[hidden], .eg-group li[hidden], .eg-empty[hidden]{display:none;}
+.eg-letter{
+  font-family:var(--serif);
+  font-weight:800 !important;
+  font-size:1.3rem;
+  line-height:1.1;
+  margin:0 0 8px;
+  padding-bottom:3px;
+  border-bottom:2px solid var(--gold);
+}
+.eg-group ul{list-style:none; margin:0; padding:0;}
+.eg-group li{padding:3px 0; font-size:0.95rem; line-height:1.35;}
+.eg-group a{color:var(--ink); text-decoration:none;}
+.eg-group a:hover{text-decoration:underline; text-decoration-color:var(--sky); text-decoration-thickness:2px; text-underline-offset:3px;}
+.eg-empty{margin:18px 0 0; padding:16px 18px; border:1px dashed var(--rule); border-radius:8px; color:var(--ink-soft);}
+.eg-source{
+  margin:24px 0 0;
+  padding-top:12px;
+  border-top:1px solid var(--rule-soft);
+  font-size:0.82rem;
+  color:var(--ink-faint);
+}
+.eg-source a{color:var(--ink-soft); font-weight:600;}
+@media (max-width:640px){
+  .eg-list{columns:2;}
+}

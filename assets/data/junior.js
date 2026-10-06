@@ -15,7 +15,7 @@ YEARS.junior = {
     collegeLabel: "College Knowledge",
     // Junior/sophomore/freshman: set layout to "indexed" for a left-side index, or delete it for stacked sections.
     layout: "indexed",
-    order: ["research","essays","timeline","testing","financialAid"],
+    order: ["research","essays","essayGuides","timeline","testing","financialAid"],
     sections: {
       research: {
         navLabel: "College Research",
@@ -38,6 +38,18 @@ YEARS.junior = {
           {title:"This year's Common App prompts", desc:"An early look at the prompts you'll choose from next fall.", url:"#"},
           {title:"Brainstorming your story", desc:"Exercises for finding a topic before junior spring, without pressure.", url:"#"},
           {title:"Why starting a draft in spring matters", desc:"How a head start in May changes your senior fall.", url:"#"}
+        ]
+      },
+      essayGuides: {
+        navLabel: "Supplemental Essay Guides",
+        title: "Supplemental Essay Guides",
+        note: "A preview",
+        type: "essayGuides",
+        desc: "Some colleges ask for extra essays beyond the Common App essay. Look up the schools you're considering to see what they've been asking, so nothing surprises you next fall.",
+        tips: [
+          "These guides cover this year's prompts. Most colleges post next year's prompts over the summer, and many stay the same or change only a little.",
+          "Notice which schools on your list ask the most. That's useful to know when you're deciding where to apply and how much time to save.",
+          "Your Common App essay comes first. Start it this spring, then tackle supplements in the summer before senior year."
         ]
       },
       timeline: {

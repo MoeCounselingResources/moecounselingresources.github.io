@@ -49,6 +49,7 @@ Links from the School Counseling hub open a class page in its School view
 | Courses in the GPA / Honor Roll Calculators (update each year) | `assets/data/courses.js` |
 | Early-deadline notices on the Seniors page | `earlyDeadline` in `assets/data/popular-colleges.js` (dates listed in `senior.js` → `deadlineNotices`) |
 | Popular Colleges data (update each cycle) | `assets/data/popular-colleges.js`      |
+| Supplemental Essay Guides list (Seniors & Juniors pages) | `assets/data/essay-guides.js` |
 | Colleges tracked for ACT/SAT ranges    | `scripts/tracked-colleges.json`        |
 | Turn on visit counting for the calculators | `assets/js/calc-tracking.js`        |
 

@@ -111,6 +111,9 @@ function renderSectionBody(s, year, key){
   if(s.type === 'feeWaivers'){
     return renderFeeWaiversHtml(s.waivers);
   }
+  if(s.type === 'essayGuides'){
+    return renderEssayGuidesHtml(s);
+  }
   if(s.type === 'checklist'){
     const openIdx = currentChecklistGroup(s.groups);
     return s.groups.map((g, gi)=>{
@@ -515,6 +518,8 @@ function renderSections(year){
 }
 
 function wireSectionInteractions(){
+  document.querySelectorAll('.eg-widget').forEach(wireEssayGuides);
+
   document.querySelectorAll('.section-head-row').forEach(row=>{
     if(row.dataset.wired) return; row.dataset.wired = '1';
     const body = row.nextElementSibling;
@@ -596,6 +601,68 @@ function renderFeeWaiversHtml(waivers){
       ${w.link ? `<a class="more-info" href="${escapeHtml(w.link.url)}" target="_blank" rel="noopener">${escapeHtml(w.link.text)} ↗</a>` : ''}
     </div>
   `).join('')}</div>`;
+}
+
+/* ---------- Supplemental Essay Guides (list in assets/data/essay-guides.js) ---------- */
+function essayGuideSortKey(name){ return name.replace(/^(the |university of |suny )/i, ''); }
+function essayGuideSearchText(g){
+  return (g.name + ' ' + (g.aka || '')).toLowerCase().replace(/[^a-z0-9&\s]+/g, ' ');
+}
+function renderEssayGuidesHtml(s){
+  if(typeof ESSAY_GUIDES === 'undefined'){
+    return `<div class="fairtest-box"><p>The essay guide list isn't available right now. Check each college's own admissions site for its supplemental prompts, or ask your counselor.</p></div>`;
+  }
+  const src = (typeof ESSAY_GUIDES_SOURCE !== 'undefined') ? ESSAY_GUIDES_SOURCE : {};
+  const sorted = ESSAY_GUIDES.slice().sort((a, b) => essayGuideSortKey(a.name).localeCompare(essayGuideSortKey(b.name)));
+  const groups = [];
+  sorted.forEach(g=>{
+    const letter = essayGuideSortKey(g.name).charAt(0).toUpperCase();
+    let grp = groups[groups.length - 1];
+    if(!grp || grp.letter !== letter){ grp = {letter, items: []}; groups.push(grp); }
+    grp.items.push(g);
+  });
+  const tips = (s.tips && s.tips.length) ? `<ul class="eg-tips">${s.tips.map(t=>`<li>${escapeHtml(t)}</li>`).join('')}</ul>` : '';
+  return `
+    <div class="eg-widget">
+      ${tips}
+      <label class="eg-label" for="eg-search">Find your school</label>
+      <input type="text" id="eg-search" class="modal-search eg-search" placeholder="e.g. Notre Dame, UPenn, WashU" autocomplete="off" aria-controls="eg-list">
+      <p class="eg-count" aria-live="polite">${sorted.length} schools</p>
+      <div class="eg-list" id="eg-list">
+        ${groups.map(grp=>`
+        <section class="eg-group">
+          <h3 class="eg-letter">${escapeHtml(grp.letter)}</h3>
+          <ul>
+            ${grp.items.map(g=>`<li data-search="${escapeHtml(essayGuideSearchText(g))}"><a href="${escapeHtml(g.url)}" target="_blank" rel="noopener">${escapeHtml(g.name)}<span class="eg-arrow" aria-hidden="true">&nbsp;↗</span></a></li>`).join('')}
+          </ul>
+        </section>`).join('')}
+      </div>
+      <p class="eg-empty" hidden>No guide for that school on this list. Check the college's own admissions site for its prompts, or ask your counselor.</p>
+      <p class="eg-source">Guides by ${escapeHtml(src.name || 'College Essay Guy')}${src.year ? ` (${escapeHtml(src.year)})` : ''}. Links open on their site. Prompts change every year, so confirm yours in the Common App before you write.${src.moreUrl ? ` <a href="${escapeHtml(src.moreUrl)}" target="_blank" rel="noopener">${escapeHtml(src.moreText || 'More guidance ↗')}</a>` : ''}</p>
+    </div>`;
+}
+function wireEssayGuides(root){
+  if(!root || root.dataset.wired) return; root.dataset.wired = '1';
+  const input = root.querySelector('.eg-search');
+  const count = root.querySelector('.eg-count');
+  const empty = root.querySelector('.eg-empty');
+  const items = Array.from(root.querySelectorAll('.eg-group li'));
+  const groups = Array.from(root.querySelectorAll('.eg-group'));
+  const total = items.length;
+  const words = t => t.toLowerCase().replace(/[^a-z0-9&\s]+/g, ' ').split(/\s+/).filter(Boolean);
+  const apply = ()=>{
+    const q = words(input.value);
+    let shown = 0;
+    items.forEach(li=>{
+      const ok = q.every(w => li.dataset.search.includes(w));
+      li.hidden = !ok;
+      if(ok) shown++;
+    });
+    groups.forEach(g=>{ g.hidden = !g.querySelector('li:not([hidden])'); });
+    count.textContent = q.length ? `${shown} of ${total} schools` : `${total} schools`;
+    empty.hidden = shown > 0;
+  };
+  input.addEventListener('input', apply);
 }
 
 function renderAnnouncements(){

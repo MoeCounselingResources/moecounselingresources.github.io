@@ -14,7 +14,7 @@ YEARS.senior = {
     blurb: "These resources will help you with college research, essay writing, and filling out your applications!",
     collegeLabel: "Application Resources",
     // Junior/sophomore/freshman: set layout to "indexed" for a left-side index, or delete it for stacked sections.
-    order: ["fallChecklist","appTypes","commonAppGuide","decisionInfo","moreEssentials","responsibilities","commonAppFaq","essays","testing","research","appTracker","financialAid","scholarshipReporting","testOptional","feeWaivers"],
+    order: ["fallChecklist","appTypes","commonAppGuide","decisionInfo","moreEssentials","responsibilities","commonAppFaq","essays","essayGuides","testing","research","appTracker","financialAid","scholarshipReporting","testOptional","feeWaivers"],
     layout: "indexed",
     sections: {
       fallChecklist: {
@@ -306,6 +306,18 @@ YEARS.senior = {
           {title:"Essay Writing Resources", desc:"General tips, structure, and examples for writing a strong personal essay.", url:"#"},
           {title:"Activities Writing Resources", desc:"Tips for writing strong, specific descriptions for your Activities list entries.", url:"#"},
           {title:"Asking for a Final Read", desc:"How to ask a teacher or counselor for feedback with short notice, well.", url:"#"}
+        ]
+      },
+      essayGuides: {
+        navLabel: "Supplemental Essay Guides",
+        title: "Supplemental Essay Guides",
+        note: "School by school",
+        type: "essayGuides",
+        desc: "Many colleges ask for their own short essays on top of your Common App essay. Find your school below for a how-to guide with that school's prompts, strategy, and example essays.",
+        tips: [
+          "Open the Writing Supplement in the Common App for each school on your list first, so you know exactly which prompts you owe.",
+          "Start with your earliest deadline, and look for prompts you can answer with one strong story, adjusted for each school.",
+          "“Why us?” essays need specifics: a class, a program, a professor, something you saw on a visit. If a sentence could apply to any college, cut it."
         ]
       },
       testing: {
