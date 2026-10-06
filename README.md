@@ -112,8 +112,8 @@ the schools there each cycle.
 The tracker saves only in each student's own browser (localStorage key
 `moeller-app-tracker-v1`); nothing is sent anywhere. "Download Excel" builds a three-tab workbook of the student's
 entries, loading SheetJS from cdnjs.cloudflare.com only when clicked. The
-"Prefer a spreadsheet?" box links to the original tracker on OneDrive (students use
-File → Save a copy); that link is in `app-tracker.html`.
+"Want your own Excel spreadsheet?" box links to an example tracker on OneDrive; that link is in
+`app-tracker.html`.
 
 ### Yearly ACT/SAT ranges (College Scorecard)
 
