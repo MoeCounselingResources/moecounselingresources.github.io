@@ -19,10 +19,10 @@ jobs:
         run: python3 scripts/update-score-ranges.py
       - name: Commit if changed
         run: |
-          if [ -n "$(git status --porcelain assets/data/score-ranges.js)" ]; then
+          if [ -n "$(git status --porcelain assets/data/score-ranges.js scripts/tracked-colleges.json)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add assets/data/score-ranges.js
+            git add assets/data/score-ranges.js scripts/tracked-colleges.json
             git commit -m "Update ACT/SAT score ranges from College Scorecard"
-            git push
+            git pull --rebase origin main && git push || { sleep 5; git pull --rebase origin main && git push; }
           fi

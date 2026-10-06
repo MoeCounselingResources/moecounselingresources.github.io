@@ -128,6 +128,9 @@ policies stay in `popular-colleges.js`.
 - To track another school, add a line to `scripts/tracked-colleges.json`. If the
   school's Scorecard name differs, add `scorecardName`; if a name can't be
   matched, add its `unitid`.
+- Each school takes one API request. After the first lookup, the update saves each school's
+  `unitid` into `scripts/tracked-colleges.json` (the workflow commits it), so later runs skip
+  the name search. If the API rate-limits (HTTP 429), the run waits and retries.
 - If a school or value is missing, the old value is kept and the workflow log
   (and run summary) says which one.
 - **Keeping your own ranges for a school:** in `assets/data/popular-colleges.js`,

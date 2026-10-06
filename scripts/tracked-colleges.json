@@ -3,7 +3,7 @@
     "Colleges whose ACT/SAT middle-50% ranges are refreshed each year by scripts/update-score-ranges.py.",
     "name: how the school appears on the Popular Colleges page. Must match the name in assets/data/popular-colleges.js for schools that are there.",
     "scorecardName (optional): the school's exact name in College Scorecard, when it differs from name.",
-    "unitid (optional): the school's College Scorecard / IPEDS ID. If set, it is used instead of searching by name (most reliable).",
+    "unitid (optional): the school's College Scorecard / IPEDS ID. If set, it is used instead of searching by name (most reliable). The yearly update fills it in automatically after the first successful lookup.",
     "To add a school, add one line. Schools in popular-colleges.js are also tracked automatically, even if missing here."
   ],
   "colleges": [
