@@ -5,8 +5,9 @@ const track = n => calcTrack("honor-roll-"+n);
 /* ---------- Unweighted scale ---------- */
 function uw(g){ if(g>=90) return 4; if(g>=80) return 3+(g-80)*0.1; if(g>=70) return 1+(g-70)*0.2; return 0; }
 const r1 = x => Math.round(x*10)/10;
-const trunc2 = x => Math.floor(x*100+1e-6)/100;
-const fmt = x => x==null ? "–" : trunc2(x).toFixed(2);
+/* The report card rounds the quarter GPA to the nearest hundredth (3.8286 -> 3.83); honor roll uses that same number. */
+const round2 = x => Math.round(x*100+1e-6)/100;
+const fmt = x => x==null ? "–" : round2(x).toFixed(2);
 const letter = g => g>=90?"A":g>=80?"B":g>=75?"C":g>=70?"D":"F";
 const esc = s => String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
@@ -59,7 +60,7 @@ function summarize(rows){
 }
 function verdict(s){
   if(s.gpa==null) return {t:"Enter your grades", n:"Add your classes for this quarter and type in each grade.", c:""};
-  const v=trunc2(s.gpa);
+  const v=round2(s.gpa);
   if(s.fails) return {t:"Not eligible this quarter", n:"Honor roll requires no class failures. A grade below 70 or a failed pass/fail class rules it out.", c:"bad"};
   if(v>=3.8) return {t:"First Honors", n:"Unweighted GPA of 3.80–4.00 with no failures.", c:"good"};
   if(v>=3.4) return {t:"Second Honors", n:`Unweighted GPA of 3.40–3.79 with no failures. First Honors starts at 3.80 (${(3.8-v).toFixed(2)} away).`, c:"good"};
@@ -107,7 +108,7 @@ function renderPanel(){
       <li>Second Honors: unweighted GPA of 3.40 to 3.79 with no class failures.</li>
       <li>Unweighted points: 90–100 = 4.0; 89 = 3.9 down to 80 = 3.0; 79 = 2.8 down to 70 = 1.0 (0.2 per point); below 70 = 0 and counts as a failure.</li>
       <li>Each class counts 0.25 credit for the quarter, except Physical Education and Recreational Fitness for Life, which count 0.125. Pass/fail classes don't count toward the GPA, but failing one still rules out honor roll.</li>
-      <li>Decimal grades drop to the whole number (89.7 counts as 89), and GPAs are cut off at two decimals, so 3.799 shows as 3.79.</li>
+      <li>Decimal grades drop to the whole number (89.7 counts as 89), and the GPA is rounded to the nearest hundredth, like on your report card (3.795 becomes 3.80).</li>
     </ul></details>`;
 }
 function renderReadout(){
@@ -117,7 +118,7 @@ function renderReadout(){
     <div class="big"><b>${fmt(s.gpa)}</b><span>out of 4.00</span></div>
     <div class="meter" aria-hidden="true">
       <div class="track"><div class="zone second" style="left:${pos(3.4)}%;width:${pos(3.8)-pos(3.4)}%"></div><div class="zone first" style="left:${pos(3.8)}%;right:0"></div></div>
-      ${s.gpa!=null?`<div class="marker" style="left:${pos(trunc2(s.gpa))}%"></div>`:""}
+      ${s.gpa!=null?`<div class="marker" style="left:${pos(round2(s.gpa))}%"></div>`:""}
       <span class="tick" style="left:${pos(3.4)}%">3.40</span><span class="tick" style="left:${pos(3.8)}%">3.80</span>
     </div>
     <div class="ro-body"><p class="status ${v.c}">${v.t}</p><p class="note">${v.n}</p>
