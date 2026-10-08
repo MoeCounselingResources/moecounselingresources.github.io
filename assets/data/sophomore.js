@@ -14,8 +14,18 @@ YEARS.sophomore = {
     blurb: "There's no rush yet. This year is about figuring out what you're interested in and building habits that make junior year easier.",
     collegeLabel: "Future Focus",
     // Junior/sophomore/freshman: set layout to "indexed" for a left-side index, or delete it for stacked sections.
-    order: ["research","essays","timeline","testing","financialAid"],
+    order: ["research","exploration","essays","timeline","testing","financialAid"],
     sections: {
+      exploration: {
+        navLabel: "College Exploration",
+        title: "College exploration",
+        note: "Exploring, not deciding",
+        desc: "Three lists of schools to browse, each on its own tab. Nothing to decide yet. Notice which kinds of schools catch your eye and look a few of them up.",
+        type: "schoolLists",
+        lists: ["goldilocks", "liberalArts", "engineering"],
+        // Optional: add more exploration resources here and they show below the lists.
+        items: []
+      },
       research: {
         title: "College research tools",
         note: "Exploring, not deciding",
@@ -72,6 +82,15 @@ YEARS.sophomore = {
       blurb: "Sophomore year is when good habits pay off. Here's the school-side support for this year.",
       order: ["studySkills","academicSupport","forParents"],
       sections: {
+        exploration: {
+          title: "Exploration",
+          note: "Placeholder",
+          desc: "Exploration resources for sophomores from School Counseling. Replace these with the real resources.",
+          items: [
+            {title:"Resource title", desc:"Placeholder — a one-line description of this resource.", url:"#"},
+            {title:"Resource title", desc:"Placeholder — a one-line description of this resource.", url:"#"}
+          ]
+        },
         studySkills: {
           title: "Study skills for sophomore year",
           note: "Placeholder",

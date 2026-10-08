@@ -62,8 +62,16 @@ YEARS["college-exploration"] = {
   hub: "college",
   label: "College Exploration",
   blurb: "Researching schools, visiting campuses, and building a list that fits you.",
-  order: ["research","visits","list"],
+  order: ["lists","research","visits","list"],
   sections: {
+    lists: {
+      title: "School lists",
+      note: "Three lists to browse",
+      desc: "Three lists of schools, each on its own tab. Use them to find schools you haven't heard of yet and to see the range of sizes and types out there.",
+      type: "schoolLists",
+      lists: ["goldilocks", "liberalArts", "engineering"],
+      items: []
+    },
     research: placeholderSection("Researching colleges", "Tools for comparing schools, majors, and costs."),
     visits: placeholderSection("Campus & rep visits", "Getting the most from a visit, in person or virtual."),
     list: placeholderSection("Building your list", "Reach, target, and likely schools, and how to balance them.")

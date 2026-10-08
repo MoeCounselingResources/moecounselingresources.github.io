@@ -114,6 +114,9 @@ function renderSectionBody(s, year, key){
   if(s.type === 'essayGuides'){
     return renderEssayGuidesHtml(s);
   }
+  if(s.type === 'schoolLists'){
+    return renderSchoolListsHtml(s, year, key);
+  }
   if(s.type === 'activitiesGuide'){
     return renderActivitiesGuideHtml(s);
   }
@@ -530,6 +533,7 @@ function renderSections(year){
 function wireSectionInteractions(){
   document.querySelectorAll('.ag-checker').forEach(wireActivityChecker);
   document.querySelectorAll('.eg-widget').forEach(wireEssayGuides);
+  document.querySelectorAll('.sl-widget').forEach(wireSchoolLists);
 
   document.querySelectorAll('.section-head-row').forEach(row=>{
     if(row.dataset.wired) return; row.dataset.wired = '1';
@@ -961,3 +965,162 @@ document.addEventListener('click', (e)=>{
 document.addEventListener('keydown', (e)=>{
   if(e.key === 'Escape') closeModal();
 });
+
+/* ---------- College exploration lists (data: assets/data/exploration-lists.js) ----------
+   A section with  type: "schoolLists"  and  lists: ["goldilocks", ...]  shows each list
+   on its own tab, with search and filters. Any "items" on the section show below. */
+let SL_COUNTER = 0;
+function slSearchText(t){ return String(t).toLowerCase().replace(/[’']/g, '').replace(/[^a-z0-9&\s]+/g, ' '); }
+function slSchoolHtml(sc, list){
+  const large = list.largeAt && sc.size >= list.largeAt;
+  const tags = (sc.tags || []);
+  const meta = [];
+  if(sc.size) meta.push(sc.size.toLocaleString('en-US') + ' undergrads');
+  if(sc.state) meta.push(sc.state);
+  if(sc.note) meta.push(sc.note);
+  const pills = [];
+  if(sc.ohio) pills.push('<span class="sl-tag ohio">Ohio public</span>');
+  tags.forEach(t => pills.push(`<span class="sl-tag">${escapeHtml((list.tagLabels || {})[t] || t)}</span>`));
+  const flags = ['large', 'b', 'e'].filter(f => f === 'large' ? large : f === 'b' ? (tags.includes('b') || tags.includes('b-ish')) : tags.includes(f)).join(' ');
+  return `<li class="${large ? 'is-large' : ''}" data-search="${escapeHtml(slSearchText(sc.name + ' ' + (sc.state || '')))}" data-name="${escapeHtml(sc.name + '/' + (sc.state || ''))}" data-flags="${flags}">
+      <span class="sl-name">${escapeHtml(sc.name)}</span>
+      ${meta.length ? `<span class="sl-meta">${escapeHtml(meta.join(', '))}</span>` : ''}
+      ${pills.length ? `<span class="sl-tags">${pills.join('')}</span>` : ''}
+    </li>`;
+}
+function renderSchoolListsHtml(s, year, key){
+  if(typeof EXPLORATION_LISTS === 'undefined'){
+    return `<div class="fairtest-box"><p>The school lists aren't available right now. Ask your counselor for a copy.</p></div>`;
+  }
+  const keys = (s.lists || Object.keys(EXPLORATION_LISTS)).filter(k => EXPLORATION_LISTS[k]);
+  const uid = 'sl' + (++SL_COUNTER);
+  const tabs = keys.map((k, i)=>{
+    const L = EXPLORATION_LISTS[k];
+    return `<button type="button" role="tab" id="${uid}-tab-${i}" aria-controls="${uid}-panel-${i}" data-list="${escapeHtml(k)}" aria-selected="false" tabindex="-1">
+      <span class="sl-tab-name">${escapeHtml(L.tab)}</span>${L.sub ? `<span class="sl-tab-sub">${escapeHtml(L.sub)}</span>` : ''}
+    </button>`;
+  }).join('');
+  const panels = keys.map((k, i)=>{
+    const L = EXPLORATION_LISTS[k];
+    const kinds = L.kinds || null;
+    const groups = L.groups.map((g, gi)=>`
+      <section class="sl-group" data-group="${gi}" data-kind="${escapeHtml(g.kind || '')}">
+        <h4 class="sl-group-title">${escapeHtml(g.name)}</h4>
+        ${g.intro ? `<p class="sl-group-intro">${escapeHtml(g.intro)}</p>` : ''}
+        <ul>${g.schools.map(sc => slSchoolHtml(sc, L)).join('')}</ul>
+      </section>`).join('');
+    const chips = L.groups.map((g, gi)=>`<button type="button" class="sl-chip" data-group="${gi}" data-kind="${escapeHtml(g.kind || '')}" aria-pressed="false">${escapeHtml(g.name)}</button>`).join('');
+    return `
+    <div class="sl-panel" role="tabpanel" id="${uid}-panel-${i}" aria-labelledby="${uid}-tab-${i}" data-list="${escapeHtml(k)}" hidden>
+      <h3 class="sl-title">${escapeHtml(L.title)}</h3>
+      <p class="sl-intro">${escapeHtml(L.intro)}</p>
+      ${L.largeLabel ? `<p class="sl-legend"><span class="sl-swatch" aria-hidden="true"></span>${escapeHtml(L.largeLabel)}</p>` : ''}
+      ${L.tagNote ? `<p class="sl-legend">${escapeHtml(L.tagNote)}</p>` : ''}
+      <div class="sl-controls">
+        <div class="sl-search-wrap">
+          <label class="eg-label" for="${uid}-search-${i}">Search this list</label>
+          <input type="search" id="${uid}-search-${i}" class="modal-search sl-search" placeholder="${escapeHtml(L.searchPlaceholder || (L.groups.some(g => g.schools.some(sc => sc.state)) ? 'School name or state' : 'School name'))}" autocomplete="off">
+        </div>
+        ${kinds ? `<div class="sl-kind" role="group" aria-label="Browse">
+          ${kinds.map((kd, ki)=>`<button type="button" data-kind="${escapeHtml(kd.key)}" aria-pressed="${ki === 0}">${escapeHtml(kd.label)}</button>`).join('')}
+        </div>` : ''}
+        <div class="sl-chip-row" role="group" aria-label="Show one group">
+          <button type="button" class="sl-chip" data-group="all" aria-pressed="true">All</button>${chips}
+        </div>
+        ${L.toggles ? `<div class="sl-chip-row" role="group" aria-label="Filters">${L.toggles.map(t=>`<button type="button" class="sl-chip sl-toggle" data-flag="${escapeHtml(t.key)}" aria-pressed="false">${escapeHtml(t.label)}</button>`).join('')}</div>` : ''}
+      </div>
+      <p class="sl-count" aria-live="polite"></p>
+      <div class="sl-groups">${groups}</div>
+      <p class="sl-empty" hidden>No schools on this list match. Try a different spelling, clear a filter, or ask your counselor.</p>
+      <p class="eg-source">From Moeller College Counseling. ${L.groups.some(g => g.schools.some(sc => sc.size)) ? 'Enrollment numbers are approximate and change every year' : 'Programs change over time'}, so confirm details on each college's website.</p>
+    </div>`;
+  }).join('');
+  const extra = (s.items && s.items.length) ? `<div class="resource-grid sl-extra">${s.items.map(item=>`
+    <div class="resource-card">
+      <div class="resource-text"><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.desc || '')}</p></div>
+      ${item.url ? resourceLinkHtml(item.url) : ''}
+    </div>`).join('')}</div>` : '';
+  return `
+    <div class="sl-widget" data-store="crh-sl-${escapeHtml(year)}-${escapeHtml(key)}">
+      <div class="sl-tabs" role="tablist" aria-label="School lists">${tabs}</div>
+      ${panels}
+    </div>
+    ${extra}`;
+}
+function wireSchoolLists(root){
+  if(!root || root.dataset.wired) return; root.dataset.wired = '1';
+  const tabs = Array.from(root.querySelectorAll('.sl-tabs [role="tab"]'));
+  const panels = Array.from(root.querySelectorAll('.sl-panel'));
+  const store = root.dataset.store;
+  const select = (idx, focus)=>{
+    tabs.forEach((t, i)=>{ t.setAttribute('aria-selected', String(i === idx)); t.tabIndex = i === idx ? 0 : -1; });
+    panels.forEach((p, i)=>{ p.hidden = i !== idx; });
+    if(focus) tabs[idx].focus();
+    try{ localStorage.setItem(store, tabs[idx].dataset.list); }catch(e){}
+  };
+  tabs.forEach((t, i)=>{
+    t.addEventListener('click', ()=> select(i));
+    t.addEventListener('keydown', e=>{
+      if(e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
+        e.preventDefault();
+        select((i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length, true);
+      }
+    });
+  });
+  let start = 0;
+  try{ const saved = localStorage.getItem(store); const j = tabs.findIndex(t => t.dataset.list === saved); if(j >= 0) start = j; }catch(e){}
+  select(start);
+
+  panels.forEach(panel=>{
+    const input = panel.querySelector('.sl-search');
+    const count = panel.querySelector('.sl-count');
+    const empty = panel.querySelector('.sl-empty');
+    const groups = Array.from(panel.querySelectorAll('.sl-group'));
+    const groupChips = Array.from(panel.querySelectorAll(".sl-chip[data-group]"));
+    const toggles = Array.from(panel.querySelectorAll('.sl-toggle'));
+    const kindBtns = Array.from(panel.querySelectorAll('.sl-kind button'));
+    let kind = kindBtns.length ? kindBtns[0].dataset.kind : '';
+    let group = 'all';
+    const flags = new Set();
+    const words = t => slSearchText(t).split(/\s+/).filter(Boolean);
+    const apply = ()=>{
+      const q = words(input.value);
+      const names = new Set();
+      let totalNames = new Set();
+      groups.forEach(g=>{
+        const inKind = !kind || g.dataset.kind === kind;
+        const inGroup = group === 'all' || g.dataset.group === group;
+        let shownHere = 0;
+        g.querySelectorAll('li').forEach(li=>{
+          if(inKind) totalNames.add(li.dataset.name);
+          const f = li.dataset.flags.split(' ');
+          const ok = inKind && inGroup && q.every(w => li.dataset.search.includes(w)) && [...flags].every(x => f.includes(x));
+          li.hidden = !ok;
+          if(ok){ shownHere++; names.add(li.dataset.name); }
+        });
+        g.hidden = !shownHere;
+      });
+      groupChips.forEach(c=>{
+        c.hidden = c.dataset.group !== 'all' && kind && c.dataset.kind !== kind;
+        c.setAttribute('aria-pressed', String(c.dataset.group === group));
+      });
+      const filtered = q.length || flags.size || group !== 'all';
+      count.textContent = filtered ? `${names.size} of ${totalNames.size} schools` : `${totalNames.size} schools`;
+      empty.hidden = names.size > 0;
+    };
+    input.addEventListener('input', apply);
+    groupChips.forEach(c => c.addEventListener('click', ()=>{ group = c.dataset.group; apply(); }));
+    toggles.forEach(t => t.addEventListener('click', ()=>{
+      const on = t.getAttribute('aria-pressed') !== 'true';
+      t.setAttribute('aria-pressed', String(on));
+      if(on) flags.add(t.dataset.flag); else flags.delete(t.dataset.flag);
+      apply();
+    }));
+    kindBtns.forEach(b => b.addEventListener('click', ()=>{
+      kind = b.dataset.kind; group = 'all';
+      kindBtns.forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+      apply();
+    }));
+    apply();
+  });
+}

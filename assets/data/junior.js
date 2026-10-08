@@ -15,8 +15,18 @@ YEARS.junior = {
     collegeLabel: "College Knowledge",
     // Junior/sophomore/freshman: set layout to "indexed" for a left-side index, or delete it for stacked sections.
     layout: "indexed",
-    order: ["research","essays","essayGuides","timeline","testing","financialAid","military"],
+    order: ["research","exploration","essays","essayGuides","timeline","testing","financialAid","military"],
     sections: {
+      exploration: {
+        navLabel: "College Exploration",
+        title: "College exploration",
+        note: "Building your list",
+        desc: "Three lists of schools, each on its own tab. Use them to find schools you haven't heard of yet and to make sure your list has a mix of sizes and types.",
+        type: "schoolLists",
+        lists: ["goldilocks", "liberalArts", "engineering"],
+        // Optional: add more exploration resources here and they show below the lists.
+        items: []
+      },
       military: {
         navLabel: "Military Options",
         title: "Military Options",
@@ -104,6 +114,15 @@ YEARS.junior = {
       blurb: "Junior year is often the heaviest academic year. Here's the school-side support to keep you on track.",
       order: ["studySkills","academicSupport","forParents"],
       sections: {
+        exploration: {
+          title: "Exploration",
+          note: "Placeholder",
+          desc: "Exploration resources for juniors from School Counseling. Replace these with the real resources.",
+          items: [
+            {title:"Resource title", desc:"Placeholder — a one-line description of this resource.", url:"#"},
+            {title:"Resource title", desc:"Placeholder — a one-line description of this resource.", url:"#"}
+          ]
+        },
         studySkills: {
           title: "Study skills for junior year",
           note: "Placeholder",

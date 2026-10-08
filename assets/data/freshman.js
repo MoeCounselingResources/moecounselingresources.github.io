@@ -16,6 +16,16 @@ YEARS.freshman = {
     // Junior/sophomore/freshman: set layout to "indexed" for a left-side index, or delete it for stacked sections.
     order: ["research","essays","timeline","testing","financialAid"],
     sections: {
+      exploration: {
+        navLabel: "College Exploration",
+        title: "College exploration",
+        note: "Placeholder",
+        desc: "Exploration resources for freshmen. Replace these with the real resources.",
+        items: [
+          {title:"Resource title", desc:"Placeholder — a one-line description of this resource.", url:"#"},
+          {title:"Resource title", desc:"Placeholder — a one-line description of this resource.", url:"#"}
+        ]
+      },
       research: {
         title: "College research tools",
         note: "Just getting oriented",
@@ -72,6 +82,15 @@ YEARS.freshman = {
       blurb: "Welcome to Moeller. Here's how to get settled, study well, and find help when you need it.",
       order: ["studySkills","academicSupport","forParents"],
       sections: {
+        exploration: {
+          title: "Exploration",
+          note: "Placeholder",
+          desc: "Exploration resources for freshmen from School Counseling. Replace these with the real resources.",
+          items: [
+            {title:"Resource title", desc:"Placeholder — a one-line description of this resource.", url:"#"},
+            {title:"Resource title", desc:"Placeholder — a one-line description of this resource.", url:"#"}
+          ]
+        },
         studySkills: {
           title: "Study skills for freshman year",
           note: "Placeholder",

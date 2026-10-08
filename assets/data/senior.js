@@ -22,9 +22,19 @@ YEARS.senior = {
     blurb: "These resources will help you with college research, essay writing, and filling out your applications!",
     collegeLabel: "Application Resources",
     // Junior/sophomore/freshman: set layout to "indexed" for a left-side index, or delete it for stacked sections.
-    order: ["fallChecklist","appTypes","commonAppGuide","activities","decisionInfo","moreEssentials","responsibilities","commonAppFaq","essays","essayPrompts","essayGuides","testing","research","appTracker","financialAid","scholarshipReporting","testOptional","feeWaivers","military"],
+    order: ["fallChecklist","appTypes","commonAppGuide","activities","decisionInfo","moreEssentials","responsibilities","commonAppFaq","essays","essayPrompts","essayGuides","testing","research","exploration","appTracker","financialAid","scholarshipReporting","testOptional","feeWaivers","military"],
     layout: "indexed",
     sections: {
+      exploration: {
+        navLabel: "College Exploration",
+        title: "College exploration",
+        note: "Checking your list",
+        desc: "Three lists of schools, each on its own tab. Use them to check that your list is balanced, or to find one more school that fits.",
+        type: "schoolLists",
+        lists: ["goldilocks", "liberalArts", "engineering"],
+        // Optional: add more exploration resources here and they show below the lists.
+        items: []
+      },
       military: {
         navLabel: "Military Options",
         title: "Military Options",
@@ -553,6 +563,15 @@ YEARS.senior = {
       blurb: "Finishing strong matters — colleges see your senior grades. Here's the school-side support for this year.",
       order: ["studySkills","academicSupport","forParents"],
       sections: {
+        exploration: {
+          title: "Exploration",
+          note: "Placeholder",
+          desc: "Exploration resources for seniors from School Counseling. Replace these with the real resources.",
+          items: [
+            {title:"Resource title", desc:"Placeholder — a one-line description of this resource.", url:"#"},
+            {title:"Resource title", desc:"Placeholder — a one-line description of this resource.", url:"#"}
+          ]
+        },
         studySkills: {
           title: "Study skills for senior year",
           note: "Placeholder",
