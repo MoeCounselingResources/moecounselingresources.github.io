@@ -22,7 +22,7 @@ YEARS.senior = {
     blurb: "These resources will help you with college research, essay writing, and filling out your applications!",
     collegeLabel: "Application Resources",
     // Junior/sophomore/freshman: set layout to "indexed" for a left-side index, or delete it for stacked sections.
-    order: ["fallChecklist","appTypes","commonAppGuide","activities","decisionInfo","moreEssentials","responsibilities","commonAppFaq","applicationFaq","essays","essayPrompts","essayGuides","testing","research","exploration","appTracker","financialAid","scholarshipReporting","testOptional","feeWaivers","military"],
+    order: ["feeWaivers","fallChecklist","applicationFaq","appTracker","appTypes","exploration","research","commonAppGuide","essayPrompts","commonAppFaq","essays","financialAid","decisionInfo","activities","military","scholarshipReporting","moreEssentials","responsibilities","essayGuides","testOptional","testing"],
     layout: "indexed",
     sections: {
       exploration: {
