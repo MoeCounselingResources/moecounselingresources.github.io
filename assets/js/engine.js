@@ -179,7 +179,10 @@ function renderSectionBody(s, year, key){
       PENDING_MINI_GUIDES.push({id: mgId, data: item.miniGuide});
       mgHtml = renderMiniGuide(mgId);
     }
-    const bulletsHtml = item.bullets ? `<ul>${item.bullets.map(b=>`<li>${escapeHtml(b)}</li>`).join('')}</ul>` : '';
+    const bulletHtml = b => (b && typeof b === 'object')
+      ? `<a${linkAttrs(b.url)}>${escapeHtml(b.text)}</a>${b.after ? escapeHtml(b.after) : ''}`   // {text, url, after}
+      : escapeHtml(b);
+    const bulletsHtml = item.bullets ? `<ul>${item.bullets.map(b=>`<li>${bulletHtml(b)}</li>`).join('')}</ul>` : '';
     return `
     <div class="resource-card${s.stacked ? ' wide' : ''}">
       ${imgs.length ? `<div class="resource-images">${imgs.map(src=>`<img src="${escapeHtml(src)}" alt="${escapeHtml(item.title)}">`).join('')}</div>` : ''}

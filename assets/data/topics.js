@@ -78,16 +78,22 @@ YEARS["college-exploration"] = {
 
 YEARS["military"] = {
   hub: "college",
-  label: "Military Options",
+  label: "Military Options for Students",
   blurb: "Three ways to combine college with a path to serving as a military officer. Choose an option to see the schools, links, and deadlines.",
   order: ["options","compare"],
   sections: {
     options: {
-      title: "Your options",
-      desc: "Each option has its own page.",
+      title: "Your options",   // not shown (hideHeading)
+      hideHeading: true,
       stacked: true,
       items: [
-        {title:"United States Service Academies", desc:"Five federal colleges for the Army, Navy and Marine Corps, Air Force and Space Force, Coast Guard, and Merchant Marine. Tuition-free and highly selective, and four of the five require a congressional nomination. Graduates serve as officers.", url:"service-academies.html"},
+        {title:"United States Service Academies", desc:"Five federal colleges for the Army, Navy and Marine Corps, Air Force and Space Force, Coast Guard, and Merchant Marine. Tuition-free and highly selective, and four of the five require a congressional nomination. Graduates serve as officers.", url:"service-academies.html", bullets:[
+          {text:"Air Force Academy", url:"https://www.usafa.edu/admissions/", after:" admissions website"},
+          {text:"Coast Guard Academy", url:"https://uscga.edu/admissions/", after:" admissions website"},
+          {text:"Merchant Marine Academy", url:"https://www.usmma.edu/admissions", after:" admissions website"},
+          {text:"Military Academy (Army - West Point)", url:"https://www.westpoint.edu/admissions", after:" admissions website"},
+          {text:"Naval Academy", url:"https://www.usna.edu/Admissions/index.php", after:" admissions website"}
+        ]},
         {title:"Senior Military Colleges / Corps of Cadets", desc:"A traditional college experience inside a structured cadet corps, at six schools designated by federal law. At most of them, students choose whether to commission after graduation.", url:"senior-military-colleges.html"},
         {title:"Reserve Officers' Training Corps (ROTC)", desc:"Officer training at a regular college, with national scholarships from the Army, Navy and Marine Corps, and Air Force and Space Force. The scholarship application is separate from your college applications.", url:"rotc.html"}
       ]

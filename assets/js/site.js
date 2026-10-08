@@ -96,6 +96,13 @@ function renderStacked(pageObj, storeKey, targetId){
     if(!s) return '';
     const body = renderSectionBody(s, storeKey, key);
     queues[idx] = {s, mgs: PENDING_MINI_GUIDES.slice()};
+    // hideHeading: true shows the section's content with no heading or collapse arrow.
+    if(s.hideHeading) return `
+      <div class="resource-section no-heading" data-sec="${idx}">
+        <div class="section-body">
+          ${body}
+        </div>
+      </div>`;
     return `
       <div class="resource-section" data-sec="${idx}">
         <div class="section-head-row" role="button" tabindex="0" aria-expanded="true" data-collapse-key="crh-collapsed-${escapeHtml(storeKey)}-${escapeHtml(key)}">
