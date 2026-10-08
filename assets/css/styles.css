@@ -1698,7 +1698,7 @@ a.resource-link{border-bottom-color:var(--sky);}
 .ep-k{display:block; font-size:0.75rem; font-weight:800; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink); margin-bottom:6px;}
 @media (max-width:700px){
   .ag-two,.ag-example,.ep-cols{grid-template-columns:1fr;}
-  .ag-two{gap:0;}
+  .ag-two{gap:20px;}
   .ag-after{border-left:0; border-top:3px solid var(--sky);}
   .ag-entry-row{grid-template-columns:1fr auto;}
   .ag-entry-k{grid-column:1 / -1; padding-top:0;}
