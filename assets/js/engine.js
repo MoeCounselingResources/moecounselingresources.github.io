@@ -114,6 +114,12 @@ function renderSectionBody(s, year, key){
   if(s.type === 'essayGuides'){
     return renderEssayGuidesHtml(s);
   }
+  if(s.type === 'activitiesGuide'){
+    return renderActivitiesGuideHtml(s);
+  }
+  if(s.type === 'essayPrompts'){
+    return renderEssayPromptsHtml(s);
+  }
   if(s.type === 'checklist'){
     const openIdx = currentChecklistGroup(s.groups);
     return s.groups.map((g, gi)=>{
@@ -518,6 +524,7 @@ function renderSections(year){
 }
 
 function wireSectionInteractions(){
+  document.querySelectorAll('.ag-checker').forEach(wireActivityChecker);
   document.querySelectorAll('.eg-widget').forEach(wireEssayGuides);
 
   document.querySelectorAll('.section-head-row').forEach(row=>{
@@ -590,6 +597,128 @@ function renderCounselors(){
       ${c.moreInfo ? `<a class="more-info" href="${escapeHtml(c.moreInfo)}">More info</a>` : ''}
     </div>
   `).join('');
+}
+
+/* ---------- Activities guide + Essay prompts (data: assets/data/senior.js) ---------- */
+function agList(items){ return `<ul class="ag-list">${(items||[]).map(t=>`<li>${escapeHtml(t)}</li>`).join('')}</ul>`; }
+function agCount(text, limit){
+  const n = [...String(text)].length;
+  return `<span class="ag-chip${n > limit ? ' over' : ''}">${n}/${limit}</span>`;
+}
+function agResourcesHtml(resources){
+  if(!resources || !resources.length) return '';
+  return `<div class="ag-resources">
+    <h3 class="ag-h">From Common App</h3>
+    ${resources.map(r=>`
+      <a class="ag-resource" href="${escapeHtml(r.url)}" target="_blank" rel="noopener">
+        <span class="ag-resource-title">${escapeHtml(r.title)}<span aria-hidden="true">&nbsp;↗</span></span>
+        <span class="ag-resource-desc">${escapeHtml(r.desc || '')}</span>
+        <span class="ag-resource-src">Source: ${escapeHtml(r.source || 'Common App')} (PDF)</span>
+      </a>`).join('')}
+  </div>`;
+}
+function renderActivitiesGuideHtml(s){
+  const fieldsWithLimits = (s.fields||[]).filter(f=>f.limit);
+  return `
+    <div class="ag-widget">
+      <div class="ag-two">
+        <div class="ag-block"><h3 class="ag-h">Why it matters</h3>${agList(s.why)}</div>
+        <div class="ag-block"><h3 class="ag-h">Choosing and ordering</h3>${agList(s.choosing)}</div>
+      </div>
+
+      <h3 class="ag-h">What each box asks for</h3>
+      <div class="ag-fields">
+        ${(s.fields||[]).map(f=>`
+          <div class="ag-field">
+            <div class="ag-field-top"><span class="ag-field-label">${escapeHtml(f.label)}</span>${f.limit ? `<span class="ag-limit">${f.limit} characters</span>` : ''}</div>
+            <p>${escapeHtml(f.help)}</p>
+          </div>`).join('')}
+      </div>
+
+      <h3 class="ag-h">Writing your 150-character description</h3>
+      ${agList(s.writing)}
+
+      <h3 class="ag-h">Before and after</h3>
+      <div class="ag-examples">
+        ${(s.examples||[]).map(e=>`
+          <div class="ag-example">
+            <div class="ag-before"><span class="ag-tag">Before</span><p>${escapeHtml(e.before)}</p></div>
+            <div class="ag-after"><span class="ag-tag">Better</span><p>${escapeHtml(e.after)}</p>${agCount(e.after,150)}</div>
+          </div>`).join('')}
+      </div>
+
+      <h3 class="ag-h">Full entries, box by box</h3>
+      <div class="ag-entries">
+        ${(s.entries||[]).map(e=>`
+          <div class="ag-entry">
+            <div class="ag-entry-row"><span class="ag-entry-k">Position</span><span>${escapeHtml(e.position)}</span>${agCount(e.position,50)}</div>
+            <div class="ag-entry-row"><span class="ag-entry-k">Organization</span><span>${escapeHtml(e.org)}</span>${agCount(e.org,100)}</div>
+            <div class="ag-entry-row"><span class="ag-entry-k">Description</span><span>${escapeHtml(e.desc)}</span>${agCount(e.desc,150)}</div>
+          </div>`).join('')}
+      </div>
+
+      <div class="ag-checker">
+        <h3 class="ag-h">Try yours</h3>
+        <p class="ag-checker-note">Draft an entry here and watch the counts. Nothing is saved or sent anywhere, so copy it into Common App when it's ready.</p>
+        ${fieldsWithLimits.map(f=>`
+          <label class="ag-check-field">
+            <span class="ag-check-label">${escapeHtml(f.label)} <span class="ag-check-count" aria-live="polite">0/${f.limit}</span></span>
+            ${f.limit > 60
+              ? `<textarea rows="${f.limit > 120 ? 3 : 2}" data-limit="${f.limit}"></textarea>`
+              : `<input type="text" data-limit="${f.limit}">`}
+          </label>`).join('')}
+      </div>
+
+      <h3 class="ag-h">Action verbs to start with</h3>
+      <div class="ag-verbs">
+        ${(s.verbs||[]).map(g=>`
+          <div class="ag-verb-group"><span class="ag-verb-title">${escapeHtml(g.group)}</span>
+            <p>${g.words.map(escapeHtml).join(' · ')}</p></div>`).join('')}
+      </div>
+      ${s.verbNote ? `<p class="ag-note">${escapeHtml(s.verbNote)}</p>` : ''}
+
+      ${s.honors ? `
+        <h3 class="ag-h">What goes in the Honors section</h3>
+        <p class="ag-p">${escapeHtml(s.honors.intro)}</p>
+        <ul class="ag-pills">${s.honors.items.map(h=>`<li>${escapeHtml(h)}</li>`).join('')}</ul>
+      ` : ''}
+
+      ${agResourcesHtml(s.resources)}
+    </div>
+  `;
+}
+function wireActivityChecker(root){
+  if(!root || root.dataset.wired) return; root.dataset.wired = '1';
+  root.querySelectorAll('[data-limit]').forEach(el=>{
+    const limit = +el.dataset.limit;
+    const count = el.closest('.ag-check-field').querySelector('.ag-check-count');
+    const update = ()=>{
+      const n = [...el.value].length;
+      count.textContent = n > limit ? `${n}/${limit} · ${n - limit} over` : `${n}/${limit}`;
+      count.classList.toggle('over', n > limit);
+      el.classList.toggle('over', n > limit);
+    };
+    el.addEventListener('input', update);
+  });
+}
+function renderEssayPromptsHtml(s){
+  return `
+    <div class="ag-widget">
+      <ol class="ep-list">
+        ${(s.prompts||[]).map((p,i)=>`
+          <li class="ep-card">
+            <div class="ep-head"><span class="ep-num">${i+1}</span><h3>${escapeHtml(p.title)}</h3></div>
+            <p class="ep-summary">${escapeHtml(p.summary)}</p>
+            <div class="ep-cols">
+              <div><span class="ep-k">Think about</span>${agList(p.think)}</div>
+              <div><span class="ep-k">Ask yourself</span>${agList(p.ask)}</div>
+            </div>
+          </li>`).join('')}
+      </ol>
+      ${s.promptNote ? `<p class="ag-note">${escapeHtml(s.promptNote)}</p>` : ''}
+      ${agResourcesHtml(s.resources)}
+    </div>
+  `;
 }
 
 function renderFeeWaiversHtml(waivers){

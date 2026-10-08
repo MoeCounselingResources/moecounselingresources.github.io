@@ -14,7 +14,7 @@ YEARS.senior = {
     blurb: "These resources will help you with college research, essay writing, and filling out your applications!",
     collegeLabel: "Application Resources",
     // Junior/sophomore/freshman: set layout to "indexed" for a left-side index, or delete it for stacked sections.
-    order: ["fallChecklist","appTypes","commonAppGuide","decisionInfo","moreEssentials","responsibilities","commonAppFaq","essays","essayGuides","testing","research","appTracker","financialAid","scholarshipReporting","testOptional","feeWaivers"],
+    order: ["fallChecklist","appTypes","commonAppGuide","activities","decisionInfo","moreEssentials","responsibilities","commonAppFaq","essays","essayPrompts","essayGuides","testing","research","appTracker","financialAid","scholarshipReporting","testOptional","feeWaivers"],
     layout: "indexed",
     sections: {
       fallChecklist: {
@@ -85,6 +85,71 @@ YEARS.senior = {
           {title:"Restrictive Early Action", desc:"Used by Georgetown & Notre Dame. You may apply EA to other schools but not ED. If not admitted, you may still apply ED II and Regular Decision elsewhere."},
           {title:"Single-Choice Early Action", desc:"Used by Harvard, Princeton, Stanford & Yale. You may only apply to your chosen institution and to public schools."},
           {title:"Regular Decision", desc:"Due Jan. 1 or after, with no binding commitment."}
+        ]
+      },
+      activities: {
+        navLabel: "How to Fill Out the Activities Section",
+        title: "How to Fill Out the Activities Section",
+        note: "150 characters or less",
+        desc: "The Activities section shows colleges who you are outside the classroom. Here's how to choose what to list, what each box asks for, and how to say a lot in a little space.",
+        type: "activitiesGuide",
+        why: [
+          "It tells your story beyond grades and test scores.",
+          "It shows your impact, your leadership, and what you'd add to a college campus.",
+          "It helps colleges understand your interests and who you are outside of class.",
+          "It helps you stand out among students with similar GPAs and test scores."
+        ],
+        choosing: [
+          "You can list up to 10 activities, but you don't have to fill all 10. Choose the ones that tell your story best. Quality beats quantity.",
+          "Combine related activities to save space, like “French Club President & French Honor Society Member.”",
+          "Order matters. Put your most meaningful activity first and work down from there.",
+          "When ranking, think about leadership roles, time commitment, impact on others, personal growth, and anything unique to you.",
+          "Jobs, family responsibilities (like caring for siblings), and hobbies count too, not just school clubs and sports."
+        ],
+        fields: [
+          {label:"Activity type", help:"Pick from the dropdown. If nothing fits, choose “Other Club/Activity” and explain in the boxes below."},
+          {label:"Position / leadership", limit:50, help:"Your role: Captain, Founder, Member, Volunteer, Employee."},
+          {label:"Organization name", limit:100, help:"The group's name. If a reader wouldn't know it, add a few words on what it is."},
+          {label:"Description", limit:150, help:"What you did and what came of it. Details, honors, and results go here."},
+          {label:"Grades and timing", help:"Which grades you took part in, and whether it was during the school year, during breaks, or all year."},
+          {label:"Hours per week, weeks per year", help:"Your best estimate is fine if you don't know exactly."},
+          {label:"Similar activity in college?", help:"A yes or no on whether you plan to keep doing something like it."}
+        ],
+        writing: [
+          "Skip complete sentences and small words like “the,” “a,” and “an.” Semicolons and commas are your friends.",
+          "Start with a strong action verb, like led, created, organized, or coordinated.",
+          "Focus on what YOU did, not on what the club or team does.",
+          "Show results and impact, with numbers when you can: “Founded recycling initiative; collected 2,000+ bottles monthly; reduced school waste by 30%.”",
+          "Don't repeat what's already in another box. Your position, organization, and hours are reported elsewhere.",
+          "Be specific. “Helped out” and “participated” don't tell a reader anything."
+        ],
+        examples: [
+          {before:"Soccer team. Played forward and helped the team win games.", after:"4-year varsity soccer player; voted senior captain; led off season workouts, mentored younger teammates, organized service events"},
+          {before:"Boy Scouts member; attended campouts and service projects; earned Eagle Scout rank", after:"Eagle Scout; led 15 Scouts in playground restoration project, organized volunteers/materials, mentored younger Scouts"},
+          {before:"National Honor Society leader. Attended meetings and participated in service projects.", after:"Elected NHS officer; completed 20+ tutoring hours; coordinated peer tutoring program for entire student body"}
+        ],
+        entries: [
+          {position:"Volunteer & Mentor", org:"Boys & Girls Club, youth tutoring/mentorship afterschool program", desc:"Served as mentor for K-8 grade kids; helped prepare lunch, entertain, and tutor students in math and science."},
+          {position:"Student", org:"Georgetown U’s Medical Institute, intensive summer program for high schoolers interested in medicine", desc:"Studied medical techniques (took vital signs, drew blood, analyzed human cadavers) to prepare for clinical medicine career. Treated patient simulator."},
+          {position:"Co-Head Coach", org:"AYSO Boys Soccer, rec soccer league for boys aged 6-12", desc:"Organized drills, modeled soccer technique, prepared line-ups, coached team, emailed parents to coordinate drop-offs and pickups."},
+          {position:"Math Tutor", org:"Self-started tutoring business", desc:"Dedicated one-on-one tutoring for arithmetic/geometric sequences and series, trigonometry identities analysis, and factorial/exponential combinations."}
+        ],
+        verbs: [
+          {group:"Leading", words:["Led","Captained","Directed","Founded","Organized","Ran","Started","Managed"]},
+          {group:"Creating", words:["Built","Designed","Wrote","Composed","Produced","Launched","Invented","Programmed"]},
+          {group:"Helping & teaching", words:["Tutored","Mentored","Coached","Trained","Volunteered","Supported","Cared for","Taught"]},
+          {group:"Getting results", words:["Raised","Earned","Won","Grew","Increased","Improved","Completed","Reduced"]},
+          {group:"Working with people", words:["Coordinated","Collaborated","Recruited","Represented","Presented","Promoted","Planned","Hosted"]}
+        ],
+        verbNote: "Use the verb that's true. “Led” beats a fancier word if leading is what you did, and plain words sound more like you.",
+        honors: {
+          intro: "Honors is a separate section from Activities. You can list up to 5, so put your strongest recognition there and leave Activities for what you did.",
+          items: ["AP Scholar Awards","Honor societies","Language medals","Seal of Biliteracy","Honor Roll","National Merit recognition","Art and music awards","Publications and research","Competition awards","Department awards","Athletic scholar awards","Community service awards","Local, state, or national awards"]
+        },
+        resources: [
+          {title:"Approaching the Activities Section", desc:"Common App's own guide to the section, with character limits and an example edit.", url:"https://www.commonapp.org/static/a5d59a915bdc2031e62c468ad35e0de9/Resource_FY_Activities_ENG_2025.06.25_0.pdf", source:"Common App"},
+          {title:"Application Dictionary", desc:"Plain definitions of the terms you'll see across the application.", url:"https://www.commonapp.org/static/6ac5a0fbb2c8b4b7721999e09d38defc/Resource_FYTR_AppDictionary_ENG_2025.06.24_0_0.pdf", source:"Common App"},
+          {title:"What Is Common App?", desc:"A one-page overview of what Common App is and how it works.", url:"https://www.commonapp.org/static/734a058f07c6f301dd582d3dcbe8e8e0/Resource_FY_WhatIsCA_ENG_2025.10.24.pdf", source:"Common App"}
         ]
       },
       decisionInfo: {
@@ -306,6 +371,40 @@ YEARS.senior = {
           {title:"Essay Writing Resources", desc:"General tips, structure, and examples for writing a strong personal essay.", url:"#"},
           {title:"Activities Writing Resources", desc:"Tips for writing strong, specific descriptions for your Activities list entries.", url:"#"},
           {title:"Asking for a Final Read", desc:"How to ask a teacher or counselor for feedback with short notice, well.", url:"#"}
+        ]
+      },
+      essayPrompts: {
+        navLabel: "Common App Essay Prompts",
+        title: "Common App Essay Prompts",
+        note: "Pick one",
+        desc: "Your Common App essay answers one of seven prompts, in 250 to 650 words. It's your chance to show colleges something about you beyond courses, grades, and test scores. Here's a short take on each prompt, with questions to get you thinking.",
+        type: "essayPrompts",
+        prompts: [
+          {title:"Background, identity, interest, or talent", summary:"Share something so meaningful to you that your application would feel incomplete without it.",
+            think:["Your community, family, culture, and where you come from","What you're curious about and how you spend your time","People and experiences that shaped you"],
+            ask:["What's missing from the rest of my application?","What would help a college understand who I am?"]},
+          {title:"A challenge, setback, or failure", summary:"Tell about a time something went wrong, how it affected you, and what you learned.",
+            think:["Obstacles of any size, personal or bigger than you","Hard things your family or friends went through that touched you too","Challenges you're still working through"],
+            ask:["How did I cope, and how did I grow?","Who helped me?"]},
+          {title:"Questioning a belief or idea", summary:"Reflect on a time you challenged a belief or idea, what led you to it, and how it turned out.",
+            think:["Anywhere you spend time: school, team, work, home, place of worship","Anyone you interact with: friends, teammates, family, teachers, coaches"],
+            ask:["Did it clarify or change what I value?","How did it affect my relationships?","Did I surprise myself or anyone else?"]},
+          {title:"Unexpected gratitude", summary:"Reflect on something someone did for you that made you thankful in a surprising way, and how it has motivated you since.",
+            think:["Every kind of interaction: advice, support, a gift, even criticism","People who know you well and people who don't"],
+            ask:["What made it surprising?","How did I feel, and how did I respond?"]},
+          {title:"A moment of personal growth", summary:"Describe an accomplishment, event, or realization that helped you understand yourself or others in a new way.",
+            think:["Achievements others saw and ones only you know about","Small, everyday moments that hit hard","Times you surprised yourself with what you learned"],
+            ask:["How did I change?","How can I keep growing, and share what I learned?"]},
+          {title:"Something you get lost in", summary:"Describe a topic or idea so engaging you lose track of time, why it grabs you, and where you go to learn more.",
+            think:["How you spend your free time","Your hobbies and favorite classes","What you read, write, and make"],
+            ask:["How did this interest start?","What does it say about me, to others and to myself?"]},
+          {title:"Topic of your choice", summary:"Write about anything. It can be an essay you've already written, one that answers a different prompt, or one you design yourself.",
+            think:["What you want to share, not what you think colleges want to hear","Topics that show who you are and what matters to you"],
+            ask:["Does this tell my colleges something new?","Is anything important left unsaid in my application?"]}
+        ],
+        promptNote: "These are short summaries. Read each prompt's exact wording in Common App's guide below or in the Writing section of the application before you choose.",
+        resources: [
+          {title:"Telling Your Story: How to Approach the Essay", desc:"Common App's guide to all seven prompts, with the full wording and brainstorming questions for each.", url:"https://www.commonapp.org/static/ff69a4ea4ce044fe419826e26803aa65/Resource_FY_Essays_ENG_2025.06.25_0.pdf", source:"Common App"}
         ]
       },
       essayGuides: {
