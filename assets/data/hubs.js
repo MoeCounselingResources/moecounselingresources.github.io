@@ -42,7 +42,7 @@ const HUBS = {
       {title:"Moeller Popular Colleges", desc:"Test ranges, deadlines, and requirements for the schools Moeller students apply to most.", href:"popular-colleges.html"},
       {title:"Application Tracker", desc:"Track your colleges, deadlines, essays, and activities. Saves on your device.", href:"app-tracker.html"},
       {title:"College Exploration", desc:"Researching schools, campus visits, and building a balanced list.", href:"college-exploration.html"},
-      {title:"Military", desc:"Service academies, ROTC, and enlistment pathways.", href:"military.html"},
+      {title:"Military Options", desc:"Service academies, senior military colleges, and ROTC.", href:"military.html"},
       {title:"CCP / AP", desc:"Earning college credit while you're still in high school.", href:"ccp-ap.html"},
       {title:"ACT / SAT", desc:"Test dates, prep resources, and how to send your scores.", href:"act-sat.html"},
       {title:"Career Exploration", desc:"Tools for connecting your interests and strengths to future careers.", href:"career-exploration.html"}

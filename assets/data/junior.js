@@ -15,8 +15,20 @@ YEARS.junior = {
     collegeLabel: "College Knowledge",
     // Junior/sophomore/freshman: set layout to "indexed" for a left-side index, or delete it for stacked sections.
     layout: "indexed",
-    order: ["research","essays","essayGuides","timeline","testing","financialAid"],
+    order: ["research","essays","essayGuides","timeline","testing","financialAid","military"],
     sections: {
+      military: {
+        navLabel: "Military Options",
+        title: "Military Options",
+        note: "Plan ahead",
+        desc: "Academy summer programs and nomination applications start in junior year. Look now so you don’t miss them.",
+        items: [
+          {title:"Military Options overview", desc:"Compare the three paths side by side.", url:"military.html"},
+          {title:"Service Academies", desc:"The five academies, benefits, nominations, and Ohio nominator deadlines.", url:"service-academies.html"},
+          {title:"Senior Military Colleges", desc:"Six colleges with a corps of cadets inside a regular college experience.", url:"senior-military-colleges.html"},
+          {title:"ROTC", desc:"National scholarships by branch, minimums, and deadlines.", url:"rotc.html"}
+        ]
+      },
       research: {
         navLabel: "College Research",
         title: "College research tools",

@@ -248,9 +248,13 @@ function renderGradePage(key){
 function renderTopicPage(key){
   const t = YEARS[key];
   const h = HUBS[t.hub];
+  // Sub-pages (e.g. Service Academies) set "parent" to link back to their main topic page.
+  const p = t.parent && YEARS[t.parent];
+  const backHref = p ? `${t.parent}.html` : h.page;
+  const backLabel = p ? p.label : h.title;
   document.getElementById('hero').innerHTML = heroHtml(
     h.title, t.label, t.blurb, t.hub,
-    `<a class="back-link" href="${h.page}">← Back to ${escapeHtml(h.title)}</a><br>`
+    `<a class="back-link" href="${backHref}">← Back to ${escapeHtml(backLabel)}</a><br>`
   );
   renderStacked(t, key, 'sections');
   document.title = `${t.label} · Moeller Counseling`;

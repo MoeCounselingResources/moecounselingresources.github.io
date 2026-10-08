@@ -22,9 +22,21 @@ YEARS.senior = {
     blurb: "These resources will help you with college research, essay writing, and filling out your applications!",
     collegeLabel: "Application Resources",
     // Junior/sophomore/freshman: set layout to "indexed" for a left-side index, or delete it for stacked sections.
-    order: ["fallChecklist","appTypes","commonAppGuide","activities","decisionInfo","moreEssentials","responsibilities","commonAppFaq","essays","essayPrompts","essayGuides","testing","research","appTracker","financialAid","scholarshipReporting","testOptional","feeWaivers"],
+    order: ["fallChecklist","appTypes","commonAppGuide","activities","decisionInfo","moreEssentials","responsibilities","commonAppFaq","essays","essayPrompts","essayGuides","testing","research","appTracker","financialAid","scholarshipReporting","testOptional","feeWaivers","military"],
     layout: "indexed",
     sections: {
+      military: {
+        navLabel: "Military Options",
+        title: "Military Options",
+        note: "Academies, colleges & ROTC",
+        desc: "Nominations and ROTC scholarships have their own deadlines, separate from your college applications, and many fall early in senior year.",
+        items: [
+          {title:"Military Options overview", desc:"Compare the three paths side by side.", url:"military.html"},
+          {title:"Service Academies", desc:"The five academies, benefits, nominations, and Ohio nominator deadlines.", url:"service-academies.html"},
+          {title:"Senior Military Colleges", desc:"Six colleges with a corps of cadets inside a regular college experience.", url:"senior-military-colleges.html"},
+          {title:"ROTC", desc:"National scholarships by branch, minimums, and deadlines.", url:"rotc.html"}
+        ]
+      },
       fallChecklist: {
         navLabel: "Application Checklist",
         title: "Application Checklist",
