@@ -6,6 +6,14 @@
    Each year: update classOf + label, then refresh the content.
    ========================================================================= */
 
+/* Common App's own guides — shown at the bottom of "How to Fill Out the Activities
+   Section" and "Common App FAQs". Edit once here to update both. */
+const COMMON_APP_RESOURCES = [
+  {title:"Approaching the Activities Section", desc:"Common App's own guide to the section, with character limits and an example edit.", url:"https://www.commonapp.org/static/a5d59a915bdc2031e62c468ad35e0de9/Resource_FY_Activities_ENG_2025.06.25_0.pdf", source:"Common App"},
+  {title:"Application Dictionary", desc:"Plain definitions of the terms you'll see across the application.", url:"https://www.commonapp.org/static/6ac5a0fbb2c8b4b7721999e09d38defc/Resource_FYTR_AppDictionary_ENG_2025.06.24_0_0.pdf", source:"Common App"},
+  {title:"What Is Common App?", desc:"A one-page overview of what Common App is and how it works.", url:"https://www.commonapp.org/static/734a058f07c6f301dd582d3dcbe8e8e0/Resource_FY_WhatIsCA_ENG_2025.10.24.pdf", source:"Common App"}
+];
+
 YEARS.senior = {
     classOf: "2027",
     tabLabel: "Senior",
@@ -146,11 +154,7 @@ YEARS.senior = {
           intro: "Honors is a separate section from Activities. You can list up to 5, so put your strongest recognition there and leave Activities for what you did.",
           items: ["AP Scholar Awards","Honor societies","Language medals","Seal of Biliteracy","Honor Roll","National Merit recognition","Art and music awards","Publications and research","Competition awards","Department awards","Athletic scholar awards","Community service awards","Local, state, or national awards"]
         },
-        resources: [
-          {title:"Approaching the Activities Section", desc:"Common App's own guide to the section, with character limits and an example edit.", url:"https://www.commonapp.org/static/a5d59a915bdc2031e62c468ad35e0de9/Resource_FY_Activities_ENG_2025.06.25_0.pdf", source:"Common App"},
-          {title:"Application Dictionary", desc:"Plain definitions of the terms you'll see across the application.", url:"https://www.commonapp.org/static/6ac5a0fbb2c8b4b7721999e09d38defc/Resource_FYTR_AppDictionary_ENG_2025.06.24_0_0.pdf", source:"Common App"},
-          {title:"What Is Common App?", desc:"A one-page overview of what Common App is and how it works.", url:"https://www.commonapp.org/static/734a058f07c6f301dd582d3dcbe8e8e0/Resource_FY_WhatIsCA_ENG_2025.10.24.pdf", source:"Common App"}
-        ]
+        resources: COMMON_APP_RESOURCES
       },
       decisionInfo: {
         navLabel: "How Decisions Work",
@@ -325,7 +329,8 @@ YEARS.senior = {
             "CCP = Dual Enrollment"
           ]}
         ],
-        guide: COMMON_APP_GUIDE_STEPS
+        guide: COMMON_APP_GUIDE_STEPS,
+        resources: COMMON_APP_RESOURCES
       },
       commonAppGuide: {
         navLabel: "Common App Cheat Sheet",

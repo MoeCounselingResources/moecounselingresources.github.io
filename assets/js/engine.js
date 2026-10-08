@@ -260,6 +260,7 @@ function renderIndexContent(year, key){
     ${s.desc ? `<p class="section-desc">${escapeHtml(s.desc)}</p>` : ''}
     ${renderSectionBody(s, year, key)}
     ${s.guide ? renderGuideWidget(s.guide) : ''}
+    ${s.resources && s.type !== 'activitiesGuide' && s.type !== 'essayPrompts' ? `<div class="ag-widget">${agResourcesHtml(s.resources)}</div>` : ''}
   `;
   const mgQueue = PENDING_MINI_GUIDES.slice();
   void content.offsetWidth;
@@ -638,7 +639,7 @@ function renderActivitiesGuideHtml(s){
       <h3 class="ag-h">Writing your 150-character description</h3>
       ${agList(s.writing)}
 
-      <h3 class="ag-h">Before and after</h3>
+      <h3 class="ag-h">Activity Examples: Before and After</h3>
       <div class="ag-examples">
         ${(s.examples||[]).map(e=>`
           <div class="ag-example">
@@ -647,7 +648,7 @@ function renderActivitiesGuideHtml(s){
           </div>`).join('')}
       </div>
 
-      <h3 class="ag-h">Full entries, box by box</h3>
+      <h3 class="ag-h">Full Length Activity Examples</h3>
       <div class="ag-entries">
         ${(s.entries||[]).map(e=>`
           <div class="ag-entry">
