@@ -22,7 +22,7 @@ YEARS.senior = {
     blurb: "These resources will help you with college research, essay writing, and filling out your applications!",
     collegeLabel: "Application Resources",
     // Junior/sophomore/freshman: set layout to "indexed" for a left-side index, or delete it for stacked sections.
-    order: ["fallChecklist","appTypes","commonAppGuide","activities","decisionInfo","moreEssentials","responsibilities","commonAppFaq","essays","essayPrompts","essayGuides","testing","research","exploration","appTracker","financialAid","scholarshipReporting","testOptional","feeWaivers","military"],
+    order: ["fallChecklist","appTypes","commonAppGuide","activities","decisionInfo","moreEssentials","responsibilities","commonAppFaq","applicationFaq","essays","essayPrompts","essayGuides","testing","research","exploration","appTracker","financialAid","scholarshipReporting","testOptional","feeWaivers","military"],
     layout: "indexed",
     sections: {
       exploration: {
@@ -353,6 +353,24 @@ YEARS.senior = {
         ],
         guide: COMMON_APP_GUIDE_STEPS,
         resources: COMMON_APP_RESOURCES
+      },
+      applicationFaq: {
+        navLabel: "Application FAQs",
+        title: "Application FAQs",
+        note: "Common questions",
+        desc: "Answers to questions seniors ask us most often while applying.",
+        stacked: true,
+        items: [
+          {title:"What is demonstrated interest?", desc:"Demonstrated interest is how much a college pays attention to whether you've shown real interest in attending. Some colleges track the contact you have with them and factor it into their decision, because students who engage are more likely to enroll if admitted. Colleges report how much it matters on their Common Data Set as very important, important, considered, or not considered, so it counts heavily at some schools and not at all at others. Ways to show interest include:", bullets:[
+            "Visiting campus or attending a virtual information session",
+            "Interviewing, especially where interviews are recommended or encouraged",
+            "Meeting the college rep when they visit Moeller — register in SCOIR at least 2 days ahead",
+            "Talking with admission reps at college fairs and opening their emails",
+            "Writing a specific, well-researched “Why this college?” supplemental essay",
+            "Applying Early Decision, if that school is truly your first choice"
+          ]},
+          {title:"Which colleges consider demonstrated interest?", desc:"College Kickstart keeps a list of colleges where demonstrated interest is important or very important and that also offer, encourage, or require interviews. For each school it shows how much interviews matter and links to the college's interview page. Policies can vary by major, so always confirm on the college's own website.", url:"https://www.collegekickstart.com/blog/item/colleges-with-interviews-where-demonstrated-interest-is-important-class-of-2031"}
+        ]
       },
       commonAppGuide: {
         navLabel: "Common App Cheat Sheet",
