@@ -184,8 +184,6 @@ const COMMON_APP_GUIDE_STEPS = {
 // Shared across every year — edit once.
 // Pop-up modals, triggered anywhere on the page via a button with
 // data-modal="<key>". Add a new key here to create a new pop-up.
-// PLACEHOLDER DATA — waiting on the real two-page document (STARS policy
-// list + Common App Courses & Grades list) to replace these examples.
 const MODALS = {
   starsModal: {
     title: "What is STARS?",
@@ -276,7 +274,7 @@ const MODALS = {
       {name: "Purdue University (IN)", status: "required"},
       {name: "Reinhardt University (GA)", status: "required"},
       {name: "Ripon College (WI)", status: "required"},
-      {name: "Saint John's College (MD)", status: "required"},
+      {name: "Saint John’s College (MD)", status: "required"},
       {name: "Saint Vincent College (PA)", status: "required"},
       {name: "Sattler College (MA)", status: "required"},
       {name: "South Carolina State University", status: "required"},
