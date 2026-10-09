@@ -160,7 +160,8 @@ Each fall, once the new FAFSA opens:
   year, tax year, open dates, the federal deadline, CSS Profile fees, loan limits,
   and Ohio aid rules. Check them on studentaid.gov, cssprofile.collegeboard.org, and
   highered.ohio.gov.
-- Replace the Key Dates table and the Financial Aid Night recap.
+- Replace the Key Dates timeline (`timeline` in the `dates` section; each date needs
+  an `iso` date so past items dim automatically) and the Financial Aid Night recap.
 - Check `cssProfile` for each school in `assets/data/popular-colleges.js` against
   College Board's participating list. College Board blocks automated access, so
   this check is done by hand.

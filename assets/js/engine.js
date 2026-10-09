@@ -185,10 +185,14 @@ function renderSectionBody(s, year, key){
       PENDING_MINI_GUIDES.push({id: mgId, data: item.miniGuide});
       mgHtml = renderMiniGuide(mgId);
     }
-    const bulletHtml = b => (b && typeof b === 'object')
+    const bulletHtml = b => (b && typeof b === 'object' && b.label)
+      ? `<strong>${escapeHtml(b.label)}</strong> ${escapeHtml(b.text)}`   // {label, text}: bold lead-in
+      : (b && typeof b === 'object')
       ? `<a${linkAttrs(b.url)}>${escapeHtml(b.text)}</a>${b.after ? escapeHtml(b.after) : ''}`   // {text, url, after}
       : escapeHtml(b);
-    const bulletsHtml = item.bullets ? `<ul>${item.bullets.map(b=>`<li>${bulletHtml(b)}</li>`).join('')}</ul>` : '';
+    // numbered: true on an item shows its bullets as a numbered list (steps in order).
+    const listTag = item.numbered ? 'ol class="steps-list"' : 'ul';
+    const bulletsHtml = item.bullets ? `<${listTag}>${item.bullets.map(b=>`<li>${bulletHtml(b)}</li>`).join('')}</${item.numbered ? 'ol' : 'ul'}>` : '';
     return `
     <div class="resource-card${s.stacked ? ' wide' : ''}">
       ${imgs.length ? `<div class="resource-images">${imgs.map(src=>`<img src="${escapeHtml(src)}" alt="${escapeHtml(item.title)}">`).join('')}</div>` : ''}
@@ -206,7 +210,7 @@ function renderSectionBody(s, year, key){
     <div class="data-table-wrap">
       ${s.table.caption ? `<div class="data-table-caption">${escapeHtml(s.table.caption)}</div>` : ''}
       <div class="data-table-scroll">
-        <table class="data-table">
+        <table class="data-table${s.table.wrap ? ' wrap' : ''}">
           <thead><tr>${s.table.headers.map(h=>`<th>${escapeHtml(h)}</th>`).join('')}</tr></thead>
           <tbody>${s.table.rows.map(r=>`<tr>${r.map(c=>`<td>${escapeHtml(c)}</td>`).join('')}</tr>`).join('')}</tbody>
         </table>
@@ -230,7 +234,34 @@ function renderSectionBody(s, year, key){
     </div>
   ` : '';
   const toolHtml = s.tool ? renderToolWidget(s.tool) : '';
-  return `${datesHtml}${tableHtml}${toolHtml}<div class="resource-grid${s.stacked ? ' stacked' : ''}">${cards}</div>`;
+  const timelineHtml = s.timeline ? renderTimelineHtml(s.timeline) : '';
+  return `${datesHtml}${timelineHtml}${tableHtml}${toolHtml}<div class="resource-grid${s.stacked ? ' stacked' : ''}">${cards}</div>`;
+}
+
+/* Vertical timeline (section.timeline). Past items are dimmed; the first item still ahead
+   is tagged "Up next", or "Now" if today falls inside its iso–isoEnd span. */
+function renderTimelineHtml(items){
+  const today = new Date(); today.setHours(0,0,0,0);
+  const day = iso => { const d = new Date(iso + 'T00:00:00'); return isNaN(d) ? null : d; };
+  let nextFound = false;
+  return `<ol class="timeline">${items.map(it=>{
+    const start = it.iso ? day(it.iso) : null;
+    const end = it.isoEnd ? day(it.isoEnd) : start;
+    let state = '', tag = '';
+    if(end && end < today){ state = ' is-past'; tag = 'Passed'; }
+    else if(!nextFound && start){
+      nextFound = true; state = ' is-next';
+      tag = (start <= today) ? 'Now' : 'Up next';
+    }
+    return `
+      <li class="tl-item${state}">
+        <div class="tl-badge">${escapeHtml(it.date)}</div>
+        <div class="tl-body">
+          <h3>${escapeHtml(it.title)}${tag ? ` <span class="tl-tag">${tag}</span>` : ''}</h3>
+          ${it.detail ? `<p>${escapeHtml(it.detail)}</p>` : ''}
+        </div>
+      </li>`;
+  }).join('')}</ol>`;
 }
 
 function renderIndexNav(year){

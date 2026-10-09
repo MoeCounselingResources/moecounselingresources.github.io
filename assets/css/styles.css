@@ -469,6 +469,10 @@ header{
   font-weight:600;
   white-space:normal;
 }
+/* table: {wrap: true} in the data files: for sentences, not short values. Text wraps,
+   and the first column keeps a steady width so labels don't squeeze into stacks. */
+.data-table.wrap th, .data-table.wrap td{white-space:normal; vertical-align:top;}
+.data-table.wrap td:first-child, .data-table.wrap th:first-child{width:30%; min-width:120px;}
 
 /* ---------- Responsibilities section type ---------- */
 .resp-grid{
@@ -551,6 +555,10 @@ header{
   font-size:1.02rem;
   margin:0 0 6px;
 }
+.resource-text ol.steps-list{margin:12px 0 0; padding-left:1.4em;}
+.resource-text ol.steps-list li{margin-bottom:10px; padding-left:4px; line-height:1.5;}
+.resource-text ol.steps-list li:last-child{margin-bottom:0;}
+.resource-text ol.steps-list li::marker{color:var(--ink); font-weight:700;}
 .resource-text p{
   margin:0;
   color:var(--ink-soft);
@@ -842,6 +850,43 @@ header{
 @media (max-width:640px){
   .dates-stage{flex-direction:column; align-items:flex-start; padding:22px;}
   .dates-badge{width:100%;}
+}
+
+/* ---------- Timeline (section.timeline, e.g. Financial Aid → Key Dates) ---------- */
+.timeline{list-style:none; margin:0; padding:0; position:relative;}
+.tl-item{display:flex; align-items:flex-start; gap:22px; padding:0 0 18px; position:relative;}
+.tl-item:not(:last-child)::before{   /* line from this badge down to the next one, behind both */
+  content:""; position:absolute; top:22px; bottom:-22px; left:64px;
+  width:2px; background:var(--rule);
+}
+.tl-item:last-child{padding-bottom:0;}
+.tl-badge{
+  position:relative; z-index:1;
+  flex-shrink:0; width:130px;
+  text-align:center;
+  font-family:var(--sans); font-weight:800; font-size:0.95rem; line-height:1.25;
+  color:var(--ink); background:var(--paper);
+  border:1px solid var(--rule); border-radius:10px;
+  padding:12px 8px;
+}
+.tl-body{min-width:0; flex:1; padding-top:10px;}
+.tl-body h3{font-family:var(--sans); font-weight:700; font-size:1.02rem; margin:0 0 4px; color:var(--ink);}
+.tl-body p{margin:0; color:var(--ink-soft); font-size:0.94rem;}
+.tl-tag{
+  display:inline-block; margin-left:6px; vertical-align:2px;
+  font-size:0.72rem; font-weight:700; letter-spacing:0.02em; text-transform:uppercase;
+  padding:2px 8px; border-radius:999px;
+  background:var(--paper-soft); color:var(--ink-soft); border:1px solid var(--rule);
+}
+.tl-item.is-past .tl-badge{color:var(--ink-soft); background:var(--paper-soft);}
+.tl-item.is-past .tl-body h3, .tl-item.is-past .tl-body p{color:var(--ink-soft);}
+.tl-item.is-next .tl-badge{background:var(--ink); color:var(--paper); border-color:var(--ink); box-shadow:0 0 0 3px var(--accent);}
+.tl-item.is-next .tl-tag{background:var(--accent); color:var(--ink); border-color:var(--accent);}
+@media (max-width:640px){
+  .tl-item:not(:last-child)::before{left:47px;}
+  .tl-item{gap:14px;}
+  .tl-badge{width:96px; font-size:0.85rem; padding:10px 6px;}
+  .tl-body{padding-top:6px;}
 }
 
 /* ---------- Mini-guide (inline, icon-based stepper within a card) ---------- */

@@ -505,19 +505,16 @@ YEARS["financial-aid"] = {
       navLabel: "Comparing Award Letters",
       title: "Comparing Award Letters",
       desc: "Aid offers (often called award letters) arrive after admission, and every college lays them out differently. Line them up the same way before you decide.",
-      table: {
-        caption: "A simple way to compare offers, one college at a time",
-        headers: ["Step","What to do"],
-        rows: [
-          ["1. Start with the full cost","Use the college's total cost of attendance for one year, not just tuition."],
-          ["2. Subtract free money","Subtract only grants and scholarships. What's left is your net price."],
-          ["3. List loans separately","Loans have to be paid back, so they don't lower the cost. Note the type and amount of each one."],
-          ["4. Set work-study aside","Work-study is earned during the year, so it doesn't lower the first bill."],
-          ["5. Check what renews","Ask what GPA keeps a merit scholarship and whether need-based aid is figured again each year."],
-          ["6. Think in four years","A $5,000 difference each year is $20,000 by graduation."]
-        ]
-      },
+      stacked: true,
       items: [
+        {title:"Six steps to compare offers", desc:"Do this for each college, then put the results side by side.", numbered:true, bullets:[
+          {label:"Start with the full cost.", text:"Use the college's total cost of attendance for one year, not just tuition."},
+          {label:"Subtract free money.", text:"Subtract only grants and scholarships. What's left is your net price."},
+          {label:"List loans separately.", text:"Loans have to be paid back, so they don't lower the cost. Note the type and amount of each one."},
+          {label:"Set work-study aside.", text:"It's earned during the year, so it doesn't lower the first bill."},
+          {label:"Check what renews.", text:"Ask what GPA keeps a merit scholarship and whether need-based aid is figured again each year."},
+          {label:"Think in four years.", text:"A $5,000 difference each year is $20,000 by graduation."}
+        ]},
         // PLACEHOLDER: link for an award letter comparison worksheet or tool
         {title:"Award letter comparison worksheet", desc:"A worksheet for putting your offers side by side.", url:"#"},
         {title:"Watch for gaps", desc:"Some offers leave a gap between the net price and what your family can pay, and suggest filling it with Parent PLUS or private loans. Parent PLUS loans are now capped at $20,000 per student each year, so plan for how a gap would be covered all four years."},
@@ -554,20 +551,18 @@ YEARS["financial-aid"] = {
       navLabel: "Key Dates",
       title: "Key Dates",
       desc: "Dates for seniors starting college in fall 2027. Colleges set their own aid deadlines, so always check each college's financial aid page.",
-      table: {
-        caption: "2027–28 aid year (updated every year)",
-        headers: ["Date","What happens"],
-        rows: [
-          ["Sept. 23, 2026","The 2027–28 FAFSA opened at StudentAid.gov."],
-          ["Oct. 1, 2026","The 2027–28 CSS Profile opened for colleges that require it."],
-          ["Fall 2026 – winter 2027","Colleges' priority aid deadlines, often close to their Early Action, Early Decision, and Regular Decision deadlines."],
-          ["Senior spring","Aid offers arrive, usually with or soon after admission decisions."],
-          ["May 1, 2027","National decision day: choose a college and pay a deposit."],
-          ["Oct. 1, 2027","Ohio's deadline to file the 2027–28 FAFSA for the Ohio College Opportunity Grant."],
-          ["By Oct. 1, 2027","The 2028–29 FAFSA opens. Students file again every year of college."],
-          ["June 30, 2028","Federal deadline for the 2027–28 FAFSA. Don't wait this long; college deadlines come much sooner."]
-        ]
-      }
+      // Timeline: dates whose "iso" (or "isoEnd" for a span) has passed are dimmed and marked
+      // "Passed"; the first one still ahead gets an "Up next" (or "Now") tag. Update every year.
+      timeline: [
+        {date:"Sept. 23, 2026", iso:"2026-09-23", title:"The 2027–28 FAFSA opened", detail:"File at StudentAid.gov before your earliest college deadline."},
+        {date:"Oct. 1, 2026", iso:"2026-10-01", title:"The 2027–28 CSS Profile opened", detail:"Only for colleges that require it."},
+        {date:"Fall – winter", iso:"2026-10-01", isoEnd:"2027-02-28", title:"College aid deadlines", detail:"Often close to each college's Early Action, Early Decision, or Regular Decision deadline. Check every college on your list."},
+        {date:"Senior spring", iso:"2027-03-01", isoEnd:"2027-04-30", title:"Aid offers arrive", detail:"Usually with or soon after admission decisions. Compare them side by side."},
+        {date:"May 1, 2027", iso:"2027-05-01", title:"Decision day", detail:"Choose a college and pay a deposit."},
+        {date:"Oct. 1, 2027", iso:"2027-10-01", title:"Ohio grant deadline", detail:"Last day to file the 2027–28 FAFSA for the Ohio College Opportunity Grant."},
+        {date:"By Oct. 1, 2027", iso:"2027-10-01", title:"The 2028–29 FAFSA opens", detail:"Students file again every year of college."},
+        {date:"June 30, 2028", iso:"2028-06-30", title:"Federal FAFSA deadline", detail:"The last day for the 2027–28 FAFSA. Don't wait this long; college deadlines come much sooner."}
+      ]
     },
     recap: {
       navLabel: "Financial Aid Night Recap",
