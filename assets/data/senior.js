@@ -22,7 +22,7 @@ YEARS.senior = {
     blurb: "These resources will help you with college research, essay writing, and filling out your applications!",
     collegeLabel: "Application Resources",
     // Junior/sophomore/freshman: set layout to "indexed" for a left-side index, or delete it for stacked sections.
-    order: ["feeWaivers","fallChecklist","applicationFaq","appTracker","appTypes","exploration","research","commonAppGuide","essayPrompts","commonAppFaq","essayBrainstorm","essays","financialAid","decisionInfo","activities","military","scholarshipReporting","moreEssentials","responsibilities","essayGuides","testOptional","testing"],
+    order: ["feeWaivers","fallChecklist","applicationFaq","appTracker","appTypes","exploration","research","commonAppGuide","essayPrompts","commonAppFaq","essayBrainstorm","writingGuide","essays","financialAid","decisionInfo","activities","military","scholarshipReporting","moreEssentials","responsibilities","essayGuides","testOptional","testing"],
     layout: "indexed",
     sections: {
       exploration: {
@@ -460,6 +460,61 @@ YEARS.senior = {
           {label:"Three words your friends would use for you", hint:"A few words is enough"}
         ]
       },
+      writingGuide: {
+        navLabel: "Essay Writing Guide",
+        title: "Essay Writing Guide",
+        note: "Start here",
+        desc: "A step-by-step guide to the Common App personal essay, from finding your material to the final read-through.",
+        stacked: true,
+        items: [
+          {
+            title:"How to Write Your Personal Essay",
+            desc:"Step through the process at your own pace.",
+            miniGuide: {
+              steps: [
+                {icon:"profile", title:"What the Essay Is For", bullets:[
+                  "Colleges already have your grades, scores, and activities. The essay is the one place they hear from you directly.",
+                  "They're reading for what you care about, how you think, and who you'd be on their campus.",
+                  "A small, true story told well beats a big, impressive one told in general terms."
+                ]},
+                {icon:"checklist", title:"Find Your Material", bullets:[
+                  "Start with values, not topics. Pick a few words for what matters most to you.",
+                  "List specific details from your life, like objects, places, routines, and things you do without being asked.",
+                  "Use the Essay Brainstorm in the index to turn those into topic ideas and a mind map."
+                ]},
+                {icon:"link", title:"Pick a Shape", bullets:[
+                  "One story: something happened, you responded, and you changed. This works well for challenges and turning points.",
+                  "Several moments: a few smaller examples connected by one thread, like a value or an object. This works well if nothing \u201cbig\u201d has happened to you, which is normal.",
+                  "There's no right shape, only the one that fits your story."
+                ]},
+                {icon:"pen", title:"Write a First Draft", bullets:[
+                  "Get it all down before you edit. Going over 650 words is fine for now.",
+                  "Use details only you would know, like a name, a sound, or what someone said.",
+                  "After each moment, say what it meant to you. That reflection is what readers remember.",
+                  "Write the way you talk when you're being thoughtful. Skip the thesaurus."
+                ]},
+                {icon:"pen", title:"Revise", bullets:[
+                  "Is every paragraph about you, not someone else?",
+                  "Does each moment show something you value?",
+                  "Could another student have written this? If so, add details only you know.",
+                  "Cut it to 650 words, and remove anything that repeats your activities list."
+                ]},
+                {icon:"checklist", title:"Final Pass", bullets:[
+                  "Read it out loud.",
+                  "Get feedback from one or two trusted readers, not a committee.",
+                  "Run through the Personal Statement Checklist in Essay Writing Tips."
+                ]}
+              ]
+            }
+          }
+        ],
+        resourcesHeading: "Go deeper",
+        resources: [
+          {title:"Free Guide to the Personal Statement", desc:"College Essay Guy's free exercises and examples for the personal essay.", url:"https://www.collegeessayguy.com/personal-statement-resources", source:"College Essay Guy", kind:""},
+          {title:"College Essay Brainstorming Worksheet", desc:"QuestBridge's printable worksheet for reflecting, choosing a topic, and outlining.", url:"https://asset.questbridge.org/content/uploads/pdfs/College-Essay-Brainstorming-Worksheet.pdf", source:"QuestBridge", kind:"PDF"},
+          {title:"Values-Focused Brainstorming Exercises", desc:"Four exercises for finding what you value and showing it with real examples.", url:"https://www.collegeessayguy.com/blog/4-values-focused-college-essay-topic-brainstorming", source:"College Essay Guy", kind:""}
+        ]
+      },
       essays: {
         navLabel: "Essay Writing Tips",
         title: "Essay Writing Tips",
@@ -467,11 +522,24 @@ YEARS.senior = {
         desc: "Tips for tightening what you've already drafted, not starting from scratch.",
         stacked: true,
         items: [
-          {title:"Personal Statement Checklist", desc:"Last read-through points before you hit submit.", url:"#"},
-          {title:"Supplemental Essay Tracker", desc:"A shared sheet to track prompts, word counts, and draft status by school.", url:"#"},
-          {title:"Essay Writing Resources", desc:"General tips, structure, and examples for writing a strong personal essay.", url:"#"},
-          {title:"Activities Writing Resources", desc:"Tips for writing strong, specific descriptions for your Activities list entries.", url:"#"},
-          {title:"Asking for a Final Read", desc:"How to ask a teacher or counselor for feedback with short notice, well.", url:"#"}
+          {title:"Personal Statement Checklist", desc:"Run through this before you submit.", bullets:[
+            "It answers the prompt you chose and stays between 250 and 650 words.",
+            "It's about you. Someone who knows you would recognize your voice.",
+            "It shows a specific moment or detail instead of summing yourself up.",
+            "It doesn't repeat your activities list or transcript.",
+            "You read it out loud, and someone you trust has read it.",
+            "You pasted it into Common App and checked the preview for formatting."
+          ]},
+          {title:"Supplemental Essay Tracker", desc:"Use the Essays tab in the Application Tracker to list each college's prompts, word limits, and progress. It saves on your device.", url:"app-tracker.html"},
+          {title:"Essay Writing Resources", desc:"Moeller's step-by-step guide, from finding your material to the final pass.", url:"#writingGuide"},
+          {title:"Activities Writing Resources", desc:"How to choose what to list, what each box asks for, and how to say a lot in 150 characters.", url:"#activities"},
+          {title:"Asking for a Final Read", desc:"How to ask a teacher for feedback the right way.", bullets:[
+            "Ask a teacher who knows your writing.",
+            "Ask at least 3 to 4 weeks before your deadline.",
+            "Share an editable copy with comments turned on.",
+            "Tell them what you want feedback on, like \u201cDoes the ending land?\u201d",
+            "Thank them, and let them know how it turned out."
+          ]}
         ]
       },
       essayPrompts: {

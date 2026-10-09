@@ -240,6 +240,8 @@ function renderIndexNav(year){
   let active = null;
   try{ active = localStorage.getItem(`crh-index-active-${year}`); }catch(e){}
   if(!active || !y.sections[active]) active = order[0];
+  const hashKey = decodeURIComponent(location.hash.replace(/^#/, ''));
+  if(hashKey && y.sections[hashKey] && order.includes(hashKey)) active = hashKey;
 
   nav.innerHTML = order.map(key=>{
     const s = y.sections[key];
@@ -247,12 +249,23 @@ function renderIndexNav(year){
     return `<button data-key="${escapeHtml(key)}" aria-current="${key===active}">${escapeHtml(s.navLabel || s.title)}</button>`;
   }).join('');
 
+  function selectSection(key){
+    nav.querySelectorAll('button').forEach(b=>b.setAttribute('aria-current', b.dataset.key===key));
+    renderIndexContent(year, key);
+    try{ localStorage.setItem(`crh-index-active-${year}`, key); }catch(e){}
+  }
   nav.querySelectorAll('button').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      nav.querySelectorAll('button').forEach(b=>b.setAttribute('aria-current', b===btn));
-      renderIndexContent(year, btn.dataset.key);
-      try{ localStorage.setItem(`crh-index-active-${year}`, btn.dataset.key); }catch(e){}
-    });
+    btn.addEventListener('click', ()=>selectSection(btn.dataset.key));
+  });
+
+  // Deep links: seniors.html#writingGuide switches to that index section.
+  window.addEventListener('hashchange', ()=>{
+    let key = '';
+    try{ key = decodeURIComponent(location.hash.replace(/^#/, '')); }catch(e){}
+    if(!key || !y.sections[key] || !order.includes(key)) return;
+    selectSection(key);
+    const c = document.getElementById('index-content');
+    if(c) c.scrollIntoView({behavior:'smooth', block:'start'});
   });
 
   renderIndexContent(year, active);
@@ -269,7 +282,7 @@ function renderIndexContent(year, key){
     ${s.desc ? `<p class="section-desc">${escapeHtml(s.desc)}</p>` : ''}
     ${renderSectionBody(s, year, key)}
     ${s.guide ? renderGuideWidget(s.guide) : ''}
-    ${s.resources && s.type !== 'activitiesGuide' && s.type !== 'essayPrompts' ? `<div class="ag-widget">${agResourcesHtml(s.resources)}</div>` : ''}
+    ${s.resources && s.type !== 'activitiesGuide' && s.type !== 'essayPrompts' ? `<div class="ag-widget">${agResourcesHtml(s.resources, s)}</div>` : ''}
   `;
   const mgQueue = PENDING_MINI_GUIDES.slice();
   void content.offsetWidth;
@@ -617,15 +630,15 @@ function agCount(text, limit){
   const n = [...String(text)].length;
   return `<span class="ag-chip${n > limit ? ' over' : ''}">${n}/${limit}</span>`;
 }
-function agResourcesHtml(resources){
+function agResourcesHtml(resources, s){
   if(!resources || !resources.length) return '';
   return `<div class="ag-resources">
-    <h3 class="ag-h">From Common App</h3>
+    <h3 class="ag-h">${escapeHtml((s && s.resourcesHeading) || 'From Common App')}</h3>
     ${resources.map(r=>`
       <a class="ag-resource" href="${escapeHtml(r.url)}" target="_blank" rel="noopener">
         <span class="ag-resource-title">${escapeHtml(r.title)}<span aria-hidden="true">&nbsp;↗</span></span>
         <span class="ag-resource-desc">${escapeHtml(r.desc || '')}</span>
-        <span class="ag-resource-src">Source: ${escapeHtml(r.source || 'Common App')} (PDF)</span>
+        <span class="ag-resource-src">Source: ${escapeHtml(r.source || 'Common App')}${(r.kind === undefined ? 'PDF' : r.kind) ? ` (${escapeHtml(r.kind === undefined ? 'PDF' : r.kind)})` : ''}</span>
       </a>`).join('')}
   </div>`;
 }
@@ -695,7 +708,7 @@ function renderActivitiesGuideHtml(s){
         <ul class="ag-pills">${s.honors.items.map(h=>`<li>${escapeHtml(h)}</li>`).join('')}</ul>
       ` : ''}
 
-      ${agResourcesHtml(s.resources)}
+      ${agResourcesHtml(s.resources, s)}
     </div>
   `;
 }
@@ -728,7 +741,7 @@ function renderEssayPromptsHtml(s){
           </li>`).join('')}
       </ol>
       ${s.promptNote ? `<p class="ag-note">${escapeHtml(s.promptNote)}</p>` : ''}
-      ${agResourcesHtml(s.resources)}
+      ${agResourcesHtml(s.resources, s)}
     </div>
   `;
 }
