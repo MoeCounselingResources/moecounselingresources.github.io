@@ -593,25 +593,23 @@ YEARS.senior = {
         title: "Testing Resources",
         note: "Wrapping up",
         desc: "Score policies and remaining test dates for anyone still finishing testing.",
-        table: {
-          caption: "Final fall test dates",
-          headers: ["", "ACT", "SAT"],
-          rows: [
-            ["For Oct. 15 / Nov. 1 deadlines", "Sept. 19 (maybe Oct. 17)", "Sept. 12 (maybe Oct. 3)"],
-            ["For January deadlines", "Sept., Oct., Dec.", "Sept., Oct., Nov., Dec."]
-          ]
-        },
         tool: {
-          title: "Should I Submit My Test Scores?",
-          intro: "Not sure whether to send your scores to a test-optional school? Start by finding the school's middle 50% score range: search “[College Name] Common Data Set” (for example, “LSU Common Data Set”), open the latest report, and check Section C9 for the percentage of enrolled students who submitted scores and the 25th/50th/75th percentile ranges.",
-          prompt: "Which of these is true for you?",
-          options: [
-            {label: "The college is test-required for admission and/or scholarships", result: "Submit your scores."},
-            {label: "Your score is above the 75th percentile", result: "Submit your scores."},
-            {label: "Your score falls in the middle 50% range", result: "Submit your scores. If your score is at the lower end of this range, you may opt to withhold it."},
-            {label: "Your score is below the 25th percentile", result: "Apply without submitting test scores."}
+          title: "Test Optional: To Submit or Not to Submit",
+          infoHeading: "Find Middle 50% score ranges.",
+          infoText: "Use the Common Data Set. Search \u201c[College Name] Common Data Set\u201d (example: LSU Common Data Set) and open the latest report. Then go to Section C9 to see:",
+          infoChecks: [
+            "Percentage of enrolled students who submitted scores.",
+            "The 25th, 50th, and 75th percentile score ranges."
           ],
-          note: "Not every situation is the same — talk with your counselor if you're unsure, or if yours doesn't fit neatly into one of these."
+          centerLabel: "Should I submit my scores?",
+          // tone: "submit" (gold), "recommend" (navy), "withhold" (slate)
+          options: [
+            {label: "The College is Test Required for Admission and/or Scholarships", answer: "Submit.", tone: "submit"},
+            {label: "Your score is above the 75th percentile", answer: "Recommended to submit.", tone: "recommend"},
+            {label: "Your score falls in the middle 50% range", answer: "Recommended to submit.", answerNote: "If your score is at the lower end of this range, you may opt to withhold scores.", tone: "recommend"},
+            {label: "Below the 25th percentile", answer: "Recommended to NOT submit.", tone: "withhold"}
+          ],
+          note: "We know not every situation is the same. Have a conversation with your counselor if you are in a unique situation or are unsure."
         },
         items: [
           {title:"Sending your scores", desc:"Sending official scores is the student's responsibility — counselors do not send scores. Allow up to 2 weeks for processing and save your confirmation.", url:"#"},
@@ -619,7 +617,13 @@ YEARS.senior = {
           {title:"Ohio State early action note", desc:"Send your scores by Oct. 16 if you want to be considered for Early Action.", url:"#"},
           {title:"AP score self-reporting", desc:"Self-report any AP score of 3, 4, or 5 directly in your Common App.", url:"#"},
           {title:"SAT & ACT policies and score ranges for popular colleges", desc:"Compass Prep's college profiles show testing policies and middle-50% score ranges.", url:"https://www.compassprep.com/college-profiles/"},
-          {title:"Test-optional and test-free colleges, searchable list", desc:"FairTest's list is the place to check any college's current testing policy.", url:"https://fairtest.org/test-optional-list/"}
+          {title:"Test-optional and test-free colleges, searchable list", desc:"FairTest's list is the place to check any college's current testing policy.", url:"https://fairtest.org/test-optional-list/"},
+          {title:"AP Credit Policy Search", desc:"Your AP scores could earn you college credit or advanced placement (meaning you could skip certain courses in college). Use this tool to find colleges that offer credit or placement for AP scores.", url:"https://apstudents.collegeboard.org/getting-credit-placement/search-policies"}
+        ],
+        resourcesHeading: "Test dates",
+        resources: [
+          {title:"SAT test dates", desc:"", url:"https://satsuite.collegeboard.org/sat/dates-deadlines", source:"College Board", kind:""},
+          {title:"ACT test dates", desc:"", url:"https://www.act.org/content/act/en/products-and-services/the-act/registration/test-dates.html", source:"ACT", kind:""}
         ]
       },
       financialAid: {

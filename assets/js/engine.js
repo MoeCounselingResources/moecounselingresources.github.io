@@ -299,32 +299,85 @@ function renderIndexContent(year, key){
   mgQueue.forEach(({id, data}) => wireMiniGuide(content.querySelector(`[data-mgid="${id}"]`), data));
 }
 
+/* Circular "submit or not" mind map (data: the `tool` object in assets/data/senior.js).
+   Coordinates are in a 820x740 design space; the map scales with its column. */
+const TM_GEO = {
+  w: 820, h: 740,
+  center: {x: 410, y: 370, r: 70},
+  optR: 82, ansR: 95,
+  quads: [
+    {o:{x:275, y:235}, a:{x:95,  y:95}},
+    {o:{x:545, y:235}, a:{x:725, y:95}},
+    {o:{x:275, y:505}, a:{x:95,  y:645}},
+    {o:{x:545, y:505}, a:{x:725, y:645}}
+  ]
+};
+function tmCircleStyle(pt, r){
+  const g = TM_GEO;
+  return `left:${((pt.x - r) / g.w * 100).toFixed(3)}%;top:${((pt.y - r) / g.h * 100).toFixed(3)}%;width:${(2 * r / g.w * 100).toFixed(3)}%;height:${(2 * r / g.h * 100).toFixed(3)}%;`;
+}
+function tmBranchPath(q){
+  const dx = q.a.x - q.o.x, dy = q.a.y - q.o.y, len = Math.hypot(dx, dy);
+  const mx = (q.o.x + q.a.x) / 2, my = (q.o.y + q.a.y) / 2;
+  const bend = 38 * (q.a.x < TM_GEO.center.x ? 1 : -1);
+  const cx = mx + (-dy / len) * bend, cy = my + (dx / len) * bend;
+  return `M${q.o.x} ${q.o.y} Q${cx.toFixed(1)} ${cy.toFixed(1)} ${q.a.x} ${q.a.y}`;
+}
 function renderToolWidget(tool){
+  const g = TM_GEO;
+  const opts = tool.options || [];
+  const quads = g.quads;
+  const spokes = quads.slice(0, opts.length).map(q=>`<line class="tm-spoke" x1="${g.center.x}" y1="${g.center.y}" x2="${q.o.x}" y2="${q.o.y}"/>`).join('');
+  const branches = quads.slice(0, opts.length).map((q,i)=>`<path class="tm-branch" data-i="${i}" pathLength="1" d="${tmBranchPath(q)}"/>`).join('');
+  const optBtns = opts.map((o,i)=>`
+      <button type="button" class="tm-opt" data-idx="${i}" aria-pressed="false" style="${tmCircleStyle(quads[i].o, g.optR)}"><span class="tm-opt-text">${escapeHtml(o.label)}</span></button>
+      <div class="tm-ans" data-i="${i}" style="${tmCircleStyle(quads[i].a, g.ansR)}" aria-hidden="true">
+        <div class="tm-ans-fill tm-tone-${escapeHtml(o.tone || 'recommend')}">
+          <span class="tm-ans-text">${escapeHtml(o.answer)}</span>
+          ${o.answerNote ? `<span class="tm-ans-note">${escapeHtml(o.answerNote)}</span>` : ''}
+        </div>
+      </div>`).join('');
   return `
     <div class="tscore-tool">
-      ${tool.title ? `<h3 class="tscore-title">${escapeHtml(tool.title)}</h3>` : ''}
-      ${tool.intro ? `<p class="tscore-intro">${escapeHtml(tool.intro)}</p>` : ''}
-      ${tool.prompt ? `<p class="tscore-prompt">${escapeHtml(tool.prompt)}</p>` : ''}
-      <div class="tscore-options">
-        ${tool.options.map((o, idx)=>`<button type="button" class="tscore-option" data-idx="${idx}" aria-pressed="false">${escapeHtml(o.label)}</button>`).join('')}
+      ${tool.title ? `<h3 class="tscore-title">${escapeHtml(tool.title)}</h3><span class="tscore-bar" aria-hidden="true"></span>` : ''}
+      <div class="tm-info">
+        ${tool.infoHeading ? `<h4 class="tm-info-h">${escapeHtml(tool.infoHeading)}</h4>` : ''}
+        ${tool.infoText ? `<p class="tm-info-p">${escapeHtml(tool.infoText)}</p>` : ''}
+        ${tool.infoChecks ? `<ul class="tm-checks">${tool.infoChecks.map(c=>`<li><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="4 12.5 9.5 18 20 6.5"/></svg><span>${escapeHtml(c)}</span></li>`).join('')}</ul>` : ''}
       </div>
-      <div class="tscore-result" id="tscore-result" hidden><p></p></div>
-      ${tool.note ? `<p class="tscore-note">${escapeHtml(tool.note)}</p>` : ''}
+      <div class="tm-map" style="--tm-ratio:${g.w} / ${g.h}">
+        <svg class="tm-lines" viewBox="0 0 ${g.w} ${g.h}" aria-hidden="true" focusable="false">${spokes}${branches}</svg>
+        <div class="tm-center" style="${tmCircleStyle(g.center, g.center.r)}"><span>${escapeHtml(tool.centerLabel || '')}</span></div>
+        ${optBtns}
+      </div>
+      <div class="tm-live" id="tscore-result" aria-live="polite" aria-atomic="true"></div>
+      ${tool.note ? `<p class="tm-note">${escapeHtml(tool.note)}</p>` : ''}
     </div>
   `;
 }
 
 function wireToolWidget(root, tool){
   if(!root) return;
-  const buttons = root.querySelectorAll('.tscore-option');
-  const result = root.querySelector('.tscore-result');
-  const resultP = result.querySelector('p');
-  buttons.forEach(btn=>{
+  const opts = tool.options || [];
+  const buttons = root.querySelectorAll('.tm-opt');
+  const answers = root.querySelectorAll('.tm-ans');
+  const branches = root.querySelectorAll('.tm-branch');
+  const live = root.querySelector('.tm-live');
+  function select(sel){
+    buttons.forEach((b,i)=>{
+      b.setAttribute('aria-pressed', i===sel);
+      b.classList.toggle('is-on', i===sel);
+    });
+    answers.forEach((a,i)=>a.classList.toggle('is-on', i===sel));
+    branches.forEach((b,i)=>b.classList.toggle('is-on', i===sel));
+    const o = sel >= 0 ? opts[sel] : null;
+    live.textContent = o ? `${o.label}: ${o.answer}${o.answerNote ? ' ' + o.answerNote : ''}` : '';
+  }
+  let current = -1;
+  buttons.forEach((btn, i)=>{
     btn.addEventListener('click', ()=>{
-      buttons.forEach(b=>b.setAttribute('aria-pressed', b===btn));
-      const opt = tool.options[parseInt(btn.dataset.idx, 10)];
-      resultP.textContent = opt.result;
-      result.hidden = false;
+      current = (current === i) ? -1 : i;
+      select(current);
     });
   });
 }
@@ -641,7 +694,7 @@ function agResourcesHtml(resources, s){
     ${resources.map(r=>`
       <a class="ag-resource" href="${escapeHtml(r.url)}" target="_blank" rel="noopener">
         <span class="ag-resource-title">${escapeHtml(r.title)}<span aria-hidden="true">&nbsp;↗</span></span>
-        <span class="ag-resource-desc">${escapeHtml(r.desc || '')}</span>
+        ${r.desc ? `<span class="ag-resource-desc">${escapeHtml(r.desc)}</span>` : ''}
         <span class="ag-resource-src">Source: ${escapeHtml(r.source || 'Common App')}${(r.kind === undefined ? 'PDF' : r.kind) ? ` (${escapeHtml(r.kind === undefined ? 'PDF' : r.kind)})` : ''}</span>
       </a>`).join('')}
   </div>`;
