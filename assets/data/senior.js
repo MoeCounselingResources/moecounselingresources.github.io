@@ -612,10 +612,11 @@ YEARS.senior = {
           note: "We know not every situation is the same. Have a conversation with your counselor if you are in a unique situation or are unsure."
         },
         items: [
-          {title:"Sending your scores", desc:"Sending official scores is the student's responsibility — counselors do not send scores. Allow up to 2 weeks for processing and save your confirmation.", url:"#"},
-          {title:"Testing policies by school", desc:"Which popular schools require official scores vs. allow self-reporting. See the Moeller Popular Colleges Spreadsheet for the full list.", url:"#"},
-          {title:"Ohio State early action note", desc:"Send your scores by Oct. 16 if you want to be considered for Early Action.", url:"#"},
-          {title:"AP score self-reporting", desc:"Self-report any AP score of 3, 4, or 5 directly in your Common App.", url:"#"},
+          {title:"Sending your scores", desc:"Sending official scores is the student's responsibility — counselors do not send scores. Allow up to 2 weeks for processing and save your confirmation.", bullets:[
+            {text:"Send SAT scores", url:"https://satsuite.collegeboard.org/scores/sending-sat-scores"},
+            {text:"Send ACT scores", url:"https://www.act.org/content/act/en/products-and-services/the-act/scores/sending-your-scores.html"}
+          ]},
+          {title:"Testing policies by school", desc:"Which popular schools require official scores vs. allow self-reporting. See the Moeller Popular Colleges Spreadsheet for the full list.", url:"popular-colleges.html"},
           {title:"SAT & ACT policies and score ranges for popular colleges", desc:"Compass Prep's college profiles show testing policies and middle-50% score ranges.", url:"https://www.compassprep.com/college-profiles/"},
           {title:"Test-optional and test-free colleges, searchable list", desc:"FairTest's list is the place to check any college's current testing policy.", url:"https://fairtest.org/test-optional-list/"},
           {title:"AP Credit Policy Search", desc:"Your AP scores could earn you college credit or advanced placement (meaning you could skip certain courses in college). Use this tool to find colleges that offer credit or placement for AP scores.", url:"https://apstudents.collegeboard.org/getting-credit-placement/search-policies"}
