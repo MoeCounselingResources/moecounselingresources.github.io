@@ -1858,7 +1858,7 @@ a.resource-link{border-bottom-color:var(--sky);}
 .eb-links{display:grid; grid-template-columns:1fr 1fr; gap:14px 20px; margin-bottom:18px;}
 .eb-ans{font-weight:400;}
 .eb-map{overflow-x:auto; border:1px solid var(--rule); border-radius:12px; background:var(--paper); margin:6px 0 4px;}
-.eb-svg{display:block; width:100%; min-width:640px; height:auto;}
+.eb-svg{display:block; width:100%; min-width:800px; height:auto;} /* 800 = viewBox width, so labels keep their 13px size on phones */
 .eb-lines line{stroke:var(--navy); stroke-width:1.6; opacity:0.55;}
 .eb-node text{fill:var(--navy); font-family:var(--sans); font-size:13px; font-weight:600;}
 .eb-node rect{stroke:var(--navy); stroke-width:1.4;}
@@ -1894,5 +1894,11 @@ a.resource-link{border-bottom-color:var(--sky);}
   body.eb-printing .eb-printable{position:absolute; left:0; top:0; width:100%;}
   body.eb-printing .eb-noprint{display:none !important;}
   body.eb-printing .eb-map{overflow:visible; border:0;}
-  body.eb-printing .eb-svg{min-width:0; width:100%;}
+  body.eb-printing .eb-svg{min-width:0; width:100%; height:auto; max-height:4.6in;}
+  body.eb-printing .eb-map,body.eb-printing .eb-summary-box{break-inside:avoid; page-break-inside:avoid;}
+  body.eb-printing .eb-summary-box{margin-top:12px; padding:12px 16px;}
+  body.eb-printing .eb-printable .eb-part-h{margin-bottom:6px;}
+  /* Everything else takes no room, so it can't spill onto extra pages */
+  html:has(body.eb-printing),body.eb-printing{height:auto !important; overflow:visible;}
+  body.eb-printing > *:not(:has(.eb-printable)){display:none !important;}
 }

@@ -739,8 +739,10 @@ const EB_MAX_VALUES = 5, EB_MAX_STARS = 3, EB_PARTS = ['Which prompt fits you?',
 let EB_COUNTER = 0;
 function renderEssayBrainstormHtml(s, year){
   EB_COUNTER++;
-  return `<div class="eb-widget" data-year="${escapeHtml(year)}" data-uid="eb${EB_COUNTER}"></div>`;
+  return `<div class="eb-widget" data-year="${ebAttr(year)}" data-uid="eb${EB_COUNTER}"></div>`;
 }
+/* Attribute-safe escape for student text (also escapes quotes). */
+function ebAttr(str){ return escapeHtml(str).replace(/"/g, '&quot;').replace(/'/g, '&#39;'); }
 function ebLoad(){
   try{
     const o = JSON.parse(localStorage.getItem(EB_KEY) || 'null');
@@ -902,12 +904,12 @@ function wireEssayBrainstorm(root){
   /* ---- Part 2: gather ideas ---- */
   function renderGather(note){
     const body = root.querySelector('.eb-body');
-    const customChip = st.custom ? `<button type="button" class="sl-chip eb-chip" data-v="${escapeHtml(st.custom)}" aria-pressed="${st.values.includes(st.custom)}">${escapeHtml(st.custom)}</button>` : '';
+    const customChip = st.custom ? `<button type="button" class="sl-chip eb-chip" data-v="${ebAttr(st.custom)}" aria-pressed="${st.values.includes(st.custom)}">${escapeHtml(st.custom)}</button>` : '';
     body.innerHTML = `
       <h3 class="eb-part-h">Gather ideas</h3>
       <h4 class="eb-sub">Pick up to ${EB_MAX_VALUES} values that feel like you</h4>
       <div class="sl-chip-row eb-chips" role="group" aria-label="Values">
-        ${cfg.values.map(v=>`<button type="button" class="sl-chip eb-chip" data-v="${escapeHtml(v)}" aria-pressed="${st.values.includes(v)}">${escapeHtml(v)}</button>`).join('')}${customChip}
+        ${cfg.values.map(v=>`<button type="button" class="sl-chip eb-chip" data-v="${ebAttr(v)}" aria-pressed="${st.values.includes(v)}">${escapeHtml(v)}</button>`).join('')}${customChip}
       </div>
       <p class="eb-msg" role="status" aria-live="polite">${escapeHtml(note || '')}</p>
       <div class="eb-custom">
@@ -918,7 +920,7 @@ function wireEssayBrainstorm(root){
       <h4 class="eb-sub">Jot down a few words for each</h4>
       ${cfg.reflections.map((r, i)=>`
         <div class="eb-refl"><label class="eg-label" for="${uid}-r${i}">${escapeHtml(r.label)} <span class="eb-hint">${escapeHtml(r.hint)}</span></label>
-        <input type="text" id="${uid}-r${i}" class="modal-search eb-input" maxlength="80" autocomplete="off" value="${escapeHtml(st.refl[i] || '')}"></div>`).join('')}`;
+        <input type="text" id="${uid}-r${i}" class="modal-search eb-input" maxlength="80" autocomplete="off" value="${ebAttr(st.refl[i] || '')}"></div>`).join('')}`;
     const msg = body.querySelector('.eb-msg');
     body.querySelector('.eb-chips').addEventListener('click', e=>{
       const b = e.target.closest('.eb-chip'); if(!b) return;
@@ -962,7 +964,7 @@ function wireEssayBrainstorm(root){
         <p class="ag-p">For each idea, choose the value it shows about you.</p>
         <div class="eb-links">${ans.map(a=>`
           <div class="eb-link"><label class="eg-label" for="${uid}-l${a.i}">${escapeHtml(a.label)}: <span class="eb-ans">${escapeHtml(a.text)}</span></label>
-          <select id="${uid}-l${a.i}" class="modal-search eb-select" data-i="${a.i}"><option value="">Not connected</option>${vals.map(v=>`<option value="${escapeHtml(v)}"${a.value === v ? ' selected' : ''}>${escapeHtml(v)}</option>`).join('')}</select></div>`).join('')}
+          <select id="${uid}-l${a.i}" class="modal-search eb-select" data-i="${a.i}"><option value="">Not connected</option>${vals.map(v=>`<option value="${ebAttr(v)}"${a.value === v ? ' selected' : ''}>${escapeHtml(v)}</option>`).join('')}</select></div>`).join('')}
         </div>
       </div>
       <div class="eb-map" tabindex="0" role="group" aria-label="Mind map (scrolls sideways on small screens)"></div>
@@ -975,7 +977,9 @@ function wireEssayBrainstorm(root){
       </div>`;
     const draw = focusStar =>{
       const a = answersList(), keep = validStars(), conn = a.filter(x=>x.value);
-      body.querySelector('.eb-map').innerHTML = ebMapSvg(vals, a);
+      const mapEl = body.querySelector('.eb-map');
+      mapEl.innerHTML = ebMapSvg(vals, a);
+      mapEl.scrollLeft = Math.max(0, (mapEl.scrollWidth - mapEl.clientWidth) / 2);
       body.querySelector('.eb-topics').innerHTML = `<h4 class="eb-sub">Possible essay topics</h4>
         ${conn.length ? `<p class="ag-p">Star up to ${EB_MAX_STARS} you'd like to talk through.</p>
         <ul class="eb-topic-list">${conn.map(x=>`<li><button type="button" class="eb-star" data-i="${x.i}" aria-pressed="${keep.includes(x.i)}" aria-label="Star topic: ${escapeHtml(x.text)} shows ${escapeHtml(x.value)}"><span aria-hidden="true">${keep.includes(x.i) ? '★' : '☆'}</span></button><span>${escapeHtml(x.text)} → shows ${escapeHtml(x.value)}</span></li>`).join('')}</ul>
