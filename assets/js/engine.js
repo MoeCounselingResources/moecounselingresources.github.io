@@ -255,7 +255,11 @@ function renderIndexNav(year){
     try{ localStorage.setItem(`crh-index-active-${year}`, key); }catch(e){}
   }
   nav.querySelectorAll('button').forEach(btn=>{
-    btn.addEventListener('click', ()=>selectSection(btn.dataset.key));
+    btn.addEventListener('click', ()=>{
+      selectSection(btn.dataset.key);
+      // Keep the address bar in step with the index without adding history or jumping.
+      try{ history.replaceState(null, '', '#' + btn.dataset.key); }catch(e){}
+    });
   });
 
   // Deep links: seniors.html#writingGuide switches to that index section.
