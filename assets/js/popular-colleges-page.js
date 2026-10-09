@@ -11,7 +11,7 @@
   const PLAN_CHOICES = ['Early Action','Early Decision','Restrictive Early Action','Rolling','Priority Deadline'];
   const POLICY_CHOICES = ['Required','Expected','Optional'];
 
-  const state = {test:'act', score:'', q:'', policies:new Set(), plans:new Set(), stars:false, superscore:false, sort:'name', openName:null};
+  const state = {test:'act', score:'', q:'', policies:new Set(), plans:new Set(), stars:false, superscore:false, css:false, sort:'name', openName:null};
   const esc = s => escapeHtml(s == null ? '' : String(s));
   const pct = (v, ax) => Math.max(0, Math.min(100, (v - ax.min) / (ax.max - ax.min) * 100));
   const policyGroup = p => p === 'Optional*' ? 'Optional' : p;
@@ -32,6 +32,7 @@
       if(state.plans.size && !c.plans.some(p => state.plans.has(p))) return false;
       if(state.stars && (!c.stars || c.stars === 'No')) return false;
       if(state.superscore && (!c.superscore || c.superscore === 'No')) return false;
+      if(state.css && c.cssProfile !== 'Yes') return false;
       return true;
     });
     const mid = c => c[state.test] ? (c[state.test].low + c[state.test].high) / 2 : null;
@@ -92,6 +93,7 @@
           ${dd('Official score report required', c.officialScores)}
           ${dd('Superscores', c.superscore)}
           ${dd('STARS (self-reported academic record)', c.stars)}
+          ${dd('Requires CSS Profile for financial aid', c.cssProfile)}
           ${dd('Additional materials', c.additional)}
           ${dd('Testing notes', c.testingNotes)}
         </dl>
@@ -168,7 +170,7 @@
       state.score = ''; score.value = '';
       render();
     }));
-    [['pc-stars','stars'],['pc-super','superscore']].forEach(([id, key]) => {
+    [['pc-stars','stars'],['pc-super','superscore'],['pc-css','css']].forEach(([id, key]) => {
       const b = document.getElementById(id);
       b.addEventListener('click', () => { state[key] = !state[key]; b.setAttribute('aria-pressed', String(state[key])); render(); });
     });
@@ -181,7 +183,7 @@
     const h = decodeURIComponent(location.hash.replace(/^#/, ''));
     const c = POPULAR_COLLEGES.find(x => collegeSlug(x.name) === h);
     if(!c) return;
-    state.q = ''; state.policies.clear(); state.plans.clear(); state.stars = false; state.superscore = false;
+    state.q = ''; state.policies.clear(); state.plans.clear(); state.stars = false; state.superscore = false; state.css = false;
     state.openName = c.name;
     render();
     const el = document.getElementById(h);

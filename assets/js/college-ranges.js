@@ -17,7 +17,8 @@
   function blank(name){
     return {name:name, earlyType:'', plans:[], earlyDeadline:'', regularDeadline:'', stars:'', additional:'',
             act:null, sat:null, testingNotes:'', testingPolicyFull:'', testingPolicy:'', officialScores:'',
-            superscore:'', notes:'', link:'', rangeOnly:true};
+            superscore:'', notes:'', link:'', rangeOnly:true,
+            cssProfile: (typeof CSS_PROFILE_RANGE_ONLY !== 'undefined' && CSS_PROFILE_RANGE_ONLY.includes(name)) ? 'Yes' : 'No'};
   }
   function apply(c, which, r){
     if(!r || typeof r.low !== 'number' || typeof r.high !== 'number') return;

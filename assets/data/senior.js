@@ -633,10 +633,10 @@ YEARS.senior = {
         note: "Don't skip this",
         desc: "Aid is separate from admissions — these deadlines matter just as much as your applications.",
         items: [
-          {title:"FAFSA checklist", desc:"Opens October 1. Complete it with your parents once you've started submitting applications.", url:"#"},
-          {title:"Financial Aid Night", desc:"September 1, 7:00–8:00 PM at Ursuline — for students and families.", url:"#"},
-          {title:"CSS Profile", desc:"Which of your schools require it, and by when.", url:"#"},
-          {title:"Comparing award letters", desc:"A framework for reading net cost side by side once offers arrive.", url:"#"}
+          {title:"FAFSA checklist", desc:"The 2027–28 FAFSA is open. Step by step: accounts, documents, which parent files, and deadlines.", url:"financial-aid.html#fafsa"},
+          {title:"Financial Aid Night recap", desc:"Missed the September 1 session? Read the main takeaways.", url:"financial-aid.html#recap"},
+          {title:"CSS Profile", desc:"What it is, what it costs, and which of your schools require it.", url:"financial-aid.html#css"},
+          {title:"Comparing award letters", desc:"A step-by-step way to read net cost side by side once offers arrive.", url:"financial-aid.html#compare"}
         ]
       },
       scholarshipReporting: {

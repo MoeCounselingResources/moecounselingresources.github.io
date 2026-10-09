@@ -398,3 +398,202 @@ YEARS["career-exploration"] = {
     experience: placeholderSection("Getting experience", "Job shadowing, internships, and summer programs.")
   }
 };
+
+/* ---------------- Financial Aid ----------------
+   layout: "indexed" gives this page a left-side index. Link to one section with
+   financial-aid.html#key (for example financial-aid.html#fafsa). The grade pages do this.
+
+   UPDATE EVERY YEAR (dates, form years, and rules change each cycle). Check these against
+   studentaid.gov, cssprofile.collegeboard.org, and highered.ohio.gov:
+   • FAFSA form year (2027–28), the tax year it uses (2025), the open date (Sept. 23, 2026),
+     the federal deadline (June 30, 2028), and the next FAFSA's open date
+   • CSS Profile year, open date (Oct. 1, 2026), and fees ($25 first college, $16 each
+     additional, free up to $100,000 family income)
+   • Loan limits: first-year federal student loan ($5,500), Parent PLUS caps
+     ($20,000/year and $65,000 total per student, since July 1, 2026)
+   • Ohio OCOG: SAI of $3,750 or less, household income of $96,000 or less, Oct. 1 deadline
+   • Governor's Merit Scholarship rules (set in the state budget)
+   • Financial Aid Night recap (date and takeaways)
+   Every url:"#" below is a PLACEHOLDER waiting for a link from College Counseling.
+   ------------------------------------------------ */
+
+YEARS["financial-aid"] = {
+  hub: "college",
+  label: "Financial Aid",
+  blurb: "How paying for college works, from the FAFSA and CSS Profile to scholarships and comparing aid offers, written for families who are new to this.",
+  layout: "indexed",
+  order: ["basics","byGrade","fafsa","css","ohio","scholarships","compare","questions","dates","recap"],
+  sections: {
+    basics: {
+      navLabel: "How Financial Aid Works",
+      title: "How Financial Aid Works",
+      desc: "Financial aid is any money that helps pay for college. Some of it is free, and some of it has to be paid back. Knowing which is which is the first step.",
+      items: [
+        {title:"Sticker price vs. what you actually pay", desc:"A college's cost of attendance includes tuition, housing, food, books, travel, and personal costs. Your net price is what's left after grants and scholarships. That's the number to compare, and it's often much lower than the published price. Every college has a net price calculator that estimates it for your family.", url:"https://collegecost.ed.gov/net-price"},
+        {title:"Free money: grants and scholarships", desc:"Neither has to be paid back. Grants usually depend on financial need and come from the federal government, the state, or the college. Scholarships usually reward grades, talents, or other strengths and come from colleges and outside groups."},
+        {title:"Need-based aid vs. merit aid", desc:"Need-based aid depends on what your family can afford, as measured by the FAFSA (and the CSS Profile at some colleges). Merit aid rewards achievement no matter your income. Many families receive both. Some colleges give mostly merit aid and others give mostly need-based aid, which is worth knowing as you build a college list."},
+        {title:"Work-study", desc:"A part-time job, usually on campus, for students who qualify based on need. Students earn it through a paycheck during the year, so it doesn't lower the bill you pay at the start of each term."},
+        // PLACEHOLDER: link for "federal student loans (subsidized vs. unsubsidized)"
+        {title:"Federal student loans", desc:"Loans in the student's name, with fixed interest rates and flexible repayment options. With a subsidized loan, the government pays the interest while the student is in school at least half-time. With an unsubsidized loan, interest starts adding up right away. A first-year dependent student can borrow up to $5,500.", url:"#"},
+        {title:"Parent PLUS loans", desc:"Federal loans that parents can take out for a dependent student. They require a credit check, and the parent is responsible for repaying them. Since July 1, 2026, new Parent PLUS borrowing is limited to $20,000 per student each year and $65,000 per student in total."},
+        // PLACEHOLDER: link for "private student loans"
+        {title:"Private student loans", desc:"Loans from banks and other lenders. Rates and terms vary, and they usually don't have the protections federal loans have, so most families use federal loans first.", url:"#"}
+      ]
+    },
+    byGrade: {
+      navLabel: "Getting Ready by Grade",
+      title: "Getting Ready, Grade by Grade",
+      desc: "Families don't file anything until the fall of senior year. Here's what's useful to know, or do, along the way.",
+      items: [
+        {title:"Freshman year: why there's no rush", desc:"Nothing about financial aid needs attention yet. The FAFSA uses tax information from two years before college starts, so the income that counts is from the calendar year that begins in January of sophomore year. For now, the most useful step is simply learning how college costs work."},
+        // PLACEHOLDER: link for 529 savings information
+        {title:"Saving and 529 plans", desc:"A 529 plan is a savings account for education. Money in it grows without federal tax when it's used for qualified school costs. On the FAFSA, a 529 owned by a parent counts as a parent asset, which affects aid far less than money in the student's own name.", url:"#"},
+        {title:"Sophomore year: start the cost conversation", desc:"This is a relaxed time to talk as a family about what you can contribute, how much borrowing you'd consider, and how much cost should shape the college list. Students who know the budget early build better lists."},
+        {title:"Junior year: try net price calculators", desc:"Pick a few colleges and run their net price calculators together. You'll see an estimated cost for your family before your son applies, and you'll learn which schools tend to give merit aid and which give need-based aid.", url:"https://collegecost.ed.gov/net-price"},
+        // PLACEHOLDER: link for "Create an account" (StudentAid.gov account / FSA ID)
+        {title:"Summer before senior year: get ready to file", desc:"Create StudentAid.gov accounts for the student and each parent who will fill out the FAFSA, find your tax return from two years ago, and make a list of colleges you're considering. Then the FAFSA goes quickly once it opens.", url:"#"}
+      ]
+    },
+    fafsa: {
+      navLabel: "FAFSA Step by Step",
+      title: "FAFSA Step by Step",
+      desc: "The FAFSA is the free federal form for federal grants, loans, and work-study, Ohio's need-based grant, and most colleges' own aid. Students file it every year of college. The 2027–28 FAFSA, for students starting college in fall 2027, is open now.",
+      stacked: true,
+      items: [
+        // PLACEHOLDER: link for "Create an account" (StudentAid.gov account / FSA ID)
+        {title:"1. Create StudentAid.gov accounts", desc:"The student and every parent who has to provide information (the form calls them contributors) each need their own account, with their own email address. New accounts are checked against Social Security records, which can take a few days, so don't wait until deadline week.", url:"#"},
+        // PLACEHOLDER: link for "Who Is My Parent When I Fill Out the FAFSA?" (Parent Wizard)
+        {title:"2. Figure out which parent fills it out", desc:"If parents are divorced or separated, the parent who gave the student more financial support over the past 12 months completes the FAFSA. That isn't always the parent the student lives with. Federal Student Aid has a short tool that walks you through it.", url:"#"},
+        // PLACEHOLDER: link for "Gather documents"
+        {title:"3. Gather what you'll need", desc:"Social Security numbers, your 2025 federal tax returns and W-2s (the 2027–28 FAFSA uses 2025 taxes), current bank balances, and records of investments, a family business, and any untaxed income. Most tax information transfers straight from the IRS once each contributor agrees to share it.", url:"#"},
+        {title:"4. Fill out the form and list your colleges", desc:"The student starts the FAFSA at StudentAid.gov and invites parents to complete their part. You can list up to 20 colleges and add more later. List every school you're applying to, even before you're admitted.", url:"https://studentaid.gov/h/apply-for-aid/fafsa"},
+        {title:"5. Everyone signs and gives consent", desc:"Each contributor signs with their own account and agrees to let the IRS share tax information. If anyone skips that consent, the student can't receive federal aid."},
+        {title:"6. Check your FAFSA Submission Summary", desc:"After the form is processed, you'll get an email with your FAFSA Submission Summary and your Student Aid Index (SAI), the number colleges use to measure need. Check it for mistakes and fix them at StudentAid.gov. Colleges may ask for extra documents, so watch email and each college's portal."},
+        {title:"File early, before the earliest deadline", desc:"The federal deadline is June 30, 2028, but colleges set much earlier priority deadlines, and some aid goes to early filers first. Find the earliest priority deadline among your colleges and file before it. File even if you don't expect to qualify: many colleges require the FAFSA for any aid, and it's the only way to get federal student loans."},
+        {title:"Big J's Very Brief Guide to the FAFSA & CSS Profile", desc:"A short, plain-language guide to both forms.", url:"https://drive.google.com/file/d/1nfPyYXHACThnNcRkFLbJiclN-phJr2fm/view"},
+        // PLACEHOLDER: link for "View FSA informational videos"
+        {title:"Federal Student Aid's how-to videos", desc:"Short videos from Federal Student Aid about filling out the FAFSA.", url:"#"}
+      ]
+    },
+    css: {
+      navLabel: "CSS Profile",
+      title: "CSS Profile",
+      desc: "The CSS Profile is a second financial aid form, run by College Board, that some colleges use to award their own money. It's in addition to the FAFSA, not instead of it.",
+      items: [
+        {title:"What it is and why you might need it", desc:"It asks for more detail than the FAFSA, such as home equity, and some colleges also ask a divorced or separated parent who doesn't live with the student to fill one out. Colleges use it to decide how much of their own grant money to offer. If a college on your list requires it and you skip it, you could miss out on that aid.", url:"https://cssprofile.collegeboard.org/"},
+        {title:"Which colleges use it", desc:"College Board keeps the official, up-to-date list of colleges and scholarship programs that use the CSS Profile. Requirements can differ by applicant, so also check each college's financial aid page.", url:"https://profile.collegeboard.org/PPI/participatingInstitutions.aspx"},
+        {title:"Moeller's popular colleges that use it", desc:"On our Popular Colleges page, turn on the \u201cUses CSS Profile\u201d filter to see which of the schools Moeller students apply to most require it.", url:"popular-colleges.html"},
+        {title:"What it costs", desc:"$25 for the first college and $16 for each additional one. It's free for U.S. undergraduate students whose family income is up to $100,000, and that fee waiver is applied automatically based on your answers."},
+        {title:"When to file", desc:"The 2027–28 CSS Profile is open now. Each college sets its own deadline, often near its early or regular application deadline, so check every school that requires it."},
+        {title:"Big J's Very Brief Guide to the FAFSA & CSS Profile", desc:"A short, plain-language guide to both forms.", url:"https://drive.google.com/file/d/1nfPyYXHACThnNcRkFLbJiclN-phJr2fm/view"}
+      ]
+    },
+    ohio: {
+      navLabel: "Ohio State Aid",
+      title: "Ohio State Aid",
+      desc: "Ohio has its own aid for Ohio residents who attend eligible Ohio colleges. The FAFSA is the application for Ohio's need-based grant.",
+      items: [
+        // PLACEHOLDER: link for the Ohio College Opportunity Grant
+        {title:"Ohio College Opportunity Grant (OCOG)", desc:"Ohio's need-based grant. A student qualifies with a Student Aid Index of $3,750 or less and household income of $96,000 or less. Ohio's deadline for the 2027–28 FAFSA is October 1, 2027, but your colleges' deadlines come much sooner, so file by those.", url:"#"},
+        // PLACEHOLDER: link for the Governor's Merit Scholarship
+        {title:"Governor's Merit Scholarship", desc:"A state scholarship for top-ranked graduates who attend an eligible Ohio college. Students don't apply; their high school identifies who qualifies, and the state notifies them during senior year. The scholarship doesn't apply at out-of-state colleges. The amount and class-rank cutoff are set in the state budget, so check the state's page for this year's rules.", url:"#"}
+      ]
+    },
+    scholarships: {
+      navLabel: "Scholarships",
+      title: "Scholarships",
+      desc: "Most scholarship money comes from colleges themselves, but outside scholarships add up too.",
+      items: [
+        {title:"Scholarships from colleges", desc:"Many colleges consider every admitted student for merit scholarships automatically, based on the application. Others need a separate application or have an earlier deadline. Check each college's scholarship page and add those deadlines to your Application Tracker.", url:"app-tracker.html"},
+        // PLACEHOLDER: link for outside scholarship searches
+        {title:"Outside scholarships", desc:"Local organizations, employers, churches, civic groups, and national programs all offer awards, and local ones usually have fewer applicants. Tell your college about any outside award you receive, since it can change your aid package.", url:"#"},
+        // PLACEHOLDER: link for an early scholarship search site
+        {title:"Searches worth starting early", desc:"Sophomores and juniors can set up a free scholarship search profile now and let matches arrive over time. There's no need to apply until the awards fit your grade.", url:"#"},
+        {title:"Avoiding scams", desc:"Real scholarships never charge a fee, ask for bank account numbers, or guarantee you'll win. The FAFSA itself is always free at StudentAid.gov."},
+        {title:"Seniors: report your scholarships", desc:"Moeller asks seniors to report every award offered, whether or not they'll use it.", url:"seniors.html#scholarshipReporting"}
+      ]
+    },
+    compare: {
+      navLabel: "Comparing Award Letters",
+      title: "Comparing Award Letters",
+      desc: "Aid offers (often called award letters) arrive after admission, and every college lays them out differently. Line them up the same way before you decide.",
+      table: {
+        caption: "A simple way to compare offers, one college at a time",
+        headers: ["Step","What to do"],
+        rows: [
+          ["1. Start with the full cost","Use the college's total cost of attendance for one year, not just tuition."],
+          ["2. Subtract free money","Subtract only grants and scholarships. What's left is your net price."],
+          ["3. List loans separately","Loans have to be paid back, so they don't lower the cost. Note the type and amount of each one."],
+          ["4. Set work-study aside","Work-study is earned during the year, so it doesn't lower the first bill."],
+          ["5. Check what renews","Ask what GPA keeps a merit scholarship and whether need-based aid is figured again each year."],
+          ["6. Think in four years","A $5,000 difference each year is $20,000 by graduation."]
+        ]
+      },
+      items: [
+        // PLACEHOLDER: link for an award letter comparison worksheet or tool
+        {title:"Award letter comparison worksheet", desc:"A worksheet for putting your offers side by side.", url:"#"},
+        {title:"Watch for gaps", desc:"Some offers leave a gap between the net price and what your family can pay, and suggest filling it with Parent PLUS or private loans. Parent PLUS loans are now capped at $20,000 per student each year, so plan for how a gap would be covered all four years."},
+        {title:"If an offer isn't enough, ask for a review", desc:"If your family's finances have changed since the tax year the FAFSA used, such as a job loss, high medical bills, or a divorce, contact the financial aid office and ask for a review. Bring documents. Some colleges will also look at a better offer from another school, but policies vary."},
+        {title:"Decide by May 1", desc:"Students have until May 1 to choose a college and pay a deposit, unless they were admitted Early Decision.", url:"seniors.html#decisionInfo"}
+      ]
+    },
+    questions: {
+      navLabel: "Questions to Ask Colleges",
+      title: "Questions to Ask Colleges",
+      desc: "Bring these to a financial aid office, a college visit, or an admitted-student day.",
+      type: "responsibilities",
+      groups: [
+        {title:"About cost", items:[
+          "What is the total cost of attendance, and what does it include?",
+          "How much did costs go up last year, and what should we expect over four years?",
+          "Are there fees that aren't included in the cost of attendance?"
+        ]},
+        {title:"About aid", items:[
+          "Which forms do you require (FAFSA, CSS Profile, your own form), and by when?",
+          "Are merit scholarships automatic, or is there a separate application or deadline?",
+          "What does a student need to do to keep merit aid each year?",
+          "Is need-based aid figured again every year?",
+          "Do you meet full demonstrated need? If not, how much on average?"
+        ]},
+        {title:"About changes and payment", items:[
+          "How do outside scholarships affect my aid offer?",
+          "How do we ask for a review if our finances change?",
+          "Is there a monthly payment plan, and when is the first bill due?"
+        ]}
+      ]
+    },
+    dates: {
+      navLabel: "Key Dates",
+      title: "Key Dates",
+      desc: "Dates for seniors starting college in fall 2027. Colleges set their own aid deadlines, so always check each college's financial aid page.",
+      table: {
+        caption: "2027–28 aid year (updated every year)",
+        headers: ["Date","What happens"],
+        rows: [
+          ["Sept. 23, 2026","The 2027–28 FAFSA opened at StudentAid.gov."],
+          ["Oct. 1, 2026","The 2027–28 CSS Profile opened for colleges that require it."],
+          ["Fall 2026 – winter 2027","Colleges' priority aid deadlines, often close to their Early Action, Early Decision, and Regular Decision deadlines."],
+          ["Senior spring","Aid offers arrive, usually with or soon after admission decisions."],
+          ["May 1, 2027","National decision day: choose a college and pay a deposit."],
+          ["Oct. 1, 2027","Ohio's deadline to file the 2027–28 FAFSA for the Ohio College Opportunity Grant."],
+          ["By Oct. 1, 2027","The 2028–29 FAFSA opens. Students file again every year of college."],
+          ["June 30, 2028","Federal deadline for the 2027–28 FAFSA. Don't wait this long; college deadlines come much sooner."]
+        ]
+      }
+    },
+    recap: {
+      navLabel: "Financial Aid Night Recap",
+      title: "Financial Aid Night Recap",
+      note: "Held September 1, 2026",
+      desc: "Missed Financial Aid Night, or want a refresher? Here are the main takeaways.",
+      items: [
+        {title:"File the FAFSA early", desc:"The 2027–28 FAFSA is open. Find each college's priority filing deadline and submit before the earliest one.", url:"#fafsa"},
+        {title:"Every contributor needs an account", desc:"The student and each parent who fills out the FAFSA need their own StudentAid.gov account. Divorced or separated families should check which parent counts.", url:"#fafsa"},
+        {title:"Some colleges also need the CSS Profile", desc:"Check which of your colleges require it, and file it by each school's deadline.", url:"#css"},
+        {title:"Know your loan options", desc:"Federal student loans come first. Learn the difference between subsidized and unsubsidized loans, and how private loans differ.", url:"#basics"},
+        // PLACEHOLDER: the Financial Aid Night slides (waiting on a privacy check before posting)
+        {title:"Presentation slides", desc:"The slides from Financial Aid Night will be posted here."}
+      ]
+    }
+  }
+};

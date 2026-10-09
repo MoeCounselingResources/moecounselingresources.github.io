@@ -263,7 +263,15 @@ function renderTopicPage(key){
     h.title, t.label, t.blurb, t.hub,
     `<a class="back-link" href="${backHref}">← Back to ${escapeHtml(backLabel)}</a><br>`
   );
-  renderStacked(t, key, 'sections');
+  // layout: "indexed" in topics.js gives a topic page the same left-side index as the Seniors
+  // page (the HTML file needs the indexed-wrap block). Deep links like page.html#key open a section.
+  const indexedWrap = document.getElementById('indexed-wrap');
+  if(t.layout === 'indexed' && indexedWrap){
+    indexedWrap.classList.add('active');
+    renderIndexNav(key);
+  } else {
+    renderStacked(t, key, 'sections');
+  }
   document.title = `${t.label} · Moeller Counseling`;
 }
 

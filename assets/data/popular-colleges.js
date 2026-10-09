@@ -11,11 +11,26 @@
      ranges). The yearly College Scorecard update will never replace them.
    • shortName (optional): how the school's name reads in the Seniors deadline notices
      (default: "University of" / "University" trimmed, e.g. "Michigan").
+   • cssProfile: "Yes" if the school requires the CSS Profile for its own aid, else "No".
+     Check once a year against College Board's list (it can't be pulled automatically):
+     https://profile.collegeboard.org/PPI/participatingInstitutions.aspx
+     Last checked October 2026 (Notre Dame and Michigan confirmed on their own aid sites).
    • plans: any of "Early Action", "Early Decision",
      "Restrictive Early Action", "Rolling", "Priority Deadline"
    ========================================================================= */
 
 const POPULAR_COLLEGES_CYCLE = "2025–26 application cycle";
+
+/* Schools that show on the Popular Colleges page only because their ACT/SAT ranges are
+   tracked (scripts/tracked-colleges.json), with no entry below. List the ones that use the
+   CSS Profile here so the "Uses CSS Profile" filter includes them; any not listed show "No".
+   Check once a year against College Board's participating list. Last checked October 2026. */
+const CSS_PROFILE_RANGE_ONLY = [
+  "Brown University", "Case Western Reserve University", "Columbia University",
+  "Cornell University", "Dartmouth College", "Harvard University", "Princeton University",
+  "University of North Carolina at Chapel Hill", "University of Pennsylvania",
+  "University of Virginia", "Yale University"
+];
 
 const POPULAR_COLLEGES = [
   {
@@ -28,6 +43,7 @@ const POPULAR_COLLEGES = [
     "earlyDeadline": "Sept 15, Oct 15, Nov 15, Dec 1",
     "regularDeadline": "Feb 1",
     "stars": "No",
+    "cssProfile": "No",
     "additional": "",
     "act": {
       "low": 28,
@@ -58,6 +74,7 @@ const POPULAR_COLLEGES = [
     "earlyDeadline": "",
     "regularDeadline": "Mar 1",
     "stars": "No",
+    "cssProfile": "No",
     "additional": "",
     "act": null,
     "sat": null,
@@ -78,6 +95,7 @@ const POPULAR_COLLEGES = [
     "earlyDeadline": "Oct 15",
     "regularDeadline": "Jan 1",
     "stars": "Yes",
+    "cssProfile": "No",
     "additional": "STARS - Materials Deadline of 11/1; RD by 1/10",
     "act": {
       "low": 28,
@@ -108,6 +126,7 @@ const POPULAR_COLLEGES = [
     "earlyDeadline": "Nov 1",
     "regularDeadline": "Feb 1",
     "stars": "No",
+    "cssProfile": "No",
     "additional": "For Direct Admission to Kelley - Students must complete Kelley Prospect Inventory (KPI) in your IU Portal by Nov. 15",
     "act": {
       "low": 29,
@@ -138,6 +157,7 @@ const POPULAR_COLLEGES = [
     "earlyDeadline": "Nov 1",
     "regularDeadline": "Apr 1",
     "stars": "No",
+    "cssProfile": "No",
     "additional": "",
     "act": {
       "low": 20,
@@ -168,6 +188,7 @@ const POPULAR_COLLEGES = [
     "earlyDeadline": "Dec 1",
     "regularDeadline": "Rolling",
     "stars": "No",
+    "cssProfile": "No",
     "additional": "",
     "act": {
       "low": 27,
@@ -199,6 +220,7 @@ const POPULAR_COLLEGES = [
     "earlyDeadline": "Early Decision - November 1; Early Action 1 - Nov. 1; Early Action II - Dec. 1",
     "regularDeadline": "Feb. 1",
     "stars": "No",
+    "cssProfile": "No",
     "additional": "",
     "act": {
       "low": 25,
@@ -229,6 +251,7 @@ const POPULAR_COLLEGES = [
     "earlyDeadline": "",
     "regularDeadline": "August",
     "stars": "No",
+    "cssProfile": "No",
     "additional": "",
     "act": null,
     "sat": null,
@@ -249,6 +272,7 @@ const POPULAR_COLLEGES = [
     "earlyDeadline": "",
     "regularDeadline": "August",
     "stars": "No",
+    "cssProfile": "No",
     "additional": "",
     "act": null,
     "sat": null,
@@ -269,6 +293,7 @@ const POPULAR_COLLEGES = [
     "earlyDeadline": "Nov 1",
     "regularDeadline": "Jan 15",
     "stars": "No",
+    "cssProfile": "No",
     "additional": "",
     "act": {
       "low": 28,
@@ -300,6 +325,7 @@ const POPULAR_COLLEGES = [
     "earlyDeadline": "Nov 15",
     "regularDeadline": "Feb 1",
     "stars": "No",
+    "cssProfile": "No",
     "additional": "",
     "act": {
       "low": 23,
@@ -330,6 +356,7 @@ const POPULAR_COLLEGES = [
     "earlyDeadline": "Nov. 1",
     "regularDeadline": "Jan 15",
     "stars": "Common App Courses & Grades section",
+    "cssProfile": "No",
     "additional": "",
     "act": {
       "low": 28,
@@ -360,6 +387,7 @@ const POPULAR_COLLEGES = [
     "earlyDeadline": "May 1",
     "regularDeadline": "",
     "stars": "No",
+    "cssProfile": "No",
     "additional": "",
     "act": null,
     "sat": null,
@@ -381,6 +409,7 @@ const POPULAR_COLLEGES = [
     "earlyDeadline": "Dec. 4",
     "regularDeadline": "Rolling",
     "stars": "No",
+    "cssProfile": "No",
     "additional": "",
     "act": {
       "low": 26,
@@ -411,6 +440,7 @@ const POPULAR_COLLEGES = [
     "earlyDeadline": "Nov 1",
     "regularDeadline": "Rolling",
     "stars": "No",
+    "cssProfile": "No",
     "additional": "",
     "act": {
       "low": 24,
@@ -441,6 +471,7 @@ const POPULAR_COLLEGES = [
     "earlyDeadline": "Nov 1",
     "regularDeadline": "Feb. 1",
     "stars": "No",
+    "cssProfile": "No",
     "additional": "",
     "act": {
       "low": 24,
@@ -471,6 +502,7 @@ const POPULAR_COLLEGES = [
     "earlyDeadline": "Dec 1",
     "regularDeadline": "Feb 15",
     "stars": "No",
+    "cssProfile": "No",
     "additional": "",
     "act": {
       "low": 21,
@@ -501,6 +533,7 @@ const POPULAR_COLLEGES = [
     "earlyDeadline": "",
     "regularDeadline": "Feb 15",
     "stars": "No",
+    "cssProfile": "No",
     "additional": "",
     "act": {
       "low": 22,
@@ -532,6 +565,7 @@ const POPULAR_COLLEGES = [
     "earlyDeadline": "Nov 1",
     "regularDeadline": "Feb 1",
     "stars": "No",
+    "cssProfile": "Yes",
     "additional": "Ross: Portfolio",
     "act": {
       "low": 32,
@@ -562,6 +596,7 @@ const POPULAR_COLLEGES = [
     "earlyDeadline": "Nov 1",
     "regularDeadline": "Jan 4",
     "stars": "No",
+    "cssProfile": "Yes",
     "additional": "Writing Supplement",
     "act": {
       "low": 33,
@@ -593,6 +628,7 @@ const POPULAR_COLLEGES = [
     "earlyDeadline": "Oct 15",
     "regularDeadline": "Dec 1",
     "stars": "No",
+    "cssProfile": "No",
     "additional": "Student uploads unofficial transcript",
     "act": {
       "low": 28,
@@ -624,6 +660,7 @@ const POPULAR_COLLEGES = [
     "earlyDeadline": "Nov. 1 (materials deadline of Nov. 15)",
     "regularDeadline": "Dec. 15 (materials deadline of Jan 15)",
     "stars": "Yes",
+    "cssProfile": "No",
     "additional": "DO NOT look at legacy, donors, etc. Testing Required.",
     "act": {
       "low": 29,
@@ -654,6 +691,7 @@ const POPULAR_COLLEGES = [
     "earlyDeadline": "Nov. 1",
     "regularDeadline": "Feb 1",
     "stars": "No",
+    "cssProfile": "No",
     "additional": "",
     "act": {
       "low": 23,

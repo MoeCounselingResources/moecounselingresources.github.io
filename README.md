@@ -17,6 +17,7 @@ index.html                  Moeller Counseling (main page)
 │   ├── seniors.html  ← "Application Resources" box opens this
 │   ├── popular-colleges.html   Moeller Popular Colleges (test ranges, deadlines)
 │   ├── app-tracker.html        College Application Tracker
+│   ├── financial-aid.html      Financial Aid (FAFSA, CSS Profile, scholarships, award letters)
 │   ├── college-exploration.html
 │   ├── military.html
 │   ├── ccp-ap.html
@@ -49,6 +50,8 @@ Links from the School Counseling hub open a class page in its School view
 | Courses in the GPA / Honor Roll Calculators (update each year) | `assets/data/courses.js` |
 | Early-deadline notices on the Seniors page | `earlyDeadline` in `assets/data/popular-colleges.js` (dates listed in `senior.js` → `deadlineNotices`) |
 | Popular Colleges data (update each cycle) | `assets/data/popular-colleges.js`      |
+| Financial Aid page (dates and rules change every year) | `assets/data/topics.js` → `YEARS["financial-aid"]` |
+| Which popular colleges use the CSS Profile | `cssProfile` in `assets/data/popular-colleges.js` |
 | Supplemental Essay Guides list (Seniors & Juniors pages) | `assets/data/essay-guides.js` |
 | Colleges tracked for ACT/SAT ranges    | `scripts/tracked-colleges.json`        |
 | Turn on visit counting for the calculators | `assets/js/calc-tracking.js`        |
@@ -60,7 +63,9 @@ the bottom is the School & Academics view. Anything marked "Placeholder" is
 waiting for real content.
 
 To give sophomores or freshmen a left-side index like juniors and seniors,
-add `layout: "indexed",` near the top of their file.
+add `layout: "indexed",` near the top of their file. Topic pages can do the
+same (see Financial Aid); the HTML file also needs the `indexed-wrap` block
+from `financial-aid.html`.
 
 ## Putting it on GitHub
 
@@ -140,3 +145,22 @@ policies stay in `popular-colleges.js`.
   the chart always shows your ranges, including the striped non-resident bar when
   `"nonResident": true`. Currently set for Auburn, Alabama, South Carolina, and
   Tennessee. To go back to Scorecard ranges, delete the line.
+
+## Financial Aid (update every fall)
+
+`financial-aid.html` gets its content from `YEARS["financial-aid"]` in
+`assets/data/topics.js`. The grade pages link to its sections with links like
+`financial-aid.html#fafsa`, so keep the section keys (`basics`, `byGrade`,
+`fafsa`, `css`, `ohio`, `scholarships`, `compare`, `questions`, `dates`, `recap`)
+the same.
+
+Each fall, once the new FAFSA opens:
+
+- Update the facts listed in the comment above `YEARS["financial-aid"]`: form
+  year, tax year, open dates, the federal deadline, CSS Profile fees, loan limits,
+  and Ohio aid rules. Check them on studentaid.gov, cssprofile.collegeboard.org, and
+  highered.ohio.gov.
+- Replace the Key Dates table and the Financial Aid Night recap.
+- Check `cssProfile` for each school in `assets/data/popular-colleges.js` against
+  College Board's participating list. College Board blocks automated access, so
+  this check is done by hand.

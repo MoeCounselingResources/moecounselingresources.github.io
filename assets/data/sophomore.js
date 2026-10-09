@@ -70,9 +70,9 @@ YEARS.sophomore = {
         note: "Just the basics",
         desc: "Nothing to act on yet — just a first look at how college costs actually work.",
         items: [
-          {title:"What financial aid actually covers", desc:"A first look at grants, loans, work-study, and scholarships.", url:"#"},
-          {title:"Scholarship searches worth starting early", desc:"Low-effort searches you can leave running in the background.", url:"#"},
-          {title:"Starting the cost conversation with family", desc:"Why sophomore year is a good, low-pressure time to start.", url:"#"}
+          {title:"What financial aid actually covers", desc:"A first look at grants, loans, work-study, and scholarships.", url:"financial-aid.html#basics"},
+          {title:"Scholarship searches worth starting early", desc:"Low-effort searches you can leave running in the background.", url:"financial-aid.html#scholarships"},
+          {title:"Starting the cost conversation with family", desc:"Why sophomore year is a good, low-pressure time to start.", url:"financial-aid.html#byGrade"}
         ]
       }
     },
