@@ -606,7 +606,7 @@ YEARS.senior = {
           options: [
             {label: "The College is Test Required for Admission and/or Scholarships", answer: "Submit.", tone: "submit"},
             {label: "Your score is above the 75th percentile", answer: "Recommended to submit.", tone: "recommend"},
-            {label: "Your score falls in the middle 50% range", answer: "Recommended to submit.", answerNote: "If your score is at the lower end of this range, you may opt to withhold scores.", tone: "recommend"},
+            {label: "Your score falls in the middle 50% range", answer: "Recommended to submit.", detail: "If your score is at the lower end of this range, you may opt to withhold scores.", tone: "recommend"},
             {label: "Below the 25th percentile", answer: "Recommended to NOT submit.", tone: "withhold"}
           ],
           note: "We know not every situation is the same. Have a conversation with your counselor if you are in a unique situation or are unsure."

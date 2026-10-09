@@ -300,11 +300,12 @@ function renderIndexContent(year, key){
 }
 
 /* Circular "submit or not" mind map (data: the `tool` object in assets/data/senior.js).
-   Coordinates are in a 820x740 design space; the map scales with its column. */
-const TM_GEO = {
+   Coordinates are in a design space 820 wide; the map scales with its column.
+   An option with a `detail` gets a small note bubble joined to its answer circle. */
+const TM_BASE = {
   w: 820, h: 740,
   center: {x: 410, y: 370, r: 70},
-  optR: 82, ansR: 95,
+  optR: 82, ansR: 95, noteR: 76, notePad: 55,
   quads: [
     {o:{x:275, y:235}, a:{x:95,  y:95}},
     {o:{x:545, y:235}, a:{x:725, y:95}},
@@ -312,31 +313,44 @@ const TM_GEO = {
     {o:{x:545, y:505}, a:{x:725, y:645}}
   ]
 };
-function tmCircleStyle(pt, r){
-  const g = TM_GEO;
+function tmLayout(opts){
+  const b = TM_BASE;
+  const hasTop = opts.some((o,i)=>o.detail && i < 2);
+  const hasBottom = opts.some((o,i)=>o.detail && i >= 2);
+  const top = hasTop ? b.notePad : 0, bottom = hasBottom ? b.notePad : 0;
+  const shift = pt => ({x: pt.x, y: pt.y + top});
+  const quads = b.quads.map((q,i)=>{
+    const a = shift(q.a), left = q.a.x < b.center.x, upper = i < 2;
+    return {o: shift(q.o), a,
+      n: {x: q.a.x + (left ? 205 : -205), y: a.y + (upper ? -70 : 70)}};
+  });
+  return Object.assign({}, b, {h: b.h + top + bottom, center: Object.assign({}, b.center, {y: b.center.y + top}), quads});
+}
+function tmCircleStyle(g, pt, r){
   return `left:${((pt.x - r) / g.w * 100).toFixed(3)}%;top:${((pt.y - r) / g.h * 100).toFixed(3)}%;width:${(2 * r / g.w * 100).toFixed(3)}%;height:${(2 * r / g.h * 100).toFixed(3)}%;`;
 }
-function tmBranchPath(q){
+function tmBranchPath(g, q){
   const dx = q.a.x - q.o.x, dy = q.a.y - q.o.y, len = Math.hypot(dx, dy);
   const mx = (q.o.x + q.a.x) / 2, my = (q.o.y + q.a.y) / 2;
-  const bend = 38 * (q.a.x < TM_GEO.center.x ? 1 : -1);
+  const bend = 38 * (q.a.x < g.center.x ? 1 : -1);
   const cx = mx + (-dy / len) * bend, cy = my + (dx / len) * bend;
   return `M${q.o.x} ${q.o.y} Q${cx.toFixed(1)} ${cy.toFixed(1)} ${q.a.x} ${q.a.y}`;
 }
 function renderToolWidget(tool){
-  const g = TM_GEO;
   const opts = tool.options || [];
-  const quads = g.quads;
-  const spokes = quads.slice(0, opts.length).map(q=>`<line class="tm-spoke" x1="${g.center.x}" y1="${g.center.y}" x2="${q.o.x}" y2="${q.o.y}"/>`).join('');
-  const branches = quads.slice(0, opts.length).map((q,i)=>`<path class="tm-branch" data-i="${i}" pathLength="1" d="${tmBranchPath(q)}"/>`).join('');
+  const g = tmLayout(opts);
+  const quads = g.quads.slice(0, opts.length);
+  const spokes = quads.map(q=>`<line class="tm-spoke" x1="${g.center.x}" y1="${g.center.y}" x2="${q.o.x}" y2="${q.o.y}"/>`).join('');
+  const branches = quads.map((q,i)=>`<path class="tm-branch" data-i="${i}" pathLength="1" d="${tmBranchPath(g, q)}"/>`
+    + (opts[i].detail ? `<path class="tm-branch tm-branch-note" data-i="${i}" pathLength="1" d="M${q.a.x} ${q.a.y} L${q.n.x} ${q.n.y}"/>` : '')).join('');
   const optBtns = opts.map((o,i)=>`
-      <button type="button" class="tm-opt" data-idx="${i}" aria-pressed="false" style="${tmCircleStyle(quads[i].o, g.optR)}"><span class="tm-opt-text">${escapeHtml(o.label)}</span></button>
-      <div class="tm-ans" data-i="${i}" style="${tmCircleStyle(quads[i].a, g.ansR)}" aria-hidden="true">
+      <button type="button" class="tm-opt" data-idx="${i}" aria-pressed="false" style="${tmCircleStyle(g, quads[i].o, g.optR)}"><span class="tm-opt-text">${escapeHtml(o.label)}</span></button>
+      <div class="tm-ans" data-i="${i}" style="${tmCircleStyle(g, quads[i].a, g.ansR)}" aria-hidden="true">
         <div class="tm-ans-fill tm-tone-${escapeHtml(o.tone || 'recommend')}">
           <span class="tm-ans-text">${escapeHtml(o.answer)}</span>
-          ${o.answerNote ? `<span class="tm-ans-note">${escapeHtml(o.answerNote)}</span>` : ''}
         </div>
-      </div>`).join('');
+      </div>
+      ${o.detail ? `<div class="tm-nb" data-i="${i}" style="${tmCircleStyle(g, quads[i].n, g.noteR)}" aria-hidden="true"><div class="tm-nb-fill"><span>${escapeHtml(o.detail)}</span></div></div>` : ''}`).join('');
   return `
     <div class="tscore-tool">
       ${tool.title ? `<h3 class="tscore-title">${escapeHtml(tool.title)}</h3><span class="tscore-bar" aria-hidden="true"></span>` : ''}
@@ -347,7 +361,7 @@ function renderToolWidget(tool){
       </div>
       <div class="tm-map" style="--tm-ratio:${g.w} / ${g.h}">
         <svg class="tm-lines" viewBox="0 0 ${g.w} ${g.h}" aria-hidden="true" focusable="false">${spokes}${branches}</svg>
-        <div class="tm-center" style="${tmCircleStyle(g.center, g.center.r)}"><span>${escapeHtml(tool.centerLabel || '')}</span></div>
+        <div class="tm-center" style="${tmCircleStyle(g, g.center, g.center.r)}"><span>${escapeHtml(tool.centerLabel || '')}</span></div>
         ${optBtns}
       </div>
       <div class="tm-live" id="tscore-result" aria-live="polite" aria-atomic="true"></div>
@@ -360,18 +374,16 @@ function wireToolWidget(root, tool){
   if(!root) return;
   const opts = tool.options || [];
   const buttons = root.querySelectorAll('.tm-opt');
-  const answers = root.querySelectorAll('.tm-ans');
-  const branches = root.querySelectorAll('.tm-branch');
+  const marks = root.querySelectorAll('.tm-ans, .tm-nb, .tm-branch');
   const live = root.querySelector('.tm-live');
   function select(sel){
     buttons.forEach((b,i)=>{
       b.setAttribute('aria-pressed', i===sel);
       b.classList.toggle('is-on', i===sel);
     });
-    answers.forEach((a,i)=>a.classList.toggle('is-on', i===sel));
-    branches.forEach((b,i)=>b.classList.toggle('is-on', i===sel));
+    marks.forEach(m=>m.classList.toggle('is-on', Number(m.dataset.i)===sel));
     const o = sel >= 0 ? opts[sel] : null;
-    live.textContent = o ? `${o.label}: ${o.answer}${o.answerNote ? ' ' + o.answerNote : ''}` : '';
+    live.textContent = o ? `${o.label}: ${o.answer}${o.detail ? ' ' + o.detail : ''}` : '';
   }
   let current = -1;
   buttons.forEach((btn, i)=>{
