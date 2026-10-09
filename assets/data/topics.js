@@ -414,7 +414,7 @@ YEARS["career-exploration"] = {
    • Ohio OCOG: SAI of $3,750 or less, household income of $96,000 or less, Oct. 1 deadline
    • Governor's Merit Scholarship rules (set in the state budget)
    • Financial Aid Night recap (date and takeaways)
-   The one remaining url:"#" (award letter comparison worksheet) is a PLACEHOLDER waiting for a link.
+   All links are filled in. Links were last checked in October 2026; check them again each fall.
    ------------------------------------------------ */
 
 YEARS["financial-aid"] = {
@@ -444,7 +444,7 @@ YEARS["financial-aid"] = {
       desc: "Families don't file anything until the fall of senior year. Here's what's useful to know, or do, along the way.",
       items: [
         {title:"Freshman year: why there's no rush", desc:"Nothing about financial aid needs attention yet. The FAFSA uses tax information from two years before college starts, so the income that counts is from the calendar year that begins in January of sophomore year. For now, the most useful step is simply learning how college costs work."},
-        {title:"Saving and 529 plans", desc:"A 529 plan is a savings account for education. Money in it grows without federal tax when it's used for qualified school costs. On the FAFSA, a 529 owned by a parent counts as a parent asset, which affects aid far less than money in the student's own name.", url:"https://consumerfinance.gov/ask-cfpb/what-is-a-529-savings-plan-en-2074"},
+        {title:"Saving and 529 plans", desc:"A 529 plan is a savings account for education. Money in it grows without federal tax when it's used for qualified school costs. On the FAFSA, a 529 owned by a parent counts as a parent asset, which affects aid far less than money in the student's own name.", url:"https://www.consumerfinance.gov/ask-cfpb/what-is-a-529-savings-plan-en-2074/"},
         {title:"Sophomore year: start the cost conversation", desc:"This is a relaxed time to talk as a family about what you can contribute, how much borrowing you'd consider, and how much cost should shape the college list. Students who know the budget early build better lists."},
         {title:"Junior year: try net price calculators", desc:"Pick a few colleges and run their net price calculators together. You'll see an estimated cost for your family before your son applies, and you'll learn which schools tend to give merit aid and which give need-based aid.", url:"https://collegecost.ed.gov/net-price"},
         {title:"Summer before senior year: get ready to file", desc:"Create StudentAid.gov accounts for the student and each parent who will fill out the FAFSA, find your tax return from two years ago, and make a list of colleges you're considering. Then the FAFSA goes quickly once it opens.", url:"https://studentaid.gov/fsa-id/create-account"}
@@ -456,7 +456,7 @@ YEARS["financial-aid"] = {
       desc: "The FAFSA is the free federal form for federal grants, loans, and work-study, Ohio's need-based grant, and most colleges' own aid. Students file it every year of college. The 2027–28 FAFSA, for students starting college in fall 2027, is open now.",
       stacked: true,
       items: [
-        {title:"1. Create StudentAid.gov accounts", desc:"The student and every parent who has to provide information (the form calls them contributors) each need their own account, with their own email address. New accounts are checked against Social Security records, which can take a few days, so don't wait until deadline week.", url:"https://studentaid.gov/fsa-id/create-account"},
+        {title:"1. Create StudentAid.gov accounts", desc:"The student and every parent who has to provide information (the form calls them contributors) each need their own account, with their own email address. You can sign the FAFSA right after creating an account, but the full identity check with Social Security records can take one to three days, so set up accounts early.", url:"https://studentaid.gov/fsa-id/create-account"},
         {title:"2. Figure out which parent fills it out", desc:"If parents are divorced or separated, the parent who gave the student more financial support over the past 12 months completes the FAFSA. That isn't always the parent the student lives with. Federal Student Aid has a short tool that walks you through it.", url:"https://studentaid.gov/fafsa-apply/parents"},
         {title:"3. Gather what you'll need", desc:"Social Security numbers, your 2025 federal tax returns and W-2s (the 2027–28 FAFSA uses 2025 taxes), current bank balances, and records of investments, a family business, and any untaxed income. Most tax information transfers straight from the IRS once each contributor agrees to share it.", url:"https://studentaid.gov/articles/things-you-need-for-fafsa/"},
         {title:"4. Fill out the form and list your colleges", desc:"The student starts the FAFSA at StudentAid.gov and invites parents to complete their part. You can list up to 20 colleges and add more later. List every school you're applying to, even before you're admitted.", url:"https://studentaid.gov/h/apply-for-aid/fafsa"},
@@ -515,8 +515,7 @@ YEARS["financial-aid"] = {
           {label:"Check what renews.", text:"Ask what GPA keeps a merit scholarship and whether need-based aid is figured again each year."},
           {label:"Think in four years.", text:"A $5,000 difference each year is $20,000 by graduation."}
         ]},
-        // PLACEHOLDER: link for an award letter comparison worksheet or tool
-        {title:"Award letter comparison worksheet", desc:"A worksheet for putting your offers side by side.", url:"#"},
+        {title:"How to compare aid offers", desc:"Federal Student Aid's guide to reading an aid offer, telling grants from loans, and figuring out your net price at each college.", url:"https://studentaid.gov/articles/evaluating-financial-aid-offers/"},
         {title:"Watch for gaps", desc:"Some offers leave a gap between the net price and what your family can pay, and suggest filling it with Parent PLUS or private loans. Parent PLUS loans are now capped at $20,000 per student each year, so plan for how a gap would be covered all four years."},
         {title:"If an offer isn't enough, ask for a review", desc:"If your family's finances have changed since the tax year the FAFSA used, such as a job loss, high medical bills, or a divorce, contact the financial aid office and ask for a review. Bring documents. Some colleges will also look at a better offer from another school, but policies vary."},
         {title:"Decide by May 1", desc:"Students have until May 1 to choose a college and pay a deposit, unless they were admitted Early Decision.", url:"seniors.html#decisionInfo"}
@@ -574,8 +573,8 @@ YEARS["financial-aid"] = {
         {title:"Every contributor needs an account", desc:"The student and each parent who fills out the FAFSA need their own StudentAid.gov account. Divorced or separated families should check which parent counts.", url:"#fafsa"},
         {title:"Some colleges also need the CSS Profile", desc:"Check which of your colleges require it, and file it by each school's deadline.", url:"#css"},
         {title:"Know your loan options", desc:"Federal student loans come first. Learn the difference between subsidized and unsubsidized loans, and how private loans differ.", url:"#basics"},
-        // PLACEHOLDER: the Financial Aid Night slides (waiting on a privacy check before posting)
-        {title:"Presentation slides", desc:"The slides from Financial Aid Night will be posted here."}
+        // Posted with Miami University's permission (October 2026). Replace with next year's slides.
+        {title:"Financial Aid Night presentation", desc:"The slides from the evening, shared with permission from Miami University.", url:"https://acrobat.adobe.com/id/urn:aaid:sc:US:3ec5f3eb-e976-4e99-a315-2333e5913b41"}
       ]
     }
   }
