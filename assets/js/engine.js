@@ -123,6 +123,9 @@ function renderSectionBody(s, year, key){
   if(s.type === 'essayPrompts'){
     return renderEssayPromptsHtml(s);
   }
+  if(s.type === 'essayBrainstorm'){
+    return renderEssayBrainstormHtml(s, year);
+  }
   if(s.type === 'checklist'){
     const openIdx = currentChecklistGroup(s.groups);
     return s.groups.map((g, gi)=>{
@@ -534,6 +537,7 @@ function wireSectionInteractions(){
   document.querySelectorAll('.ag-checker').forEach(wireActivityChecker);
   document.querySelectorAll('.eg-widget').forEach(wireEssayGuides);
   document.querySelectorAll('.sl-widget').forEach(wireSchoolLists);
+  document.querySelectorAll('.eb-widget').forEach(wireEssayBrainstorm);
 
   document.querySelectorAll('.section-head-row').forEach(row=>{
     if(row.dataset.wired) return; row.dataset.wired = '1';
@@ -727,6 +731,291 @@ function renderEssayPromptsHtml(s){
       ${agResourcesHtml(s.resources)}
     </div>
   `;
+}
+
+/* ---------- Essay Brainstorm (data: senior.js > essayBrainstorm; prompt text comes from essayPrompts) ---------- */
+const EB_KEY = 'moeller-essay-brainstorm-v1';
+const EB_MAX_VALUES = 5, EB_MAX_STARS = 3, EB_PARTS = ['Which prompt fits you?', 'Gather ideas', 'Your mind map'];
+let EB_COUNTER = 0;
+function renderEssayBrainstormHtml(s, year){
+  EB_COUNTER++;
+  return `<div class="eb-widget" data-year="${escapeHtml(year)}" data-uid="eb${EB_COUNTER}"></div>`;
+}
+function ebLoad(){
+  try{
+    const o = JSON.parse(localStorage.getItem(EB_KEY) || 'null');
+    if(o && typeof o === 'object'){
+      return {
+        quiz: (o.quiz && typeof o.quiz === 'object') ? o.quiz : {},
+        values: Array.isArray(o.values) ? o.values.filter(v=>typeof v === 'string').slice(0, EB_MAX_VALUES) : [],
+        custom: typeof o.custom === 'string' ? o.custom.slice(0, 80) : '',
+        refl: Array.isArray(o.refl) ? o.refl.map(v=>typeof v === 'string' ? v.slice(0, 80) : '') : [],
+        links: (o.links && typeof o.links === 'object') ? o.links : {},
+        stars: Array.isArray(o.stars) ? o.stars.filter(n=>Number.isInteger(n)).slice(0, EB_MAX_STARS) : []
+      };
+    }
+  }catch(e){}
+  return {quiz:{}, values:[], custom:'', refl:[], links:{}, stars:[]};
+}
+function ebSave(st){ try{ localStorage.setItem(EB_KEY, JSON.stringify(st)); }catch(e){} }
+/* Tally the quiz. shown = the top-scoring prompts (all ties); if only one, the next-highest score(s) are added. */
+function ebTally(quiz, st){
+  const scores = [0,0,0,0,0,0,0,0];
+  let answered = 0;
+  quiz.forEach((q, qi)=>{
+    const a = st.quiz[qi];
+    if(Number.isInteger(a) && q.options[a]){ answered++; q.options[a].p.forEach(n=>{ if(n >= 1 && n <= 7) scores[n]++; }); }
+  });
+  const nums = [1,2,3,4,5,6,7];
+  const distinct = Array.from(new Set(nums.map(n=>scores[n]).filter(n=>n > 0))).sort((a,b)=>b-a);
+  let shown = [];
+  if(distinct.length){
+    shown = nums.filter(n=>scores[n] === distinct[0]);
+    if(shown.length < 2 && distinct[1]) shown = shown.concat(nums.filter(n=>scores[n] === distinct[1]));
+  }
+  return {scores, shown, answered};
+}
+function ebWrap(text, max){
+  const words = String(text).split(/\s+/).filter(Boolean), lines = [];
+  let cur = '';
+  words.forEach(w=>{
+    while(w.length > max){ if(cur){ lines.push(cur); cur = ''; } lines.push(w.slice(0, max)); w = w.slice(max); }
+    if(!cur) cur = w; else if((cur + ' ' + w).length <= max) cur += ' ' + w; else { lines.push(cur); cur = w; }
+  });
+  if(cur) lines.push(cur);
+  return lines.length ? lines : [''];
+}
+function ebNode(cx, cy, text, cls, max){
+  const lines = ebWrap(text, max), lh = 17;
+  const w = Math.max(56, Math.max(...lines.map(l=>l.length)) * 8.4 + 22), h = lines.length * lh + 14;
+  const x = cx.toFixed(1);
+  return `<g class="eb-node ${cls}"><rect x="${(cx - w/2).toFixed(1)}" y="${(cy - h/2).toFixed(1)}" width="${w.toFixed(1)}" height="${h}" rx="10"/><text text-anchor="middle" x="${x}" y="${(cy - h/2 + 7 + lh*0.78).toFixed(1)}">${lines.map((l,i)=>`<tspan x="${x}" dy="${i ? lh : 0}">${escapeHtml(l)}</tspan>`).join('')}</text></g>`;
+}
+/* values: chosen value names. answers: [{text, value|null}] */
+function ebMapSvg(values, answers){
+  const W = 800, cx = W/2, cy = 290;
+  const connected = answers.filter(a=>a.value), loose = answers.filter(a=>!a.value);
+  let lines = '', nodes = '';
+  const n = values.length;
+  values.forEach((v, i)=>{
+    const ang = (-90 + i * 360 / n) * Math.PI / 180;
+    const vx = cx + 140 * Math.cos(ang), vy = cy + 105 * Math.sin(ang);
+    lines += `<line x1="${cx}" y1="${cy}" x2="${vx.toFixed(1)}" y2="${vy.toFixed(1)}"/>`;
+    nodes += ebNode(vx, vy, v, 'eb-n-value', 14);
+    const kids = connected.filter(a=>a.value === v);
+    kids.forEach((a, j)=>{
+      const off = (j - (kids.length - 1) / 2) * 26 * Math.PI / 180;
+      const r = 250 + (j % 2) * 28;
+      const x = Math.max(80, Math.min(W - 80, cx + r * 1.25 * Math.cos(ang + off)));
+      const y = Math.max(40, Math.min(2*cy - 40, cy + r * 0.95 * Math.sin(ang + off)));
+      lines += `<line x1="${vx.toFixed(1)}" y1="${vy.toFixed(1)}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}"/>`;
+      nodes += ebNode(x, y, a.text, 'eb-n-leaf', 16);
+    });
+  });
+  nodes += ebNode(cx, cy, 'Me', 'eb-n-me', 6);
+  let H = 2 * cy;
+  if(loose.length){
+    const top = H + 14;
+    nodes += `<text class="eb-cluster-label" x="20" y="${top + 10}">Not connected yet</text>`;
+    loose.forEach((a, i)=>{
+      nodes += ebNode(100 + (i % 4) * 195, top + 52 + Math.floor(i / 4) * 58, a.text, 'eb-n-loose', 16);
+    });
+    H = top + 52 + Math.ceil(loose.length / 4) * 58;
+  }
+  return `<svg class="eb-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Mind map: you in the center, your values around you, and your ideas connected to them"><g class="eb-lines">${lines}</g>${nodes}</svg>`;
+}
+function wireEssayBrainstorm(root){
+  if(!root || root.dataset.wired) return; root.dataset.wired = '1';
+  const y = YEARS[root.dataset.year] || {};
+  const cfg = y.sections.essayBrainstorm;
+  const prompts = ((y.sections.essayPrompts || {}).prompts) || [];
+  const uid = root.dataset.uid;
+  const st = ebLoad();
+  let part = 0;
+  const persist = ()=> ebSave(st);
+  const chosen = ()=> st.values.filter(v => cfg.values.includes(v) || v === st.custom);
+  const answersList = ()=>{
+    const vals = chosen(), out = [];
+    cfg.reflections.forEach((r, i)=>{
+      const text = (st.refl[i] || '').trim();
+      if(!text) return;
+      const lk = st.links[i];
+      out.push({i, label: r.label, text, value: (lk && vals.includes(lk)) ? lk : null});
+    });
+    return out;
+  };
+  const validStars = ()=>{
+    const ok = answersList().filter(a=>a.value).map(a=>a.i);
+    return st.stars.filter(n=>ok.includes(n));
+  };
+
+  function go(n, focus){
+    part = Math.max(0, Math.min(2, n));
+    root.innerHTML = `
+      <p class="eb-privacy">Your answers save only in this browser. Nothing is sent anywhere.</p>
+      <ol class="eb-steps" aria-label="Steps">${EB_PARTS.map((t,i)=>`<li${i === part ? ' aria-current="step"' : ''}><span class="eb-step-n">${i+1}</span> ${escapeHtml(t)}</li>`).join('')}</ol>
+      <div class="eb-body"></div>
+      <div class="guide-nav eb-nav eb-noprint">
+        <button type="button" class="guide-arrow eb-back"${part === 0 ? ' disabled' : ''}>← Back</button>
+        <button type="button" class="guide-arrow eb-next"${part === 2 ? ' disabled' : ''}>Next →</button>
+      </div>`;
+    root.querySelector('.eb-back').addEventListener('click', ()=> go(part - 1, true));
+    root.querySelector('.eb-next').addEventListener('click', ()=> go(part + 1, true));
+    [renderQuiz, renderGather, renderMap][part]();
+    const h = root.querySelector('.eb-part-h');
+    if(h && focus){ h.setAttribute('tabindex', '-1'); h.focus(); }
+  }
+
+  /* ---- Part 1: which prompt fits ---- */
+  function resultsHtml(){
+    const t = ebTally(cfg.quiz, st);
+    if(!t.answered) return `<p class="ag-note">Answer a few questions above and your best-fit prompts will show up here.</p>`;
+    const cards = t.shown.map(n=>{
+      const p = prompts[n - 1] || {};
+      return `<li class="ep-card">
+        <div class="ep-head"><span class="ep-num">${n}</span><h3>${escapeHtml(p.title || 'Prompt ' + n)}</h3></div>
+        ${p.summary ? `<p class="ep-summary">${escapeHtml(p.summary)}</p>` : ''}
+        ${(p.ask && p.ask.length) ? `<div class="ep-cols"><div><span class="ep-k">Ask yourself</span>${agList(p.ask)}</div></div>` : ''}
+      </li>`;
+    }).join('');
+    return `${t.shown.length ? `<h4 class="eb-sub">Your best-fit ${t.shown.length > 1 ? 'prompts' : 'prompt'}</h4><ol class="ep-list">${cards}</ol>` : `<p class="ag-p">Your answers did not point to one prompt yet. Try answering a few more.</p>`}
+      <p class="ag-note">Prompt 7 accepts any topic, so treat this as a starting point, not a verdict.</p>`;
+  }
+  function renderQuiz(){
+    const body = root.querySelector('.eb-body');
+    body.innerHTML = `
+      <h3 class="eb-part-h">Which prompt fits you?</h3>
+      <p class="ag-p">Pick the answer that fits best. Skip any question you like.</p>
+      ${cfg.quiz.map((q, qi)=>`
+        <fieldset class="eb-q"><legend>${qi + 1}. ${escapeHtml(q.q)}</legend>
+          ${q.options.map((o, oi)=>`<label class="eb-opt"><input type="radio" name="${uid}-q${qi}" value="${oi}"${st.quiz[qi] === oi ? ' checked' : ''}> <span>${escapeHtml(o.t)}</span></label>`).join('')}
+        </fieldset>`).join('')}
+      <div class="eb-results" aria-live="polite">${resultsHtml()}</div>`;
+    body.querySelectorAll('input[type=radio]').forEach(r=>{
+      r.addEventListener('change', ()=>{
+        st.quiz[Number(r.name.split('-q')[1])] = Number(r.value); persist();
+        body.querySelector('.eb-results').innerHTML = resultsHtml();
+      });
+    });
+  }
+
+  /* ---- Part 2: gather ideas ---- */
+  function renderGather(note){
+    const body = root.querySelector('.eb-body');
+    const customChip = st.custom ? `<button type="button" class="sl-chip eb-chip" data-v="${escapeHtml(st.custom)}" aria-pressed="${st.values.includes(st.custom)}">${escapeHtml(st.custom)}</button>` : '';
+    body.innerHTML = `
+      <h3 class="eb-part-h">Gather ideas</h3>
+      <h4 class="eb-sub">Pick up to ${EB_MAX_VALUES} values that feel like you</h4>
+      <div class="sl-chip-row eb-chips" role="group" aria-label="Values">
+        ${cfg.values.map(v=>`<button type="button" class="sl-chip eb-chip" data-v="${escapeHtml(v)}" aria-pressed="${st.values.includes(v)}">${escapeHtml(v)}</button>`).join('')}${customChip}
+      </div>
+      <p class="eb-msg" role="status" aria-live="polite">${escapeHtml(note || '')}</p>
+      <div class="eb-custom">
+        <label class="eg-label" for="${uid}-custom">Add your own</label>
+        <div class="eb-row"><input type="text" id="${uid}-custom" class="modal-search eb-input" maxlength="80" autocomplete="off" placeholder="One word or a short phrase">
+        <button type="button" class="guide-arrow eb-add">Add</button></div>
+      </div>
+      <h4 class="eb-sub">Jot down a few words for each</h4>
+      ${cfg.reflections.map((r, i)=>`
+        <div class="eb-refl"><label class="eg-label" for="${uid}-r${i}">${escapeHtml(r.label)} <span class="eb-hint">${escapeHtml(r.hint)}</span></label>
+        <input type="text" id="${uid}-r${i}" class="modal-search eb-input" maxlength="80" autocomplete="off" value="${escapeHtml(st.refl[i] || '')}"></div>`).join('')}`;
+    const msg = body.querySelector('.eb-msg');
+    body.querySelector('.eb-chips').addEventListener('click', e=>{
+      const b = e.target.closest('.eb-chip'); if(!b) return;
+      const v = b.dataset.v, at = st.values.indexOf(v);
+      if(at >= 0){ st.values.splice(at, 1); b.setAttribute('aria-pressed', 'false'); msg.textContent = ''; }
+      else if(st.values.length >= EB_MAX_VALUES){ msg.textContent = `You can pick up to ${EB_MAX_VALUES} values. Unselect one to make room.`; return; }
+      else { st.values.push(v); b.setAttribute('aria-pressed', 'true'); msg.textContent = ''; }
+      persist();
+    });
+    const ci = body.querySelector(`#${uid}-custom`);
+    const add = ()=>{
+      const v = ci.value.trim().replace(/\s+/g, ' ');
+      if(!v) return;
+      if(cfg.values.some(x=>x.toLowerCase() === v.toLowerCase())){ msg.textContent = `"${v}" is already in the list above. Pick it there.`; return; }
+      st.values = st.values.filter(x=>x !== st.custom);
+      st.custom = v;
+      if(st.values.length >= EB_MAX_VALUES){ persist(); renderGather(`You already have ${EB_MAX_VALUES} values. Unselect one, then pick "${v}".`); return; }
+      st.values.push(v); persist(); renderGather(`Added "${v}".`);
+      const again = root.querySelector(`#${uid}-custom`); if(again) again.focus();
+    };
+    body.querySelector('.eb-add').addEventListener('click', add);
+    ci.addEventListener('keydown', e=>{ if(e.key === 'Enter'){ e.preventDefault(); add(); } });
+    cfg.reflections.forEach((r, i)=>{
+      body.querySelector(`#${uid}-r${i}`).addEventListener('input', e=>{ st.refl[i] = e.target.value; persist(); });
+    });
+  }
+
+  /* ---- Part 3: mind map ---- */
+  function renderMap(){
+    const body = root.querySelector('.eb-body');
+    const vals = chosen(), ans = answersList();
+    if(!vals.length || !ans.length){
+      body.innerHTML = `<h3 class="eb-part-h">Your mind map</h3>
+        <p class="ag-note">${!vals.length ? 'Pick at least one value' : 'Add at least one idea'} in "Gather ideas" first, then come back to build your map.</p>`;
+      return;
+    }
+    body.innerHTML = `
+      <div class="eb-printable">
+      <h3 class="eb-part-h">Your mind map</h3>
+      <div class="eb-noprint">
+        <p class="ag-p">For each idea, choose the value it shows about you.</p>
+        <div class="eb-links">${ans.map(a=>`
+          <div class="eb-link"><label class="eg-label" for="${uid}-l${a.i}">${escapeHtml(a.label)}: <span class="eb-ans">${escapeHtml(a.text)}</span></label>
+          <select id="${uid}-l${a.i}" class="modal-search eb-select" data-i="${a.i}"><option value="">Not connected</option>${vals.map(v=>`<option value="${escapeHtml(v)}"${a.value === v ? ' selected' : ''}>${escapeHtml(v)}</option>`).join('')}</select></div>`).join('')}
+        </div>
+      </div>
+      <div class="eb-map" tabindex="0" role="group" aria-label="Mind map (scrolls sideways on small screens)"></div>
+      <div class="eb-noprint eb-topics"></div>
+      <div class="eb-summary"></div>
+      </div>
+      <div class="eb-actions">
+        <button type="button" class="guide-arrow eb-print">Print</button>
+        <button type="button" class="guide-arrow eb-clear">Clear my answers</button>
+      </div>`;
+    const draw = focusStar =>{
+      const a = answersList(), keep = validStars(), conn = a.filter(x=>x.value);
+      body.querySelector('.eb-map').innerHTML = ebMapSvg(vals, a);
+      body.querySelector('.eb-topics').innerHTML = `<h4 class="eb-sub">Possible essay topics</h4>
+        ${conn.length ? `<p class="ag-p">Star up to ${EB_MAX_STARS} you'd like to talk through.</p>
+        <ul class="eb-topic-list">${conn.map(x=>`<li><button type="button" class="eb-star" data-i="${x.i}" aria-pressed="${keep.includes(x.i)}" aria-label="Star topic: ${escapeHtml(x.text)} shows ${escapeHtml(x.value)}"><span aria-hidden="true">${keep.includes(x.i) ? '★' : '☆'}</span></button><span>${escapeHtml(x.text)} → shows ${escapeHtml(x.value)}</span></li>`).join('')}</ul>
+        <p class="eb-msg" role="status" aria-live="polite"></p>` : `<p class="ag-note">Connect an idea to a value above and it will show up here as a topic.</p>`}`;
+      const t = ebTally(cfg.quiz, st), stars = conn.filter(x=>keep.includes(x.i));
+      body.querySelector('.eb-summary').innerHTML = `<div class="fairtest-box eb-summary-box"><h4 class="eb-sub">My brainstorm summary</h4>
+        <p><strong>Best-fit prompt${t.shown.length > 1 ? 's' : ''}:</strong> ${t.shown.length ? t.shown.map(n=>`Prompt ${n}, ${escapeHtml((prompts[n-1] || {}).title || '')}`).join('; ') : 'Not chosen yet'}</p>
+        <p><strong>Values:</strong> ${vals.map(escapeHtml).join(', ')}</p>
+        <p><strong>Topic ideas:</strong></p>${stars.length ? `<ul>${stars.map(x=>`<li>${escapeHtml(x.text)} → shows ${escapeHtml(x.value)}</li>`).join('')}</ul>` : '<p>None starred yet</p>'}
+        <p class="eb-bring">Bring this to your counselor or English teacher to talk it through.</p></div>`;
+      if(focusStar != null){ const b = body.querySelector(`.eb-star[data-i="${focusStar}"]`); if(b) b.focus(); }
+    };
+    draw();
+    body.querySelectorAll('.eb-select').forEach(sel=>{
+      sel.addEventListener('change', ()=>{ st.links[sel.dataset.i] = sel.value; persist(); draw(); });
+    });
+    body.querySelector('.eb-topics').addEventListener('click', e=>{
+      const b = e.target.closest('.eb-star'); if(!b) return;
+      const i = Number(b.dataset.i), keep = validStars();
+      if(keep.includes(i)) st.stars = keep.filter(n=>n !== i);
+      else if(keep.length >= EB_MAX_STARS){
+        const m = body.querySelector('.eb-topics .eb-msg'); if(m) m.textContent = `You can star up to ${EB_MAX_STARS} topics. Unstar one to pick another.`;
+        return;
+      } else st.stars = keep.concat(i);
+      persist(); draw(i);
+    });
+    body.querySelector('.eb-print').addEventListener('click', ()=>{
+      document.body.classList.add('eb-printing');
+      const done = ()=>{ document.body.classList.remove('eb-printing'); window.removeEventListener('afterprint', done); };
+      window.addEventListener('afterprint', done);
+      window.print();
+    });
+    body.querySelector('.eb-clear').addEventListener('click', ()=>{
+      if(!window.confirm('Clear all of your Essay Brainstorm answers? This cannot be undone.')) return;
+      st.quiz = {}; st.values = []; st.custom = ''; st.refl = []; st.links = {}; st.stars = [];
+      try{ localStorage.removeItem(EB_KEY); }catch(e){}
+      go(0, true);
+    });
+  }
+  go(0, false);
 }
 
 function renderFeeWaiversHtml(waivers){

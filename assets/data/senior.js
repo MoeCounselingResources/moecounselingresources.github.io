@@ -22,7 +22,7 @@ YEARS.senior = {
     blurb: "These resources will help you with college research, essay writing, and filling out your applications!",
     collegeLabel: "Application Resources",
     // Junior/sophomore/freshman: set layout to "indexed" for a left-side index, or delete it for stacked sections.
-    order: ["feeWaivers","fallChecklist","applicationFaq","appTracker","appTypes","exploration","research","commonAppGuide","essayPrompts","commonAppFaq","essays","financialAid","decisionInfo","activities","military","scholarshipReporting","moreEssentials","responsibilities","essayGuides","testOptional","testing"],
+    order: ["feeWaivers","fallChecklist","applicationFaq","appTracker","appTypes","exploration","research","commonAppGuide","essayPrompts","commonAppFaq","essayBrainstorm","essays","financialAid","decisionInfo","activities","military","scholarshipReporting","moreEssentials","responsibilities","essayGuides","testOptional","testing"],
     layout: "indexed",
     sections: {
       exploration: {
@@ -403,6 +403,61 @@ YEARS.senior = {
         items: [
           {title:"Application Tracker", desc:"Track your colleges, deadlines, essays, and activities. Saves on your device.", url:"app-tracker.html"},
           {title:"Moeller Popular Colleges", desc:"Add schools to your tracker with test ranges, deadlines, and requirements filled in.", url:"popular-colleges.html"}
+        ]
+      },
+      essayBrainstorm: {
+        navLabel: "Essay Brainstorm",
+        title: "Essay Brainstorm",
+        note: "Saves on your device",
+        type: "essayBrainstorm",
+        desc: "Not sure which prompt to pick or what to write about? Answer a few quick questions, collect your ideas, and leave with a mind map and topic ideas to bring to your counselor or English teacher. This is for brainstorming, not writing.",
+        // Each option lists the Common App prompt numbers (1-7) it points to; [] = none.
+        quiz: [
+          {q:"When friends come to you, it's usually because…", options:[
+            {t:"You know a lot about something", p:[6]},
+            {t:"You've been through something hard and get it", p:[2]},
+            {t:"You'll say so when you disagree", p:[3]},
+            {t:"You notice when someone needs help or thanks", p:[4]}]},
+          {q:"Which sounds most like a story you'd tell?", options:[
+            {t:"The time I failed and figured it out", p:[2]},
+            {t:"The day I realized I'd been wrong", p:[3]},
+            {t:"A moment I suddenly saw myself differently", p:[5]},
+            {t:"Where I come from and why it matters", p:[1]}]},
+          {q:"You lose track of time when you're…", options:[
+            {t:"Going down a rabbit hole on a topic", p:[6]},
+            {t:"With your family, community, or traditions", p:[1]},
+            {t:"Working toward a goal", p:[5]},
+            {t:"Debating ideas", p:[3]}]},
+          {q:"What doesn't your application show yet?", options:[
+            {t:"Part of my identity or background", p:[1]},
+            {t:"A challenge that shaped me", p:[2]},
+            {t:"An interest I pursue on my own", p:[6]},
+            {t:"Something that doesn't fit any category", p:[7]}]},
+          {q:"Someone surprised you by…", options:[
+            {t:"Helping when they didn't have to", p:[4]},
+            {t:"Challenging what I believed", p:[3]},
+            {t:"Trusting me with something big", p:[5]},
+            {t:"Nothing comes to mind", p:[]}]},
+          {q:"Have you already written something you're proud of, like a class or scholarship essay, that says something real about you?", options:[
+            {t:"Yes", p:[7]},
+            {t:"No", p:[]}]},
+          {q:"What do you most want a reader to take away?", options:[
+            {t:"I bounce back", p:[2]},
+            {t:"I'm curious", p:[6]},
+            {t:"I think for myself", p:[3]},
+            {t:"I'm grateful and give back", p:[4]},
+            {t:"I know where I'm from", p:[1]},
+            {t:"I've grown", p:[5]}]}
+        ],
+        values: ["Adventure","Belonging","Community","Creativity","Curiosity","Faith","Fairness","Family","Friendship","Growth","Honesty","Humor","Independence","Justice","Kindness","Leadership","Learning","Loyalty","Patience","Perseverance","Responsibility","Service","Teamwork","Tradition"],
+        reflections: [
+          {label:"An object that says something about you", hint:"A few words is enough"},
+          {label:"A place that feels like yours", hint:"A few words is enough"},
+          {label:"Something you do that no one asks you to", hint:"A few words is enough"},
+          {label:"A topic you could talk about for an hour", hint:"A few words is enough"},
+          {label:"A moment you'd replay, good or hard", hint:"A few words is enough"},
+          {label:"Someone who changed how you see things", hint:"A few words is enough"},
+          {label:"Three words your friends would use for you", hint:"A few words is enough"}
         ]
       },
       essays: {
