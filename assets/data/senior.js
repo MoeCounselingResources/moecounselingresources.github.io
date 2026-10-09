@@ -386,10 +386,10 @@ YEARS.senior = {
         note: "Finalizing your list",
         desc: "Use these to confirm your final list and understand real cost before you commit.",
         items: [
-          {title:"Net price calculators", desc:"Every school posts one — use it to compare real estimated cost, not sticker price.", url:"#"},
-          {title:"Confirming supplemental requirements", desc:"Double-check each school's specific supplement before you submit.", url:"#"},
-          {title:"Schools requiring STARS", desc:"Some schools require or encourage a Self-Reported Transcript & Academic Record — check if any of yours are on the list.", url:"#"},
-          {title:"College rep visits", desc:"Over 100 colleges visit Moeller each fall — reps are often the ones reading your application. Register in SCOIR at least 2 days ahead.", url:"#"},
+          {title:"Net price calculators", desc:"Every college is required to post one. Find any school's calculator here and compare your estimated cost after grants and scholarships, not the sticker price.", url:"https://collegecost.ed.gov/net-price"},
+          {title:"Confirming supplemental requirements", desc:"Common App's requirements grid shows each college's supplements, deadlines, and fees on one sheet. Then confirm in My Colleges inside your Common App, and check the college's own site if it isn't on Common App.", url:"https://content.commonapp.org/Files/ReqGrid.pdf"},
+          {title:"Schools requiring STARS", desc:"Some colleges require or encourage a self-reported transcript (STARS). See which schools use it, then start STARS from the link in each college's applicant portal, not from a search engine.", url:"https://starsrecord.zendesk.com/hc/en-us/articles/35363280510235-Which-Colleges-Use-STARS"},
+          {title:"College rep visits", desc:"Over 100 colleges visit Moeller each fall, and reps are often the ones reading your application. See upcoming visits in Upcoming Events at the top of this page, then register in SCOIR at least 2 days ahead.", url:"#updates-box"},
           {title:"Moeller Popular Colleges", desc:"Test ranges, deadlines, and requirements for the schools Moeller students apply to most.", url:"popular-colleges.html"},
           {title:"Application Tracker", desc:"Track your colleges, deadlines, essays, and activities. Saves on your device.", url:"app-tracker.html"}
         ]
