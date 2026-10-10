@@ -298,3 +298,73 @@
 @media (prefers-reduced-motion:reduce){
   .fav *, .fav *::before, .fav *::after{transition:none !important;}
 }
+
+/* =========================================================================
+   BRANDED CARDS — this file only loads on financial-aid.html, so these
+   overrides restyle the standard cards on this page only.
+   Card grids rotate gold → sky → navy (like the money tiles); step-by-step
+   (stacked) cards are white with a sky border and a gold accent bar.
+   ========================================================================= */
+.index-content .resource-grid{gap:18px;}
+.index-content .resource-card{
+  border:0; border-radius:24px; padding:24px 26px;
+  transition:transform 0.18s ease, box-shadow 0.18s ease;
+}
+.index-content .resource-card:hover{transform:translateY(-2px); box-shadow:0 6px 18px rgba(12,35,64,0.12);}
+.index-content .resource-text h3{font-family:var(--serif); font-weight:700; font-size:1.14rem; line-height:1.3; margin:0 0 8px;}
+.index-content .resource-text p{font-size:0.97rem; line-height:1.5;}
+
+/* grid cards: gold, sky, navy in turn */
+.index-content .resource-grid:not(.stacked) .resource-card:nth-child(3n+1){background:var(--gold);}
+.index-content .resource-grid:not(.stacked) .resource-card:nth-child(3n+2){background:var(--sky);}
+.index-content .resource-grid:not(.stacked) .resource-card:nth-child(3n+1) :is(h3, p),
+.index-content .resource-grid:not(.stacked) .resource-card:nth-child(3n+2) :is(h3, p){color:var(--navy);}
+.index-content .resource-grid:not(.stacked) .resource-card:nth-child(3n){background:var(--navy);}
+.index-content .resource-grid:not(.stacked) .resource-card:nth-child(3n) h3{color:var(--gold);}
+.index-content .resource-grid:not(.stacked) .resource-card:nth-child(3n) p{color:var(--paper);}
+
+/* "Open" links become pill buttons */
+.index-content .resource-link{
+  border:0; padding:7px 18px; border-radius:999px;
+  background:var(--navy); color:var(--paper);
+  font-weight:700; font-size:0.9rem;
+  transition:background 0.15s ease, color 0.15s ease;
+}
+.index-content .resource-link:hover{background:var(--slate); color:var(--paper);}
+.index-content .resource-grid:not(.stacked) .resource-card:nth-child(3n) .resource-link{background:var(--gold); color:var(--navy);}
+.index-content .resource-grid:not(.stacked) .resource-card:nth-child(3n) .resource-link:hover{background:var(--paper); color:var(--navy);}
+.index-content .resource-link:focus-visible{outline:3px solid var(--navy); outline-offset:3px;}
+.index-content .resource-grid:not(.stacked) .resource-card:nth-child(3n) .resource-link:focus-visible{outline-color:var(--gold);}
+
+/* step-by-step (stacked) cards: white, sky border, gold bar */
+.index-content .resource-grid.stacked .resource-card{
+  background:var(--paper);
+  box-shadow:inset 0 0 0 2px var(--sky);
+  border-left:8px solid var(--gold);
+  border-radius:22px;
+}
+.index-content .resource-grid.stacked .resource-card:hover{box-shadow:inset 0 0 0 2px var(--sky), 0 6px 18px rgba(12,35,64,0.12);}
+.index-content .resource-grid.stacked .resource-text h3{color:var(--navy);}
+.index-content .resource-grid.stacked .resource-text p{color:var(--ink);}
+.index-content .resource-text ol.steps-list li::marker{color:var(--navy);}
+
+/* Questions to Ask Colleges: gold, sky, navy boxes */
+.index-content .resp-grid{gap:18px;}
+.index-content .resp-box{border:0; border-radius:24px; padding:24px 28px;}
+.index-content .resp-box h3{font-family:var(--serif); font-size:1.15rem; margin:0 0 12px;}
+.index-content .resp-box ul{font-size:0.97rem;}
+.index-content .resp-box:nth-child(3n+1){background:var(--gold);}
+.index-content .resp-box:nth-child(3n+2){background:var(--sky);}
+.index-content .resp-box:nth-child(3n+1) :is(h3, ul, li),
+.index-content .resp-box:nth-child(3n+2) :is(h3, ul, li){color:var(--navy);}
+.index-content .resp-box:nth-child(3n){background:var(--navy);}
+.index-content .resp-box:nth-child(3n) h3{color:var(--gold);}
+.index-content .resp-box:nth-child(3n) :is(ul, li){color:var(--paper);}
+.index-content .resp-box:nth-child(3n) li::marker{color:var(--gold);}
+
+/* need chart frame matches the checklist */
+.fav-need{border:2px solid var(--sky);}
+@media (prefers-reduced-motion:reduce){
+  .index-content .resource-card, .index-content .resource-link{transition:none;}
+  .index-content .resource-card:hover{transform:none;}
+}
