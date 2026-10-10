@@ -391,6 +391,7 @@ YEARS.senior = {
           {title:"Confirming supplemental requirements", desc:"Common App's requirements grid shows each college's supplements, deadlines, and fees on one sheet. Then confirm in My Colleges inside your Common App, and check the college's own site if it isn't on Common App.", url:"https://content.commonapp.org/Files/ReqGrid.pdf"},
           {title:"Schools requiring STARS", desc:"Some colleges require or encourage a self-reported transcript (STARS). See which schools use it, then start STARS from the link in each college's applicant portal, not from a search engine.", url:"https://starsrecord.zendesk.com/hc/en-us/articles/35363280510235-Which-Colleges-Use-STARS"},
           {title:"College rep visits", desc:"Over 100 colleges visit Moeller each fall, and reps are often the ones reading your application. See upcoming visits in Upcoming Events at the top of this page, then register in SCOIR at least 2 days ahead.", url:"#updates-box"},
+          {title:"IPEDS Find Your College", desc:"The U.S. Department of Education's free tools for looking up a college's size, programs, costs, and graduation rates.", url:"https://nces.ed.gov/ipeds/find-your-college/"},
           {title:"Moeller Popular Colleges", desc:"Test ranges, deadlines, and requirements for the schools Moeller students apply to most.", url:"popular-colleges.html"},
           {title:"Application Tracker", desc:"Track your colleges, deadlines, essays, and activities. Saves on your device.", url:"app-tracker.html"}
         ]

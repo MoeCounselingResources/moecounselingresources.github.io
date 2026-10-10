@@ -45,9 +45,17 @@ YEARS.junior = {
         note: "Building your list",
         desc: "Start wide, then narrow — these help you figure out what actually fits.",
         items: [
-          {title:"Building a balanced college list", desc:"What \"reach, target, and likely\" actually mean, and how to sort your list into them.", url:"#"},
-          {title:"Getting the most from a campus visit", desc:"What to look for beyond the tour, virtual or in person.", url:"#"},
-          {title:"Comparing majors & programs", desc:"How to research a school's actual offerings, not just its ranking.", url:"#"},
+          {title:"Building a balanced college list", desc:"What \"reach, target (match), and likely (safety)\" actually mean, and how to start sorting the schools you're curious about into them.", url:"https://bigfuture.collegeboard.org/help-center/how-do-you-find-reach-match-and-safety-colleges", bullets:[
+            {text:"Browse the three school lists", url:"#exploration"},
+            {text:"See test ranges on Moeller Popular Colleges", url:"popular-colleges.html"}
+          ]},
+          {title:"Getting the most from a campus visit", desc:"What to look for beyond the tour, whether you visit in person or virtually. Spring and summer are good times to start.", url:"https://bigfuture.collegeboard.org/plan-for-college/find-your-fit/campus-visits-and-tours", bullets:[
+            {text:"Campus Visit Checklist", url:"https://bigfuture.collegeboard.org/plan-for-college/find-your-fit/campus-visit-checklist", after:" from BigFuture"}
+          ]},
+          {title:"Comparing majors & programs", desc:"Look up what a school actually offers, not just its ranking. You don't have to pick a major yet, since many colleges let you decide later.", url:"https://nces.ed.gov/collegenavigator/", bullets:[
+            {text:"BigFuture Majors Directory", url:"https://bigfuture.collegeboard.org/explore-careers/majors"}
+          ]},
+          {title:"IPEDS Find Your College", desc:"The U.S. Department of Education's free tools for looking up a college's size, programs, costs, and graduation rates.", url:"https://nces.ed.gov/ipeds/find-your-college/"},
           {title:"Moeller Popular Colleges", desc:"Test ranges, deadlines, and requirements for the schools Moeller students apply to most.", url:"popular-colleges.html"}
         ]
       },
