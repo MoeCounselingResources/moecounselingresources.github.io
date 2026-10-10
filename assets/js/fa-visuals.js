@@ -208,6 +208,7 @@ const FAV_ICONS = {
   federal: '<path d="M4 10h16M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18M12 3l9 5H3z"/>',
   ohio: '<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
   teach: '<path d="M3 7l9-4 9 4-9 4z"/><path d="M7 9v5c0 1.7 2.2 3 5 3s5-1.3 5-3V9"/><path d="M21 7v6"/>',
+  merit: '<circle cx="12" cy="9" r="5"/><path d="M8.5 13.2 7 21l5-2.6 5 2.6-1.5-7.8"/>',
   loan: '<rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/>'
 };
 FAV_RENDER.grants = (v)=>`<div class="fav-grants">${v.items.map(g=>`

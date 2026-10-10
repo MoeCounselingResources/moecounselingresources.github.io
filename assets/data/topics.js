@@ -539,7 +539,7 @@ YEARS["financial-aid"] = {
     grants: {
       navLabel: "Grants & Ohio Aid",
       title: "Grants & Ohio Aid",
-      desc: "Grants don't have to be paid back. You apply for all three of these with the FAFSA.",
+      desc: "Grants and scholarships don't have to be paid back. The FAFSA is your application for all three grants.",
       visuals: [
         {kind:"grants", items:[
           {icon:"federal", title:"Federal Pell Grant", amount:"Up to $7,395 a year (2026–27)", bullets:[
@@ -562,11 +562,15 @@ YEARS["financial-aid"] = {
             "You agree to teach full time for 4 years in a high-need subject at a low-income school",
             "You have 8 years after leaving college to finish those 4 years"
           ], warning:"If you don't finish the teaching service, the grant turns into a loan you repay with interest.",
-          link:{text:"TEACH Grants at StudentAid.gov", url:"https://studentaid.gov/understand-aid/types/grants/teach"}}
+          link:{text:"TEACH Grants at StudentAid.gov", url:"https://studentaid.gov/understand-aid/types/grants/teach"}},
+          {icon:"merit", title:"Ohio Governor's Merit Scholarship", bullets:[
+            "For top-ranked graduates who attend an eligible Ohio college",
+            "No application: the high school identifies who qualifies",
+            "The state notifies students during senior year",
+            "The amount and class-rank cutoff are set in the state budget"
+          ], warning:"Only for Ohio colleges. It doesn't follow you out of state.",
+          link:{text:"Governor's Merit Scholarship at the Ohio Department of Higher Education", url:"https://highered.ohio.gov/students/pay-for-college/ohio-grants-scholarships/gms/gms"}}
         ]}
-      ],
-      items: [
-        {title:"Governor's Merit Scholarship", desc:"A state scholarship for top-ranked graduates who attend an eligible Ohio college. Students don't apply; their high school identifies who qualifies, and the state notifies them during senior year. The scholarship doesn't apply at out-of-state colleges. The amount and class-rank cutoff are set in the state budget, so check the state's page for this year's rules.", url:"https://highered.ohio.gov/students/pay-for-college/ohio-grants-scholarships/gms/gms"}
       ]
     },
     loans: {
