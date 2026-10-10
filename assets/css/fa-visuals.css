@@ -177,6 +177,31 @@
 .fav-grant .fav-panel-link{color:var(--navy);}
 .fav-grant .fav-panel-link:hover{color:var(--slate);}
 
+/* ---------- kinds (free / earned / borrowed) ---------- */
+.fav-kinds{display:grid; grid-template-columns:repeat(3, 1fr); gap:16px;}
+.fav-kind{border-radius:24px; padding:24px 20px 20px; text-align:center; display:flex; flex-direction:column; align-items:center;}
+.fav-kind-icon{
+  width:60px; height:60px; border-radius:50%; margin-bottom:12px;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--paper); box-shadow:0 0 0 3px var(--navy);
+}
+.fav-kind.fav-tone-navy .fav-kind-icon{box-shadow:0 0 0 3px var(--gold);}
+.fav-kind-icon svg{width:30px; height:30px; fill:none; stroke:var(--navy); stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round;}
+.fav-kind h4{font-family:var(--serif); font-weight:700; font-size:1.2rem; margin:0 0 2px;}
+.fav-kind.fav-tone-navy h4{color:var(--gold);}
+.fav-kind-what{margin:0 0 10px; font-weight:700; font-size:0.92rem;}
+.fav-kind-text{margin:0 0 14px; font-size:0.95rem; line-height:1.45; flex:1;}
+.fav-kind-text p{margin:0;}
+.fav-kind-pay{
+  margin:0; padding:6px 14px; border-radius:999px; font-size:0.9rem;
+  background:var(--paper); color:var(--navy);
+}
+.fav-kind-pay span{font-weight:600;}
+.fav-kind-pay strong{font-weight:800;}
+.fav-kind.fav-tone-navy .fav-kind-pay{background:var(--gold);}
+.fav-kind .fav-panel-link{color:inherit; margin-top:8px;}
+.fav-kind.fav-tone-navy .fav-panel-link{color:var(--gold);}
+
 /* ---------- loans ---------- */
 .fav-loans-top{display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; align-items:stretch;}
 .fav-loan{border-radius:24px; padding:22px 20px; text-align:center; display:flex; flex-direction:column; justify-content:center;}
@@ -248,7 +273,7 @@
     aspect-ratio:auto; border-radius:999px; padding:12px 18px; font-size:15px;
   }
   .fav-hub-item span{width:auto;}
-  .fav-defs, .fav-check-list, .fav-loans-top{grid-template-columns:1fr;}
+  .fav-defs, .fav-check-list, .fav-loans-top, .fav-kinds{grid-template-columns:1fr;}
   .fav-need-row{grid-template-columns:1fr auto; grid-template-areas:"label val" "track track"; gap:6px 12px;}
   .fav-need-label{grid-area:label;} .fav-need-val{grid-area:val;} .fav-need-track{grid-area:track;}
   .fav-flow{grid-template-columns:1fr; gap:22px; justify-items:start; padding-left:8px;}

@@ -209,6 +209,8 @@ const FAV_ICONS = {
   ohio: '<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
   teach: '<path d="M3 7l9-4 9 4-9 4z"/><path d="M7 9v5c0 1.7 2.2 3 5 3s5-1.3 5-3V9"/><path d="M21 7v6"/>',
   merit: '<circle cx="12" cy="9" r="5"/><path d="M8.5 13.2 7 21l5-2.6 5 2.6-1.5-7.8"/>',
+  gift: '<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v8h14v-8M12 8v12M12 8c-1.5-3-5-3-5-1s3 1 5 1zm0 0c1.5-3 5-3 5-1s-3 1-5 1z"/>',
+  work: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/>',
   loan: '<rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/>'
 };
 FAV_RENDER.grants = (v)=>`<div class="fav-grants">${v.items.map(g=>`
@@ -224,6 +226,16 @@ FAV_RENDER.grants = (v)=>`<div class="fav-grants">${v.items.map(g=>`
       ${g.link ? favLink(g.link) : ''}
     </div>
   </article>`).join('')}</div>`;
+
+/* ---------- kinds: three color-coded tiles (free, earned, borrowed money) ---------- */
+FAV_RENDER.kinds = (v)=>`<div class="fav-kinds">${v.items.map(k=>`
+  <div class="fav-kind fav-tone-${favEsc(k.tone)}">
+    <div class="fav-kind-icon" aria-hidden="true"><svg viewBox="0 0 24 24">${FAV_ICONS[k.icon] || ''}</svg></div>
+    <h4>${favEsc(k.title)}</h4>
+    <p class="fav-kind-what">${favEsc(k.what)}</p>
+    <div class="fav-kind-text"><p>${favEsc(k.text)}</p>${k.link ? favLink(k.link) : ''}</div>
+    <p class="fav-kind-pay"><span>Pay it back?</span> <strong>${favEsc(k.payBack)}</strong></p>
+  </div>`).join('')}</div>`;
 
 /* ---------- loans: subsidized vs. unsubsidized, with yearly limits ---------- */
 FAV_RENDER.loans = (v)=>`

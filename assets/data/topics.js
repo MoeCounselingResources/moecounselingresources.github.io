@@ -444,11 +444,12 @@ YEARS["financial-aid"] = {
         {kind:"defs", heading:"Two kinds of aid", items:[
           {tone:"navy", title:"Need-Based", text:"Based on what your family can afford, as measured by the FAFSA (and the CSS Profile at some colleges)."},
           {tone:"gold", title:"Merit-Based", text:"Based on grades, talents, activities, or other accomplishments. Family income doesn't matter."}
+        ]},
+        {kind:"kinds", heading:"Three kinds of money in an aid offer", items:[
+          {tone:"gold", icon:"gift", title:"Free money", what:"Grants & scholarships", text:"Money you never have to repay.", payBack:"No"},
+          {tone:"sky", icon:"work", title:"Money you earn", what:"Work-study", text:"A part-time job, usually on campus. It's paid by paycheck, so it doesn't lower the first bill.", payBack:"No"},
+          {tone:"navy", icon:"loan", title:"Money you borrow", what:"Federal & private loans", text:"Money you repay after college, with interest.", payBack:"Yes", link:{text:"See Federal Loans", url:"#loans"}}
         ]}
-      ],
-      items: [
-        {title:"Free money vs. money you repay", desc:"Grants and scholarships don't have to be paid back. Loans do, with interest. When you read an aid offer, keep the two apart."},
-        {title:"Work-study", desc:"A part-time job, usually on campus, for students who qualify based on need. Students earn it through a paycheck during the year, so it doesn't lower the bill you pay at the start of each term."}
       ]
     },
     cost: {
