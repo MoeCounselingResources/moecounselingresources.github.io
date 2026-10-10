@@ -65,9 +65,15 @@ YEARS.junior = {
         note: "Starting to think ahead",
         desc: "You don't need a draft yet — these are for getting familiar with what's coming.",
         items: [
-          {title:"This year's Common App prompts", desc:"An early look at the prompts you'll choose from next fall.", url:"#"},
-          {title:"Brainstorming your story", desc:"Exercises for finding a topic before junior spring, without pressure.", url:"#"},
-          {title:"Why starting a draft in spring matters", desc:"How a head start in May changes your senior fall.", url:"#"}
+          {title:"This year's Common App prompts", desc:"An early look at the seven prompts you'll choose from next fall. Your essay will be 250 to 650 words. Common App usually keeps the prompts the same from year to year, so this year's set is a good preview.", url:"seniors.html#essayPrompts", bullets:[
+            {text:"Common App's official prompt page", url:"https://www.commonapp.org/apply/essay-prompts/"}
+          ]},
+          {title:"Brainstorming your story", desc:"Exercises for finding a topic before junior spring, without pressure. Answer a few questions, collect your ideas, and bring them to your counselor or English teacher. This is brainstorming, not writing.", url:"seniors.html#essayBrainstorm", bullets:[
+            {text:"Common App First-Year Toolkit", url:"https://www.commonapp.org/apply/fy-toolkit/"}
+          ]},
+          {title:"Why starting a draft in spring matters", desc:"A head start in spring means a calmer senior fall. Start your Common App essay this spring, then tackle supplements in the summer.", url:"seniors.html#writingGuide", bullets:[
+            {text:"Supplemental Essay Guides", url:"#essayGuides"}
+          ]}
         ]
       },
       essayGuides: {
