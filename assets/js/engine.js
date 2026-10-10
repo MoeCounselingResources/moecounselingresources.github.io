@@ -240,7 +240,9 @@ function renderSectionBody(s, year, key){
   const timelineHtml = s.timeline ? renderTimelineHtml(s.timeline) : '';
   // section.visuals: drawn by assets/js/fa-visuals.js on pages that load it (Financial Aid).
   const visualsHtml = (s.visuals && typeof renderFaVisuals === 'function') ? renderFaVisuals(s.visuals, `${year}-${key}`) : '';
-  return `${visualsHtml}${datesHtml}${timelineHtml}${tableHtml}${toolHtml}<div class="resource-grid${s.stacked ? ' stacked' : ''}">${cards}</div>`;
+  // section.widget: a small interactive tool drawn by assets/js/concordance.js on pages that load it (ACT/SAT).
+  const widgetHtml = (s.widget && typeof renderPageWidget === 'function') ? renderPageWidget(s.widget) : '';
+  return `${visualsHtml}${datesHtml}${timelineHtml}${tableHtml}${toolHtml}<div class="resource-grid${s.stacked ? ' stacked' : ''}">${cards}</div>${widgetHtml}`;
 }
 
 /* Vertical timeline (section.timeline). Past items are dimmed; the first item still ahead
@@ -713,6 +715,7 @@ function wireSectionInteractions(){
   });
 
   if(typeof wireFaVisuals === 'function') wireFaVisuals();   // Financial Aid visuals, if loaded
+  if(typeof wirePageWidgets === 'function') wirePageWidgets();   // ACT/SAT converter, if loaded
 }
 
 function renderCounselors(){

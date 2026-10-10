@@ -164,10 +164,33 @@ YEARS.junior = {
         title: "Testing resources",
         note: "This year's calendar",
         desc: "Test dates, formats, and how scores work.",
+        stacked: true,
         items: [
-          {title:"SAT & ACT test dates", desc:"This year's full testing calendar for juniors.", url:"#"},
-          {title:"Which test fits you", desc:"A side-by-side comparison of the SAT and ACT formats.", url:"#"},
-          {title:"Score release dates & superscoring", desc:"When scores post, and how schools combine sittings.", url:"#"}
+          {title:"SAT & ACT test dates", desc:"Weekend SAT and national ACT dates for the year, plus Moeller's recommendations on when to start testing. Moeller's own testing days are in the key dates: the PSAT/NMSQT in October and the school-day SAT in March.", bullets:[
+            "If you've already completed Algebra II, you may consider testing in the fall of junior year.",
+            "If you're taking Algebra II this year, wait until the school-day SAT in the spring of junior year to begin testing, since Algebra II is tested on these exams.",
+            "Pick one test (SAT or ACT) and plan to take it 2–3 times. Most students shouldn't take more than four tests total.",
+            "Many colleges remain test-optional, but some (such as Ohio State) require ACT or SAT scores. Prepare and test as if you'll use your scores. Talk with your school counselor about a testing strategy, including when to report scores and when to withhold them.",
+            {text:"SAT test dates", url:"https://satsuite.collegeboard.org/sat/dates-deadlines"},
+            {text:"ACT test dates", url:"https://www.act.org/content/act/en/products-and-services/the-act/registration/test-dates.html"},
+            {text:"Moeller's key dates", url:"#timeline"},
+            {text:"All of Moeller's testing recommendations", url:"act-sat.html#recommendations"}
+          ]},
+          {title:"Which test fits you", desc:"Compare the two tests side by side. Colleges accept both, so try a free practice test of each and focus on the one that fits you.", url:"https://bigfuture.collegeboard.org/plan-for-college/apply-to-college/sat/sat-vs-act", bullets:[
+            {text:"ACT's own SAT vs. ACT comparison", url:"https://www.act.org/content/act/en/products-and-services/the-act/scores/act-vs-sat.html"},
+            {text:"Compare your SAT and ACT scores with the converter", url:"act-sat.html#concordance"}
+          ]},
+          {title:"Test prep resources", desc:"Free practice tests, plus a list of test prep programs and tutoring in the Cincinnati area.", url:"act-sat.html#prep", bullets:[
+            {text:"Test prep programs & tutoring", url:"act-sat.html#prepPrograms"}
+          ]},
+          {title:"Score release dates & superscoring", desc:"Scores usually arrive within a few weeks of test day. Superscoring means a college combines your best section scores across test dates, but every college sets its own policy, so check them as you build your list.", url:"https://satsuite.collegeboard.org/scores/score-release-dates", bullets:[
+            {text:"ACT scores", url:"https://www.act.org/content/act/en/products-and-services/the-act/scores.html"},
+            {text:"ACT Superscore FAQs", url:"https://www.act.org/content/act/en/students-and-parents/high-school-success/testing-advice-for-the-act/superscore-faqs.html"},
+            {text:"SAT Score Choice", url:"https://satsuite.collegeboard.org/scores/sending-sat-scores/additional/score-choice"},
+            {text:"Later: deciding whether to submit scores", url:"seniors.html#testing"},
+            {text:"FairTest's test-optional list", url:"https://fairtest.org/test-optional-list/"},
+            {text:"Moeller Popular Colleges", url:"popular-colleges.html"}
+          ]}
         ]
       },
       financialAid: {

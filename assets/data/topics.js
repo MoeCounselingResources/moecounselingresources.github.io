@@ -370,17 +370,147 @@ YEARS["ccp-ap"] = {
 YEARS["act-sat"] = {
   hub: "college",
   label: "ACT / SAT",
-  blurb: "Test dates, prep resources, and how to send your scores.",
-  order: ["dates","prep","scores","testingResources"],
+  blurb: "Moeller's testing recommendations, how to compare SAT and ACT scores, test prep options, and how to send your scores, written for families.",
+  layout: "indexed",
+  order: ["recommendations","dates","concordance","prep","prepPrograms","scores","testingResources"],
   sections: {
-    dates: placeholderSection("Test dates & registration", "This year's ACT and SAT calendar."),
-    prep: placeholderSection("Test prep", "Free and low-cost ways to prepare."),
-    scores: placeholderSection("Sending scores", "How to send official scores, and test-optional decisions."),
-    testingResources: {
-      title: "Testing resources",
-      desc: "Outside sites for checking college testing policies and score ranges.",
+    recommendations: {
+      navLabel: "Moeller Testing Recommendations",
+      title: "Moeller testing recommendations",
+      desc: "When to start testing, and how to plan.",
+      stacked: true,
       items: [
-        {title:"SAT & ACT policies and score ranges for popular colleges", desc:"Compass Prep's college profiles show testing policies and middle-50% score ranges.", url:"https://www.compassprep.com/college-profiles/"},
+        {title:"Already completed Algebra II?", desc:"You may consider testing in the fall of junior year."},
+        {title:"Taking Algebra II this year?", desc:"Wait until the school-day SAT in the spring of junior year to begin testing, since Algebra II is tested on these exams."},
+        {title:"Pick one test and plan to take it 2–3 times", desc:"Choose the SAT or the ACT. Most students shouldn't take more than four tests total."},
+        {title:"Prepare as if you'll use your scores", desc:"Many colleges remain test-optional, but some (such as Ohio State) require ACT or SAT scores. Prepare and test as if you'll use your scores. Talk with your school counselor about a testing strategy, including when to report scores and when to withhold them."}
+      ]
+    },
+    dates: {
+      navLabel: "Test Dates & Registration",
+      title: "Test dates & registration",
+      desc: "This year's ACT and SAT calendars.",
+      items: [
+        {title:"SAT test dates and registration", desc:"College Board's calendar of weekend SAT dates and registration deadlines.", url:"https://satsuite.collegeboard.org/sat/dates-deadlines"},
+        {title:"ACT test dates and registration", desc:"ACT's national test dates and registration deadlines.", url:"https://www.act.org/content/act/en/products-and-services/the-act/registration/test-dates.html"},
+        {title:"Moeller testing days", desc:"Juniors take the PSAT/NMSQT in October and a school-day SAT in the spring. See the Juniors page for this year's dates.", url:"juniors.html#timeline"}
+      ]
+    },
+    concordance: {
+      navLabel: "Comparing SAT & ACT Scores",
+      title: "Comparing SAT and ACT scores (concordance)",
+      desc: "How to tell what an SAT score would look like as an ACT score, and the other way around.",
+      stacked: true,
+      items: [
+        {title:"What a concordance table is", desc:"A concordance table is an official table from ACT and College Board that shows which SAT and ACT scores are equivalent. It's based on students who took both tests."},
+        {title:"Why it helps", desc:"Families often ask which test to take. Compare a practice SAT score and a practice ACT score, then see which one is stronger. That's the test that fits better, so focus on that one."},
+        {title:"Cautions", bullets:[
+          "A converted score is an estimate, not a prediction. Expect it to be off by about 2 ACT points or 80 SAT points.",
+          "Colleges don't combine SAT and ACT scores into one superscore."
+        ]}
+      ],
+      widget: {
+        kind: "concordance",
+        heading: "Try the converter",
+        intro: "Pick the test you've taken, then enter your score.",
+        note: "An estimate only. Scores can differ by about 2 ACT points or 80 SAT points, and colleges don't combine SAT and ACT scores. Numbers come from the official 2018 ACT–SAT concordance table. For an SAT score, we show the ACT score whose SAT range it falls in.",
+        link: {text: "Official ACT–SAT concordance tables (PDF)", url: "https://www.act.org/content/dam/act/unsecured/documents/ACT-SAT-Concordance-Tables.pdf"},
+        // [ACT composite, SAT single score, SAT range low, SAT range high] — official 2018 table
+        table: [
+          [36, 1590, 1570, 1600],
+          [35, 1540, 1530, 1560],
+          [34, 1500, 1490, 1520],
+          [33, 1460, 1450, 1480],
+          [32, 1430, 1420, 1440],
+          [31, 1400, 1390, 1410],
+          [30, 1370, 1360, 1380],
+          [29, 1340, 1330, 1350],
+          [28, 1310, 1300, 1320],
+          [27, 1280, 1260, 1290],
+          [26, 1240, 1230, 1250],
+          [25, 1210, 1200, 1220],
+          [24, 1180, 1160, 1190],
+          [23, 1140, 1130, 1150],
+          [22, 1110, 1100, 1120],
+          [21, 1080, 1060, 1090],
+          [20, 1040, 1030, 1050],
+          [19, 1010, 990, 1020],
+          [18, 970, 960, 980],
+          [17, 930, 920, 950],
+          [16, 890, 880, 910],
+          [15, 850, 830, 870],
+          [14, 800, 780, 820],
+          [13, 760, 730, 770],
+          [12, 710, 690, 720],
+          [11, 670, 650, 680],
+          [10, 630, 620, 640],
+          [9, 590, 590, 610]
+        ]
+      }
+    },
+    prep: {
+      navLabel: "Test Prep Resources",
+      title: "Test prep resources",
+      desc: "Moeller's Counseling Department shares this list of test prep options in the Cincinnati area. It isn't all-inclusive, and we don't endorse any single program. Some motivated students prepare well on their own; others prefer a structured class. It's up to each student and family to decide.",
+      stacked: true,
+      items: [
+        {title:"Free practice", desc:"Start here. These practice tests and courses are free.", bullets:[
+            {text:"Khan Academy", url:"https://www.khanacademy.org/test-prep/digital-sat", after:": free SAT prep"},
+            {text:"College Board", url:"https://satsuite.collegeboard.org/practice", after:": full-length practice tests (Bluebook) and MyPractice"},
+            {text:"ACT: “Preparing for the ACT”", url:"https://www.act.org/content/dam/act/secured/documents/Preparing-for-the-ACT.pdf", after:" practice test (PDF)"},
+            {text:"Compass Guide to Admission Testing", url:"https://downloads.compassprep.com/compass_guide_to_admission_testing.pdf", after:" (PDF)"},
+            {text:"Gemini", url:"https://blog.google/products-and-platforms/products/education/practice-sat-gemini/", after:": free SAT practice, with The Princeton Review"},
+            {text:"Free Test Prep Online", url:"https://freetestpreponline.com/", after:": free ACT math course"},
+            {text:"Magoosh", url:"https://sat.magoosh.com/practice_tests/free", after:": free SAT practice test and score report"},
+            {text:"Revolution Prep", url:"https://www.revolutionprep.com/self-proctored-practice-tests/", after:": free self-proctored ACT, SAT, PSAT, or AP practice tests"},
+            {text:"Kaplan", url:"https://www.kaptest.com/sat/free/sat-practice", after:": free SAT practice"}
+        ]},
+        {title:"PSAT practice", desc:"Free practice for the PSAT.", bullets:[
+            {text:"College Board practice tests", url:"https://satsuite.collegeboard.org/practice/practice-tests", after:""},
+            {text:"Kaplan", url:"https://www.kaptest.com/study/psat/psat-free-practice-quizzes/", after:": free PSAT quizzes"},
+            {text:"The Princeton Review", url:"https://www.princetonreview.com/college/free-digitalpsat-practice-test", after:": free digital PSAT practice test"}
+        ]}
+      ]
+    },
+    prepPrograms: {
+      navLabel: "Test Prep Programs & Tutoring",
+      title: "Test prep programs & tutoring",
+      desc: "Classes and tutoring in the Cincinnati area and online. Check each program's current schedule and cost.",
+      items: [
+          {title:"Academic Insights (Kathleen Kuhn)", desc:"ACT & SAT. Classroom and individual tutoring. Colerain area. Phone: 513-385-5196.", url:"http://www.academic-insights.com"},
+          {title:"ACE Test Prep", desc:"ACT. In person, with individual and group classes, including an ACT class at Moeller.", url:"https://www.acetestprepcincy.com/events/2024-25-session-3-moeller"},
+          {title:"ACT (with Kaplan)", desc:"ACT, fully online: self-paced, live online, and individual tutoring.", url:"https://www.act.org/content/act/en/products-and-services/the-act/test-preparation/act-kaplan.html"},
+          {title:"A & M ACT Prep", desc:"ACT. Online interactive prep. Phone: 513-833-5268.", url:"https://amactprep.wordpress.com/", bullets:[{text:"Carrollmary87@gmail.com", url:"mailto:Carrollmary87@gmail.com"}]},
+          {title:"Compass Education Group", desc:"ACT & SAT live online classes and private tutoring. Moeller students get $200 off with promo code BIGMOE.", url:"https://www.compassprep.com/schools/archbishop-moeller/"},
+          {title:"Education for Testing (Martha Geller)", desc:"ACT, and combined ACT/SAT classes, plus individual tutoring. Phone: 513-608-1140.", url:"http://www.educationfortesting.com/_v2/", bullets:[{text:"martha@educationfortesting.com", url:"mailto:martha@educationfortesting.com"}]},
+          {title:"Goal Digger: Jennifer Henson, “The ACT Lady”", desc:"ACT. One-on-one tutoring, with some group online options. Jennifer is a Moeller mom (Augie ’26). Phone: 859-380-5000.", url:"https://jenhensonactprep.com/", bullets:[{text:"jenniferhenson@msn.com", url:"mailto:jenniferhenson@msn.com"}]},
+          {title:"Huntington Learning Centers", desc:"ACT & SAT, in person or online.", url:"http://www.huntingtonhelps.com"},
+          {title:"Kaplan", desc:"ACT & SAT. Self-paced, live online, and tutoring.", url:"http://www.kaptest.com"},
+          {title:"LEAP Program", desc:"ACT & SAT. Classroom and individual tutoring. Phone: 513-754-2240.", url:"https://www.leaprogram.com/collections/act-sat", bullets:[{text:"info@leaprogram.com", url:"mailto:info@leaprogram.com"}]},
+          {title:"Princeton Review", desc:"ACT & SAT. Self-paced, online classes, and tutoring.", url:"http://www.princetonreview.com"},
+          {title:"Revolution Prep", desc:"ACT & SAT tutoring and group programs.", url:"https://www.revolutionprep.com/"},
+          {title:"The College Review", desc:"ACT & SAT. Group and individual sessions, 2 hours each.", url:"https://collegereview.org/"}
+      ]
+    },
+    scores: {
+      navLabel: "Sending Scores",
+      title: "Sending scores",
+      desc: "How to send official scores, and test-optional decisions.",
+      items: [
+        {title:"Sending your scores", desc:"Sending official scores is the student's responsibility. Counselors do not send scores. Allow up to 2 weeks for processing and save your confirmation.", bullets:[
+          {text:"Send SAT scores", url:"https://satsuite.collegeboard.org/scores/sending-sat-scores"},
+          {text:"Send ACT scores", url:"https://www.act.org/content/act/en/products-and-services/the-act/scores/sending-your-scores.html"}
+        ]},
+        {title:"Deciding whether to send scores", desc:"A short guide to when sending scores is recommended, depending on the college and where your score falls.", url:"seniors.html#testing"}
+      ]
+    },
+    testingResources: {
+      navLabel: "Testing Resources",
+      title: "Testing resources",
+      desc: "Checking college testing policies and score ranges.",
+      items: [
+        {title:"Moeller Popular Colleges", desc:"Test ranges, deadlines, and requirements for the schools Moeller students apply to most. Most Moeller students attend Ohio schools like Ohio State, Miami, Ohio University, and UC.", url:"popular-colleges.html"},
+        {title:"Popular universities' ACT & SAT ranges", desc:"Compass Prep's college profiles show testing policies and middle-50% score ranges for popular universities across the country.", url:"https://www.compassprep.com/college-profiles/"},
         {title:"Test-optional and test-free colleges, searchable list", desc:"FairTest's list is the place to check any college's current testing policy.", url:"https://fairtest.org/test-optional-list/"}
       ]
     }

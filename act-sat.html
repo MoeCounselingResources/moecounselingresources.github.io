@@ -3,17 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Moeller Counseling</title>
+<title>ACT / SAT · Moeller Counseling</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
 <link rel="stylesheet" href="assets/css/styles.css">
+<link rel="stylesheet" href="assets/css/concordance.css">
 </head>
 <body data-kind="topic" data-hub="college" data-page="act-sat">
-<!-- Topic page. Content: assets/data/topics.js → YEARS["act-sat"] -->
+<!-- Topic page. Content: assets/data/topics.js → YEARS["act-sat"] (indexed layout) -->
 
 <header id="site-header"></header>
 
 <section class="hero" id="hero"></section>
 
+<div class="indexed-wrap" id="indexed-wrap">
+  <nav class="index-nav" id="index-nav" aria-label="Section index"></nav>
+  <div class="index-content" id="index-content"></div>
+</div>
 <main class="sections" id="sections"></main>
 
 <footer>
@@ -34,6 +39,7 @@
 <script src="assets/data/topics.js"></script>
 <script src="assets/data/hubs.js"></script>
 <script src="assets/js/engine.js"></script>
+<script src="assets/js/concordance.js"></script>
 <script src="assets/js/site.js"></script>
 </body>
 </html>
