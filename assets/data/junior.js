@@ -102,7 +102,7 @@ YEARS.junior = {
         note: "Getting ready",
         desc: "You don't need to file anything yet — this is about understanding how cost works before senior year.",
         items: [
-          {title:"Cost vs. sticker price", desc:"Why the listed price is rarely what a family actually pays.", url:"financial-aid.html#basics"},
+          {title:"Cost vs. sticker price", desc:"Why the listed price is rarely what a family actually pays.", url:"financial-aid.html#cost"},
           {title:"Is a college worth the cost?", desc:"How return on investment works, and why a two-year degree can look better at first while a bachelor's usually pays off more over a lifetime.", url:"https://cew.georgetown.edu/cew-reports/roi2025/"},
           {title:"Merit aid vs. need-based aid", desc:"The difference between the two, and how it can affect your list.", url:"financial-aid.html#basics"},
           {title:"Getting ready for FAFSA", desc:"What to start gathering this year so senior fall is easier.", url:"financial-aid.html#byGrade"}

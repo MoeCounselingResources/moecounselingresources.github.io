@@ -150,9 +150,16 @@ policies stay in `popular-colleges.js`.
 
 `financial-aid.html` gets its content from `YEARS["financial-aid"]` in
 `assets/data/topics.js`. The grade pages link to its sections with links like
-`financial-aid.html#fafsa`, so keep the section keys (`basics`, `byGrade`,
-`fafsa`, `css`, `ohio`, `scholarships`, `compare`, `questions`, `dates`, `recap`)
-the same.
+`financial-aid.html#fafsa`, so keep the section keys (`basics`, `cost`, `byGrade`,
+`fafsa`, `css`, `grants`, `loans`, `scholarships`, `compare`, `questions`,
+`aidTimeline`, `dates`, `recap`) the same.
+
+The charts and interactive pictures on this page (the aid-source and cost circles,
+the need chart, the FAFSA checklist, grant cards, the loans graphic, the scholarship
+steps, and the aid timeline) are listed under `visuals:` in each section of
+`YEARS["financial-aid"]`. Change their words and numbers there. The drawing code is
+in `assets/js/fa-visuals.js` and `assets/css/fa-visuals.css`, which only this page
+loads.
 
 Each fall, once the new FAFSA opens:
 

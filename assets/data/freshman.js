@@ -70,7 +70,7 @@ YEARS.freshman = {
         note: "Way ahead of time",
         desc: "Purely optional reading — nothing here needs attention for years.",
         items: [
-          {title:"How college costs really work", desc:"Sticker price vs. what families actually end up paying.", url:"financial-aid.html#basics"},
+          {title:"How college costs really work", desc:"Sticker price vs. what families actually end up paying.", url:"financial-aid.html#cost"},
           {title:"Why this isn't urgent yet", desc:"A quick note on why waiting is genuinely fine at this stage.", url:"financial-aid.html#byGrade"},
           {title:"Saving & 529 basics", desc:"An optional read for families who want a head start.", url:"financial-aid.html#byGrade"}
         ]

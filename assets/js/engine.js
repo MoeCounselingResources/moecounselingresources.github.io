@@ -235,7 +235,9 @@ function renderSectionBody(s, year, key){
   ` : '';
   const toolHtml = s.tool ? renderToolWidget(s.tool) : '';
   const timelineHtml = s.timeline ? renderTimelineHtml(s.timeline) : '';
-  return `${datesHtml}${timelineHtml}${tableHtml}${toolHtml}<div class="resource-grid${s.stacked ? ' stacked' : ''}">${cards}</div>`;
+  // section.visuals: drawn by assets/js/fa-visuals.js on pages that load it (Financial Aid).
+  const visualsHtml = (s.visuals && typeof renderFaVisuals === 'function') ? renderFaVisuals(s.visuals, `${year}-${key}`) : '';
+  return `${visualsHtml}${datesHtml}${timelineHtml}${tableHtml}${toolHtml}<div class="resource-grid${s.stacked ? ' stacked' : ''}">${cards}</div>`;
 }
 
 /* Vertical timeline (section.timeline). Past items are dimmed; the first item still ahead
@@ -706,6 +708,8 @@ function wireSectionInteractions(){
       try{ localStorage.setItem(key, cb.checked ? '1' : '0'); }catch(e){}
     });
   });
+
+  if(typeof wireFaVisuals === 'function') wireFaVisuals();   // Financial Aid visuals, if loaded
 }
 
 function renderCounselors(){
