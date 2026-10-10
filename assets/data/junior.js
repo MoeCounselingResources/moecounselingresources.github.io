@@ -6,6 +6,39 @@
    Each year: update classOf + label, then refresh the content.
    ========================================================================= */
 
+/* =========================================================================
+   JUNIOR KEY DATES AND COLLEGE KNOWLEDGE MEETINGS — UPDATE EVERY SCHOOL YEAR
+   These two lists feed the "Junior Timeline" key dates and the "Junior Checklist"
+   below. Past dates stay on the page (dimmed) until you change them, so next fall:
+     • change each date, its "iso" date (YYYY-MM-DD), and "isoEnd" for a span
+     • check the College Knowledge meeting topics and descriptions
+   Each key date also shows in the checklist under its "m" month (1 = January).
+   Dates below are for the Class of 2028 (2026–27 school year).
+   ========================================================================= */
+const JUNIOR_KEY_DATES = [
+  {date:"Sept. 30", iso:"2026-09-30", m:9, title:"College Fair", detail:"Talk with a wide range of schools in one place. No registration needed."},
+  {date:"Oct. 12", iso:"2026-10-12", m:10, title:"PSAT/NMSQT", detail:"Moeller's testing day. It's good SAT practice, and it's the qualifying test for the National Merit Scholarship Program."},
+  {date:"Oct. 13", iso:"2026-10-13", m:10, title:"Junior Parent Night", detail:"An evening session for the parents and guardians of juniors."},
+  {date:"Jan. – May", iso:"2027-01-01", isoEnd:"2027-05-31", m:1, title:"Junior Family College Planning Meetings", detail:"A one-on-one meeting with your counselor about your college plans. Meetings run from January through May."},
+  {date:"February", iso:"2027-02-01", isoEnd:"2027-02-28", m:2, title:"College list building begins", detail:"Start turning what you've learned into a list of schools."},
+  {date:"March", iso:"2027-03-01", isoEnd:"2027-03-31", m:3, title:"Request your teacher recommendation", detail:"Fill out the Microsoft Form in College Knowledge and list your top 2 or 3 teachers. You'll receive 1 teacher letter."},
+  {date:"Mar. 23", iso:"2027-03-23", m:3, title:"School-day SAT", detail:"Taken at school. You'll fill in your registration information at the February College Knowledge meeting."},
+  {date:"April", iso:"2027-04-01", isoEnd:"2027-04-30", m:4, title:"Complete your recommendation questionnaire", detail:"A Microsoft Form that helps your counselor and teacher write your letter."},
+  {date:"April", iso:"2027-04-01", isoEnd:"2027-04-30", m:4, title:"Create your Common App account", detail:"Use a personal email address, not your Moeller email."}
+];
+
+// College Knowledge class meetings, one per month. "topics" is the official title; "detail" is the student-friendly summary.
+const JUNIOR_MEETINGS = [
+  {m:9, label:"September", months:[9], topics:"Understanding Fit, College Research & Application Timeline, SCOIR", detail:"Learn what makes a college a good fit for you, how the college search and application timeline work, and how to use SCOIR to keep track of your colleges."},
+  {m:10, label:"October", months:[10], topics:"Mock Admissions Activity with Admissions Reps", detail:"Play the admissions committee alongside real admissions representatives and see how applications get read and decisions get made."},
+  {m:11, label:"November", months:[11], topics:"The College Search, College Visits & Resume Writing", detail:"Learn how to search for colleges, get more out of a visit, and start a resume that tracks your activities and accomplishments."},
+  {m:12, label:"December", months:[12], topics:"Preparing for the ACT & SAT (Compass Education presentation)", detail:"A presentation from Compass Education on how the ACT and SAT work and how to prepare for them."},
+  {m:1, label:"January", months:[1], topics:"Course Registration & Exploring College Majors", detail:"Sign up for next year's courses and start exploring majors that match your interests."},
+  {m:2, label:"February", months:[2], topics:"College Research & List Building, Teacher Recommendations; Financial Aid presentation; SAT pre-administration for the March 23 SAT", detail:"Start building your college list, learn how teacher recommendations work, and hear an introduction to financial aid. You'll also fill in your registration information for the March 23 SAT."},
+  {m:3, label:"March", months:[3], topics:"The College Essay Panel", detail:"Hear a panel talk about the college essay and how to approach writing yours."},
+  {m:4, label:"April", months:[4,5,6,7,8], topics:"The College Application", detail:"Walk through what a college application includes and how the pieces fit together."}
+];
+
 YEARS.junior = {
     classOf: "2028",
     tabLabel: "Junior",
@@ -15,7 +48,7 @@ YEARS.junior = {
     collegeLabel: "College Knowledge",
     // Junior/sophomore/freshman: set layout to "indexed" for a left-side index, or delete it for stacked sections.
     layout: "indexed",
-    order: ["research","exploration","essays","essayGuides","timeline","testing","financialAid","military"],
+    order: ["research","exploration","essays","essayGuides","juniorChecklist","timeline","testing","financialAid","military"],
     sections: {
       exploration: {
         navLabel: "College Exploration",
@@ -88,15 +121,42 @@ YEARS.junior = {
           "Your Common App essay comes first. Start it this spring, then tackle supplements in the summer before senior year."
         ]
       },
+      juniorChecklist: {
+        navLabel: "Junior Checklist",
+        title: "Junior Year Checklist",
+        note: "Check items off as you go",
+        desc: "Your College Knowledge class meetings and key dates, month by month. Checking a box just marks it for you in this browser. It won't affect anyone else's view.",
+        type: "checklist",
+        groups: JUNIOR_MEETINGS.map(mt => ({
+          label: mt.label,
+          months: mt.months,
+          items: [{text: "College Knowledge class meeting: " + mt.topics, detail: mt.detail}].concat(
+            JUNIOR_KEY_DATES.filter(d => d.m === mt.m).map(d => ({text: d.title + " (" + d.date + ")", detail: d.detail})))
+        }))
+      },
       timeline: {
         navLabel: "Junior Timeline",
         title: "Application timeline & checklists",
         note: "Junior year",
         desc: "A month-by-month view of what matters this year.",
+        timeline: JUNIOR_KEY_DATES,
+        stacked: true,
         items: [
-          {title:"Junior year planning checklist", desc:"What to handle this fall, winter, and spring — in order.", url:"#"},
-          {title:"Setting up your Common App account", desc:"Creating your account early and exploring the format before you need it.", url:"#"},
-          {title:"Requesting letters of recommendation", desc:"Who to ask, and when, so it's done before senior year gets busy.", url:"#"}
+          {title:"Junior year planning checklist", desc:"Month-by-month steps for your College Knowledge class meetings and key dates, with checkboxes that save on your device.", url:"#juniorChecklist", bullets:[
+            {text:"11th Grade College and Career Planning Checklist", url:"https://bigfuture.collegeboard.org/checklist", after:" from BigFuture"}
+          ]},
+          {title:"PSAT/NMSQT", desc:"The PSAT/NMSQT is a practice version of the SAT and the qualifying test for the National Merit Scholarship Program. Most students take it once, in junior year, and only junior-year scores count for National Merit. Moeller's testing day is listed in the key dates above.", url:"https://satsuite.collegeboard.org/in-school-assessments/scholarships-recognition/national-merit-scholarship-program", bullets:[
+            {text:"PSAT/NMSQT FAQ", url:"https://bigfuture.collegeboard.org/plan-for-college/stand-out-in-high-school/faq-psat-nmsqt", after:" from BigFuture"}
+          ]},
+          {title:"Setting up your Common App account", desc:"You'll create your Common App account in April of junior year. Use a personal email address, not your Moeller email. School filters can block emails from colleges, and you lose access to your Moeller email after you graduate. Don't match your Common App to SCOIR yet. You'll do that, and waive FERPA, at a group meeting at the start of senior year.", url:"https://www.commonapp.org/apply/first-year-students/", bullets:[
+            {text:"Create your Common App account", url:"https://apply.commonapp.org/createaccount"},
+            {text:"See how seniors set up Common App & SCOIR", url:"seniors.html#moreEssentials"}
+          ]},
+          {title:"Requesting letters of recommendation", desc:"In March, you'll fill out a Microsoft Form in College Knowledge listing your top 2 or 3 teachers, and you'll receive 1 teacher letter. In April, you'll complete a recommendation questionnaire, also a Microsoft Form, that helps your counselor and teacher write your letter. Teachers who know you well, ideally from junior year, write the strongest letters.", url:"https://bigfuture.collegeboard.org/plan-for-college/apply-to-college/application-process/how-to-get-a-great-letter-of-recommendation", bullets:[
+            {text:"Common App: the first-year recommendation process", url:"https://www.commonapp.org/static/088c92645a5827f61016fd81ac42b3f4/Resource_FY_RecProcess_ENG_2025.06.25_1.pdf", after:" (PDF)"},
+            {text:"Common App: teacher brag sheet", url:"https://www.commonapp.org/static/7bc36ad35601e024c5ba48dcef1292e2/Resource_FY_TeacherBragSheet_ENG_2025.06.25_1.pdf", after:" (PDF)"},
+            {text:"How seniors sign FERPA and add recommenders", url:"seniors.html#moreEssentials"}
+          ]}
         ]
       },
       testing: {

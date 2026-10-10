@@ -140,7 +140,10 @@ function renderSectionBody(s, year, key){
         <ul class="checklist" id="${escapeHtml(gid)}"${gi === openIdx ? '' : ' hidden'}>
           ${g.items.map((item, ii)=>{
             const ck = `crh-check-${year}-${key}-${gi}-${ii}`;
-            return `<li><label class="check-item"><input type="checkbox" data-check-key="${escapeHtml(ck)}"><span>${escapeHtml(item)}</span></label></li>`;
+            // item is a string, or {text, detail} for a short description under the text
+            const text = typeof item === 'string' ? item : item.text;
+            const detail = typeof item === 'string' ? '' : item.detail;
+            return `<li><label class="check-item"><input type="checkbox" data-check-key="${escapeHtml(ck)}"><span>${escapeHtml(text)}${detail ? `<small class="check-detail">${escapeHtml(detail)}</small>` : ''}</span></label></li>`;
           }).join('')}
         </ul>
       </div>
