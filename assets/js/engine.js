@@ -281,18 +281,69 @@ function renderIndexNav(year){
   const hashKey = decodeURIComponent(location.hash.replace(/^#/, ''));
   if(hashKey && y.sections[hashKey] && order.includes(hashKey)) active = hashKey;
 
-  nav.innerHTML = order.map(key=>{
-    const s = y.sections[key];
-    if(!s) return '';
-    return `<button data-key="${escapeHtml(key)}" aria-current="${key===active}">${escapeHtml(s.navLabel || s.title)}</button>`;
+  // Optional grouping: y.indexGroups = [{label, sections:[keys...]}, ...] turns those
+  // sections into a collapsible parent item. Parents sit in alphabetical position
+  // among the other top-level items. Sections not listed in a group stay top-level.
+  const labelOf = key => { const s = y.sections[key]; return s ? (s.navLabel || s.title || key) : ''; };
+  const groups = (y.indexGroups || [])
+    .map((g, gi) => ({id:`${year}-grp-${gi}`, label:g.label, keys:(g.sections || []).filter(k => y.sections[k] && order.includes(k))}))
+    .filter(g => g.keys.length);
+  const grouped = new Set(groups.flatMap(g => g.keys));
+  const entries = order.filter(k => y.sections[k] && !grouped.has(k)).map(k => ({key:k}));
+  groups.forEach(g => {
+    const at = entries.findIndex(en => !en.group && labelOf(en.key).localeCompare(g.label, 'en', {sensitivity:'base'}) > 0);
+    entries.splice(at < 0 ? entries.length : at, 0, {group:g});
+  });
+  const leafHtml = key => `<button type="button" data-key="${escapeHtml(key)}" aria-current="${key===active}">${escapeHtml(labelOf(key))}</button>`;
+  const groupOf = key => groups.find(g => g.keys.includes(key));
+  nav.innerHTML = entries.map(en=>{
+    if(!en.group) return leafHtml(en.key);
+    const g = en.group;
+    return `<div class="index-group" data-group="${escapeHtml(g.id)}">
+      <button type="button" class="index-parent" data-group-btn="${escapeHtml(g.id)}" aria-expanded="false" aria-controls="${escapeHtml(g.id)}">${escapeHtml(g.label)}</button>
+      <div class="index-children" id="${escapeHtml(g.id)}" hidden>${g.keys.map(leafHtml).join('')}</div>
+    </div>`;
   }).join('');
 
+  // Expand the group holding the open section and highlight it; other groups keep
+  // whatever the visitor has opened or closed.
+  function syncGroups(key){
+    const open = groupOf(key);
+    nav.querySelectorAll('.index-group').forEach(el=>{
+      const isActive = !!open && el.dataset.group === open.id;
+      const btn = el.querySelector('.index-parent');
+      if(isActive){
+        btn.setAttribute('aria-expanded', 'true');
+        el.querySelector('.index-children').hidden = false;
+      }
+      el.classList.toggle('has-active', isActive);
+    });
+  }
+  nav.querySelectorAll('.index-parent').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const wrap = btn.closest('.index-group');
+      if(wrap.classList.contains('has-active')) return; // the open section's parent stays expanded
+      const open = btn.getAttribute('aria-expanded') !== 'true';
+      btn.setAttribute('aria-expanded', String(open));
+      wrap.querySelector('.index-children').hidden = !open;
+    });
+  });
+
+  // On phones the index is a sideways strip: bring the open item into view without moving the page.
+  function revealActive(){
+    const cur = nav.querySelector('button[aria-current="true"]');
+    if(cur && nav.scrollWidth > nav.clientWidth){
+      nav.scrollLeft = cur.getBoundingClientRect().left - nav.getBoundingClientRect().left + nav.scrollLeft - 24;
+    }
+  }
   function selectSection(key){
-    nav.querySelectorAll('button').forEach(b=>b.setAttribute('aria-current', b.dataset.key===key));
+    nav.querySelectorAll('button[data-key]').forEach(b=>b.setAttribute('aria-current', b.dataset.key===key));
+    syncGroups(key);
+    revealActive();
     renderIndexContent(year, key);
     try{ localStorage.setItem(`crh-index-active-${year}`, key); }catch(e){}
   }
-  nav.querySelectorAll('button').forEach(btn=>{
+  nav.querySelectorAll('button[data-key]').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       selectSection(btn.dataset.key);
       // Keep the address bar in step with the index without adding history or jumping.
@@ -310,6 +361,8 @@ function renderIndexNav(year){
     if(c) c.scrollIntoView({behavior:'smooth', block:'start'});
   });
 
+  syncGroups(active);
+  revealActive();
   renderIndexContent(year, active);
 }
 

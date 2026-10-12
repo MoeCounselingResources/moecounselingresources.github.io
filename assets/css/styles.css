@@ -776,6 +776,41 @@ header{
   cursor:pointer;
 }
 .index-nav button:hover{color:var(--ink); background:var(--paper-soft);}
+/* Collapsible parent groups in the index */
+.index-group{display:flex; flex-direction:column; gap:2px;}
+.index-parent{
+  position:relative;
+  padding-right:34px !important;
+}
+.index-parent::after{
+  content:"";
+  position:absolute;
+  right:14px;
+  top:50%;
+  width:7px;
+  height:7px;
+  border-right:2px solid currentColor;
+  border-bottom:2px solid currentColor;
+  transform:translateY(-70%) rotate(45deg);
+  transition:transform 0.2s ease;
+}
+.index-parent[aria-expanded="true"]::after{transform:translateY(-30%) rotate(-135deg);}
+.index-group.has-active > .index-parent{
+  color:var(--ink);
+  background:var(--paper-soft);
+  box-shadow:inset 3px 0 0 var(--accent);
+}
+.index-children{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+  margin-left:14px;
+  padding-left:6px;
+  border-left:2px solid var(--rule);
+}
+.index-children[hidden]{display:none;}
+.index-children button{font-weight:500; font-size:0.86rem; padding:8px 10px;}
+.index-nav button:focus-visible{outline:2px solid var(--focus); outline-offset:2px;}
 .index-nav button[aria-current="true"]{
   background:var(--ink);
   color:var(--paper);
@@ -802,6 +837,10 @@ header{
     border-bottom:1px solid var(--rule);
   }
   .index-nav button{white-space:nowrap;}
+  /* Phones: the index is a sideways strip; an open group's sections sit inline after its parent. */
+  .index-group{flex-direction:row; align-items:center; gap:6px;}
+  .index-children{flex-direction:row; margin-left:0; padding-left:6px; gap:6px; border-left:2px solid var(--rule);}
+  .index-children button{font-size:0.9rem; padding:10px 12px;}
 }
 
 /* ---------- Date cycler (calendar-style) ---------- */

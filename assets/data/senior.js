@@ -22,6 +22,14 @@ YEARS.senior = {
     blurb: "These resources will help you with college research, essay writing, and filling out your applications!",
     collegeLabel: "Application Resources",
     // Junior/sophomore/freshman: set layout to "indexed" for a left-side index, or delete it for stacked sections.
+    // Left-index grouping: each group becomes a collapsible parent in the index.
+    // "sections" lists section keys (same keys as in "order"). Any section not listed
+    // here stays a normal top-level item. Parents are placed alphabetically by label.
+    // To group another page, add the same indexGroups list to its data file.
+    indexGroups: [
+      {label: "Applications", sections: ["feeWaivers","fallChecklist","applicationFaq","appTracker","appTypes","commonAppGuide","commonAppFaq","activities","moreEssentials"]},
+      {label: "Essays",       sections: ["essayPrompts","essayBrainstorm","writingGuide","essays","essayGuides"]}
+    ],
     order: ["feeWaivers","fallChecklist","applicationFaq","appTracker","appTypes","exploration","research","commonAppGuide","essayPrompts","commonAppFaq","essayBrainstorm","writingGuide","essays","financialAid","decisionInfo","activities","military","scholarshipReporting","moreEssentials","responsibilities","essayGuides","testOptional","testing"],
     layout: "indexed",
     sections: {
