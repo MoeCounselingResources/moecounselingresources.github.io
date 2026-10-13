@@ -46,7 +46,8 @@ const HUBS = {
       {title:"Military Options", desc:"Service academies, senior military colleges, and ROTC.", href:"military.html"},
       {title:"CCP / AP", desc:"Earning college credit while you're still in high school.", href:"ccp-ap.html"},
       {title:"ACT / SAT", desc:"Test dates, prep resources, and how to send your scores.", href:"act-sat.html"},
-      {title:"Career Exploration", desc:"Tools for connecting your interests and strengths to future careers.", href:"career-exploration.html"}
+      {title:"Career Exploration", desc:"Tools for connecting your interests and strengths to future careers.", href:"career-exploration.html"},
+      {title:"Opportunities Board", desc:"College fairs, programs, career exploration, and jobs shared with Moeller counseling.", href:"opportunities.html"}
     ],
     classHeading: "Class of\u2026",
     hideClassPrograms: true,

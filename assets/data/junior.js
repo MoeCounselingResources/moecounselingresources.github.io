@@ -60,7 +60,9 @@ YEARS.junior = {
         type: "schoolLists",
         lists: ["goldilocks", "liberalArts", "engineering"],
         // Optional: add more exploration resources here and they show below the lists.
-        items: []
+        items: [
+          {title:"Opportunities Board", desc:"College fairs, programs, career exploration, and jobs shared with Moeller counseling.", url:"opportunities.html"}
+        ]
       },
       military: {
         navLabel: "Military Options",
@@ -93,7 +95,14 @@ YEARS.junior = {
             "Look at bulletin boards and the student newspaper.",
             "Take notes and pictures, since visits run together.",
             "Be polite and stay off your phone, because admissions reps read applications.",
-            {label:"Rep visits at Moeller:", text:"Sign up in SCOIR at least 2 days ahead, and get your teacher’s permission to miss class."}
+            {label:"Rep visits at Moeller:", text:"Sign up in SCOIR at least 2 days ahead, and get your teacher’s permission to miss class."},
+            {parts:[{text:"College Visit 101: Tips & Questions", url:"college-exploration.html#visitGuide"}, " and ", {text:"virtual college tours", url:"college-exploration.html#visits"}, " for when you can’t get to campus."]}
+          ]},
+          {title:"Co-op vs. internship: what’s the difference?", desc:"Both let you gain real work experience in your field before you graduate.", bullets:[
+            {label:"Co-op:", text:"You alternate semesters of school with semesters of full-time, paid work related to your major, often several rotations with the same or different employers. Co-ops are built into some programs and can add time to your degree. Cincinnati is home to the co-op: UC started the first co-op program in 1906."},
+            {label:"Internship:", text:"Usually shorter, often one summer or a part-time role during the school year. It may be paid or unpaid, and you may earn credit."},
+            {label:"Ask on college visits:", text:"Does this school offer co-ops or internships in my major? Are they required? Does a co-op add time to graduation?"},
+            {text:"UC’s co-op vs. internship comparison", url:"https://www.uc.edu/blog/co-op-internship.html"}
           ]},
           {title:"Comparing majors & programs", desc:"Look up what a school actually offers, not just its ranking. You don't have to pick a major yet, since many colleges let you decide later.", url:"https://nces.ed.gov/collegenavigator/", bullets:[
             {text:"BigFuture Majors Directory", url:"https://bigfuture.collegeboard.org/explore-careers/majors"}

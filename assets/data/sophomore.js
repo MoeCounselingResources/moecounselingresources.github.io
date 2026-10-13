@@ -24,7 +24,9 @@ YEARS.sophomore = {
         type: "schoolLists",
         lists: ["goldilocks", "liberalArts", "engineering"],
         // Optional: add more exploration resources here and they show below the lists.
-        items: []
+        items: [
+          {title:"Opportunities Board", desc:"College fairs, programs, career exploration, and jobs shared with Moeller counseling.", url:"opportunities.html"}
+        ]
       },
       research: {
         title: "College research tools",

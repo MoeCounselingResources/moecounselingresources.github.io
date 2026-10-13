@@ -62,7 +62,7 @@ YEARS["college-exploration"] = {
   hub: "college",
   label: "College Exploration",
   blurb: "Researching schools, visiting campuses, and building a list that fits you.",
-  order: ["lists","research","visits","list"],
+  order: ["lists","research","visits","visitGuide","list"],
   sections: {
     lists: {
       title: "School lists",
@@ -73,7 +73,56 @@ YEARS["college-exploration"] = {
       items: []
     },
     research: placeholderSection("Researching colleges", "Tools for comparing schools, majors, and costs."),
-    visits: placeholderSection("Campus & rep visits", "Getting the most from a visit, in person or virtual."),
+    visits: {
+      title: "Campus & rep visits",
+      note: "Virtual tours",
+      desc: "Can’t get to campus? Virtual tours help you explore and narrow your list. Many colleges also record that you “toured” when you register for their own virtual tour.",
+      items: [
+        {title:"TheCollegeTour.com", desc:"Virtual campus tours you can watch from home.", url:"https://www.thecollegetour.com/"},
+        {title:"Appily Virtual College Tours", desc:"Browse Appily’s collection of virtual college tours.", url:"https://www.appily.com/virtual-college-tours"},
+        {title:"CampusTours", desc:"Interactive tours and campus maps.", url:"https://campustours.com/"},
+        {title:"CampusReel", desc:"Student-filmed campus videos.", url:"https://www.campusreel.org/"}
+      ]
+    },
+    // College Visit 101: a printable guide. Groups with open:false start collapsed.
+    // In an item's text, {curly braces} mark the words that link to its url.
+    visitGuide: {
+      title: "College Visit 101: Tips & Questions",
+      note: "Before, during, and after your visit",
+      type: "visitGuide",
+      groups: [
+        {title:"Before you go", items:[
+          "Register for the official tour and information session on the college’s admissions website. Note parking and timing.",
+          {text:"Use Moeller’s days off school, or one of your 2 excused college visit days (bring a note from the college). See the {key dates on the Juniors page}.", url:"juniors.html#timeline"},
+          "Can’t make an official tour? Many colleges post a self-guided walking tour. Also register for their virtual tour, so the college has a record that you “toured.”",
+          "Email the admissions rep who works with Moeller (ask your counselor if you’re not sure who it is). Tell them when you’ll be on campus and ask to stop by and say hello. If they’re not around, it’s still a good point of contact."
+        ]},
+        {title:"On campus", items:[
+          "You ask the questions, not your parents. This is your college process.",
+          "Explore on your own: visit the student center or quad and talk to current students. They’ll give you the real story, not the tour script.",
+          "If you know what you might study, visit that department and talk with professors or students.",
+          "Take notes and pictures. Tours blend together fast, and your notes will help later with “Why this college?” essays.",
+          "Keep an open mind. One rainy day or one so-so tour guide isn’t the whole school.",
+          "Be polite and stay off your phone, because admissions reps read applications."
+        ]},
+        {title:"After your visit", items:[
+          {text:"Follow the college in SCOIR and save your notes in the {App Tracker} while they’re fresh.", url:"app-tracker.html"}
+        ]},
+        {title:"Questions to ask admissions reps", open:false, items:[
+          {label:"Academics:", text:"I’m interested in ___. What programs or pathways do you offer? When do students choose a major, and how easy is it to change? Is there a core curriculum? What’s the typical first-year class size? Are classes taught by faculty or graduate assistants? When can undergraduates start doing research? How does academic advising work?"},
+          {label:"Support:", text:"What tutoring and academic support are available, including for students with learning differences? What mental health resources are on campus?"},
+          {label:"Campus life:", text:"What clubs and organizations can I join? What opportunities are there for service and for spiritual life? How big is Greek life? Where do most students come from?"},
+          {label:"Beyond the classroom:", text:"What internships, co-ops, study abroad, and summer research opportunities are available? How does the career center help students find jobs or get into graduate school?"},
+          {label:"Cost:", text:"What academic, talent, or service scholarships are available?"},
+          {label:"The big picture:", text:"How would students describe the campus vibe?"}
+        ]},
+        {title:"Questions to ask current students", open:false, items:[
+          {label:"Social life:", text:"What do students do on weekends? Do many go home? What are the most popular activities, clubs, and sports (varsity, club, and intramural)? Would you call this a Greek school?"},
+          {label:"Academics:", text:"Were you able to get the classes you wanted? How available are professors outside class? How much homework, reading, and writing is typical? Do students compete or work together?"},
+          {label:"Overall:", text:"What’s one thing you love here, and one thing you’d change? How would you describe the atmosphere? What are the big issues students talk about? Did you study abroad or have an internship?"}
+        ]}
+      ]
+    },
     list: placeholderSection("Building your list", "Reach, target, and likely schools, and how to balance them.")
   }
 };
@@ -514,6 +563,21 @@ YEARS["act-sat"] = {
         {title:"Test-optional and test-free colleges, searchable list", desc:"FairTest's list is the place to check any college's current testing policy.", url:"https://fairtest.org/test-optional-list/"}
       ]
     }
+  }
+};
+
+/* ---------------- Opportunities Board ----------------
+   The cards come from assets/data/opportunities.js (opportunities.html loads it).
+   Each section below shows the items whose "category" matches. */
+YEARS["opportunities"] = {
+  hub: "college",
+  label: "Opportunities Board",
+  blurb: "Opportunities shared with Moeller counseling. Moeller doesn’t endorse these programs or employers; please review details with your family.",
+  order: ["fairs","careers","jobs"],
+  sections: {
+    fairs: {title:"College Fairs & Programs", note:"Events and summer programs", type:"opportunities", category:"fairs"},
+    careers: {title:"Career Exploration", note:"Shadowing and career programs", type:"opportunities", category:"careers"},
+    jobs: {title:"Jobs", note:"Part-time and seasonal work", type:"opportunities", category:"jobs"}
   }
 };
 

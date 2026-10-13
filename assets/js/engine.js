@@ -108,6 +108,12 @@ function renderSectionBody(s, year, key){
       </div>
     `;
   }
+  if(s.type === 'visitGuide'){
+    return renderVisitGuideHtml(s, year, key);
+  }
+  if(s.type === 'opportunities'){
+    return renderOpportunitiesHtml(s);
+  }
   if(s.type === 'feeWaivers'){
     return renderFeeWaiversHtml(s.waivers);
   }
@@ -189,7 +195,9 @@ function renderSectionBody(s, year, key){
       PENDING_MINI_GUIDES.push({id: mgId, data: item.miniGuide});
       mgHtml = renderMiniGuide(mgId);
     }
-    const bulletHtml = b => (b && typeof b === 'object' && b.label)
+    const bulletHtml = b => (b && typeof b === 'object' && b.parts)
+      ? b.parts.map(p => (p && typeof p === 'object') ? `<a${linkAttrs(p.url)}>${escapeHtml(p.text)}</a>` : escapeHtml(p)).join('')   // {parts:[text, {text,url}, text...]}: links inside a sentence
+      : (b && typeof b === 'object' && b.label)
       ? `<strong>${escapeHtml(b.label)}</strong> ${escapeHtml(b.text)}`   // {label, text}: bold lead-in
       : (b && typeof b === 'object')
       ? `<a${linkAttrs(b.url)}>${escapeHtml(b.text)}</a>${b.after ? escapeHtml(b.after) : ''}`   // {text, url, after}
@@ -708,6 +716,25 @@ function renderSections(year){
 }
 
 function wireSectionInteractions(){
+  document.querySelectorAll('.vg-print').forEach(btn=>{
+    if(btn.dataset.wired) return; btn.dataset.wired = '1';
+    btn.addEventListener('click', ()=>{
+      document.body.classList.add('vg-printing');
+      const done = ()=>{ document.body.classList.remove('vg-printing'); window.removeEventListener('afterprint', done); };
+      window.addEventListener('afterprint', done);
+      window.print();
+    });
+  });
+  document.querySelectorAll('.opp-more').forEach(btn=>{
+    if(btn.dataset.wired) return; btn.dataset.wired = '1';
+    btn.addEventListener('click', ()=>{
+      const extra = document.getElementById(btn.getAttribute('aria-controls'));
+      const open = btn.getAttribute('aria-expanded') !== 'true';
+      btn.setAttribute('aria-expanded', String(open));
+      btn.textContent = open ? 'Show less' : 'Read more';
+      extra.hidden = !open;
+    });
+  });
   document.querySelectorAll('.ag-checker').forEach(wireActivityChecker);
   document.querySelectorAll('.eg-widget').forEach(wireEssayGuides);
   document.querySelectorAll('.sl-widget').forEach(wireSchoolLists);
@@ -1593,4 +1620,71 @@ function wireSchoolLists(root){
     }));
     apply();
   });
+}
+
+
+/* ---------- College Visit 101 guide (section type "visitGuide") ----------
+   groups: [{title, open, items}]. open:false makes a group start collapsed (the visitor's
+   choice is remembered). An item is a string, or {label, text, url}. In an item's text,
+   put {curly braces} around the words that should link to url. */
+function visitItemHtml(item){
+  if(typeof item === 'string') return escapeHtml(item);
+  const label = item.label ? `<strong>${escapeHtml(item.label)}</strong> ` : '';
+  const text = String(item.text || '').split(/\{([^}]*)\}/).map((part, i) =>
+    i % 2 ? `<a${linkAttrs(item.url)}>${escapeHtml(part)}</a>` : escapeHtml(part)).join('');
+  return label + text;
+}
+function renderVisitGuideHtml(s, year, key){
+  return `
+    <div class="vg-widget vg-printable">
+      <div class="vg-toolbar vg-noprint">
+        <button type="button" class="guide-arrow vg-print">Print this guide</button>
+      </div>
+      <h2 class="vg-print-title">${escapeHtml(s.title)}</h2>
+      ${s.groups.map((g, gi)=>{
+        const gid = `vg-${year}-${key}-${gi}`;
+        const open = g.open !== false;
+        return `
+        <div class="checklist-group vg-group">
+          <h3 class="checklist-group-title">
+            <button type="button" class="group-toggle" aria-expanded="${open}" aria-controls="${escapeHtml(gid)}" data-group-key="crh-group-${escapeHtml(gid)}" data-default-open="${open ? '1' : '0'}">
+              <span>${escapeHtml(g.title)}</span><span class="chevron" aria-hidden="true">⌄</span>
+            </button>
+          </h3>
+          <ul class="vg-list" id="${escapeHtml(gid)}"${open ? '' : ' hidden'}>
+            ${g.items.map(it=>`<li>${visitItemHtml(it)}</li>`).join('')}
+          </ul>
+        </div>`;
+      }).join('')}
+    </div>`;
+}
+
+/* ---------- Opportunities Board (section type "opportunities") ----------
+   Shows the items in OPPORTUNITIES (assets/data/opportunities.js) whose "category" matches
+   the section's "category". Items disappear on their own once "showUntil" has passed. */
+function opportunityShows(o, todayIso){ return !o.showUntil || o.showUntil >= todayIso; }
+function renderOpportunitiesHtml(s){
+  const d = new Date();
+  const todayIso = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  const items = (typeof OPPORTUNITIES !== 'undefined' ? OPPORTUNITIES : [])
+    .filter(o => o.category === s.category && opportunityShows(o, todayIso))
+    .map((o, i) => ({o, i}))
+    .sort((a, b) => (a.o.showUntil || '9999').localeCompare(b.o.showUntil || '9999') || a.i - b.i)
+    .map(x => x.o);
+  if(!items.length) return `<p class="opp-empty">Nothing posted right now. Check back soon.</p>`;
+  const row = (label, value) => value ? `<div><dt>${label}</dt><dd>${escapeHtml(value)}</dd></div>` : '';
+  return `<div class="opp-grid">${items.map((o, i)=>{
+    const mid = `opp-more-${s.category.replace(/[^a-z0-9]+/gi,'-')}-${i}`;
+    return `
+    <article class="opp-card">
+      <h3>${escapeHtml(o.name)}</h3>
+      ${o.org ? `<div class="opp-org">${escapeHtml(o.org)}</div>` : ''}
+      <dl class="opp-meta">
+        ${row('Dates', o.dates)}${row('Where', o.where)}${row('Deadline', o.deadline)}${row('Grades', o.grades)}
+      </dl>
+      ${o.desc ? `<p class="opp-desc">${escapeHtml(o.desc)}</p>` : ''}
+      ${o.more ? `<p class="opp-desc" id="${mid}" hidden>${escapeHtml(o.more)}</p><button type="button" class="opp-more" aria-expanded="false" aria-controls="${mid}">Read more</button>` : ''}
+      ${(o.links || []).length ? `<div class="opp-links">${o.links.map(l=>`<a${linkAttrs(l.url)}>${escapeHtml(l.text)}${isExternal(l.url) ? ' ↗' : ''}</a>`).join('')}</div>` : ''}
+    </article>`;
+  }).join('')}</div>`;
 }

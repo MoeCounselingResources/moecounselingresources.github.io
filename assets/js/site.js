@@ -271,6 +271,25 @@ function renderTopicPage(key){
     renderIndexNav(key);
   } else {
     renderStacked(t, key, 'sections');
+    // Give each section an anchor so links like college-exploration.html#visitGuide jump to it.
+    const wrap = document.getElementById('sections');
+    (t.order || Object.keys(t.sections || {})).forEach((k, i)=>{
+      const el = wrap && wrap.querySelector(`[data-sec="${i}"]`);
+      if(el && !el.classList.contains('no-heading') && !document.getElementById(k)) el.id = k;
+    });
+    const openHash = ()=>{
+      let id = '';
+      try{ id = decodeURIComponent(location.hash.replace(/^#/, '')); }catch(e){}
+      const el = id && document.getElementById(id);
+      if(!el || !el.classList.contains('resource-section')) return;
+      const row = el.querySelector('.section-head-row');
+      const body = el.querySelector('.section-body');
+      if(body) body.classList.remove('is-hidden');
+      if(row) row.setAttribute('aria-expanded', 'true');
+      el.scrollIntoView({block:'start'});
+    };
+    openHash();
+    window.addEventListener('hashchange', openHash);
   }
   document.title = `${t.label} · Moeller Counseling`;
 }

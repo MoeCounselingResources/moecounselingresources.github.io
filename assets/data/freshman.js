@@ -33,7 +33,8 @@ YEARS.freshman = {
         items: [
           {title:"What colleges look for", desc:"A first look at GPA, coursework, and activities — no pressure yet.", url:"#"},
           {title:"Choosing courses with the future in mind", desc:"Course planning basics that keep options open.", url:"#"},
-          {title:"Exploring interests freely", desc:"Trying activities without needing to commit to any of them.", url:"#"}
+          {title:"Exploring interests freely", desc:"Trying activities without needing to commit to any of them.", url:"#"},
+          {title:"Opportunities Board", desc:"College fairs, programs, career exploration, and jobs shared with Moeller counseling.", url:"opportunities.html"}
         ]
       },
       essays: {
