@@ -20,23 +20,25 @@ const JUNIOR_KEY_DATES = [
   {date:"Oct. 12", iso:"2026-10-12", m:10, title:"PSAT/NMSQT", detail:"Moeller's testing day. It's good SAT practice, and it's the qualifying test for the National Merit Scholarship Program."},
   {date:"Oct. 13", iso:"2026-10-13", m:10, title:"Junior Parent Night", detail:"An evening session for the parents and guardians of juniors."},
   {date:"Jan. – May", iso:"2027-01-01", isoEnd:"2027-05-31", m:1, title:"Junior Family College Planning Meetings", detail:"A one-on-one meeting with your counselor about your college plans. Meetings run from January through May."},
+  // College visit days. UPDATE EVERY YEAR from the school calendar: the days off listed below, and the "iso"/"isoEnd" span.
+  {date:"Days off", iso:"2027-01-18", isoEnd:"2027-04-19", title:"College visit days", detail:"Days off school are great times to visit colleges. This year’s days off: Jan. 18, Feb. 12, Feb. 15, Feb. 18, Mar. 15, Mar. 29–Apr. 2, and Apr. 19. Juniors and seniors also get 2 excused days for college visits, with a note from the college."},
   {date:"February", iso:"2027-02-01", isoEnd:"2027-02-28", m:2, title:"College list building begins", detail:"Start turning what you've learned into a list of schools."},
-  {date:"March", iso:"2027-03-01", isoEnd:"2027-03-31", m:3, title:"Request your teacher recommendation", detail:"Fill out the Microsoft Form in College Knowledge and list your top 2 or 3 teachers. You'll receive 1 teacher letter."},
+  {date:"March", iso:"2027-03-01", isoEnd:"2027-03-31", m:3, title:"Request your teacher recommendation", detail:"Fill out the Microsoft Form in College Knowledge and list your top three teachers. You'll receive 1 teacher letter."},
   {date:"Mar. 23", iso:"2027-03-23", m:3, title:"School-day SAT", detail:"Taken at school. You'll fill in your registration information at the February College Knowledge meeting."},
   {date:"April", iso:"2027-04-01", isoEnd:"2027-04-30", m:4, title:"Complete your recommendation questionnaire", detail:"A Microsoft Form that helps your counselor and teacher write your letter."},
   {date:"April", iso:"2027-04-01", isoEnd:"2027-04-30", m:4, title:"Create your Common App account", detail:"Use a personal email address, not your Moeller email."}
 ];
 
-// College Knowledge class meetings, one per month. "topics" is the official title; "detail" is the student-friendly summary.
+// College Knowledge class meetings, one per month. "topics" is the official title; "detail" is the student-friendly summary; "tip" is the short highlighted note under it.
 const JUNIOR_MEETINGS = [
-  {m:9, label:"September", months:[9], topics:"Understanding Fit, College Research & Application Timeline, SCOIR", detail:"Learn what makes a college a good fit for you, how the college search and application timeline work, and how to use SCOIR to keep track of your colleges."},
-  {m:10, label:"October", months:[10], topics:"Mock Admissions Activity with Admissions Reps", detail:"Play the admissions committee alongside real admissions representatives and see how applications get read and decisions get made."},
-  {m:11, label:"November", months:[11], topics:"The College Search, College Visits & Resume Writing", detail:"Learn how to search for colleges, get more out of a visit, and start a resume that tracks your activities and accomplishments."},
-  {m:12, label:"December", months:[12], topics:"Preparing for the ACT & SAT (Compass Education presentation)", detail:"A presentation from Compass Education on how the ACT and SAT work and how to prepare for them."},
-  {m:1, label:"January", months:[1], topics:"Course Registration & Exploring College Majors", detail:"Sign up for next year's courses and start exploring majors that match your interests."},
-  {m:2, label:"February", months:[2], topics:"College Research & List Building, Teacher Recommendations; Financial Aid presentation; SAT pre-administration for the March 23 SAT", detail:"Start building your college list, learn how teacher recommendations work, and hear an introduction to financial aid. You'll also fill in your registration information for the March 23 SAT."},
-  {m:3, label:"March", months:[3], topics:"The College Essay Panel", detail:"Hear a panel talk about the college essay and how to approach writing yours."},
-  {m:4, label:"April", months:[4,5,6,7,8], topics:"The College Application", detail:"Walk through what a college application includes and how the pieces fit together."}
+  {m:9, label:"September", months:[9], topics:"Understanding Fit, College Research & Application Timeline, SCOIR", detail:"Learn what makes a college a good fit academically, socially, and financially, and how to research beyond the rankings. We’ll walk through the junior-year timeline and get you started in SCOIR.", tip:"Over 100 colleges visit Moeller each fall. Sign up in SCOIR at least 2 days ahead and get your teacher’s permission to miss class."},
+  {m:10, label:"October", months:[10], topics:"Mock Admissions Activity with Admissions Reps", detail:"Step into an admissions officer’s shoes. Alongside real admissions reps, you’ll review sample applications (transcript, test scores, activities, essay, and recommendation letters) and decide who to admit, deny, or defer.", tip:"Pay attention to what makes an application stand out. It’s often more than grades."},
+  {m:11, label:"November", months:[11], topics:"The College Search, College Visits & Resume Writing", detail:"Learn the types of college visits, what to look for on campus, and how colleges track demonstrated interest. You’ll explore SCOIR’s search tools, start a resume in SCOIR that becomes your Common App Activities section, and set up your LinkedUp Connect profile.", tip:"Students, not parents, should contact colleges. Rep visits at Moeller and opening college emails can count as interest."},
+  {m:12, label:"December", months:[12], topics:"Preparing for the ACT & SAT (Compass Education presentation)", detail:"Compass Education explains how the ACT and SAT work, how to decide which test fits you, and how to prepare. Start planning when you’ll test, especially if you’re taking Algebra II this year.", tip:"Pick one test and plan to take it 2–3 times."},
+  {m:1, label:"January", months:[1], topics:"Course Registration & Exploring College Majors", detail:"You don’t need to know your major yet. Learn how students actually choose a major, when it helps to decide early (engineering, nursing, education), and how to use SCOIR’s career assessments. Choose senior courses that help you explore.", tip:"Narrow it to 2–3 areas of interest, then look up those majors at colleges you like."},
+  {m:2, label:"February", months:[2], topics:"College Research & List Building, Teacher Recommendations; Financial Aid presentation; SAT pre-administration for the March 23 SAT", detail:"Start building your college list, learn how teacher recommendations work at Moeller, and get an introduction to paying for college: cost of attendance, net price calculators, the FAFSA, and scholarships. We’ll also complete pre-administration for the March 23 school-day SAT.", tip:"Talk with teachers in person now. You’ll pick your top three teachers in March."},
+  {m:3, label:"March", months:[3], topics:"The College Essay Panel", detail:"Hear what makes a strong college essay, then brainstorm your own topic: a small, specific moment that shows how you think and what you value. You’ll also submit your teacher recommendation request, listing your top three teachers.", tip:"A specific scene beats a broad topic."},
+  {m:4, label:"April", months:[4,5,6,7,8], topics:"The College Application", detail:"Learn what a complete application includes, how deadlines work (early action, early decision, regular, and rolling), and how to keep your list balanced. You’ll create your Common App account and complete the questionnaire for your recommendation teacher.", tip:"Use a personal email for Common App. Over the summer, narrow your list, update your resume, and keep working on your essay."}
 ];
 
 YEARS.junior = {
@@ -83,7 +85,15 @@ YEARS.junior = {
             {text:"See test ranges on Moeller Popular Colleges", url:"popular-colleges.html"}
           ]},
           {title:"Getting the most from a campus visit", desc:"What to look for beyond the tour, whether you visit in person or virtually. Spring and summer are good times to start.", url:"https://bigfuture.collegeboard.org/plan-for-college/find-your-fit/campus-visits-and-tours", bullets:[
-            {text:"Campus Visit Checklist", url:"https://bigfuture.collegeboard.org/plan-for-college/find-your-fit/campus-visit-checklist", after:" from BigFuture"}
+            {text:"Campus Visit Checklist", url:"https://bigfuture.collegeboard.org/plan-for-college/find-your-fit/campus-visit-checklist", after:" from BigFuture"},
+            {text:"When to visit: days off school are listed in Moeller’s key dates", url:"#timeline", after:", plus 2 excused visit days with a note from the college."},
+            {label:"Visit tips:", text:"Talk with current students and admissions officers."},
+            "Visit the department for your intended major.",
+            "Find the writing center, tutoring, and student activities.",
+            "Look at bulletin boards and the student newspaper.",
+            "Take notes and pictures, since visits run together.",
+            "Be polite and stay off your phone, because admissions reps read applications.",
+            {label:"Rep visits at Moeller:", text:"Sign up in SCOIR at least 2 days ahead, and get your teacher’s permission to miss class."}
           ]},
           {title:"Comparing majors & programs", desc:"Look up what a school actually offers, not just its ranking. You don't have to pick a major yet, since many colleges let you decide later.", url:"https://nces.ed.gov/collegenavigator/", bullets:[
             {text:"BigFuture Majors Directory", url:"https://bigfuture.collegeboard.org/explore-careers/majors"}
@@ -130,7 +140,7 @@ YEARS.junior = {
         groups: JUNIOR_MEETINGS.map(mt => ({
           label: mt.label,
           months: mt.months,
-          items: [{text: "College Knowledge class meeting: " + mt.topics, detail: mt.detail}].concat(
+          items: [{text: "College Knowledge class meeting: " + mt.topics, detail: mt.detail, tip: mt.tip}].concat(
             JUNIOR_KEY_DATES.filter(d => d.m === mt.m).map(d => ({text: d.title + " (" + d.date + ")", detail: d.detail})))
         }))
       },
@@ -152,7 +162,15 @@ YEARS.junior = {
             {text:"Create your Common App account", url:"https://apply.commonapp.org/createaccount"},
             {text:"See how seniors set up Common App & SCOIR", url:"seniors.html#moreEssentials"}
           ]},
-          {title:"Requesting letters of recommendation", desc:"In March, you'll fill out a Microsoft Form in College Knowledge listing your top 2 or 3 teachers, and you'll receive 1 teacher letter. In April, you'll complete a recommendation questionnaire, also a Microsoft Form, that helps your counselor and teacher write your letter. Teachers who know you well, ideally from junior year, write the strongest letters.", url:"https://bigfuture.collegeboard.org/plan-for-college/apply-to-college/application-process/how-to-get-a-great-letter-of-recommendation", bullets:[
+          {title:"Requesting letters of recommendation", desc:"Juniors get 1 core-class teacher letter (English, math, science, social studies, or world language) plus a counselor letter. Catino/Global Scholars get 2 core-class teacher letters. Service academy applicants need 2–3 teacher letters (usually math, English, and science), and it’s the student’s responsibility to know this.", url:"https://bigfuture.collegeboard.org/plan-for-college/apply-to-college/application-process/how-to-get-a-great-letter-of-recommendation", bullets:[
+            {label:"Who to ask:", text:"A junior-year core-class teacher who has seen your growth, effort, and engagement."},
+            "A subject related to your intended major, if you have one (for example, math or science for engineering).",
+            "Not a mentor teacher, unless they’ve taught you in class.",
+            {label:"February–March:", text:"Talk with teachers in person."},
+            {label:"March College Knowledge:", text:"Submit the request form with your top three teachers."},
+            {label:"March–April:", text:"Counseling balances requests among teachers."},
+            {label:"April College Knowledge:", text:"Complete the Teacher Questionnaire."},
+            {label:"April–October:", text:"Teachers upload letters to SCOIR."},
             {text:"Common App: the first-year recommendation process", url:"https://www.commonapp.org/static/088c92645a5827f61016fd81ac42b3f4/Resource_FY_RecProcess_ENG_2025.06.25_1.pdf", after:" (PDF)"},
             {text:"Common App: teacher brag sheet", url:"https://www.commonapp.org/static/7bc36ad35601e024c5ba48dcef1292e2/Resource_FY_TeacherBragSheet_ENG_2025.06.25_1.pdf", after:" (PDF)"},
             {text:"How seniors sign FERPA and add recommenders", url:"seniors.html#moreEssentials"}

@@ -525,7 +525,19 @@ YEARS["career-exploration"] = {
   sections: {
     assessments: placeholderSection("Interest & strength assessments", "Tools that suggest fields based on what you enjoy."),
     explore: placeholderSection("Exploring careers", "Researching what jobs actually involve."),
-    experience: placeholderSection("Getting experience", "Job shadowing, internships, and summer programs.")
+    experience: {
+      title: "Getting experience",
+      note: "Placeholder",
+      desc: "Job shadowing, internships, and summer programs.",
+      items: [
+        {title:"LinkedUp Connect", desc:"Moeller’s LinkedUp Connect platform, where students build a profile that local businesses see when offering “experienceships.”", bullets:[
+          {label:"How to get there:", text:"MoeCampus → Resources → Counseling → LinkedUp Connect. Click Login, choose Student, then “Login with Microsoft.” Every student already has an account."},
+          {label:"What to complete:", text:"The required profile fields (marked *), your graduation year, your top five skills, the central application, and a resume or cover letter."},
+          "Then complete the Junior Achievement Career Assessment at the top of your Workspace page."
+        ]},
+        {title:"Resource title", desc:"Placeholder — a one-line description of this resource.", url:"#"}
+      ]
+    }
   }
 };
 

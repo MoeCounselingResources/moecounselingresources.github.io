@@ -429,6 +429,8 @@ header{
   text-decoration:line-through;
 }
 .check-item .check-detail{display:block; margin-top:3px; font-size:0.88rem; font-weight:400; color:var(--ink-soft); line-height:1.45;}
+.check-item .check-tip{display:block; margin-top:6px; padding:6px 10px; font-size:0.85rem; font-weight:400; color:var(--ink); line-height:1.45; background:var(--paper-soft); border-left:3px solid var(--accent); border-radius:0 6px 6px 0;}
+.check-item .check-tip strong{font-weight:700;}
 
 /* ---------- Data table (e.g. test-date charts) ---------- */
 .data-table-wrap{margin-top:20px;}
