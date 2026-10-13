@@ -78,8 +78,8 @@ YEARS["college-exploration"] = {
       note: "Virtual tours",
       desc: "Can’t get to campus? Virtual tours help you explore and narrow your list. Many colleges also record that you “toured” when you register for their own virtual tour.",
       items: [
-        {title:"TheCollegeTour.com", desc:"Virtual campus tours you can watch from home.", url:"https://www.thecollegetour.com/"},
-        {title:"Appily Virtual College Tours", desc:"Browse Appily’s collection of virtual college tours.", url:"https://www.appily.com/virtual-college-tours"},
+        {title:"TheCollegeTour.com", desc:"Student-hosted video tours of hundreds of colleges, from the TV series.", url:"https://www.thecollegetour.com/"},
+        {title:"Appily Virtual College Tours", desc:"Interactive 360° virtual tours of colleges across the country.", url:"https://www.appily.com/virtual-college-tours"},
         {title:"CampusTours", desc:"Interactive tours and campus maps.", url:"https://campustours.com/"},
         {title:"CampusReel", desc:"Student-filmed campus videos.", url:"https://www.campusreel.org/"}
       ]
