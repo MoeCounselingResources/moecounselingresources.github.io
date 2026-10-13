@@ -2248,3 +2248,62 @@ a.resource-link{border-bottom-color:var(--sky);}
 .opp-links{display:flex; flex-wrap:wrap; gap:6px 16px; margin-top:auto;}
 .opp-links a{font-weight:600; font-size:0.9rem;}
 .opp-empty{color:var(--ink-soft); font-size:0.95rem; margin:8px 0 0;}
+
+
+/* ---------- Compact cards: short cards with "Show more" panels and gold tip boxes ----------
+   Turned on per page with compactCards: true (and goLabels: true) in its data file. */
+.resource-grid.compact{align-items:start; gap:14px;}
+.resource-card.compact{
+  justify-content:flex-start;
+  gap:12px;
+  padding:18px 22px;
+  border-left:4px solid var(--accent);
+}
+.resource-card.compact.wide{background:var(--paper-soft);}
+.resource-card.compact .resource-text ul{margin:10px 0 0; padding-left:1.2em; font-size:0.92rem;}
+.resource-card.compact .resource-text li{margin-bottom:4px;}
+.resource-card.compact .resource-link{white-space:normal;}
+.card-panels{display:flex; flex-direction:column; gap:6px;}
+.card-panel{border:1px solid var(--rule); border-radius:8px; background:var(--paper); overflow:hidden;}
+.card-panel-toggle{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  width:100%;
+  padding:9px 12px;
+  background:none;
+  border:0;
+  font:inherit;
+  font-family:var(--sans);
+  font-size:0.9rem;
+  font-weight:700;
+  color:var(--ink);
+  text-align:left;
+  cursor:pointer;
+}
+.card-panel-toggle:hover{background:var(--paper-soft);}
+.card-panel-toggle:focus-visible{outline:2px solid var(--focus); outline-offset:-2px;}
+.card-panel-toggle .chevron{transition:transform 0.2s ease;}
+.card-panel-toggle[aria-expanded="true"] .chevron{transform:rotate(180deg);}
+.card-panel-body{padding:2px 14px 12px; font-size:0.92rem; color:var(--ink-soft); line-height:1.5;}
+.card-panel-body[hidden]{display:none;}
+.card-panel-body p{margin:8px 0 0; font-size:0.92rem; color:var(--ink-soft);}
+.card-panel-body ul{margin:8px 0 0; padding-left:1.2em;}
+.card-panel-body li{margin-bottom:5px;}
+.card-panel-body .mini-guide{margin-top:10px;}
+.card-tip{
+  padding:8px 12px;
+  font-size:0.88rem;
+  line-height:1.45;
+  color:var(--ink);
+  background:var(--paper-soft);
+  border-left:3px solid var(--accent);
+  border-radius:0 6px 6px 0;
+}
+.card-tip strong{font-weight:700;}
+.index-content[data-compact] h2{
+  display:inline-block;
+  padding-bottom:6px;
+  border-bottom:3px solid var(--accent);
+}

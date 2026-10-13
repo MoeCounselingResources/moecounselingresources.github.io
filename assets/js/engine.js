@@ -7,9 +7,10 @@
 const DEFAULT_SECTION_ORDER = ["research","essays","timeline","testing","financialAid"];
 
 function isExternal(url){ return /^https?:\/\//i.test(url); }
-function resourceLinkHtml(url){
+function resourceLinkHtml(url, label){
+  // label (optional): custom text for an internal link, such as "Go to Moeller Popular Colleges".
   if(isExternal(url)) return `<a class="resource-link" href="${escapeHtml(url)}" target="_blank" rel="noopener">Open ↗</a>`;
-  return `<a class="resource-link" href="${escapeHtml(url)}">Open</a>`;
+  return `<a class="resource-link" href="${escapeHtml(url)}">${label ? escapeHtml(label) : 'Open'}</a>`;
 }
 
 function escapeHtml(str){
@@ -79,6 +80,7 @@ function resolveDates(s, yearKey){
   return all.sort((a, b) => String(a.iso || '').localeCompare(String(b.iso || '')));
 }
 
+let CARD_PANEL_SEQ = 0;
 function renderSectionBody(s, year, key){
   PENDING_MINI_GUIDES.length = 0;
   if(s.type === 'formEmbed'){
@@ -187,6 +189,12 @@ function renderSectionBody(s, year, key){
     }).join('')}</div>`;
   }
   const items = s.items || [];
+  // Page-level card style, set in the page's data file (see junior.js):
+  //   compactCards: true  → short cards that line up at the top instead of stretching to match the row
+  //   goLabels: true      → internal links read "Go to ..." instead of "Open"
+  const yr = (typeof YEARS !== 'undefined' && YEARS[year]) || {};
+  const compactCards = s.compactCards !== undefined ? s.compactCards : !!yr.compactCards;
+  const goLabels = s.goLabels !== undefined ? s.goLabels : !!yr.goLabels;
   const cards = items.map(item=>{
     const imgs = item.images || (item.image ? [item.image] : []);
     let mgHtml = '';
@@ -205,16 +213,38 @@ function renderSectionBody(s, year, key){
     // numbered: true on an item shows its bullets as a numbered list (steps in order).
     const listTag = item.numbered ? 'ol class="steps-list"' : 'ul';
     const bulletsHtml = item.bullets ? `<${listTag}>${item.bullets.map(b=>`<li>${bulletHtml(b)}</li>`).join('')}</${item.numbered ? 'ol' : 'ul'}>` : '';
+    // Optional card parts (see "Card options" in junior.js):
+    //   panels: [{title, text, bullets, miniGuide}]  closed-by-default "Show more" sections inside the card
+    //   tip: {label, text}                           a gold highlighted note
+    const panelsHtml = (item.panels || []).map(pn => {
+      const pid = `cp-${++CARD_PANEL_SEQ}`;
+      let inner = '';
+      if(pn.text) inner += `<p>${escapeHtml(pn.text)}</p>`;
+      if(pn.bullets) inner += `<ul>${pn.bullets.map(b=>`<li>${bulletHtml(b)}</li>`).join('')}</ul>`;
+      if(pn.miniGuide){
+        const pmg = `mg-${PENDING_MINI_GUIDES.length}`;
+        PENDING_MINI_GUIDES.push({id: pmg, data: pn.miniGuide});
+        inner += renderMiniGuide(pmg);
+      }
+      return `<div class="card-panel">
+        <button type="button" class="card-panel-toggle" aria-expanded="false" aria-controls="${pid}"><span>${escapeHtml(pn.title || 'Show more')}</span><span class="chevron" aria-hidden="true">⌄</span></button>
+        <div class="card-panel-body" id="${pid}" hidden>${inner}</div>
+      </div>`;
+    }).join('');
+    const tipHtml = item.tip ? `<div class="card-tip">${item.tip.label ? `<strong>${escapeHtml(item.tip.label)}</strong> ` : ''}${escapeHtml(item.tip.text)}</div>` : '';
+    const goLabel = item.go || (goLabels && item.url && !isExternal(item.url) ? `Go to ${item.title}` : '');
     return `
-    <div class="resource-card${s.stacked ? ' wide' : ''}">
+    <div class="resource-card${s.stacked ? ' wide' : ''}${compactCards ? ' compact' : ''}">
       ${imgs.length ? `<div class="resource-images">${imgs.map(src=>`<img src="${escapeHtml(src)}" alt="${escapeHtml(item.title)}">`).join('')}</div>` : ''}
       <div class="resource-text">
         <h3>${escapeHtml(item.title)}</h3>
-        <p>${escapeHtml(item.desc)}</p>
+        ${item.desc ? `<p>${escapeHtml(item.desc)}</p>` : ''}
         ${bulletsHtml}
       </div>
+      ${panelsHtml ? `<div class="card-panels">${panelsHtml}</div>` : ''}
+      ${tipHtml}
       ${mgHtml}
-      ${item.url ? resourceLinkHtml(item.url) : ''}
+      ${item.url ? resourceLinkHtml(item.url, goLabel) : ''}
     </div>
   `;
   }).join('');
@@ -251,7 +281,7 @@ function renderSectionBody(s, year, key){
   const visualsHtml = (s.visuals && typeof renderFaVisuals === 'function') ? renderFaVisuals(s.visuals, `${year}-${key}`) : '';
   // section.widget: a small interactive tool drawn by assets/js/concordance.js on pages that load it (ACT/SAT).
   const widgetHtml = (s.widget && typeof renderPageWidget === 'function') ? renderPageWidget(s.widget) : '';
-  return `${visualsHtml}${datesHtml}${timelineHtml}${tableHtml}${toolHtml}<div class="resource-grid${s.stacked ? ' stacked' : ''}">${cards}</div>${widgetHtml}`;
+  return `${visualsHtml}${datesHtml}${timelineHtml}${tableHtml}${toolHtml}<div class="resource-grid${s.stacked ? ' stacked' : ''}${compactCards ? ' compact' : ''}">${cards}</div>${widgetHtml}`;
 }
 
 /* Vertical timeline (section.timeline). Past items are dimmed; the first item still ahead
@@ -381,6 +411,7 @@ function renderIndexContent(year, key){
   const content = document.getElementById('index-content');
   if(!s){ content.innerHTML = ''; return; }
   content.classList.remove('animate');
+  content.toggleAttribute('data-compact', !!y.compactCards);
   content.innerHTML = `
     <h2>${escapeHtml(s.title)}</h2>
     ${s.desc ? `<p class="section-desc">${escapeHtml(s.desc)}</p>` : ''}
@@ -716,6 +747,15 @@ function renderSections(year){
 }
 
 function wireSectionInteractions(){
+  document.querySelectorAll('.card-panel-toggle').forEach(btn=>{
+    if(btn.dataset.wired) return; btn.dataset.wired = '1';
+    btn.addEventListener('click', ()=>{
+      const body = document.getElementById(btn.getAttribute('aria-controls'));
+      const open = btn.getAttribute('aria-expanded') !== 'true';
+      btn.setAttribute('aria-expanded', String(open));
+      body.hidden = !open;
+    });
+  });
   document.querySelectorAll('.vg-print').forEach(btn=>{
     if(btn.dataset.wired) return; btn.dataset.wired = '1';
     btn.addEventListener('click', ()=>{
