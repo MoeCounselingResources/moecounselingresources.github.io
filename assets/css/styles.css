@@ -791,10 +791,10 @@ header{
   height:7px;
   border-right:2px solid currentColor;
   border-bottom:2px solid currentColor;
-  transform:translateY(-70%) rotate(45deg);
+  transform:translateY(-50%) rotate(-45deg);   /* points right when closed */
   transition:transform 0.2s ease;
 }
-.index-parent[aria-expanded="true"]::after{transform:translateY(-30%) rotate(-135deg);}
+.index-parent[aria-expanded="true"]::after{transform:translateY(-70%) rotate(45deg);}   /* points down when open */
 .index-group.has-active > .index-parent{
   color:var(--ink);
   background:var(--paper-soft);

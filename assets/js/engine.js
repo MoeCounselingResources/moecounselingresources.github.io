@@ -305,8 +305,9 @@ function renderIndexNav(year){
     </div>`;
   }).join('');
 
-  // Expand the group holding the open section and highlight it; other groups keep
-  // whatever the visitor has opened or closed.
+  // Expand the group holding the open section when a section is picked (or a deep link
+  // loads) and highlight it. Clicking a parent afterward toggles it freely, even while
+  // its own section is showing; other groups keep whatever the visitor has opened or closed.
   function syncGroups(key){
     const open = groupOf(key);
     nav.querySelectorAll('.index-group').forEach(el=>{
@@ -322,7 +323,6 @@ function renderIndexNav(year){
   nav.querySelectorAll('.index-parent').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       const wrap = btn.closest('.index-group');
-      if(wrap.classList.contains('has-active')) return; // the open section's parent stays expanded
       const open = btn.getAttribute('aria-expanded') !== 'true';
       btn.setAttribute('aria-expanded', String(open));
       wrap.querySelector('.index-children').hidden = !open;
