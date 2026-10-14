@@ -82,6 +82,7 @@ function resolveDates(s, yearKey){
 
 let CARD_PANEL_SEQ = 0;
 function renderSectionBody(s, year, key){
+  const pageYear = year;
   PENDING_MINI_GUIDES.length = 0;
   if(s.type === 'formEmbed'){
     const hasRealUrl = s.formUrl && s.formUrl !== '#';
@@ -190,12 +191,27 @@ function renderSectionBody(s, year, key){
   }
   const items = s.items || [];
   // Page-level card style, set in the page's data file (see junior.js):
-  //   compactCards: true  → short cards that line up at the top instead of stretching to match the row
+  //   compactCards: true  → balanced cards: equal height per row, links pinned to the bottom, two columns
+  //   accentCards: true   → gold card edge and gold section-title underline
+  //   maxCardLinks: 2     → most links a card shows; extra links move into a "More links" panel
   //   goLabels: true      → internal links read "Go to ..." instead of "Open"
-  const yr = (typeof YEARS !== 'undefined' && YEARS[year]) || {};
+  const yr = (typeof YEARS !== 'undefined' && YEARS[pageYear]) || {};
   const compactCards = s.compactCards !== undefined ? s.compactCards : !!yr.compactCards;
+  const accentCards = s.accentCards !== undefined ? s.accentCards : !!yr.accentCards;
   const goLabels = s.goLabels !== undefined ? s.goLabels : !!yr.goLabels;
-  const cards = items.map(item=>{
+  const maxCardLinks = s.maxCardLinks || yr.maxCardLinks || 2;
+  // Balanced grids have two columns. Work out which cards take a whole row, so a row never ends with a
+  // single stranded card: cards marked span:true, plus any card left alone at the end of a row.
+  const spanIdx = new Set();
+  if(compactCards && !s.stacked){
+    let col = 0, last = -1;
+    items.forEach((it, i)=>{
+      if(it.span){ if(col === 1) spanIdx.add(last); spanIdx.add(i); col = 0; }
+      else { col++; last = i; if(col === 2) col = 0; }
+    });
+    if(col === 1) spanIdx.add(last);
+  }
+  const cards = items.map((item, itemIdx)=>{
     const imgs = item.images || (item.image ? [item.image] : []);
     let mgHtml = '';
     if(item.miniGuide){
@@ -214,6 +230,7 @@ function renderSectionBody(s, year, key){
     const listTag = item.numbered ? 'ol class="steps-list"' : 'ul';
     const bulletsHtml = item.bullets ? `<${listTag}>${item.bullets.map(b=>`<li>${bulletHtml(b)}</li>`).join('')}</${item.numbered ? 'ol' : 'ul'}>` : '';
     // Optional card parts (see "Card options" in junior.js):
+    //   span: true                                   the card takes the whole row (for a featured or tall card)
     //   panels: [{title, text, bullets, miniGuide}]  closed-by-default "Show more" sections inside the card
     //   tip: {label, text}                           a gold highlighted note
     const panelsHtml = (item.panels || []).map(pn => {
@@ -233,8 +250,45 @@ function renderSectionBody(s, year, key){
     }).join('');
     const tipHtml = item.tip ? `<div class="card-tip">${item.tip.label ? `<strong>${escapeHtml(item.tip.label)}</strong> ` : ''}${escapeHtml(item.tip.text)}</div>` : '';
     const goLabel = item.go || (goLabels && item.url && !isExternal(item.url) ? `Go to ${item.title}` : '');
+    if(compactCards){
+      // Balanced layout: facts stay with the summary; links sit in a footer pinned to the bottom of the card.
+      const isLink = b => b && typeof b === 'object' && !b.label && (b.parts || b.url);
+      const linkCount = b => b.parts ? b.parts.filter(p => p && typeof p === 'object').length : 1;
+      const bl = item.bullets || [];
+      const facts = bl.filter(b => !isLink(b));
+      let used = item.url ? 1 : 0;
+      const shown = [], extra = [];
+      bl.filter(isLink).forEach(b => { if(used + linkCount(b) <= maxCardLinks || (!used && !shown.length)){ shown.push(b); used += linkCount(b); } else extra.push(b); });
+      let allPanels = panelsHtml;
+      if(extra.length){
+        const eid = `cp-${++CARD_PANEL_SEQ}`;
+        allPanels += `<div class="card-panel">
+        <button type="button" class="card-panel-toggle" aria-expanded="false" aria-controls="${eid}"><span>More links</span><span class="chevron" aria-hidden="true">⌄</span></button>
+        <div class="card-panel-body" id="${eid}" hidden><ul>${extra.map(b=>`<li>${bulletHtml(b)}</li>`).join('')}</ul></div>
+      </div>`;
+      }
+      const factsHtml = facts.length ? `<${listTag}>${facts.map(b=>`<li>${bulletHtml(b)}</li>`).join('')}</${item.numbered ? 'ol' : 'ul'}>` : '';
+      const footer = (item.url || shown.length)
+        ? `<div class="card-links">${item.url ? resourceLinkHtml(item.url, goLabel) : ''}${shown.map(b=>`<div class="card-link-line">${bulletHtml(b)}</div>`).join('')}</div>` : '';
+      return `
+    <div class="resource-card${s.stacked ? ' wide' : ''} compact${accentCards ? ' accent' : ''}${spanIdx.has(itemIdx) ? ' span-all' : ''}">
+      ${imgs.length ? `<div class="resource-images">${imgs.map(src=>`<img src="${escapeHtml(src)}" alt="${escapeHtml(item.title)}">`).join('')}</div>` : ''}
+      <div class="resource-text">
+        <h3>${escapeHtml(item.title)}</h3>
+        ${item.desc ? `<p>${escapeHtml(item.desc)}</p>` : ''}
+        ${factsHtml}
+      </div>
+      <div class="card-bottom">
+        ${allPanels ? `<div class="card-panels">${allPanels}</div>` : ''}
+        ${tipHtml}
+        ${mgHtml}
+        ${footer}
+      </div>
+    </div>
+  `;
+    }
     return `
-    <div class="resource-card${s.stacked ? ' wide' : ''}${compactCards ? ' compact' : ''}">
+    <div class="resource-card${s.stacked ? ' wide' : ''}">
       ${imgs.length ? `<div class="resource-images">${imgs.map(src=>`<img src="${escapeHtml(src)}" alt="${escapeHtml(item.title)}">`).join('')}</div>` : ''}
       <div class="resource-text">
         <h3>${escapeHtml(item.title)}</h3>
@@ -316,9 +370,13 @@ function renderIndexNav(year){
   const order = y.order || DEFAULT_SECTION_ORDER;
   let active = null;
   try{ active = localStorage.getItem(`crh-index-active-${year}`); }catch(e){}
-  if(!active || !y.sections[active]) active = order[0];
-  const hashKey = decodeURIComponent(location.hash.replace(/^#/, ''));
-  if(hashKey && y.sections[hashKey] && order.includes(hashKey)) active = hashKey;
+  // anchorAliases: {oldKey: currentKey} so links to sections that moved (for example seniors.html#essayPrompts)
+  // still land on a sensible section.
+  const resolveKey = k => (k && y.sections[k] && order.includes(k)) ? k : (((y.anchorAliases || {})[k] && y.sections[y.anchorAliases[k]]) ? y.anchorAliases[k] : null);
+  active = resolveKey(active) || order[0];
+  let hashKey = '';
+  try{ hashKey = decodeURIComponent(location.hash.replace(/^#/, '')); }catch(e){}
+  if(resolveKey(hashKey)) active = resolveKey(hashKey);
 
   // Optional grouping: y.indexGroups = [{label, sections:[keys...]}, ...] turns those
   // sections into a collapsible parent item. Parents sit in alphabetical position
@@ -394,7 +452,8 @@ function renderIndexNav(year){
   window.addEventListener('hashchange', ()=>{
     let key = '';
     try{ key = decodeURIComponent(location.hash.replace(/^#/, '')); }catch(e){}
-    if(!key || !y.sections[key] || !order.includes(key)) return;
+    key = resolveKey(key);
+    if(!key) return;
     selectSection(key);
     const c = document.getElementById('index-content');
     if(c) c.scrollIntoView({behavior:'smooth', block:'start'});
@@ -411,7 +470,7 @@ function renderIndexContent(year, key){
   const content = document.getElementById('index-content');
   if(!s){ content.innerHTML = ''; return; }
   content.classList.remove('animate');
-  content.toggleAttribute('data-compact', !!y.compactCards);
+  content.toggleAttribute('data-accent', !!y.accentCards);
   content.innerHTML = `
     <h2>${escapeHtml(s.title)}</h2>
     ${s.desc ? `<p class="section-desc">${escapeHtml(s.desc)}</p>` : ''}

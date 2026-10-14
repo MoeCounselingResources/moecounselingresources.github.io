@@ -43,7 +43,8 @@ YEARS.freshman = {
         desc: "It's early — this is about noticing your own experiences, not writing essays.",
         items: [
           {title:"Why writing matters early", desc:"Building comfort with writing years before applications exist.", url:"#"},
-          {title:"Keeping a running journal", desc:"A simple habit that gives future-you something to draw on.", url:"#"}
+          {title:"Keeping a running journal", desc:"A simple habit that gives future-you something to draw on.", url:"#"},
+          {title:"Essays", desc:"Common App prompts, a brainstorming tool, a writing guide, and supplemental essay guides.", url:"essays.html", go:"Go to Essays"}
         ]
       },
       timeline: {

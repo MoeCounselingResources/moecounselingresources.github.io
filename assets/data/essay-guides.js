@@ -1,6 +1,6 @@
 /* =========================================================================
-   SUPPLEMENTAL ESSAY GUIDES — one list, shown on BOTH the Seniors and
-   Juniors pages ("Supplemental Essay Guides" in each page's index).
+   SUPPLEMENTAL ESSAY GUIDES — one list, shown on the shared
+   Essays page (essays.html, "Supplemental Essay Guides" in its index).
    Source: College Essay Guy, "School-Specific Supplemental Essay Guides" (2026).
    To add a school: copy any line, change name + url. To remove one: delete its line.
    "aka" (optional): nicknames students might type in the search box.

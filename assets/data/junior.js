@@ -16,7 +16,8 @@
                      [{title (default "Show more"), text, bullets, miniGuide}]
      tip             a gold highlighted note: {label, text}
      miniGuide       a step-by-step guide (also allowed inside a panel)
-   Page style flags (set once on the page object): compactCards, goLabels, indexGroups.
+   Page style flags (set once on the page object): compactCards, accentCards, goLabels, maxCardLinks
+   (default 2: extra links move into a "More links" panel), indexGroups, anchorAliases.
    ========================================================================= */
 
 /* =========================================================================
@@ -63,16 +64,16 @@ YEARS.junior = {
     collegeLabel: "College Knowledge",
     // Junior/sophomore/freshman: set layout to "indexed" for a left-side index, or delete it for stacked sections.
     layout: "indexed",
-    // Card style (see the engine's card options): short cards that align at the top, internal links
-    // that read "Go to ...", and cards can hold "Show more" panels, gold tip boxes, and mini-guides.
-    // To use the same look on another class page, add compactCards and goLabels there.
+    // Card style (see "Card options" above): balanced cards (equal height per row, links pinned to the
+    // bottom), gold card accents, internal links that read "Go to ...", and cards can hold "Show more"
+    // panels, gold tip boxes, and mini-guides. To use the same look on another class page, add
+    // compactCards, accentCards and goLabels there.
     compactCards: true,
+    accentCards: true,
     goLabels: true,
-    // Left-index grouping, same as Seniors.
-    indexGroups: [
-      {label: "Essays", sections: ["essays","essayGuides"]}
-    ],
-    order: ["research","exploration","essays","essayGuides","juniorChecklist","timeline","testing","financialAid","military"],
+    // Links to sections that moved to the shared Essays page (essays.html) land on the short Essays section.
+    anchorAliases: {essayPrompts:"essays", essayBrainstorm:"essays", writingGuide:"essays", essayGuides:"essays"},
+    order: ["research","exploration","essays","juniorChecklist","timeline","testing","financialAid","military"],
     sections: {
       exploration: {
         navLabel: "College Exploration",
@@ -104,13 +105,8 @@ YEARS.junior = {
         note: "Building your list",
         desc: "Start wide, then narrow — these help you figure out what actually fits.",
         items: [
-          {title:"Building a balanced college list", desc:"What \"reach, target (match), and likely (safety)\" actually mean, and how to start sorting the schools you're curious about into them.", url:"https://bigfuture.collegeboard.org/help-center/how-do-you-find-reach-match-and-safety-colleges", bullets:[
-            {text:"Browse the three school lists", url:"#exploration"},
-            {text:"See test ranges on Moeller Popular Colleges", url:"popular-colleges.html"}
-          ]},
-          {title:"Getting the most from a campus visit", desc:"What to look for beyond the tour, in person or virtually.", bullets:[
-            {parts:[{text:"College Visit 101: Tips & Questions", url:"college-exploration.html#visitGuide"}, " and ", {text:"virtual college tours", url:"college-exploration.html#visits"}, " for when you can’t get to campus."]},
-            {text:"Campus Visit Checklist", url:"https://bigfuture.collegeboard.org/plan-for-college/find-your-fit/campus-visit-checklist", after:" from BigFuture"}
+          {title:"Getting the most from a campus visit", span:true, desc:"What to look for beyond the tour, in person or virtually.", bullets:[
+            {parts:[{text:"College Visit 101: Tips & Questions", url:"college-exploration.html#visitGuide"}, " and ", {text:"virtual college tours", url:"college-exploration.html#visits"}, " for when you can’t get to campus."]}
           ], panels:[
             {title:"When to visit", bullets:[
               {parts:["Days off school are listed in ", {text:"Moeller’s key dates", url:"#timeline"}, ", plus 2 excused visit days with a note from the college."]}
@@ -122,9 +118,14 @@ YEARS.junior = {
               "Look at bulletin boards and the student newspaper.",
               "Take notes and pictures, since visits run together.",
               "Be polite and stay off your phone, because admissions reps read applications.",
+              {text:"Campus Visit Checklist", url:"https://bigfuture.collegeboard.org/plan-for-college/find-your-fit/campus-visit-checklist", after:" from BigFuture"},
               {text:"BigFuture: campus visits and tours", url:"https://bigfuture.collegeboard.org/plan-for-college/find-your-fit/campus-visits-and-tours"}
             ]}
           ], tip:{label:"Rep visits at Moeller:", text:"Sign up in SCOIR at least 2 days ahead, and get your teacher’s permission to miss class."}},
+          {title:"Building a balanced college list", desc:"What \"reach, target (match), and likely (safety)\" actually mean, and how to start sorting the schools you're curious about into them.", url:"https://bigfuture.collegeboard.org/help-center/how-do-you-find-reach-match-and-safety-colleges", bullets:[
+            {text:"Browse the three school lists", url:"#exploration"},
+            {text:"See test ranges on Moeller Popular Colleges", url:"popular-colleges.html"}
+          ]},
           {title:"Co-op vs. internship: what’s the difference?", desc:"Both let you gain real work experience in your field before you graduate.", bullets:[
             {text:"UC’s co-op vs. internship comparison", url:"https://www.uc.edu/blog/co-op-internship.html"}
           ], panels:[
@@ -142,36 +143,24 @@ YEARS.junior = {
         ]
       },
       essays: {
-        navLabel: "Essay Writing",
-        title: "Essay writing resources",
+        navLabel: "Essays",
+        title: "Essays",
         note: "Starting to think ahead",
-        desc: "You don't need a draft yet — these are for getting familiar with what's coming.",
+        desc: "You don't need a draft yet — these are for getting familiar with what's coming. Each card takes you to its part of the shared Essays page.",
         items: [
-          {title:"This year's Common App prompts", desc:"An early look at the seven prompts you'll choose from next fall.", url:"seniors.html#essayPrompts", go:"Go to Common App Essay Prompts (Seniors page)", bullets:[
+          {title:"This year's Common App prompts", desc:"An early look at the seven prompts you'll choose from next fall.", url:"essays.html#essayPrompts", go:"Go to Common App Essay Prompts", bullets:[
             {text:"Common App's official prompt page", url:"https://www.commonapp.org/apply/essay-prompts/"}
           ], panels:[
             {text:"Your essay will be 250 to 650 words. Common App usually keeps the prompts the same from year to year, so this year's set is a good preview."}
           ]},
-          {title:"Brainstorming your story", desc:"Exercises for finding a topic before junior spring, without pressure.", url:"seniors.html#essayBrainstorm", go:"Go to Essay Brainstorm (Seniors page)", bullets:[
+          {title:"Brainstorming your story", desc:"Exercises for finding a topic before junior spring, without pressure.", url:"essays.html#essayBrainstorm", go:"Go to Essay Brainstorm", bullets:[
             {text:"Common App First-Year Toolkit", url:"https://www.commonapp.org/apply/fy-toolkit/"}
           ], panels:[
             {text:"Answer a few questions, collect your ideas, and bring them to your counselor or English teacher. This is brainstorming, not writing."}
           ]},
-          {title:"Why starting a draft in spring matters", desc:"A head start in spring means a calmer senior fall. Start your Common App essay this spring, then tackle supplements in the summer.", url:"seniors.html#writingGuide", go:"Go to Essay Writing Guide (Seniors page)", bullets:[
-            {text:"Supplemental Essay Guides", url:"#essayGuides"}
+          {title:"Why starting a draft in spring matters", desc:"A head start in spring means a calmer senior fall. Start your Common App essay this spring, then tackle supplements in the summer.", url:"essays.html#writingGuide", go:"Go to Essay Writing Guide", bullets:[
+            {text:"Supplemental Essay Guides", url:"essays.html#essayGuides"}
           ]}
-        ]
-      },
-      essayGuides: {
-        navLabel: "Supplemental Essay Guides",
-        title: "Supplemental Essay Guides",
-        note: "A preview",
-        type: "essayGuides",
-        desc: "Some colleges ask for extra essays beyond the Common App essay. Look up the schools you're considering to see what they've been asking, so nothing surprises you next fall.",
-        tips: [
-          "These guides cover this year's prompts. Most colleges post next year's prompts over the summer, and many stay the same or change only a little.",
-          "Notice which schools on your list ask the most. That's useful to know when you're deciding where to apply and how much time to save.",
-          "Your Common App essay comes first. Start it this spring, then tackle supplements in the summer before senior year."
         ]
       },
       juniorChecklist: {

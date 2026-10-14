@@ -44,7 +44,8 @@ YEARS.sophomore = {
         desc: "Nothing to submit yet — just building comfort with writing about yourself.",
         items: [
           {title:"Building a writing habit now", desc:"Short journaling and reflection exercises worth doing this year.", url:"#"},
-          {title:"Reading essays that work", desc:"A few strong examples worth studying before you ever write your own.", url:"#"}
+          {title:"Reading essays that work", desc:"A few strong examples worth studying before you ever write your own.", url:"#"},
+          {title:"Essays", desc:"Common App prompts, a brainstorming tool, a writing guide, and supplemental essay guides.", url:"essays.html", go:"Go to Essays"}
         ]
       },
       timeline: {

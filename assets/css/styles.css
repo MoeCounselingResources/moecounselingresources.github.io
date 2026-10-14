@@ -2252,14 +2252,28 @@ a.resource-link{border-bottom-color:var(--sky);}
 
 /* ---------- Compact cards: short cards with "Show more" panels and gold tip boxes ----------
    Turned on per page with compactCards: true (and goLabels: true) in its data file. */
-.resource-grid.compact{align-items:start; gap:14px;}
+.resource-grid.compact{
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  align-items:stretch;
+  gap:14px;
+}
+.resource-grid.compact.stacked{grid-template-columns:1fr;}
+/* a card that would be left alone in a row (or is marked span:true) takes the whole row */
+.resource-grid.compact > .resource-card.span-all{grid-column:1 / -1;}
 .resource-card.compact{
   justify-content:flex-start;
   gap:12px;
   padding:18px 22px;
-  border-left:4px solid var(--accent);
 }
+.resource-card.compact.accent{border-left:4px solid var(--accent);}
 .resource-card.compact.wide{background:var(--paper-soft);}
+.resource-card.compact .card-bottom{margin-top:auto; display:flex; flex-direction:column; gap:10px;}
+.card-links{display:flex; flex-direction:column; gap:6px;}
+.card-link-line{font-size:0.9rem; font-weight:600; line-height:1.4;}
+.card-link-line a{font-weight:600;}
+@media (max-width:720px){
+  .resource-grid.compact{grid-template-columns:1fr;}
+}
 .resource-card.compact .resource-text ul{margin:10px 0 0; padding-left:1.2em; font-size:0.92rem;}
 .resource-card.compact .resource-text li{margin-bottom:4px;}
 .resource-card.compact .resource-link{white-space:normal;}
@@ -2302,7 +2316,7 @@ a.resource-link{border-bottom-color:var(--sky);}
   border-radius:0 6px 6px 0;
 }
 .card-tip strong{font-weight:700;}
-.index-content[data-compact] h2{
+.index-content[data-accent] h2{
   display:inline-block;
   padding-bottom:6px;
   border-bottom:3px solid var(--accent);

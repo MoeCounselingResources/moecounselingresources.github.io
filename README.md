@@ -44,6 +44,7 @@ Links from the School Counseling hub open a class page in its School view
 | The boxes on a hub dashboard               | `assets/data/hubs.js`                  |
 | A topic page (Military, Study Tips, etc.)  | `assets/data/topics.js`                |
 | Counselors, Upcoming Events, pop-ups, Common App guide | `assets/js/shared-content.js` |
+| The shared Essays page (prompts, brainstorm tool, writing guide, tips, supplemental guides) | `assets/data/essays.js` (the school list is `assets/data/essay-guides.js`) |
 | Opportunities Board cards (college fairs, programs, career exploration, jobs) | `assets/data/opportunities.js` (instructions at the top of the file) |
 | Brand colors and fonts                     | top of `assets/css/styles.css`         |
 | Heading font files (Produkt / Bitter)      | `assets/fonts/` — see the note at the top of styles.css |

@@ -47,6 +47,7 @@ const HUBS = {
       {title:"CCP / AP", desc:"Earning college credit while you're still in high school.", href:"ccp-ap.html"},
       {title:"ACT / SAT", desc:"Test dates, prep resources, and how to send your scores.", href:"act-sat.html"},
       {title:"Career Exploration", desc:"Tools for connecting your interests and strengths to future careers.", href:"career-exploration.html"},
+      {title:"Essays", desc:"Common App prompts, a brainstorming tool, a writing guide, and supplemental essay guides for every grade.", href:"essays.html"},
       {title:"Opportunities Board", desc:"College fairs, programs, career exploration, and jobs shared with Moeller counseling.", href:"opportunities.html"}
     ],
     classHeading: "Class of\u2026",
