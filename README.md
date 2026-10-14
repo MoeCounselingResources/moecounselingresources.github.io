@@ -12,7 +12,8 @@ index.html                  Moeller Counseling (main page)
 │   ├── parent-education.html
 │   ├── academic-support.html
 │   ├── gpa-calculator.html     GPA Calculator (yearly, cumulative, Latin Honors)
-│   └── honor-roll.html         Honor Roll Calculator (quarterly, unweighted)
+│   ├── honor-roll.html         Honor Roll Calculator (quarterly, unweighted)
+│   └── self-discovery.html     Self-Discovery (private, self-paced exercises; saves on the student's device)
 ├── college-counseling.html College Counseling hub
 │   ├── seniors.html  ← "Application Resources" box opens this
 │   ├── popular-colleges.html   Moeller Popular Colleges (test ranges, deadlines)
@@ -45,6 +46,7 @@ Links from the School Counseling hub open a class page in its School view
 | A topic page (Military, Study Tips, etc.)  | `assets/data/topics.js`                |
 | Counselors, Upcoming Events, pop-ups, Common App guide | `assets/js/shared-content.js` |
 | The shared Essays page (prompts, brainstorm tool, writing guide, tips, supplemental guides) | `assets/data/essays.js` (the school list is `assets/data/essay-guides.js`) |
+| Self-Discovery page (every exercise, prompt, and word) | `assets/data/self-discovery.js` (instructions at the top; the logic is `assets/js/self-discovery.js`, the look is `assets/css/self-discovery.css`) |
 | Opportunities Board cards (college fairs, programs, career exploration, jobs) | `assets/data/opportunities.js` (instructions at the top of the file) |
 | Brand colors and fonts                     | top of `assets/css/styles.css`         |
 | Heading font files (Produkt / Bitter)      | `assets/fonts/` — see the note at the top of styles.css |

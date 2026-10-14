@@ -552,7 +552,7 @@ YEARS.senior = {
     // ---------- School & Academics view (School Counseling side) ----------
     school: {
       blurb: "Finishing strong matters — colleges see your senior grades. Here's the school-side support for this year.",
-      order: ["studySkills","academicSupport","forParents"],
+      order: ["studySkills","academicSupport","selfDiscovery","forParents"],
       sections: {
         exploration: {
           title: "Exploration",
@@ -581,6 +581,14 @@ YEARS.senior = {
             {title:"Peer & teacher tutoring", desc:"Placeholder — how to sign up.", url:"academic-support.html"},
             {title:"GPA Calculator", desc:"Figure your yearly and cumulative GPA, weighted and unweighted, and see where you stand for Latin Honors.", url:"gpa-calculator.html"},
             {title:"Honor Roll Calculator", desc:"Check whether your quarter grades put you on First or Second Honors.", url:"honor-roll.html"}
+          ]
+        },
+        selfDiscovery: {
+          title: "Self-discovery",
+          note: "Any time",
+          desc: "Private, self-paced exercises on your values, your roles, your goals, and who's in your corner. Nobody grades them.",
+          items: [
+            {title:"Self-Discovery", desc:"Short exercises that save on your device only. Start anywhere.", url:"self-discovery.html?track=11-12", go:"Start Self-Discovery"}
           ]
         },
         forParents: {
