@@ -587,7 +587,32 @@ YEARS["career-exploration"] = {
   blurb: "Connecting your interests and strengths to future careers and majors.",
   order: ["assessments","explore","experience"],
   sections: {
-    assessments: placeholderSection("Interest & strength assessments", "Tools that suggest fields based on what you enjoy."),
+    // Both assessments live in SCOIR. Don't describe the interest assessment as the O*NET Interest
+    // Profiler, and don't say SCOIR uses the Myers-Briggs.
+    assessments: {
+      title: "Interest & strength assessments",
+      note: "For students and parents",
+      desc: "The Career Interest Assessment asks what you like to do. PrinciplesYou looks at how you tend to think, work, and interact with others. Together, they suggest careers worth exploring. They’re starting points for conversation, not a verdict on what you should be.",
+      compactCards: true,
+      accentCards: true,
+      items: [
+        {title:"Career Interest Assessment", desc:"About 5 minutes, 60 questions. Students rate how much they’d like or dislike work activities, then see matched careers.", url:"https://help.scoir.com/article/ss5linxlbo-taking-a-career-assessment", go:"Open SCOIR’s help article", panels:[
+          {title:"How it works", text:"It works like a Holland/RIASEC-style interest inventory: Realistic, Investigative, Artistic, Social, Enterprising, and Conventional."},
+          {title:"Good to know", bullets:[
+            "It must be done in one sitting.",
+            "Retaking it replaces previous matches, so save careers first."
+          ]}
+        ], tip:{label:"Before you retake it:", text:"Save careers first. Retaking replaces your previous matches."}},
+        {title:"PrinciplesYou", desc:"About 30–40 minutes. A personality assessment created by Ray Dalio with psychologists Adam Grant, Brian Little, and John Golden, based in part on the Big Five personality traits.", panels:[
+          {title:"How it works", text:"Students rate statements on a 7-point scale. Results describe traits and 28 archetypes, with career matches and a downloadable report saved to their SCOIR Drive."},
+          {title:"Good to know", bullets:[
+            "Students only need to take it once.",
+            "They can stop and pick up where they left off."
+          ]}
+        ]},
+        {title:"How to find them", span:true, desc:"In SCOIR, go to Discover → Careers → Your Assessments.", tip:{text:"SCOIR does not use the Myers-Briggs."}}
+      ]
+    },
     explore: placeholderSection("Exploring careers", "Researching what jobs actually involve."),
     experience: {
       title: "Getting experience",

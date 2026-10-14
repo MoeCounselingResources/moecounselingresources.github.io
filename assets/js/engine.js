@@ -153,7 +153,8 @@ function renderSectionBody(s, year, key){
             const text = typeof item === 'string' ? item : item.text;
             const detail = typeof item === 'string' ? '' : item.detail;
             const tip = typeof item === 'string' ? '' : item.tip;   // optional short highlighted note under the description
-            return `<li><label class="check-item"><input type="checkbox" data-check-key="${escapeHtml(ck)}"><span>${escapeHtml(text)}${detail ? `<small class="check-detail">${escapeHtml(detail)}</small>` : ''}${tip ? `<small class="check-tip"><strong>Tip:</strong> ${escapeHtml(tip)}</small>` : ''}</span></label></li>`;
+            const link = typeof item === 'string' ? null : item.link;   // optional {text, url} link under the tip
+            return `<li><label class="check-item"><input type="checkbox" data-check-key="${escapeHtml(ck)}"><span>${escapeHtml(text)}${detail ? `<small class="check-detail">${escapeHtml(detail)}</small>` : ''}${tip ? `<small class="check-tip"><strong>Tip:</strong> ${escapeHtml(tip)}</small>` : ''}${link ? `<small class="check-link"><a${linkAttrs(link.url)}>${escapeHtml(link.text)}</a></small>` : ''}</span></label></li>`;
           }).join('')}
         </ul>
       </div>
