@@ -14,7 +14,8 @@ YEARS.essays = {
   label: "Essays",
   blurb: "Everything for the college essay in one place, for every grade: the Common App prompts, a brainstorming tool, a step-by-step writing guide, tips, and school-by-school supplemental essay guides.",
   layout: "indexed",
-  order: ["essayPrompts","essayBrainstorm","writingGuide","essays","essayGuides"],
+  order: ["essayPrompts","essayBrainstorm","montage","writingGuide","essays","essayGuides"],
+  pointer: {text: "Thinking about using AI to brainstorm or get feedback on a draft?", linkText: "Read the ground rules first.", url: "ai.html#essay-feedback"},
   sections: {
       essayBrainstorm: {
         navLabel: "Essay Brainstorm",
@@ -70,6 +71,21 @@ YEARS.essays = {
           {label:"Someone who changed how you see things", hint:"A few words is enough"},
           {label:"Three words your friends would use for you", hint:"A few words is enough"}
         ]
+      ,
+        linksTitle: "Start with these exercises",
+        links: [
+          {text: "What role do you play?", url: "know-yourself.html#roles"},
+          {text: "I love / I know", url: "know-yourself.html#loveknow"},
+          {text: "Your top 3 values", url: "know-yourself.html#values"},
+          {text: "What fires you up?", url: "know-yourself.html#fires"}
+        ]
+      },
+      montage: {
+        navLabel: "One Thread, Many Moments",
+        title: "One thread, many moments (the montage essay)",
+        note: "Saves on your device",
+        type: "exercise",
+        exercise: "montage"
       },
       writingGuide: {
         navLabel: "Essay Writing Guide",

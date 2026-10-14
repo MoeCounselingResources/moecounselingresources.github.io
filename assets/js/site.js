@@ -263,6 +263,11 @@ function renderTopicPage(key){
     h.title, t.label, t.blurb, t.hub,
     `<a class="back-link" href="${backHref}">← Back to ${escapeHtml(backLabel)}</a><br>`
   );
+  // pointer: {text, linkText, url} adds a one-line "looking for something else?" note under the intro.
+  if(t.pointer){
+    document.getElementById('hero').insertAdjacentHTML('beforeend',
+      `<p class="hero-pointer">${escapeHtml(t.pointer.text)} <a${linkAttrs(t.pointer.url)}>${escapeHtml(t.pointer.linkText)}</a></p>`);
+  }
   // layout: "indexed" in topics.js gives a topic page the same left-side index as the Seniors
   // page (the HTML file needs the indexed-wrap block). Deep links like page.html#key open a section.
   const indexedWrap = document.getElementById('indexed-wrap');

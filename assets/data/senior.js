@@ -27,13 +27,13 @@ YEARS.senior = {
     // here stays a normal top-level item. Parents are placed alphabetically by label.
     // To group another page, add the same indexGroups list to its data file.
     indexGroups: [
-      {label: "Applications", sections: ["feeWaivers","fallChecklist","applicationFaq","appTracker","appTypes","commonAppGuide","commonAppFaq","activities","moreEssentials"]}
+      {label: "Applications", sections: ["feeWaivers","fallChecklist","applicationFaq","appTracker","appTypes","commonAppGuide","commonAppFaq","activities","preMortem","moreEssentials"]}
     ],
     // Links to sections that moved to the shared Essays page (essays.html) land on the short Essays section.
     anchorAliases: {essayPrompts:"essays", essayBrainstorm:"essays", writingGuide:"essays", essayGuides:"essays"},
     // Balanced cards: equal height per row, links pinned to the bottom (see "Card options" in junior.js).
     compactCards: true,
-    order: ["feeWaivers","fallChecklist","applicationFaq","appTracker","appTypes","exploration","research","commonAppGuide","commonAppFaq","essays","financialAid","decisionInfo","activities","military","scholarshipReporting","moreEssentials","responsibilities","testOptional","testing"],
+    order: ["feeWaivers","fallChecklist","applicationFaq","appTracker","appTypes","exploration","research","commonAppGuide","commonAppFaq","essays","financialAid","decisionInfo","decision","activities","military","scholarshipReporting","preMortem","moreEssentials","responsibilities","testOptional","testing"],
     layout: "indexed",
     sections: {
       exploration: {
@@ -136,6 +136,8 @@ YEARS.senior = {
         note: "150 characters or less",
         desc: "The Activities section shows colleges who you are outside the classroom. Here's how to choose what to list, what each box asks for, and how to say a lot in a little space.",
         type: "activitiesGuide",
+        linksTitle: "Related",
+        links: [{text: "AI prompts for the Activities section", url: "ai.html#activities"}],
         why: [
           "It tells your story beyond grades and test scores.",
           "It shows your impact, your leadership, and what you'd add to a college campus.",
@@ -419,6 +421,20 @@ YEARS.senior = {
           {title:"Moeller Popular Colleges", desc:"Add schools to your tracker with test ranges, deadlines, and requirements filled in.", url:"popular-colleges.html"}
         ]
       },
+      preMortem: {
+        navLabel: "Pre-Mortem",
+        title: "The pre-mortem (get your apps in before break)",
+        note: "Saves on your device",
+        type: "exercise",
+        exercise: "premortem"
+      },
+      decision: {
+        navLabel: "Making Your Decision",
+        title: "Stuck on a decision? Figure out what you actually need",
+        note: "Saves on your device",
+        type: "exercise",
+        exercise: "needs"
+      },
       essays: {
         navLabel: "Essays",
         title: "Essays",
@@ -429,7 +445,8 @@ YEARS.senior = {
           {title:"Essay Brainstorm", desc:"Still choosing a topic? Answer a few questions and bring your ideas to your counselor or English teacher.", url:"essays.html#essayBrainstorm", go:"Go to Essay Brainstorm"},
           {title:"Essay Writing Guide", desc:"Moeller's step-by-step guide, from finding your material to the final pass.", url:"essays.html#writingGuide", go:"Go to Essay Writing Guide"},
           {title:"Essay Writing Tips", desc:"A checklist to run through before you submit, and how to ask a teacher for a final read.", url:"essays.html#essays", go:"Go to Essay Writing Tips"},
-          {title:"Supplemental Essay Guides", desc:"Many colleges ask for their own short essays on top of your Common App essay. Find each school on your list.", url:"essays.html#essayGuides", go:"Go to Supplemental Essay Guides"}
+          {title:"Supplemental Essay Guides", desc:"Many colleges ask for their own short essays on top of your Common App essay. Find each school on your list.", url:"essays.html#essayGuides", go:"Go to Supplemental Essay Guides"},
+          {title:"Using AI in Your College Process", desc:"What AI can and can't do for your essays, plus copy-and-paste prompts for feedback.", url:"ai.html#essay-feedback", go:"Go to Using AI in Your College Process"}
         ]
       },
       testing: {

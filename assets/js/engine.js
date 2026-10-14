@@ -111,6 +111,10 @@ function renderSectionBody(s, year, key){
       </div>
     `;
   }
+  if(s.type === 'exercise'){
+    // An interactive exercise from assets/data/exercises.js, drawn by assets/js/exercises.js.
+    return `<div class="ex-host" data-exercise="${escapeHtml(s.exercise)}" data-title="${escapeHtml(s.title || '')}"></div>`;
+  }
   if(s.type === 'visitGuide'){
     return renderVisitGuideHtml(s, year, key);
   }
@@ -153,8 +157,8 @@ function renderSectionBody(s, year, key){
             const text = typeof item === 'string' ? item : item.text;
             const detail = typeof item === 'string' ? '' : item.detail;
             const tip = typeof item === 'string' ? '' : item.tip;   // optional short highlighted note under the description
-            const link = typeof item === 'string' ? null : item.link;   // optional {text, url} link under the tip
-            return `<li><label class="check-item"><input type="checkbox" data-check-key="${escapeHtml(ck)}"><span>${escapeHtml(text)}${detail ? `<small class="check-detail">${escapeHtml(detail)}</small>` : ''}${tip ? `<small class="check-tip"><strong>Tip:</strong> ${escapeHtml(tip)}</small>` : ''}${link ? `<small class="check-link"><a${linkAttrs(link.url)}>${escapeHtml(link.text)}</a></small>` : ''}</span></label></li>`;
+            const linkList = typeof item === 'string' ? [] : (item.links || (item.link ? [item.link] : []));   // optional links under the tip: link:{text,url} or links:[...]
+            return `<li><label class="check-item"><input type="checkbox" data-check-key="${escapeHtml(ck)}"><span>${escapeHtml(text)}${detail ? `<small class="check-detail">${escapeHtml(detail)}</small>` : ''}${tip ? `<small class="check-tip"><strong>Tip:</strong> ${escapeHtml(tip)}</small>` : ''}${linkList.length ? `<small class="check-link">${linkList.map(l=>`<a${linkAttrs(l.url)}>${escapeHtml(l.text)}</a>`).join('')}</small>` : ''}</span></label></li>`;
           }).join('')}
         </ul>
       </div>
@@ -259,7 +263,7 @@ function renderSectionBody(s, year, key){
       const facts = bl.filter(b => !isLink(b));
       let used = item.url ? 1 : 0;
       const shown = [], extra = [];
-      bl.filter(isLink).forEach(b => { if(used + linkCount(b) <= maxCardLinks || (!used && !shown.length)){ shown.push(b); used += linkCount(b); } else extra.push(b); });
+      bl.filter(isLink).forEach(b => { if(used + linkCount(b) <= (item.maxLinks || maxCardLinks) || (!used && !shown.length)){ shown.push(b); used += linkCount(b); } else extra.push(b); });
       let allPanels = panelsHtml;
       if(extra.length){
         const eid = `cp-${++CARD_PANEL_SEQ}`;
@@ -465,6 +469,15 @@ function renderIndexNav(year){
   renderIndexContent(year, active);
 }
 
+/* section.links: a short "related" list under a section, for example
+   links: [{text:"Start with Exercise 1", url:"know-yourself.html#roles"}], linksTitle: "Start with these" */
+function sectionLinksHtml(s){
+  return `<div class="section-links">
+    ${s.linksTitle ? `<h3>${escapeHtml(s.linksTitle)}</h3>` : ''}
+    <ul>${s.links.map(l => `<li><a${linkAttrs(l.url)}>${escapeHtml(l.text)}</a>${l.note ? ` <span>${escapeHtml(l.note)}</span>` : ''}</li>`).join('')}</ul>
+  </div>`;
+}
+
 function renderIndexContent(year, key){
   const y = YEARS[year];
   const s = y.sections[key];
@@ -478,6 +491,7 @@ function renderIndexContent(year, key){
     ${renderSectionBody(s, year, key)}
     ${s.guide ? renderGuideWidget(s.guide) : ''}
     ${s.resources && s.type !== 'activitiesGuide' && s.type !== 'essayPrompts' ? `<div class="ag-widget">${agResourcesHtml(s.resources, s)}</div>` : ''}
+    ${s.links ? sectionLinksHtml(s) : ''}
   `;
   const mgQueue = PENDING_MINI_GUIDES.slice();
   void content.offsetWidth;
@@ -807,6 +821,11 @@ function renderSections(year){
 }
 
 function wireSectionInteractions(){
+  document.querySelectorAll('.ex-host').forEach(el=>{
+    if(el.dataset.wired || typeof renderExercise !== 'function') return;
+    el.dataset.wired = '1';
+    renderExercise(el, el.dataset.exercise);
+  });
   document.querySelectorAll('.card-panel-toggle').forEach(btn=>{
     if(btn.dataset.wired) return; btn.dataset.wired = '1';
     btn.addEventListener('click', ()=>{

@@ -1,0 +1,72 @@
+/* =========================================================================
+   AI PAGE — styles for ai.html. Everything is scoped to .ai. Uses only the brand tokens from styles.css
+   and the .tool-btn controls from tools.css. Load styles.css and tools.css first.
+   ========================================================================= */
+.ai{min-width:0; overflow-wrap:anywhere;}
+.ai *{min-width:0;}
+.hero #ai-rule{margin-top:12px;}
+.ai-sec{margin:0 0 44px;}
+.ai h2{font-family:var(--serif); font-weight:700; font-size:clamp(1.4rem, 3.5vw, 1.8rem); margin:0 0 14px; color:var(--navy); padding-bottom:6px; border-bottom:3px solid var(--gold); display:inline-block;}
+.ai h3{font-family:var(--serif); font-weight:700; font-size:1.1rem; margin:0 0 8px; color:var(--navy);}
+.ai h4{font-family:var(--sans); font-size:0.88rem; font-weight:700; margin:0 0 6px; color:var(--slate);}
+
+/* do / don't */
+.ai-dd-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(290px, 1fr)); gap:14px;}
+.ai-dd{padding:16px 18px; border:1px solid var(--cloud); border-radius:12px; background:var(--paper);}
+.ai-dd p{margin:0 0 10px; font-size:0.95rem;}
+.ai-dd p:last-child{margin-bottom:0;}
+.ai-tag{display:inline-block; margin-right:6px; padding:1px 9px; border-radius:999px; font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--navy);}
+.ai-tag-do{background:var(--sky);}
+.ai-tag-dont{background:var(--gold);}
+
+/* rules */
+.ai-rules{list-style:none; counter-reset:airule; margin:0; padding:0; display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:14px;}
+.ai-rules li{counter-increment:airule; position:relative; padding:16px 18px 16px 58px; background:var(--navy); color:var(--paper); border-radius:12px;}
+.ai-rules li::before{content:counter(airule); position:absolute; left:16px; top:14px; width:30px; height:30px; display:flex; align-items:center; justify-content:center; border-radius:50%; background:var(--gold); color:var(--navy); font-weight:700;}
+.ai-rules strong{color:var(--gold);}
+
+/* you go first */
+.ai-tablewrap{margin:0 0 16px;}
+.ai-table{width:100%; border-collapse:collapse;}
+.ai-table th{text-align:left; padding:10px 14px; background:var(--navy); color:var(--paper); font-size:0.9rem;}
+.ai-table th:last-child{background:var(--sky); color:var(--navy);}
+.ai-table td{padding:10px 14px; border-bottom:1px solid var(--rule-soft); vertical-align:top; width:50%;}
+
+/* reality check */
+.ai-reality{margin:0 0 22px; padding:16px 20px; background:var(--gold); color:var(--navy); border-radius:12px;}
+.ai-reality h3{margin:0 0 6px;}
+.ai-reality p{margin:0; font-weight:600;}
+.ai-reality a{color:var(--navy); font-weight:700;}
+
+/* prompt library */
+.ai-tabs{display:flex; flex-wrap:wrap; gap:8px; margin:6px 0 18px;}
+.ai-tab{font-family:var(--sans); font-weight:700; font-size:0.92rem; padding:9px 18px; border-radius:999px; border:1px solid var(--cloud); background:var(--paper); color:var(--navy); cursor:pointer;}
+.ai-tab:hover{border-color:var(--navy);}
+.ai-tab[aria-selected="true"]{background:var(--navy); border-color:var(--navy); color:var(--paper);}
+.ai-groupnote{margin:0 0 16px; padding:10px 14px; background:var(--paper-soft); border-left:4px solid var(--sky); border-radius:0 8px 8px 0; font-size:0.92rem;}
+.ai-card{margin:0 0 18px; padding:18px 20px; border:1px solid var(--cloud); border-left:4px solid var(--gold); border-radius:10px; background:var(--paper); scroll-margin-top:96px;}
+.ai-by{font-family:var(--sans); font-weight:500; font-size:0.85rem; color:var(--slate);}
+.ai-text{margin:0 0 10px; padding:12px 14px; background:var(--paper-soft); border-radius:8px; font-family:var(--sans); font-size:0.92rem; line-height:1.55; white-space:pre-wrap; overflow-wrap:anywhere;}
+.ai-blank{background:var(--gold); color:var(--navy); padding:0 3px; border-radius:3px; font-weight:600;}
+.ai-copyrow{display:flex; align-items:center; gap:10px; margin-bottom:6px;}
+.ai-copied{font-size:0.85rem; font-weight:700; color:var(--slate);}
+.ai-note{margin:8px 0 0; font-size:0.88rem; color:var(--slate);}
+.ai-examples{margin:8px 0 0; font-size:0.9rem; color:var(--ink-soft);}
+.ai-linkp{margin:10px 0 0; font-size:0.92rem;}
+.ai-linkp a{font-weight:700;}
+.ai-subs{display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:14px;}
+.ai-sub{padding:12px 14px; border:1px solid var(--rule-soft); border-radius:8px;}
+.ai-sub .ai-text{font-size:0.88rem;}
+.ai-credits{margin:30px 0 0; font-size:0.8rem; color:var(--slate);}
+
+@media (max-width:600px){
+  .ai-table, .ai-table tbody, .ai-table tr, .ai-table td{display:block; width:100%;}
+  .ai-table thead{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0);}
+  .ai-table tr{margin-bottom:10px; border:1px solid var(--cloud); border-radius:8px;}
+  .ai-table td{border:0; padding:8px 12px;}
+  .ai-table td::before{content:attr(data-label); display:block; font-size:0.72rem; font-weight:700; text-transform:uppercase; color:var(--slate);}
+  .ai-table td:empty{display:none;}
+  .ai-card{padding:16px;}
+}
+@media (prefers-reduced-motion: reduce){.ai *{transition:none !important; animation:none !important; scroll-behavior:auto !important;}}
+@media print{#site-header, footer, .hero .back-link, .ai-tabs, .ai-copyrow{display:none !important;} .ai-panel[hidden]{display:block !important;}}

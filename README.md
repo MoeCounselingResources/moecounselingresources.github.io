@@ -19,6 +19,8 @@ index.html                  Moeller Counseling (main page)
 │   ├── popular-colleges.html   Moeller Popular Colleges (test ranges, deadlines)
 │   ├── app-tracker.html        College Application Tracker
 │   ├── financial-aid.html      Financial Aid (FAFSA, CSS Profile, scholarships, award letters)
+│   ├── know-yourself.html      Know Yourself (four self-discovery exercises that feed essays and college lists)
+│   ├── ai.html                 Using AI in Your College Process (do's and don'ts, copyable prompts)
 │   ├── college-exploration.html
 │   ├── military.html
 │   ├── ccp-ap.html
@@ -46,6 +48,9 @@ Links from the School Counseling hub open a class page in its School view
 | A topic page (Military, Study Tips, etc.)  | `assets/data/topics.js`                |
 | Counselors, Upcoming Events, pop-ups, Common App guide | `assets/js/shared-content.js` |
 | The shared Essays page (prompts, brainstorm tool, writing guide, tips, supplemental guides) | `assets/data/essays.js` (the school list is `assets/data/essay-guides.js`) |
+| The seven interactive exercises (wording, lists, and credits) | `assets/data/exercises.js` (instructions at the top; logic `assets/js/exercises.js`, look `assets/css/exercises.css`). Know Yourself shows exercises 1-4, the Essays page shows 5, the Seniors page shows 6 and 7. Each saves in the student's browser under its own `moeller-ex-...` key, so don't change the keys. |
+| Which exercises are on the Know Yourself page | `assets/data/know-yourself.js` |
+| The AI page (do's and don'ts, rules, every copyable prompt) | `assets/data/ai.js` (instructions at the top; logic `assets/js/ai.js`, look `assets/css/ai.css`) |
 | Self-Discovery page (every exercise, prompt, and word) | `assets/data/self-discovery.js` (instructions at the top; the logic is `assets/js/self-discovery.js`, the look is `assets/css/self-discovery.css`) |
 | Opportunities Board cards (college fairs, programs, career exploration, jobs) | `assets/data/opportunities.js` (instructions at the top of the file) |
 | Brand colors and fonts                     | top of `assets/css/styles.css`         |

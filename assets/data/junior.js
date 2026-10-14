@@ -126,6 +126,7 @@ YEARS.junior = {
             {text:"Browse the three school lists", url:"#exploration"},
             {text:"See test ranges on Moeller Popular Colleges", url:"popular-colleges.html"}
           ]},
+          {title:"AI prompts for your college list", desc:"A starter-list prompt, a visit-trip planner, and a college comparison, with a reality check on what AI can tell you.", url:"ai.html#grade-11", go:"Go to the Grade 11 prompts"},
           {title:"Co-op vs. internship: what’s the difference?", desc:"Both let you gain real work experience in your field before you graduate.", bullets:[
             {text:"UC’s co-op vs. internship comparison", url:"https://www.uc.edu/blog/co-op-internship.html"}
           ], panels:[
@@ -158,6 +159,13 @@ YEARS.junior = {
           ], panels:[
             {text:"Answer a few questions, collect your ideas, and bring them to your counselor or English teacher. This is brainstorming, not writing."}
           ]},
+          {title:"Start with these before you write", desc:"Four short exercises that give you real material for your essays and your college list.", url:"know-yourself.html", go:"Go to Know Yourself", maxLinks:5, bullets:[
+            {text:"What role do you play?", url:"know-yourself.html#roles"},
+            {text:"I love / I know", url:"know-yourself.html#loveknow"},
+            {text:"Your top 3 values", url:"know-yourself.html#values"},
+            {text:"What fires you up?", url:"know-yourself.html#fires"}
+          ]},
+          {title:"Using AI in Your College Process", desc:"What AI can and can't do for your essays, plus a brainstorming prompt that asks you the questions.", url:"ai.html#interview-me", go:"Go to Using AI in Your College Process"},
           {title:"Why starting a draft in spring matters", desc:"A head start in spring means a calmer senior fall. Start your Common App essay this spring, then tackle supplements in the summer.", url:"essays.html#writingGuide", go:"Go to Essay Writing Guide", bullets:[
             {text:"Supplemental Essay Guides", url:"essays.html#essayGuides"}
           ]}

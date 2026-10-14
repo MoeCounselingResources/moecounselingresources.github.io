@@ -38,7 +38,12 @@ YEARS.freshman = {
             {text:"College isn’t the only path after high school. Degrees range from associate’s to professional, and there are other paths too, like the military and trade school."},
             {title:"Local examples", text:"Cincinnati State, UC Blue Ash, and Miami’s regional campuses."}
           ]},
-          {title:"Opportunities Board", desc:"College fairs, programs, career exploration, and jobs shared with Moeller counseling.", url:"opportunities.html"}
+          {title:"Opportunities Board", desc:"College fairs, programs, career exploration, and jobs shared with Moeller counseling.", url:"opportunities.html"},
+          {title:"Know yourself", desc:"Short exercises on the roles you play, what you love, and what fires you up.", url:"know-yourself.html", go:"Go to Know Yourself", maxLinks:3, bullets:[
+            {text:"What role do you play?", url:"know-yourself.html#roles"},
+            {text:"I love / I know", url:"know-yourself.html#loveknow"},
+            {text:"What fires you up?", url:"know-yourself.html#fires"}
+          ]}
         ]
       },
       essays: {
@@ -67,7 +72,7 @@ YEARS.freshman = {
             {text:"Freshman Foundations session: Study Skills & Adjusting to High School", detail:"Set goals for your 720 days of high school, get to know who’s here to support you, and build study skills that work: staying organized, managing your time, and active studying.", tip:"Start studying at least 2 days before a test (3–5 days for big ones), and quiz yourself instead of rereading notes.", link:{text:"View the Quarter 1 presentation", url:"freshman-foundations-q1.html"}}
           ]},
           {label:"Quarter 2", months:[11,12], items:[
-            {text:"Freshman Foundations session: Self-Discovery & Exploring Life After High School", detail:"Explore how you learn best, what college is, the types of degrees (from associate’s to professional), and other paths like the military and trade school.", tip:"Every grade counts toward your GPA, so challenge yourself in class."}
+            {text:"Freshman Foundations session: Self-Discovery & Exploring Life After High School", detail:"Explore how you learn best, what college is, the types of degrees (from associate’s to professional), and other paths like the military and trade school.", tip:"Every grade counts toward your GPA, so challenge yourself in class.", links:[{text:"Exercise: What role do you play?", url:"know-yourself.html#roles"}, {text:"Exercise: I love / I know", url:"know-yourself.html#loveknow"}, {text:"Exercise: What fires you up?", url:"know-yourself.html#fires"}]}
           ]},
           {label:"Quarter 3", months:[1,2,3], items:[
             {text:"Freshman Foundations session: Course Registration & the SCOIR Course Planner", detail:"Learn how course registration works and plan ahead using the SCOIR course planner.", tip:"Choose classes that challenge you and fit your interests."}

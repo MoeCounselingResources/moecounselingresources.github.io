@@ -2322,3 +2322,13 @@ a.resource-link{border-bottom-color:var(--sky);}
   padding-bottom:6px;
   border-bottom:3px solid var(--accent);
 }
+
+/* ---------- Section links, hero pointer, multi-link checklist items ---------- */
+.section-links{margin-top:26px; padding:14px 18px; background:var(--paper-soft); border-left:4px solid var(--accent); border-radius:0 8px 8px 0;}
+.section-links h3{font-family:var(--serif); font-size:1rem; margin:0 0 8px; color:var(--ink);}
+.section-links ul{margin:0; padding-left:1.2em;}
+.section-links li{margin-bottom:4px;}
+.section-links li span{color:var(--ink-soft); font-size:0.9rem;}
+.hero-pointer{margin:14px 0 0; font-size:0.95rem; color:var(--ink-soft);}
+.hero-pointer a{font-weight:600;}
+.check-item .check-link a + a{margin-left:14px;}

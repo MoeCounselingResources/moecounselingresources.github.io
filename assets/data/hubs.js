@@ -49,6 +49,8 @@ const HUBS = {
       {title:"ACT / SAT", desc:"Test dates, prep resources, and how to send your scores.", href:"act-sat.html"},
       {title:"Career Exploration", desc:"Tools for connecting your interests and strengths to future careers.", href:"career-exploration.html"},
       {title:"Essays", desc:"Common App prompts, a brainstorming tool, a writing guide, and supplemental essay guides for every grade.", href:"essays.html"},
+      {title:"Know Yourself", desc:"Four short exercises on your roles, what you love, your values, and what fires you up. They feed your essays and your college list.", href:"know-yourself.html"},
+      {title:"Using AI in Your College Process", desc:"What AI can and can't do for you, plus copy-and-paste prompts for every grade.", href:"ai.html"},
       {title:"Opportunities Board", desc:"College fairs, programs, career exploration, and jobs shared with Moeller counseling.", href:"opportunities.html"}
     ],
     classHeading: "Class of\u2026",

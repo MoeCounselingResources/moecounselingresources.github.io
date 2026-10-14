@@ -50,6 +50,10 @@ YEARS.sophomore = {
           ]},
           {title:"Following colleges without committing", desc:"In SCOIR, you can add colleges to Following to keep track of schools you're curious about.", panels:[
             {text:"Following a college doesn't commit you to anything, and it doesn't mean you're applying. It just keeps the schools you're curious about in one place, so your college search can start slowly and you can come back to them when you build your list."}
+          ]},
+          {title:"Know yourself", desc:"Short exercises on what you value and what fires you up.", url:"know-yourself.html", go:"Go to Know Yourself", maxLinks:2, bullets:[
+            {text:"Your top 3 values", url:"know-yourself.html#values"},
+            {text:"What fires you up?", url:"know-yourself.html#fires"}
           ]}
         ]
       },
@@ -79,7 +83,7 @@ YEARS.sophomore = {
             {text:"Future Focus session: Career Assessments", detail:"Log in to SCOIR and take two career assessments: the quick Career Interest Assessment (what you like to do) and PrinciplesYou (how you think, work, and interact with others). Then review your career matches.", tip:"Save at least 3 careers before retaking the interest assessment, since retaking replaces your matches."}
           ]},
           {label:"Quarter 2", months:[11,12], items:[
-            {text:"Future Focus session: Understanding Your Results", detail:"Explore your PrinciplesYou archetypes, what they say about your strengths and growth areas, and how your results connect to careers and the education they require.", tip:"Your full report is saved in SCOIR under Profile → Drive."}
+            {text:"Future Focus session: Understanding Your Results", detail:"Explore your PrinciplesYou archetypes, what they say about your strengths and growth areas, and how your results connect to careers and the education they require.", tip:"Your full report is saved in SCOIR under Profile → Drive.", links:[{text:"Exercise: Your top 3 values", url:"know-yourself.html#values"}, {text:"Exercise: What fires you up?", url:"know-yourself.html#fires"}]}
           ]},
           {label:"Quarter 3", months:[1,2,3], items:[
             {text:"Future Focus session: Exploring College Admissions", detail:"Find out what colleges look for in a holistic review, what your transcript shows now versus when you apply, and how Moeller’s weighted GPA works.", tip:"Every grade counts toward your GPA, starting now."}

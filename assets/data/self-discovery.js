@@ -55,6 +55,7 @@ const SELF_DISCOVERY = {
 
   // ---------- Page wording ----------
   title: "Self-Discovery",
+  pointer: { text: "Getting ready for essays and college lists?", linkText: "Try Know Yourself.", href: "know-yourself.html" },
   privacy: "Your answers save on this device only. Your counselor can't see them unless you choose to share them. Nothing is ever sent anywhere.",
   footer: "Private and self-paced. Nothing here is graded. Your answers are saved only on this device.",
   saved: "Saved on this device.",
