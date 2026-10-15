@@ -17,6 +17,7 @@ const HUBS = {
       {title:"Education for Parents", desc:"Guidance and sessions to help families support their students.", href:"parent-education.html"},
       {title:"Academic Support", desc:"Study groups, Chem Block, and the tutors we have in school.", href:"academic-support.html"},
       {title:"Self-Discovery", desc:"Private, self-paced exercises on your values, your roles, your goals, and who's in your corner. For every grade.", href:"self-discovery.html"},
+      {title:"Course Planner", desc:"Map out all four years, track your graduation requirements, and explore pathways. For every grade.", href:"course-planner.html"},
       {title:"GPA Calculator", desc:"Figure your yearly and cumulative GPA, weighted and unweighted, and see where you stand for Latin Honors.", href:"gpa-calculator.html"},
       {title:"Honor Roll Calculator", desc:"Check whether your quarter grades put you on First or Second Honors.", href:"honor-roll.html"}
     ],

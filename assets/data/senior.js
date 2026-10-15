@@ -596,6 +596,7 @@ YEARS.senior = {
           items: [
             {title:"Study groups & Chem Block", desc:"Placeholder — when and where they meet.", url:"academic-support.html"},
             {title:"Peer & teacher tutoring", desc:"Placeholder — how to sign up.", url:"academic-support.html"},
+            {title:"Course Planner", desc:"Map out all four years, watch your graduation requirements fill in, and explore pathways before your registration meeting.", url:"course-planner.html"},
             {title:"GPA Calculator", desc:"Figure your yearly and cumulative GPA, weighted and unweighted, and see where you stand for Latin Honors.", url:"gpa-calculator.html"},
             {title:"Honor Roll Calculator", desc:"Check whether your quarter grades put you on First or Second Honors.", url:"honor-roll.html"}
           ]

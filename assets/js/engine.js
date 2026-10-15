@@ -158,7 +158,9 @@ function renderSectionBody(s, year, key){
             const detail = typeof item === 'string' ? '' : item.detail;
             const tip = typeof item === 'string' ? '' : item.tip;   // optional short highlighted note under the description
             const linkList = typeof item === 'string' ? [] : (item.links || (item.link ? [item.link] : []));   // optional links under the tip: link:{text,url} or links:[...]
-            return `<li><label class="check-item"><input type="checkbox" data-check-key="${escapeHtml(ck)}"><span>${escapeHtml(text)}${detail ? `<small class="check-detail">${escapeHtml(detail)}</small>` : ''}${tip ? `<small class="check-tip"><strong>Tip:</strong> ${escapeHtml(tip)}</small>` : ''}${linkList.length ? `<small class="check-link">${linkList.map(l=>`<a${linkAttrs(l.url)}>${escapeHtml(l.text)}</a>`).join('')}</small>` : ''}</span></label></li>`;
+            // item.card: an optional support card under the item {title, lines:[...], counselors:true (house counselors from COUNSELORS), note, links:[{text,url}]}
+            const cardHtml = (typeof item !== 'string' && item.card) ? renderChecklistCard(item.card) : '';
+            return `<li><label class="check-item"><input type="checkbox" data-check-key="${escapeHtml(ck)}"><span>${escapeHtml(text)}${detail ? `<small class="check-detail">${escapeHtml(detail)}</small>` : ''}${tip ? `<small class="check-tip"><strong>Tip:</strong> ${escapeHtml(tip)}</small>` : ''}${linkList.length ? `<small class="check-link">${linkList.map(l=>`<a${linkAttrs(l.url)}>${escapeHtml(l.text)}</a>`).join('')}</small>` : ''}</span></label>${cardHtml}</li>`;
           }).join('')}
         </ul>
       </div>
@@ -341,6 +343,22 @@ function renderSectionBody(s, year, key){
   // section.widget: a small interactive tool drawn by assets/js/concordance.js on pages that load it (ACT/SAT).
   const widgetHtml = (s.widget && typeof renderPageWidget === 'function') ? renderPageWidget(s.widget) : '';
   return `${visualsHtml}${datesHtml}${timelineHtml}${tableHtml}${toolHtml}<div class="resource-grid${s.stacked ? ' stacked' : ''}${compactCards ? ' compact' : ''}">${cards}</div>${widgetHtml}`;
+}
+
+/* A small support card under a checklist item (item.card). Counselor rows come from COUNSELORS (house roles). */
+function renderChecklistCard(card){
+  const houses = (typeof COUNSELORS !== 'undefined' ? COUNSELORS : []).filter(c => /house/i.test(c.role));
+  const lines = (card.lines || []).map(l => `<li>${escapeHtml(l)}</li>`).join('');
+  const people = card.counselors ? `<ul class="check-card-people">${houses.map(c => `<li><strong>${escapeHtml(c.role)}</strong> ${escapeHtml(c.name)}${c.email ? ` · <a href="mailto:${escapeHtml(c.email)}">${escapeHtml(c.email)}</a>` : ''}</li>`).join('')}</ul>` : '';
+  const links = (card.links || []).map(l => `<a${linkAttrs(l.url)}>${escapeHtml(l.text)}</a>`).join('');
+  return `<div class="check-card" role="note">
+    ${card.title ? `<h4>${escapeHtml(card.title)}</h4>` : ''}
+    ${card.intro ? `<p>${escapeHtml(card.intro)}</p>` : ''}
+    ${lines ? `<ul class="check-card-lines">${lines}</ul>` : ''}
+    ${people}
+    ${card.note ? `<p>${escapeHtml(card.note)}</p>` : ''}
+    ${links ? `<p class="check-card-links">${links}</p>` : ''}
+  </div>`;
 }
 
 /* Vertical timeline (section.timeline). Past items are dimmed; the first item still ahead

@@ -75,10 +75,14 @@ YEARS.freshman = {
             {text:"Freshman Foundations session: Self-Discovery & Exploring Life After High School", detail:"Explore how you learn best, what college is, the types of degrees (from associate’s to professional), and other paths like the military and trade school.", tip:"Every grade counts toward your GPA, so challenge yourself in class.", links:[{text:"Open the Quarter 2 page", url:"freshman-foundations-q2.html"}, {text:"Exercise: What role do you play?", url:"know-yourself.html#roles"}, {text:"Exercise: I love / I know", url:"know-yourself.html#loveknow"}, {text:"Exercise: What fires you up?", url:"know-yourself.html#fires"}]}
           ]},
           {label:"Quarter 3", months:[1,2,3], items:[
-            {text:"Freshman Foundations session: Course Registration & the SCOIR Course Planner", detail:"Learn how course registration works and plan ahead using the SCOIR course planner.", tip:"Choose classes that challenge you and fit your interests."}
+            {text:"Freshman Foundations session: Course Registration and Planning", detail:"Learn how course registration works, what the levels mean, and how to map out all four years with the Course Planner.", tip:"Choose classes that challenge you and fit your interests.", links:[{text:"Open the Quarter 3 page", url:"freshman-foundations-q3.html"}, {text:"Open the Course Planner", url:"course-planner.html"}]}
           ]},
           {label:"Quarter 4", months:[4,5,6,7], items:[
-            {text:"Freshman Foundations session: Mental Health", detail:"A presentation on taking care of your mental health and where to find support at Moeller.", tip:"If you’re struggling, reach out to your counselor, a teacher, your dean, or your mentor teacher."}
+            {text:"Freshman Foundations session: Mental Health", detail:"A presentation on taking care of your mental health and where to find support at Moeller. This session is presented in person.", tip:"If you’re struggling, reach out to your counselor, a teacher, your dean, or your mentor teacher.",
+              card:{title:"You're not alone", intro:"If you're going through something hard, you don't have to handle it by yourself.",
+                lines:["Call or text 988 (Suicide & Crisis Lifeline), any time.", "Text HOME to 741741 (Crisis Text Line).", "In an emergency, call 911."],
+                counselors:true, note:"You can always walk into the counseling office.",
+                links:[{text:"NAMI (National Alliance on Mental Illness)", url:"https://www.nami.org"}]}}
           ]}
         ]
       },
@@ -177,6 +181,7 @@ YEARS.freshman = {
           items: [
             {title:"Study groups & Chem Block", desc:"Placeholder — when and where they meet.", url:"academic-support.html"},
             {title:"Peer & teacher tutoring", desc:"Placeholder — how to sign up.", url:"academic-support.html"},
+            {title:"Course Planner", desc:"Map out all four years, watch your graduation requirements fill in, and explore pathways before your registration meeting.", url:"course-planner.html"},
             {title:"GPA Calculator", desc:"Figure your yearly and cumulative GPA, weighted and unweighted, and see where you stand for Latin Honors.", url:"gpa-calculator.html"},
             {title:"Honor Roll Calculator", desc:"Check whether your quarter grades put you on First or Second Honors.", url:"honor-roll.html"}
           ]

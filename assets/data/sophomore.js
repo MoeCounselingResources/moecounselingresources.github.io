@@ -86,10 +86,10 @@ YEARS.sophomore = {
             {text:"Future Focus session: Understanding Your Results", detail:"Explore your PrinciplesYou archetypes, what they say about your strengths and growth areas, and how your results connect to careers and the education they require.", tip:"Your full report is saved in SCOIR under Profile → Drive.", links:[{text:"Exercise: Your top 3 values", url:"know-yourself.html#values"}, {text:"Exercise: What fires you up?", url:"know-yourself.html#fires"}]}
           ]},
           {label:"Quarter 3", months:[1,2,3], items:[
-            {text:"Future Focus session: Exploring College Admissions", detail:"Find out what colleges look for in a holistic review, what your transcript shows now versus when you apply, and how Moeller’s weighted GPA works.", tip:"Every grade counts toward your GPA, starting now."}
+            {text:"Future Focus session: Exploring College Admissions", detail:"Find out what colleges look for in a holistic review, what your transcript shows now versus when you apply, and how Moeller’s weighted GPA works.", tip:"Every grade counts toward your GPA, starting now.", links:[{text:"Open the Quarter 3 page", url:"sophomore-future-focus-q3.html"}, {text:"Open the Course Planner", url:"course-planner.html"}]}
           ]},
           {label:"Quarter 4", months:[4,5,6,7], items:[
-            {text:"Future Focus session: Future Focus Wrap-Up & Building a Resume", detail:"Start a brag sheet in SCOIR by adding your activities and achievements. Then review your PreACT and Diagnostic SAT results and preview junior year’s College Knowledge sessions.", tip:"You don’t need to start testing until junior year."}
+            {text:"Future Focus session: Future Focus Wrap-Up & Building a Resume", detail:"Start a brag sheet in SCOIR by adding your activities and achievements. Then review your PreACT and Diagnostic SAT results and preview junior year’s College Knowledge sessions.", tip:"You don’t need to start testing until junior year.", links:[{text:"Open the Quarter 4 page", url:"sophomore-future-focus-q4.html"}]}
           ]}
         ]
       },
@@ -161,6 +161,7 @@ YEARS.sophomore = {
           items: [
             {title:"Study groups & Chem Block", desc:"Placeholder — when and where they meet.", url:"academic-support.html"},
             {title:"Peer & teacher tutoring", desc:"Placeholder — how to sign up.", url:"academic-support.html"},
+            {title:"Course Planner", desc:"Map out all four years, watch your graduation requirements fill in, and explore pathways before your registration meeting.", url:"course-planner.html"},
             {title:"GPA Calculator", desc:"Figure your yearly and cumulative GPA, weighted and unweighted, and see where you stand for Latin Honors.", url:"gpa-calculator.html"},
             {title:"Honor Roll Calculator", desc:"Check whether your quarter grades put you on First or Second Honors.", url:"honor-roll.html"}
           ]
