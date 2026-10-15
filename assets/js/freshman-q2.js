@@ -15,7 +15,6 @@
   const KINDS = {core:1, add:1, range:1};
   const fmt = (t, o) => Object.keys(o).reduce((s, k) => s.split('{' + k + '}').join(o[k]), t);
   const shuffle = a => { a = a.slice(); for(let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
-  const money = n => '$' + n.toLocaleString('en-US');
 
   const stageEl = document.getElementById('fq-stage'); if(stageEl) stageEl.textContent = D.stage;
   const titleEl = document.getElementById('fq-title'); if(titleEl) titleEl.textContent = D.title;
@@ -47,13 +46,9 @@
     '<h3>' + esc(B.whatTitle) + '</h3><div class="fq2-tiles">' +
     B.what.map((c, i) => '<div class="fq2-tile"><span class="fq2-num" aria-hidden="true">' + (i + 1) + '</span><strong>' + esc(c.title) + '</strong><span>' + esc(c.text) + '</span></div>').join('') + '</div></section>';
 
-  const max = Math.max.apply(null, W.earnings.rows.map(r => r.value));
   const whyHtml = '<section class="fq-sec" id="why"><h2>' + esc(W.title) + '</h2><ul class="fq2-chips">' +
     W.reasons.map(r => '<li>' + esc(r) + '</li>').join('') + '</ul>' +
-    '<h3>' + esc(W.chartTitle) + '</h3><figure class="fq2-chart"><ul class="fq2-bars">' +
-    W.earnings.rows.map((r, i) => '<li class="fq2-bar' + (i >= 5 ? ' is-high' : '') + '"><span class="fq2-bar-l">' + esc(r.label) + '</span>' +
-      '<span class="fq2-track"><span class="fq2-fill" style="width:' + (r.value / max * 100).toFixed(1) + '%"></span></span><span class="fq2-bar-v">' + money(r.value) + '</span></li>').join('') +
-    '</ul><figcaption>' + esc(W.caption) + '</figcaption></figure><p class="fq-close">' + md(W.money) + '</p></section>';
+    '<p class="fq-close">' + esc(W.money) + '</p></section>';
 
   const degCard = c => {
     return '<div class="fq-card" id="card-' + escA(c.id) + '"><h3><button type="button" class="fq-card-btn" aria-expanded="false" aria-controls="fq-p-' + escA(c.id) + '"><span>' + esc(c.title) + ' <small>' + esc(c.summary) + '</small></span><span class="fq-chev" aria-hidden="true"></span></button></h3>' +

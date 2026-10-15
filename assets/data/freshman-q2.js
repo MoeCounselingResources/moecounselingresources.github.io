@@ -6,7 +6,7 @@
    braces. To use a quotation mark inside text, write \" instead of ". In text you can use **bold**.
    Glossary: add or change a { term: "...", def: "..." } line. The Bingo card is drawn from these same terms.
    Career game: each career names the right choice with "answer" (a number counting from 0 in "choices").
-   Earnings chart: change the numbers in "earnings.rows"; the bars resize themselves.
+   Earnings chart: removed for now. The figures are saved in a comment inside the "why" section below.
 
    SAVED ANSWERS: the "How do you like to learn?" reflection saves in the student's own browser under the
    key in learn.key ("moeller-ex-learning"). Don't change the key, or saved answers disappear. Nothing is
@@ -79,22 +79,24 @@ const FRESHMAN_Q2 = {
   why: {
     title: "Why should I go to college?",
     reasons: ["Earn more", "Live longer, healthier lives", "Less likely to be unemployed", "Less likely to be incarcerated", "Actively contribute to society"],
-    chartTitle: "Earnings by education level",
-    caption: "Typical yearly earnings by education level (source: [to confirm])",
-    earnings: {
-      rows: [
-        { label: "Less than a high school diploma", value: 40300 },
-        { label: "High school graduate, no college", value: 51896 },
-        { label: "Some college, no degree", value: 58032 },
-        { label: "Associate degree (academic program)", value: 58552 },
-        { label: "Associate degree (occupational program)", value: 61984 },
-        { label: "Bachelor's degree", value: 88764 },
-        { label: "Master's degree", value: 104936 },
-        { label: "Doctoral degree (e.g., PhD)", value: 130832 },
-        { label: "Professional degree (e.g., JD, MD)", value: 145704 }
-      ]
-    },
-    money: "**Money matters:** over a lifetime, the gap in earning potential between a high school diploma and a bachelor's degree (or higher) is more than $1,000,000. (The College Board)"
+    /* EARNINGS CHART, REMOVED UNTIL THE SOURCE IS CONFIRMED (see TODO.md). To restore it, add these back to this
+       "why" section as chartTitle, caption (with the real source and year), and earnings, then restore the chart
+       code from git history (commit fc80333: the "Why" block in assets/js/freshman-q2.js and the .fq2-bar rules
+       in assets/css/freshman-q2.css).
+         chartTitle: "Earnings by education level",
+         caption: "Typical yearly earnings by education level (source: [to confirm])",
+         Yearly earnings by education level:
+           Less than a high school diploma ........ $40,300
+           High school graduate, no college ....... $51,896
+           Some college, no degree ................ $58,032
+           Associate degree (academic program) .... $58,552
+           Associate degree (occupational program)  $61,984
+           Bachelor's degree ...................... $88,764
+           Master's degree ........................ $104,936
+           Doctoral degree (e.g., PhD) ............ $130,832
+           Professional degree (e.g., JD, MD) ..... $145,704
+    */
+    money: "Over a lifetime, a bachelor's degree can mean about $1 million or more in extra earnings compared with a high school diploma (estimates vary)."
   },
 
   // ---------- Degrees ----------
@@ -150,14 +152,14 @@ const FRESHMAN_Q2 = {
         segs: [{ years: 4, kind: "core", label: "Bachelor's" }, { years: 2, kind: "add", label: "Doctorate (2 years)" }, { years: 4, kind: "range", label: "up to 4 more years" }]
       },
       {
-        id: "professional", title: "Professional degree", summary: "8+ years",
+        id: "professional", title: "Professional degree", summary: "Usually 7–8+ years total",
         items: [
-          "8+ years",
+          "Usually 7–8+ years total (for example, 4 years of college plus 3 years of law school or 4 years of medical school)",
           "A graduate program that prepares you for a specific career",
           "Different from academic degrees, which focus more on research and theory",
           "Often includes hands-on training and applying knowledge to real situations"
         ],
-        segs: [{ years: 4, kind: "core", label: "Bachelor's" }, { years: 4, kind: "add", label: "Professional school (4+ years)" }]
+        segs: [{ years: 4, kind: "core", label: "Bachelor's" }, { years: 3, kind: "add", label: "Professional school (3 years or more)" }, { years: 1, kind: "range", label: "up to 1 more year or longer" }]
       },
       {
         id: "other", title: "Other options: Military and trade school", summary: "Length varies",
@@ -297,7 +299,7 @@ FRESHMAN_Q2.glossary = [
   { term: "NCAA", def: "The NCAA is the National Collegiate Athletic Association, the organization that sets rules for most college sports teams in the United States." },
   { term: "Office Hours", def: "Office hours are set times when a professor is available in their office or online to answer questions and help students one-on-one." },
   { term: "Personal Essay", def: "A personal essay is a short piece of writing in your own voice that tells a college about who you are." },
-  { term: "Ph.D.", def: "A Ph.D. is the highest college degree, earned after years of advanced study and original research in one subject." },
+  { term: "Ph.D.", def: "A Ph.D. is one of the highest college degrees, earned after years of advanced study and original research in one subject." },
   { term: "Prerequisite", def: "A prerequisite is a class or requirement you must finish before you are allowed to take a more advanced class." },
   { term: "Professor", def: "A professor is a college teacher who is an expert in a subject and often also does research." },
   { term: "Quarters", def: "Quarters are a college calendar split into school terms of about ten weeks each, shorter than the terms in a semester calendar." },
