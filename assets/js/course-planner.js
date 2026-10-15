@@ -158,6 +158,7 @@
     '<div class="cp-screen">' +
     '<p class="cp-blocked" id="cp-blocked" role="alert" hidden>' + esc(T.storage.blocked) + '</p>' +
     '<div class="cp-disclaimer"><span class="cp-badge">' + esc(T.disclaimerLabel) + '</span> ' + esc(R.disclaimer || '') + '</div>' +
+    '<nav class="cp-jump" aria-label="' + escA(T.jump.label) + '"><ul>' + T.jump.items.map(j => '<li><a href="#' + escA(j.id) + '">' + esc(j.text) + '</a></li>').join('') + '</ul></nav>' +
 
     '<section class="cp-sec" id="cp-start"><h2>' + esc(S.title) + '</h2><div class="cp-fields">' +
       '<div class="cp-field"><label class="tool-label" for="cp-year">' + esc(S.gradYearLabel) + '</label><select class="tool-select" id="cp-year">' + YEARS.map(y => opt(String(y), String(y), y === state.gradYear)).join('') + '</select></div>' +

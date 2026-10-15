@@ -24,6 +24,17 @@ const COURSE_PLANNER_TEXT = {
   footer: "Based on the Moeller Curriculum Guide. This is a planning tool, not a schedule. Your plan is saved only on this device.",
   footerBack: { text: "Back to the School Counseling hub", href: "school-counseling.html" },
 
+  jump: {
+    label: "Jump to a section",
+    items: [
+      {id: "cp-start", text: "Start"},
+      {id: "cp-grid-sec", text: "My plan"},
+      {id: "cp-tracker-sec", text: "Requirements"},
+      {id: "cp-conn-sec", text: "Connections"},
+      {id: "cp-path-sec", text: "Pathways"},
+      {id: "cp-prog-sec", text: "Programs"}
+    ]
+  },
   disclaimerLabel: "Please read",
   missingData: "The course list has not loaded, so the planner cannot start. Reload the page, or ask the counseling office if this keeps happening.",
 
