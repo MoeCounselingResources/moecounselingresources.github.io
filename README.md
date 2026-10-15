@@ -13,7 +13,8 @@ index.html                  Moeller Counseling (main page)
 │   ├── academic-support.html
 │   ├── gpa-calculator.html     GPA Calculator (yearly, cumulative, Latin Honors)
 │   ├── honor-roll.html         Honor Roll Calculator (quarterly, unweighted)
-│   └── self-discovery.html     Self-Discovery (private, self-paced exercises; saves on the student's device)
+│   ├── self-discovery.html     Self-Discovery (private, self-paced exercises; saves on the student's device)
+│   └── freshman-foundations-q1.html  Freshman Foundations, Quarter 1 (study skills, 720 Days reflection, quiz)
 ├── college-counseling.html College Counseling hub
 │   ├── seniors.html  ← "Application Resources" box opens this
 │   ├── popular-colleges.html   Moeller Popular Colleges (test ranges, deadlines)
@@ -52,6 +53,7 @@ Links from the School Counseling hub open a class page in its School view
 | Which exercises are on the Know Yourself page | `assets/data/know-yourself.js` |
 | The AI page (do's and don'ts, rules, every copyable prompt) | `assets/data/ai.js` (instructions at the top; logic `assets/js/ai.js`, look `assets/css/ai.css`) |
 | Self-Discovery page (every exercise, prompt, and word) | `assets/data/self-discovery.js` (instructions at the top; the logic is `assets/js/self-discovery.js`, the look is `assets/css/self-discovery.css`) |
+| Freshmen Quarter 1 page (every word) | `assets/data/freshman-q1.js` (the logic is `assets/js/freshman-q1.js`, the look is `assets/css/freshman-q1.css`) |
 | Opportunities Board cards (college fairs, programs, career exploration, jobs) | `assets/data/opportunities.js` (instructions at the top of the file) |
 | Brand colors and fonts                     | top of `assets/css/styles.css`         |
 | Heading font files (Produkt / Bitter)      | `assets/fonts/` — see the note at the top of styles.css |
