@@ -128,7 +128,7 @@
     }
     $('htl-start').addEventListener('click', startQuiz);
 
-    /* ---------- print the cards (button, or a plain Ctrl+P) ---------- */
+    /* ---------- print the cards (only the Print button prints them) ---------- */
     function buildSheet(){
       $('htl-sheet').innerHTML = '<h2>' + esc(Q.printTitle) + '</h2><table class="htl-ptable"><thead><tr><th scope="col">' + esc(Q.qLabel) + '</th><th scope="col">' + esc(Q.aLabel) + '</th></tr></thead><tbody>' +
         (cards.length ? cards : [{ q: '', a: '' }]).map(c => '<tr><td>' + esc(c.q) + '</td><td>' + esc(c.a) + '</td></tr>').join('') + '</tbody></table>';

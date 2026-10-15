@@ -124,3 +124,5 @@
   body.htl-printing .htl-sec:not(:has(.htl-sheet)), body.htl-printing .htl-tool > :not(.htl-sheet), body.htl-printing .htl-tool:not(:has(.htl-sheet)), body.htl-printing .hero, body.htl-printing .htl-nav{display:none !important;}
   body.htl-printing .htl-sheet{position:static;}
 }
+
+.htl-privacy a{display:inline-block; padding:14px 0;}

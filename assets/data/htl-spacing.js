@@ -21,7 +21,7 @@ const HTL_MODULE = {
     question: "Which of these sounds like you?",
     options: [
       { text: "I study the night before. That's when I get focused.", fix: "Lots of students do. The idea below is to move some of that work earlier, into a few shorter sessions." },
-      { text: "I study a lot right before the test, then forget it all.", fix: "Spreading your practice over several days is the fix to try. The planner below turns it into dates you can check off." },
+      { text: "I study a lot right before the test, then forget it all.", fix: "Spreading your practice over several days is one thing to try. The planner below turns it into dates you can check off." },
       { text: "I don't know when to start reviewing.", fix: "A planner can take care of that decision. Enter your test date below and pick how many short sessions you want." },
       { text: "I already review a little each week.", fix: "Good. Use the planner to line your sessions up with your next test." }
     ]

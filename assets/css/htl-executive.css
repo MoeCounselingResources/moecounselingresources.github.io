@@ -38,11 +38,11 @@
   .htl-ex-sheet h3{font-size:13pt; margin:12pt 0 4pt;}
   .htl-ex-pnote{font-size:11pt; margin:0 0 8pt;}
   .htl-ex-ptable{width:100%; border-collapse:collapse; table-layout:fixed;}
-  .htl-ex-ptable th, .htl-ex-ptable td{border:1px solid #444; padding:4pt 5pt; text-align:left; vertical-align:top; font-size:10pt; overflow-wrap:anywhere;}
+  .htl-ex-ptable th, .htl-ex-ptable td{border:1px solid #444; padding:4pt 5pt; text-align:left; vertical-align:top; font-size:8pt; line-height:1.2; overflow-wrap:anywhere;}
   .htl-ex-ptable thead th{background:#eee;}
   .htl-ex-ptable th[scope="row"]{width:0.8in; background:#eee;}
-  .htl-ex-prow-due td{height:1.4in;}
-  .htl-ex-prow-plan td{height:2in;}
+  .htl-ex-prow-due td{height:0.9in;}
+  .htl-ex-prow-plan td{height:1.3in;}
   .htl-ex-ptop{margin:0; padding-left:1.4em; font-size:11pt;}
-  .htl-ex-ptop li{min-height:24pt; border-bottom:1px solid #444; margin-bottom:6pt;}
+  .htl-ex-ptop li{min-height:20pt; border-bottom:1px solid #444; margin-bottom:6pt;}
 }

@@ -21,7 +21,7 @@ const HTL_MODULE = {
     question: "Which of these sounds like you?",
     options: [
       { text: "I do all the problems of one type, then move on to the next type.", fix: "That feels smooth, and it is a fine way to learn something new. Once you know each type, try the mixing activity below for practice." },
-      { text: "I can do the homework, but on tests I can't tell which method to use.", fix: "Mixing problem types makes you choose the method each time, which is what a test asks. Try the mixing activity below." },
+      { text: "I can do the homework, but on tests I can't tell which method to use.", fix: "Mixing problem types makes you choose the method each time, like a test that mixes problem types. Try the mixing activity below." },
       { text: "If something feels hard, I think I'm doing it wrong.", fix: "Some difficulty can help, when you get the answer or some teaching afterward. It is not true that harder is always better. If you are stuck for a long time, ask for help." },
       { text: "I give up when I don't know how to start.", fix: "A short try before you look at the answer can be useful, as long as you do check it afterward. Set a short time limit, then ask or look." }
     ]
@@ -59,7 +59,7 @@ const HTL_MODULE = {
     built: "Practice set built: {n} problems.",
     problemLine: "Problem {i}: {t}",
     feedbackTitle: "After each problem, check the answer.",
-    feedback: "Check your answer against your notes, an answer key, or your teacher right after each problem, before moving on. Feedback is what makes the extra effort worth it.",
+    feedback: "Check your answer against your notes, an answer key, or your teacher right after each problem, before moving on. Feedback is a key part of making extra effort pay off.",
     whenHard: "If a problem feels hard, a short try is fine. If you are stuck for a few minutes, look at a worked example or ask for help.",
     printBtn: "Print the mixed list",
     printTitle: "Mixed practice list",

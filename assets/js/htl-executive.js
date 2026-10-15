@@ -131,9 +131,9 @@
       $('htl-ex-steps').innerHTML = task.steps.map((s, i) => {
         const n = i + 1;
         return '<li class="htl-ex-step" data-i="' + i + '"><div class="htl-ex-steprow">' +
-          '<span class="htl-ex-check"><input type="checkbox" id="htl-ex-d' + i + '" data-f="d"' + (s.d ? ' checked' : '') + ' aria-label="' + escA(K.doneLabel + ': ' + fmt(K.stepLabel, { n })) + '"></span>' +
+          '<label class="htl-ex-check"><input type="checkbox" id="htl-ex-d' + i + '" data-f="d"' + (s.d ? ' checked' : '') + ' aria-label="' + escA(K.doneLabel + ': ' + fmt(K.stepLabel, { n })) + '"></label>' +
           '<div class="htl-ex-stepmain"><label class="tool-label" for="htl-ex-t' + i + '">' + esc(fmt(K.stepLabel, { n })) + ' <span class="htl-ex-badge" hidden>' + esc(K.smallestBadge) + '</span></label>' +
-          '<input class="tool-input" id="htl-ex-t' + i + '" type="text" maxlength="' + MAX_LEN + '" autocomplete="off" data-f="t" value="' + escA(s.t) + '"></div>' +
+          '<textarea class="tool-textarea" id="htl-ex-t' + i + '" rows="2" maxlength="' + MAX_LEN + '" autocomplete="off" data-f="t">' + esc(s.t) + '</textarea></div>' +
           '<div class="htl-ex-min"><label class="tool-label" for="htl-ex-m' + i + '"><span class="htl-vh">' + esc(K.minLabel) + ' ' + esc(fmt(K.stepLabel, { n })) + '</span><span aria-hidden="true">' + esc(K.minShort) + '</span></label>' +
           '<input class="tool-input" id="htl-ex-m' + i + '" type="number" inputmode="numeric" min="' + MIN_LO + '" max="' + MIN_HI + '" step="1" data-f="m" value="' + (s.m == null ? '' : s.m) + '" title="' + escA(K.minLabel) + '"></div></div>' +
           '<div class="htl-ex-btns"><button type="button" class="tool-btn secondary" data-act="up" aria-label="' + escA(fmt(K.upL, { n })) + '"' + (i === 0 ? ' disabled' : '') + '>' + esc(K.up) + '</button>' +
@@ -230,6 +230,7 @@
         '<tr class="htl-ex-prow-due"><th scope="row">' + esc(W.dueLabel) + '</th>' + days.map(d => cell(d.due)).join('') + '</tr>' +
         '<tr class="htl-ex-prow-plan"><th scope="row">' + esc(W.planLabel) + '</th>' + days.map(d => cell(d.plan)).join('') + '</tr></tbody></table>' +
         '<h3>' + esc(W.printTop) + '</h3><ol class="htl-ex-ptop">' + [0, 1, 2].map(i => '<li>' + (blank ? '' : esc(week.top[i])) + '</li>').join('') + '</ol>';
+      if(pageStyle) pageStyle.remove();
       pageStyle = document.createElement('style'); pageStyle.textContent = '@page{size:landscape; margin:0.5in;}'; document.head.appendChild(pageStyle);
       document.body.classList.add('htl-executive-printing');
     }

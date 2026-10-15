@@ -40,7 +40,7 @@ const HTL_MODULE = {
     modeLegend: "1. Pick your questions",
     modeBuiltin: "Use 5 quick questions from this page",
     modeOwn: "Write 3 questions of my own",
-    builtinTopic: "5 easy general-knowledge questions",
+    builtinTopic: "5 quick questions",
     topicLabel: "Topic (a class, a unit, anything)",
     topicPlaceholder: "e.g. Spanish vocabulary, unit 3",
     topicDefault: "My topic",
@@ -58,7 +58,7 @@ const HTL_MODULE = {
     needOwn: "Fill in all three questions and answers first.",
     qOf: "Question {n} of {total}",
     think: "Say or write your answer first. Then tap Show the answer.",
-    owning: "You check your own answers, so be honest. This is just for you.",
+    owning: "Mark what you really remembered. This is just for you.",
     show: "Show the answer",
     gotIt: "I got it",
     notYet: "Not quite",
@@ -66,8 +66,8 @@ const HTL_MODULE = {
     youRated: "You rated how well you know \"{topic}\" a {r} out of 5.",
     youGot: "You got {n} out of {total} right.",
     got: "Got it",
-    missed: "Missed",
-    over: "You felt pretty sure, and some answers did not come. That happens to everyone. It is the kind of surprise that testing is for, because now you know what to practice.",
+    missed: "Not yet",
+    over: "You felt pretty sure, and some answers did not come. That happens to a lot of people. It is the kind of surprise that testing is for, because now you know what to practice.",
     under: "You knew more than you guessed. Testing can show you that too, and it is useful to know what you can already do.",
     match: "Your guess and your result were close this time. Even so, a feeling is not a measurement. Testing is how you check.",
     takeaway: "Feeling sure and being right are different things. Testing shows which you have.",
@@ -89,7 +89,7 @@ const HTL_MODULE = {
     "Keep your own questions short, three is enough.",
     "Say your answers out loud if writing feels like too much.",
     "There is no wrong guess. The point is to compare, not to score well.",
-    "Start with the topic you feel most sure about. It is often the most surprising one."
+    "Start with the topic you feel most sure about. It is a good one to check."
   ],
 
   research: {

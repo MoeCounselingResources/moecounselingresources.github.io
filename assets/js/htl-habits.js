@@ -38,10 +38,10 @@
       const w = cleanWhen($('htl-h-when').value), a = cleanAct($('htl-h-act').value);
       $('htl-h-preview').textContent = (w || a) ? fmt(T.planLine, { w: w || '...', a: a || '...' }) : '';
     };
-    ['htl-h-when', 'htl-h-act'].forEach(id => $(id).addEventListener('input', () => { hint(); preview(); }));
+    ['htl-h-when', 'htl-h-act'].forEach(id => $(id).addEventListener('input', () => { status(''); hint(); preview(); }));
     host.querySelectorAll('.htl-chip').forEach(b => b.addEventListener('click', () => {
       const w = b.dataset.k === 'w', f = w ? $('htl-h-when') : $('htl-h-act');
-      f.value = (w ? T.whenChips : T.actionChips)[+b.dataset.i]; hint(); preview(); (w ? $('htl-h-act') : $('htl-h-add')).focus();
+      f.value = (w ? T.whenChips : T.actionChips)[+b.dataset.i]; status(''); hint(); preview(); (w ? $('htl-h-act') : $('htl-h-add')).focus();
     }));
 
     function draw(){

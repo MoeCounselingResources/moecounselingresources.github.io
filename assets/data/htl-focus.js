@@ -37,8 +37,8 @@ const HTL_MODULE = {
     intro: "Here are eight small steps. Tick the ones you are ready to try. You do not need all of them. Pick what fits you. Nothing you tick here is saved.",
     groupLabel: "Study spot steps",
     steps: [
-      { label: "Put your phone in another room or in your bag", why: "A little distance makes it easier to stay with the task. You can still check it on your break." },
-      { label: "Turn off notifications for your study time", why: "Fewer buzzes means fewer chances to get pulled away in the middle of a thought." },
+      { label: "Put your phone in another room or in your bag", why: "A little distance may make it easier to stay with the task. You can still check it on your break." },
+      { label: "Turn off notifications for your study time", why: "Fewer buzzes may mean fewer chances to get pulled away in the middle of a thought." },
       { label: "Keep open only the tabs you need", why: "A clean screen makes it easier to see what you are supposed to be doing." },
       { label: "Get water and your materials ready", why: "If you do not have to get up to find a pencil, it is easier to keep going." },
       { label: "Pick a visible start time", why: "A clear start time takes away the question of when to begin. Write it where you can see it." },

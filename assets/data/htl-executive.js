@@ -20,10 +20,10 @@ const HTL_MODULE = {
   quick: {
     question: "Which of these sounds like you?",
     options: [
-      { text: "A big task feels like one giant lump, so I put it off.", fix: "Try the task breakdown below. Cutting a big job into small steps is a skill, and it gets easier each time you practice it." },
+      { text: "A big task feels like one giant lump, so I put it off.", fix: "Try the task breakdown below. Cutting a big job into small steps is a skill, and it is a skill you can practice." },
       { text: "I forget what's due, or I find out the night before.", fix: "A weekly planner is a good place to start. Write down what's due each day, then add a plan. The planner below prints on one page." },
-      { text: "I never know how long things will take.", fix: "Guess a number of minutes for each step, then notice how close you were. Your guesses get better with practice." },
-      { text: "I sit down to work and can't get started.", fix: "Pick the smallest step and run the 5-minute timer. You only have to start. You can stop when it ends, and many people keep going." }
+      { text: "I never know how long things will take.", fix: "Guess a number of minutes for each step, then notice how close you were. Noticing how close you were can help you plan next time." },
+      { text: "I sit down to work and can't get started.", fix: "Pick the smallest step and run the 5-minute timer. You only have to start. You can stop when it ends, or keep going if it's working." }
     ]
   },
 

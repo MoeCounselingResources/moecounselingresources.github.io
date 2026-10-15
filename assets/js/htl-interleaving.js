@@ -73,7 +73,7 @@
 
     /* ---------- build and show ---------- */
     function build(){
-      const v = readRows(), types = [], seen = {};
+      const v = readRows(), types = [], seen = Object.create(null);
       for(const r of v){
         const t = r.t.replace(/\s+/g, ' ').trim().slice(0, MAX_LEN);
         if(!t) continue;

@@ -20,9 +20,9 @@ const HTL_MODULE = {
     question: "Which of these sounds like you?",
     options: [
       { text: "I go to bed at a different time every night.", fix: "A same wake-up time is a good place to start. The tool below shows you a bedtime window that matches your wake-up time." },
-      { text: "I stay up late on my phone or laptop.", fix: "Phones are not bad, but a few low-key wind-down habits can help you get to bed. Try the ideas below and pick one." },
+      { text: "I stay up late on my phone or laptop.", fix: "Phones are not bad. If you like, try one of the wind-down ideas below, just as an idea, not a fix." },
       { text: "I think I can get by on very little sleep.", fix: "Many people feel that way. Teens need about 8 to 10 hours, so see where that lands for your schedule in the tool below." },
-      { text: "I get enough sleep, but I still feel tired.", fix: "That is worth talking about with your counselor or a doctor. This page is general information and cannot tell you why you feel that way." }
+      { text: "I get enough sleep, but I still feel tired.", fix: "You are not doing anything wrong. It is worth talking about with your counselor or a doctor. This page is general information and cannot tell you why you feel that way." }
     ]
   },
 

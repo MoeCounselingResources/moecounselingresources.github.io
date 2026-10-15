@@ -33,7 +33,7 @@
       '<label class="tool-label" for="htl-sleep-wake">' + esc(T.wakeLabel) + '</label>' +
       '<p class="htl-small" id="htl-sleep-help">' + esc(T.wakeHelp) + '</p>' +
       '<input class="tool-input htl-sleep-time" id="htl-sleep-wake" type="time" aria-describedby="htl-sleep-help">' +
-      '<div class="htl-sleep-result" id="htl-sleep-result" role="status" aria-live="polite"><p>' + esc(T.empty) + '</p></div>' +
+      '<div class="htl-sleep-result" id="htl-sleep-result"><p>' + esc(T.empty) + '</p></div>' +
       '<h4>' + esc(T.windDownTitle) + '</h4><p>' + esc(T.windDownIntro) + '</p>' +
       '<ul class="htl-choices">' + W.map((w, i) => '<li><button type="button" class="htl-choice" data-i="' + i + '" aria-pressed="false">' + esc(w) + '</button></li>').join('') + '</ul>' +
       '<p class="htl-status" id="htl-sleep-status" role="status" aria-live="polite"></p>' +
@@ -55,7 +55,7 @@
       const odd = from >= 12 * 60 && from < 18 * 60;
       $('htl-sleep-result').innerHTML =
         '<p class="htl-sleep-wakeline">' + esc(fmt(T.resultWake, { wake: fmt12(c.wake) })) + '</p>' +
-        '<p class="htl-sleep-big">' + esc(fmt(T.resultLead, { from: fmt12(from), to: fmt12(to) })) + '</p>' +
+        '<p class="htl-sleep-big" role="status">' + esc(fmt(T.resultLead, { from: fmt12(from), to: fmt12(to) })) + '</p>' +
         (odd ? '<p class="htl-small">' + esc(T.daytimeNote) + '</p>' : '') +
         '<p class="htl-small">' + esc(T.fallAsleep) + '</p>';
     }

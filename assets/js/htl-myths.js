@@ -68,10 +68,10 @@
         if(idx >= items.length){ finish(); return; }
         const c = items[idx];
         run.innerHTML = '<div class="htl-qcard"><p class="htl-small">' + esc(fmt(T.qOf, { n: idx + 1, total: items.length })) + '</p><h4 tabindex="-1" id="htl-myths-qh">' + esc(c.q) + '</h4><p class="htl-small">' + esc(T.think) + (idx === 0 ? ' ' + esc(T.owning) : '') + '</p>' +
-          '<p><button type="button" class="tool-btn" id="htl-myths-show">' + esc(T.show) + '</button></p><div id="htl-myths-ans" role="status" aria-live="polite"></div></div>';
+          '<p><button type="button" class="tool-btn" id="htl-myths-show">' + esc(T.show) + '</button></p><div id="htl-myths-ans"></div></div>';
         $('htl-myths-qh').focus();
         $('htl-myths-show').addEventListener('click', () => {
-          $('htl-myths-ans').innerHTML = '<p class="htl-answer" id="htl-myths-answer" tabindex="-1">' + esc(c.a) + '</p><p><button type="button" class="tool-btn" id="htl-myths-got">' + esc(T.gotIt) + '</button><button type="button" class="tool-btn secondary" id="htl-myths-not">' + esc(T.notYet) + '</button></p>';
+          $('htl-myths-ans').innerHTML = '<p class="htl-answer" id="htl-myths-answer" tabindex="-1" role="status">' + esc(c.a) + '</p><p><button type="button" class="tool-btn" id="htl-myths-got">' + esc(T.gotIt) + '</button><button type="button" class="tool-btn secondary" id="htl-myths-not">' + esc(T.notYet) + '</button></p>';
           $('htl-myths-show').hidden = true; $('htl-myths-answer').focus();
           const mark = ok => { results.push({ q: c.q, a: c.a, ok }); idx++; ask(); };
           $('htl-myths-got').addEventListener('click', () => mark(true));

@@ -12,7 +12,7 @@
     const T = HTL_MODULE.try, MAX = 100;
     const clip = s => String(s).replace(/\s+/g, ' ').trim().slice(0, MAX);
     /* "I can't solve x" / "cannot solve x" / "solve x." -> "solve x" */
-    const cleanHard = s => clip(s).replace(/^i\s*(can['’]?t|cannot|can\s+not)\s+/i, '').replace(/\s+yet\s*[.!?]*$/i, '').replace(/[.!?\s]+$/, '');
+    const cleanHard = s => clip(s).replace(/^i\s*(can['’]?t|cannot|can\s+not)\s+/i, '').replace(/(^|\s)yet\s*[.!?]*$/i, '').replace(/[.!?\s]+$/, '');
     const $ = id => document.getElementById(id);
 
     host.innerHTML =
