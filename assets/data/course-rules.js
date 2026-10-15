@@ -341,13 +341,10 @@ const COURSE_RULES = {
       "After the second full week of the school year (or of the semester for a semester course), no schedule change can be made without approval from parents, teachers, and the Provost."
     ],
     timeline: [
-      { when: "By January 16", what: "Teachers make course recommendations in MoeCampus" },
-      { when: "January 15", what: "Class of 2027 registration presentation" },
-      { when: "January 20", what: "Class of 2028 and Class of 2029 registration presentations" },
-      { when: "January 19 to 28", what: "Class of 2027 registration meetings with counselors" },
-      { when: "January 29 to February 9", what: "Class of 2028 registration meetings with counselors" },
-      { when: "February 10 to 19", what: "Class of 2029 registration meetings with counselors" },
-      { when: "By March 10", what: "Counselors review and finalize course requests" },
+      { when: "In January", what: "Teachers make course recommendations in MoeCampus, and each class attends its registration presentation. Details will be announced each year." },
+      { when: "In January", what: "Registration meetings with counselors begin, starting with the oldest class. Details will be announced each year." },
+      { when: "In February", what: "Registration meetings with counselors continue for the younger classes. Details will be announced each year." },
+      { when: "In March", what: "Counselors review and finalize course requests. Details will be announced each year." },
       { when: "In March", what: "Deadline to change course requests. More details on the exact deadline will be announced each year." }
     ],
     page: 11,

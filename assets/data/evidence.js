@@ -7,12 +7,11 @@
    Labels (fixed): "Strong", "Moderate", "Mixed", "Not supported".
      • Strong  = many studies and reviews agree.   • Moderate = good support with real limits.
      • Mixed   = studies disagree or effects are small.   • Not supported = tested, and it did not hold up.
-   Source types: "meta-analysis", "review", "RCT", "replication", "observational study", "guidance", "summary".
-   typeNeedsCheck: true marks a type the editor should double-check against the paper itself.
+   Source types: "meta-analysis", "review", "RCT", "replication", "survey study", "longitudinal study", "observational study", "guidance", "summary".
 
    Each entry:  id, topic (short name), label, plain (one plain-language sentence, the "bottom line"),
    says (2–3 sentences for students: what is and isn't known), cautions (things we must NOT claim),
-   sources [{ title, type, url, typeNeedsCheck? }], lastReviewed (YYYY-MM-DD).
+   sources [{ title, type, url }], lastReviewed (YYYY-MM-DD).
    ========================================================================= */
 
 const EVIDENCE_LABELS = ["Strong", "Moderate", "Mixed", "Not supported"];
@@ -29,7 +28,7 @@ const EVIDENCE = {
     cautions: ["Do not state specific brain-science claims (such as myelin or synapse details) unless they are clearly called simplified.", "Do not say that effort 'creates new brain cells' as a rule."],
     sources: [
       { title: "Howard-Jones 2014, Nature Reviews Neuroscience", type: "review", url: "https://pubmed.ncbi.nlm.nih.gov/25315391/" },
-      { title: "Dekker et al. 2012", type: "observational study", url: "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2012.00429/full", typeNeedsCheck: true }
+      { title: "Dekker et al. 2012", type: "survey study", url: "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2012.00429/full" }
     ],
     lastReviewed: EVIDENCE_LAST_REVIEWED
   },
@@ -83,7 +82,7 @@ const EVIDENCE = {
     says: "Studies find that people remember more when practice is spread out over time than when the same amount is crammed together. We do not yet know a single best schedule, and few studies were done in real classrooms.",
     cautions: ["Do not state one 'perfect' review schedule.", "Few classroom studies; no clear winner between expanding and even spacing."],
     sources: [
-      { title: "Cepeda et al. 2006", type: "review", url: "https://pubmed.ncbi.nlm.nih.gov/16719566/", typeNeedsCheck: true },
+      { title: "Cepeda et al. 2006", type: "meta-analysis", url: "https://pubmed.ncbi.nlm.nih.gov/16719566/" },
       { title: "Latimier et al. 2021", type: "meta-analysis", url: "http://www.lscp.net/persons/ramus/docs/EPR20.pdf" },
       { title: "IES Practice Guide (Institute of Education Sciences)", type: "guidance", url: "https://ies.ed.gov/ncee/wwc/Docs/PracticeGuide/20072004.pdf" }
     ],
@@ -126,7 +125,7 @@ const EVIDENCE = {
     says: "Repeating a behavior in the same setting makes it more automatic over time. How long that takes varies a lot from person to person and from habit to habit. If-then plans can help, mostly when you already want to do the thing.",
     cautions: ["Do NOT say '21 days' or '66 days' as a rule.", "If-then plans have smaller effects than early claims, mainly when motivation is already there."],
     sources: [
-      { title: "Lally et al. 2010", type: "observational study", url: "https://onlinelibrary.wiley.com/doi/abs/10.1002/ejsp.674", typeNeedsCheck: true }
+      { title: "Lally et al. 2010", type: "longitudinal study", url: "https://onlinelibrary.wiley.com/doi/abs/10.1002/ejsp.674" }
     ],
     lastReviewed: EVIDENCE_LAST_REVIEWED
   },
@@ -169,8 +168,8 @@ const EVIDENCE = {
     cautions: ["Never present this as medical advice.", "Brain-training games do not transfer."],
     sources: [
       { title: "Melby-Lervåg et al. 2016", type: "meta-analysis", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC4968033/" },
-      { title: "Langberg et al. 2018 (HOPS trial)", type: "RCT", url: "https://pubmed.ncbi.nlm.nih.gov/29172596/", typeNeedsCheck: true },
-      { title: "DuPaul et al. 2021", type: "meta-analysis", url: "https://www.sciencedirect.com/science/article/abs/pii/S0022440521000431", typeNeedsCheck: true }
+      { title: "Langberg et al. 2018 (HOPS trial)", type: "RCT", url: "https://pubmed.ncbi.nlm.nih.gov/29172596/" },
+      { title: "DuPaul et al. 2021", type: "review", url: "https://www.sciencedirect.com/science/article/abs/pii/S0022440521000431" }
     ],
     lastReviewed: EVIDENCE_LAST_REVIEWED
   }

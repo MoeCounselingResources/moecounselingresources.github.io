@@ -76,7 +76,7 @@ const HOW_TO_LEARN = {
   src: {
     title: "Sources and how we checked",
     intro: "These are the only sources behind the research claims on these pages. Each claim is tied to an evidence label, and the label is explained below. Links open in a new tab.",
-    how: "How we checked: every research claim comes from the sources listed here. Each claim and its source are kept together, and we review them before publishing. We state limits when the research has them, and we never say something works when the research says it does not.",
+    how: "How we checked: every research claim comes from the sources listed here. Sources are from peer-reviewed research and linked directly. We state limits when the research has them, and we never say something works when the research says it does not.",
     legendTitle: "What the labels mean",
     legend: [
       { label: "Strong", text: "Many studies and reviews agree." },
@@ -84,7 +84,6 @@ const HOW_TO_LEARN = {
       { label: "Mixed", text: "Studies disagree, or effects are small." },
       { label: "Not supported", text: "It was tested and did not hold up." }
     ],
-    typeNote: "Source types marked with * are still being double-checked by the counseling team.",
     typeLabel: "Type",
     reviewed: "Last reviewed"
   }

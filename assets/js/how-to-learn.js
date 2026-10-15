@@ -27,7 +27,7 @@
 
   function sourcesList(ids){
     return ids.map(id => EVIDENCE[id]).filter(Boolean).map(e => e.sources.map(s =>
-      '<li><a href="' + escA(safeUrl(s.url)) + '" target="_blank" rel="noopener noreferrer">' + esc(s.title) + ' <span class="htl-vh">' + esc(M.opensNew) + '</span></a> <span class="htl-type">' + esc(s.type) + (s.typeNeedsCheck ? '*' : '') + '</span></li>').join('')).join('');
+      '<li><a href="' + escA(safeUrl(s.url)) + '" target="_blank" rel="noopener noreferrer">' + esc(s.title) + ' <span class="htl-vh">' + esc(M.opensNew) + '</span></a> <span class="htl-type">' + esc(s.type) + '</span></li>').join('')).join('');
   }
 
   /* ---------- hub ---------- */
@@ -59,7 +59,7 @@
     setText('htl-title', S.title); setText('htl-intro', S.intro); setBack({ text: M.back.text, href: M.back.href });
     document.title = S.title + ' · Moeller Counseling';
     let h = '<section class="htl-sec"><p>' + esc(S.how) + '</p><h2>' + esc(S.legendTitle) + '</h2><ul class="htl-legend">' +
-      S.legend.map(l => '<li>' + labelHtml(l.label) + ' ' + esc(l.text) + '</li>').join('') + '</ul><p class="htl-privacy">' + esc(S.typeNote) + '</p></section>';
+      S.legend.map(l => '<li>' + labelHtml(l.label) + ' ' + esc(l.text) + '</li>').join('') + '</ul></section>';
     h += '<section class="htl-sec">' + Object.keys(EVIDENCE).map(id => {
       const e = EVIDENCE[id];
       return '<article class="htl-src"><h3>' + esc(e.topic) + ' ' + labelHtml(e.label) + '</h3><p>' + esc(e.plain) + '</p><p class="htl-note">' + esc(e.labelNote) + '</p><ul class="htl-sources">' + sourcesList([id]) + '</ul>' +

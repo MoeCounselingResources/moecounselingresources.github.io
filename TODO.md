@@ -11,7 +11,7 @@
   - "You can always walk into the counseling office." (confirm hours/location wording)
   - House counselor names and emails come from COUNSELORS in assets/js/shared-content.js; confirm they are current.
 - Course Planner / Curriculum Guide items to confirm (found in review):
-  - The registration timeline on guide p.12 prints "March 23, 2026" for the change-request deadline, probably a typo for 2027. The planner shows "March 23" without a year; confirm the date each year.
+  - Registration dates: the Course Planner now says only "In January", "In February" and "In March" (no specific dates) with "Details will be announced each year." Guide p.12 prints specific dates for one year (and "March 23, 2026" for the change deadline, probably a typo for 2027).
   - PE waiver: guide p.6 and p.36 say "two seasons of marching band" but p.64 says "two school years". The planner follows p.64. Confirm which is right. (p.6 also points to p.63 for the sports list; the list is on p.64.)
   - Confirm whether the class of 2029+ total is 25 or 26 credits with MoeTerm. The planner uses 25 (one config value, `totalCredits` in assets/data/course-rules.js) and tracks MoeTerm separately.
   - Semester CCP courses are listed at 1 credit (from the worksheet; the guide gives no credit). Confirm.
