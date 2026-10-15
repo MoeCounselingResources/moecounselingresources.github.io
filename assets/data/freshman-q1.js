@@ -61,7 +61,6 @@ const FRESHMAN_Q1 = {
     intro: "You don't have to figure out high school alone. Start with your house counselor, then use these pages whenever you need them.",
     counselorsTitle: "Your house counselors",
     counselorsNote: "Every student is in a house, and every house has its own counselor.",
-    contact: "Email",
     links: [
       { text: "Academic Support", href: "academic-support.html", desc: "Study groups, Chem Block, and the tutors we have in school." },
       { text: "Study Tips", href: "study-tips.html", desc: "Proven ways to study, take notes, and prepare for tests." },

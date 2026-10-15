@@ -36,11 +36,12 @@
 
   const houses = (typeof COUNSELORS !== 'undefined' ? COUNSELORS : []).filter(c => /house/i.test(c.role));
   const resHtml = '<section class="fq-sec" id="resources"><h2>' + esc(RS.title) + '</h2><p>' + esc(RS.intro) + '</p>' +
-    '<h3>' + esc(RS.counselorsTitle) + '</h3><p class="fq-hint">' + esc(RS.counselorsNote) + '</p><ul class="fq-houses">' +
-    houses.map(c => '<li>' + (c.crest ? '<img src="' + esc(c.crest) + '" alt="" width="44" height="44">' : '') +
-      '<span class="fq-house">' + esc(c.role) + '</span>' +
-      (c.email ? '<a class="fq-mail" href="mailto:' + esc(c.email) + '" aria-label="' + esc(RS.contact + ' ' + c.role + ' counselor') + '">' + esc(RS.contact) + '</a>' : '') + '</li>').join('') +
-    '</ul><div class="fq-links">' + RS.links.map(l => '<a class="fq-link" href="' + esc(l.href) + '"><strong>' + esc(l.text) + '</strong><span>' + esc(l.desc) + '</span></a>').join('') + '</div></section>';
+    '<h3>' + esc(RS.counselorsTitle) + '</h3><p class="fq-hint">' + esc(RS.counselorsNote) + '</p><div class="panel-grid fq-houses">' +
+    houses.map(c => '<div class="panel-card">' +
+      (c.crest ? '<div class="crest-wrap' + (c.crestBoxed ? ' boxed' : '') + '"><img src="' + esc(c.crest) + '" alt="' + esc(c.role) + ' crest"></div>' : '') +
+      '<div class="role">' + esc(c.role) + '</div><div class="name">' + esc(c.name) + '</div>' +
+      '<div class="meta">' + (c.email ? '<div>' + esc(c.email) + '</div>' : '') + '</div></div>').join('') +
+    '</div><div class="fq-links">' + RS.links.map(l => '<a class="fq-link" href="' + esc(l.href) + '"><strong>' + esc(l.text) + '</strong><span>' + esc(l.desc) + '</span></a>').join('') + '</div></section>';
 
   const cardHtml = c => '<div class="fq-card" id="card-' + c.id + '"><h3><button type="button" class="fq-card-btn" aria-expanded="false" aria-controls="fq-p-' + c.id + '"><span>' + esc(c.title) + '</span><span class="fq-chev" aria-hidden="true"></span></button></h3>' +
     '<div class="fq-card-body" id="fq-p-' + c.id + '" hidden>' + (c.lead ? '<p>' + esc(c.lead) + '</p>' : '') +

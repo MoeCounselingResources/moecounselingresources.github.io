@@ -35,12 +35,8 @@
 .fq-privacy{margin:10px 0 0; font-size:0.8rem; color:var(--slate);}
 .fq-sheet{display:none;}
 
-/* resources */
-.fq-houses{list-style:none; margin:0 0 18px; padding:0; display:grid; grid-template-columns:repeat(auto-fill, minmax(230px, 1fr)); gap:10px;}
-.fq-houses li{display:flex; align-items:center; gap:12px; margin:0; padding:10px 12px; border:1px solid var(--cloud); border-radius:10px; background:var(--paper);}
-.fq-houses img{flex:none; width:44px; height:44px; object-fit:contain;}
-.fq-house{flex:1; font-weight:700; color:var(--navy);}
-.fq-mail{font-weight:700; text-decoration:underline; text-decoration-color:var(--sky); text-decoration-thickness:2px; text-underline-offset:3px;}
+/* resources (house cards reuse the directory's panel-card look from styles.css) */
+.fq-houses{margin:0 0 18px;}
 .fq-links{display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px;}
 .fq-link{display:flex; flex-direction:column; gap:4px; padding:14px 16px; border:1px solid var(--cloud); border-left:4px solid var(--gold); border-radius:10px; text-decoration:none; color:var(--navy); background:var(--paper);}
 .fq-link:hover{background:var(--paper-soft);}
