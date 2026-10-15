@@ -22,7 +22,7 @@
   const Y = D.yearAhead, P = D.planner, PH = D.placeholders;
 
   /* ---------- course list (parsed strictly; bad lines are skipped) ---------- */
-  const CATALOG = [], BYNAME = {}, DEPTS = [];
+  const CATALOG = [], BYNAME = Object.create(null), DEPTS = [];
   try{
     String(typeof MOELLER_COURSES === 'string' ? MOELLER_COURSES : '').split('\n').forEach(line => {
       const p = line.split('|');
@@ -45,27 +45,29 @@
   const gradeOf = id => P.grades.filter(g => g.id === id)[0];
 
   /* ---------- state: {grade id: [{name, level}]} ---------- */
-  let plan = {};
+  let plan = Object.create(null);
   P.grades.forEach(g => { plan[g.id] = []; });
   let storageOK = true;
   const STORE_VERSION = 1;
   function load(){
+    let raw = null;
     try{
-      const raw = localStorage.getItem(P.key);
-      if(raw){
-        const o = JSON.parse(raw);
-        if(o && o.v === STORE_VERSION && Array.isArray(o.courses)){
-          o.courses.forEach(e => {
-            if(!e || typeof e.name !== 'string' || typeof e.level !== 'string' || typeof e.grade !== 'string') return;
-            const c = Object.prototype.hasOwnProperty.call(BYNAME, e.name) ? BYNAME[e.name] : null;
-            if(!c || c.levels.indexOf(e.level) < 0 || !plan[e.grade]) return;
-            if(plan[e.grade].some(x => x.name === e.name)) return;
-            plan[e.grade].push({name: e.name, level: e.level});
-          });
-        }
-      }
       localStorage.setItem(P.key + '-probe', '1'); localStorage.removeItem(P.key + '-probe');
-    }catch(e){ storageOK = false; }
+      raw = localStorage.getItem(P.key);
+    }catch(e){ storageOK = false; return; }
+    let o = null;
+    try{ o = raw ? JSON.parse(raw) : null; }catch(e){ o = null; }
+    if(!o || o.v !== STORE_VERSION || !Array.isArray(o.courses)) return;
+    o.courses.forEach(e => {
+      try{
+        if(!e || typeof e.name !== 'string' || typeof e.level !== 'string' || typeof e.grade !== 'string') return;
+        const c = BYNAME[e.name];
+        const list = plan[e.grade];
+        if(!c || !Array.isArray(list) || c.levels.indexOf(e.level) < 0) return;
+        if(list.some(x => x.name === e.name)) return;
+        list.push({name: e.name, level: e.level});
+      }catch(err){}
+    });
   }
   function persist(){
     const courses = [];
@@ -80,7 +82,9 @@
       (i === Y.current ? '<span class="fq-now">' + esc(Y.youAreHere) + '</span>' : '') +
       '<strong>' + esc(q.label) + '</strong><span>' + esc(q.text) + '</span></li>').join('') + '</ol></section>';
 
-  const noteHtml = '<div class="fq3-note" role="note"><strong>' + esc(D.planningOnlyLabel) + '</strong><p>' + esc(D.planningOnly) + '</p></div>';
+  const noteHtml = '<div class="fq3-note" role="note"><strong>' + esc(D.planningOnlyLabel) + '</strong><p>' + esc(D.planningOnly) + '</p></div>' +
+    '<p class="fq3-privacy">' + esc(P.privacy) + '</p>' +
+    '<p class="fq-status is-warn fq3-warn" id="fq3-warn" role="status" aria-live="polite" hidden>' + esc(P.blocked) + '</p>';
 
   const panelHtml = g =>
     '<section class="fq3-panel" aria-labelledby="fq3-h-' + escA(g.id) + '" data-grade="' + escA(g.id) + '">' +
@@ -94,7 +98,7 @@
       '<div class="fq-field" data-role="levelwrap" hidden><label class="tool-label" for="fq3-l-' + escA(g.id) + '">' + esc(P.levelLabel) + '</label>' +
         '<select class="tool-select fq3-sel" id="fq3-l-' + escA(g.id) + '" data-role="level"></select></div>' +
       '<button type="button" class="tool-btn" data-role="add">' + esc(P.add) + '</button>' +
-    '</div>' +
+    '</div><p class="fq3-msg" data-role="msg" role="status" aria-live="polite"></p>' +
     '<ul class="fq3-list" data-role="list"></ul>' +
     '<p class="fq3-year" data-role="year"></p></section>';
 
@@ -105,7 +109,7 @@
       '<div class="fq-foot"><button type="button" class="tool-btn" id="fq3-print">' + esc(P.print) + '</button>' +
       '<span id="fq3-clearwrap"><button type="button" class="tool-btn secondary" id="fq3-clear">' + esc(P.clear) + '</button></span>' +
       '<span class="fq-status" id="fq3-status" role="status" aria-live="polite"></span></div>' +
-      '<p class="fq-privacy">' + esc(P.privacy) + '</p><div class="fq-sheet" id="fq-sheet"></div>'
+      '<div class="fq-sheet" id="fq-sheet"></div>'
     : '<p class="fq-status is-warn">' + esc(P.unavailable) + '</p>') + '</section>';
 
   const phHtml = PH.sections.map(s =>
@@ -119,7 +123,9 @@
   /* ---------- behavior ---------- */
   const statusEl = document.getElementById('fq3-status');
   let flash = '';
+  const warnEl = document.getElementById('fq3-warn');
   const status = msg => {
+    warnEl.hidden = storageOK;
     if(!storageOK){ statusEl.classList.add('is-warn'); statusEl.textContent = P.blocked; return; }
     statusEl.classList.remove('is-warn'); statusEl.textContent = msg || '';
   };
@@ -142,11 +148,12 @@
     });
     document.getElementById('fq3-total').innerHTML = esc(P.allTotal) + ': <strong>' + esc(credText(total)) + '</strong>';
   }
-  function save(msg){ const ok = persist(); status(ok ? P.saved : ''); if(ok && msg) statusEl.textContent = msg + ' ' + P.saved; }
+  function save(msg){ const ok = persist(); status(ok ? (msg || P.saved) : ''); }
 
   P.grades.forEach(g => {
     const panel = root.querySelector('.fq3-panel[data-grade="' + g.id + '"]');
     const dSel = panel.querySelector('[data-role="dept"]'), cSel = panel.querySelector('[data-role="course"]');
+    const msgEl = panel.querySelector('[data-role="msg"]');
     const lSel = panel.querySelector('[data-role="level"]'), lWrap = panel.querySelector('[data-role="levelwrap"]');
     dSel.addEventListener('change', () => {
       const d = dSel.value;
@@ -163,18 +170,18 @@
     });
     panel.querySelector('[data-role="add"]').addEventListener('click', () => {
       const c = Object.prototype.hasOwnProperty.call(BYNAME, cSel.value) ? BYNAME[cSel.value] : null;
-      if(!c){ statusEl.classList.remove('is-warn'); statusEl.textContent = P.addNeedsCourse; return; }
-      if(plan[g.id].some(x => x.name === c.name)){ statusEl.classList.remove('is-warn'); statusEl.textContent = fmt(P.duplicate, {course: c.name, grade: g.label}); return; }
+      if(!c){ msgEl.textContent = P.addNeedsCourse; return; }
+      if(plan[g.id].some(x => x.name === c.name)){ msgEl.textContent = fmt(P.duplicate, {course: c.name, grade: g.label}); return; }
       const level = c.levels.length > 1 ? lSel.value : c.levels[0];
       plan[g.id].push({name: c.name, level: c.levels.indexOf(level) < 0 ? c.levels[0] : level});
-      render(); save(fmt(P.added, {course: c.name}));
+      render(); msgEl.textContent = fmt(P.added, {course: c.name}); save(P.saved);
       cSel.value = ''; lWrap.hidden = true; lSel.innerHTML = '';
       cSel.focus();
     });
     panel.querySelector('[data-role="list"]').addEventListener('click', e => {
       const b = e.target.closest('.fq3-rm'); if(!b) return;
       const i = +b.dataset.i, x = plan[g.id][i]; if(!x) return;
-      plan[g.id].splice(i, 1); render(); save(fmt(P.removed, {course: x.name}));
+      plan[g.id].splice(i, 1); render(); msgEl.textContent = fmt(P.removed, {course: x.name}); save(P.saved);
       const next = panel.querySelectorAll('.fq3-rm')[Math.min(i, plan[g.id].length - 1)];
       (next || panel.querySelector('[data-role="dept"]')).focus();
     });
@@ -193,10 +200,12 @@
     document.getElementById('fq3-no').addEventListener('click', () => clearIdle(true));
     document.getElementById('fq3-yes').addEventListener('click', () => {
       P.grades.forEach(g => { plan[g.id] = []; });
+      root.querySelectorAll('[data-role="msg"]').forEach(m => { m.textContent = ''; });
       render(); save(P.cleared); clearIdle(true);
     });
     document.getElementById('fq3-no').focus();
   }
+  clearWrap.addEventListener('keydown', e => { if(e.key === 'Escape' && document.getElementById('fq3-yes')){ e.preventDefault(); clearIdle(true); } });
   document.getElementById('fq3-clear').addEventListener('click', clearAsk);
 
   /* print sheet: title, per-grade lists, totals, and the planning-only sentence */
@@ -212,11 +221,18 @@
       }).join('') +
       '<h3>' + esc(P.printTotal) + ': ' + esc(credText(total)) + '</h3>';
     document.body.classList.add('fq-printing'); root.classList.add('fq-print-target');
-    const done = () => { document.body.classList.remove('fq-printing'); root.classList.remove('fq-print-target'); sheet.innerHTML = ''; window.removeEventListener('afterprint', done); };
+    const done = () => {
+      document.body.classList.remove('fq-printing'); root.classList.remove('fq-print-target'); sheet.innerHTML = '';
+      window.removeEventListener('afterprint', done); window.removeEventListener('focus', done); document.removeEventListener('pointerdown', done); document.removeEventListener('keydown', done);
+    };
     window.addEventListener('afterprint', done);
-    window.print();
+    window.addEventListener('focus', done);
+    document.addEventListener('pointerdown', done);
+    document.addEventListener('keydown', done);
+    try{ window.print(); }catch(e){ done(); }
   });
 
   load(); render();
+  warnEl.hidden = storageOK;
   if(!storageOK) status('');
 })();

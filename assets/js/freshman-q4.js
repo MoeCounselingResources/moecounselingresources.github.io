@@ -22,23 +22,25 @@
   const houses = (typeof COUNSELORS !== 'undefined' ? COUNSELORS : []).filter(c => /house/i.test(c.role));
 
   /* ---------- support block: one data object, rendered twice (full at top, compact near the end) ---------- */
+  const mail = e => '<a class="fq4-mail" href="mailto:' + escA(e) + '">' + esc(e) + '</a>';
   function supportHtml(id, compact){
     const lines = '<ul class="fq4-lines">' + S.lines.map(l =>
       '<li><span class="fq4-line-text">' + esc(l.text) + '</span><span class="fq4-acts">' +
-      l.actions.map(a => '<a class="fq4-btn" href="' + escA(a.href) + '">' + esc(a.label) + '</a>').join('') + '</span></li>').join('') + '</ul>';
+      l.actions.map(a => '<a class="fq4-btn" href="' + escA(a.href) + '"' + (a.ariaLabel ? ' aria-label="' + escA(a.ariaLabel) + '"' : '') + '>' + esc(a.label) + '</a>').join('') + '</span></li>').join('') + '</ul>';
     let houseHtml;
     if(compact){
       houseHtml = '<ul class="fq4-house-list">' + houses.map(c =>
-        '<li><strong>' + esc(c.role) + '</strong> ' + esc(c.name) + (c.email ? ' · ' + esc(c.email) : '') + '</li>').join('') + '</ul>';
+        '<li><strong>' + esc(c.role) + '</strong> ' + esc(c.name) + (c.email ? ' · ' + mail(c.email) : '') + '</li>').join('') + '</ul>';
     } else {
       houseHtml = '<div class="panel-grid fq-houses">' + houses.map(c => '<div class="panel-card">' +
-        (c.crest ? '<div class="crest-wrap' + (c.crestBoxed ? ' boxed' : '') + '"><img src="' + escA(c.crest) + '" alt="' + escA(c.role) + ' crest"></div>' : '') +
+        (c.crest ? '<div class="crest-wrap' + (c.crestBoxed ? ' boxed' : '') + '"><img src="' + escA(c.crest) + '" alt=""></div>' : '') +
         '<div class="role">' + esc(c.role) + '</div><div class="name">' + esc(c.name) + '</div>' +
-        '<div class="meta">' + (c.email ? '<div>' + esc(c.email) + '</div>' : '') + '</div></div>').join('') + '</div>';
+        '<div class="meta">' + (c.email ? '<div>' + mail(c.email) + '</div>' : '') + '</div></div>').join('') + '</div>';
     }
     return '<section class="fq4-support' + (compact ? ' is-compact' : '') + '" id="' + escA(id) + '" aria-labelledby="' + escA(id) + '-h">' +
-      '<h2 id="' + escA(id) + '-h">' + esc(S.title) + '</h2>' + lines +
+      '<h2 id="' + escA(id) + '-h">' + esc(S.title) + '</h2>' + (compact ? '' : '<p class="fq4-lead">' + esc(S.lead) + '</p>') + lines +
       '<h3>' + esc(S.housesTitle) + '</h3>' + (compact ? '' : '<p class="fq-hint">' + esc(S.housesNote) + '</p>') + houseHtml +
+      '<p class="fq4-note">' + esc(S.emailNote) + '</p><p class="fq4-note">' + esc(S.notSubstitute) + '</p>' +
       '<p class="fq4-walkin">' + esc(S.walkIn) + '</p></section>';
   }
 

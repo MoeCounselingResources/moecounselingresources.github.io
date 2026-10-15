@@ -25,16 +25,19 @@ const FRESHMAN_Q4 = {
   // ---------- Support box (shown at the top and again, in a compact form, near the end) ----------
   support: {
     title: "Need to talk to someone now?",
+    lead: "You are not alone, and there are people ready to help.",
     lines: [
       { text: "Call or text 988 (Suicide & Crisis Lifeline)",
-        actions: [ { label: "Call 988", href: "tel:988" }, { label: "Text 988", href: "sms:988" } ] },
+        actions: [ { label: "Call 988", href: "tel:988", ariaLabel: "Call 988 (Suicide & Crisis Lifeline)" }, { label: "Text 988", href: "sms:988", ariaLabel: "Text 988 (Suicide & Crisis Lifeline)" } ] },
       { text: "Text HOME to 741741 (Crisis Text Line)",
-        actions: [ { label: "Text HOME to 741741", href: "sms:741741?&body=HOME" } ] },
+        actions: [ { label: "Text HOME to 741741", href: "sms:741741?&body=HOME", ariaLabel: "Text HOME to 741741 (Crisis Text Line)" } ] },
       { text: "Call 911 in an emergency",
-        actions: [ { label: "Call 911", href: "tel:911" } ] }
+        actions: [ { label: "Call 911", href: "tel:911", ariaLabel: "Call 911" } ] }
     ],
     housesTitle: "Your house counselor",
     housesNote: "Find your house below. Your house counselor is glad to hear from you.",
+    emailNote: "Email is not for emergencies. If it is urgent, call or text 988 or tell an adult right away.",
+    notSubstitute: "This page is not a substitute for talking with a counselor or other professional.",
     walkIn: "You can always walk into the counseling office."
   },
 
@@ -56,7 +59,7 @@ const FRESHMAN_Q4 = {
   placeholderNote: "Content coming from the Quarter 4 presentation.",
   sections: [
     { id: "understanding", title: "Understanding mental health",
-      intro: "Everyone has hard days, and that is a normal part of being a person. Reaching out when something feels heavy is a sign of strength. Support works, and there are people at Moeller who want to help." },
+      intro: "Everyone has hard days, and feeling stressed, sad, or worried sometimes is part of being human. You do not have to wait until things feel unbearable to ask for help. Talking with someone can make things better, and there are adults at Moeller who want to help." },
     { id: "stress", title: "Stress and anxiety" },
     { id: "self-care", title: "Taking care of yourself" },
     { id: "friend", title: "Supporting a friend" },

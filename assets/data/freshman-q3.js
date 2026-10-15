@@ -77,7 +77,7 @@ const FRESHMAN_Q3 = {
     saved: "Saved on this device.",
     blocked: "This browser is blocking saving, so your plan will be lost when you close this page.",
     unavailable: "The course list could not be loaded, so the planner is not available right now.",
-    privacy: "Your plan saves only on this device, and no one else can see it unless you show them.",
+    privacy: "Your plan is saved in this browser on this device. Anyone who uses this same browser can see it. Use Clear planner when you are done on a shared computer.",
     print: "Print my plan",
     printTitle: "My four-year course plan",
     printEmpty: "No courses added.",

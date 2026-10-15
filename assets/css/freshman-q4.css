@@ -32,3 +32,10 @@
 }
 @media (prefers-reduced-motion:reduce){ .fq4-btn{transition:none;} }
 @media print{ .fq4-support{background:#fff; color:#000; border:2px solid #000;} .fq .fq4-support h2, .fq .fq4-support h3, .fq4-support p{color:#000;} .fq4-btn{border:1px solid #000; background:#fff; color:#000;} }
+
+.fq4-lead{font-size:1.1rem; margin:0 0 14px !important;}
+.fq4-note{font-size:0.95rem; margin:12px 0 0 !important;}
+.fq4-mail{display:inline-flex; align-items:center; min-height:44px; color:inherit; text-decoration:underline; text-underline-offset:3px; overflow-wrap:anywhere;}
+.fq4-support .panel-card .fq4-mail{color:var(--navy);}
+.fq4-support a.fq4-mail:focus-visible{outline:3px solid var(--gold);}
+.fq4-house-list li{display:flex; flex-wrap:wrap; align-items:center; gap:4px 6px;}
