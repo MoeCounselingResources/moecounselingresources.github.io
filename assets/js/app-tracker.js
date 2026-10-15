@@ -320,6 +320,7 @@
     return new Promise((res, rej) => {
       const s = document.createElement('script');
       s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+      s.integrity = 'sha512-r22gChDnGvBylk90+2e/ycr3RVrDi8DIOkIGNhJlKfuyQM4tIRAI062MaV8sfjQKYVGjOBaZBOA87z+IhZE9DA=='; s.crossOrigin = 'anonymous'; s.referrerPolicy = 'no-referrer';   // SRI: the browser refuses the file if it is not exactly SheetJS 0.18.5
       s.onload = () => res(window.XLSX);
       s.onerror = rej;
       document.head.appendChild(s);
