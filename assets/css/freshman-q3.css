@@ -2,54 +2,80 @@
    FRESHMAN FOUNDATIONS, QUARTER 3 — extra styles for assets/js/freshman-q3.js. Scoped to .fq.
    Load styles.css, tools.css, and freshman-q1.css first (the shared .fq base is in freshman-q1.css).
    ========================================================================= */
-.fq3-note{margin:0 0 16px; padding:14px 18px; background:var(--gold); color:var(--navy); border-radius:10px; border-left:8px solid var(--navy);}
-.fq3-note strong{display:block; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.06em;}
-.fq3-note p{margin:4px 0 0; font-weight:700; font-size:1.05rem;}
+.fq3-cite{margin-top:4px;}
+.fq3-missing{padding:12px 16px; border-left:4px solid var(--gold); background:var(--paper-soft); color:var(--navy); font-weight:600;}
 
-.fq .fq3-privacy{margin:0 0 14px; font-size:1rem;}
-.fq .fq3-warn{margin:0 0 14px; font-size:0.95rem; color:var(--navy);}
-.fq .fq3-warn[hidden]{display:none;}
-.fq3-msg{margin:0; min-height:1.2em; font-size:0.88rem; color:var(--navy);}
-.fq .tool-select option{color:var(--navy);}
-.fq3-grid{display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:14px; margin:0 0 16px;}
-.fq3-panel{display:flex; flex-direction:column; gap:10px; padding:14px; border:1px solid var(--cloud); border-top:4px solid var(--gold); border-radius:12px; background:var(--paper);}
-.fq .fq3-panel h3{margin:0; font-size:1.15rem;}
-.fq3-add{display:grid; gap:8px;}
-.fq3-add .fq-field{margin:0;}
-.fq3-add[hidden], .fq-field[hidden]{display:none;}
-.fq .fq3-sel{width:100%; min-height:44px; max-width:100%;}
-.fq3-list{list-style:none; margin:0 !important; padding:0 !important; display:grid; gap:8px;}
-.fq3-item{display:grid; grid-template-columns:1fr auto; gap:4px 8px; align-items:center; margin:0; padding:8px 10px; background:var(--paper-soft); border-left:4px solid var(--sky); border-radius:0 8px 8px 0;}
-.fq3-name{grid-column:1 / 3; font-weight:700; color:var(--navy); font-size:0.92rem;}
-.fq3-chip{justify-self:start; padding:2px 10px; border-radius:999px; background:var(--navy); color:var(--paper); font-size:0.75rem; font-weight:700;}
-.fq3-cr{grid-column:1; font-size:0.85rem; color:var(--slate);}
-.fq .fq3-rm{grid-column:2; grid-row:2 / 4; align-self:center; padding:4px 10px;}
-.fq3-empty{margin:0; padding:10px; color:var(--slate); font-size:0.9rem; border:1px dashed var(--cloud); border-radius:8px;}
-.fq3-year{margin:auto 0 0; padding-top:6px; border-top:1px solid var(--cloud); color:var(--navy);}
-.fq3-total{margin:0 0 14px; padding:12px 16px; background:var(--navy); color:var(--paper); border-radius:10px; font-size:1.05rem;}
-.fq3-total strong{color:var(--gold); font-size:1.3rem;}
-#fq3-clearwrap{display:inline-flex;}
-.fq3-confirm{display:inline-flex; flex-wrap:wrap; align-items:center; gap:8px; padding:8px 12px; border:2px solid var(--navy); border-radius:10px; background:var(--paper-soft);}
-.fq3-confirm > span{font-weight:700; color:var(--navy);}
-.fq .tool-btn:focus-visible, .fq .tool-select:focus-visible{outline:3px solid var(--navy); outline-offset:2px; box-shadow:0 0 0 2px #fff;}
+/* registration timeline */
+.fq3-timeline{list-style:none; margin:0 0 10px; padding:0 !important; display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:8px;}
+.fq3-tl{position:relative; display:flex; flex-direction:column; gap:4px; margin:0; padding:14px 16px 14px 20px; background:var(--paper-soft); border-radius:10px; border-left:6px solid var(--sky);}
+.fq3-tl:first-child{border-left-color:var(--gold);}
+.fq3-tl:last-child{border-left-color:var(--navy);}
+.fq3-tl strong{font-family:var(--serif); color:var(--navy); font-size:1.05rem;}
+.fq3-tl span{font-size:0.9rem; color:var(--ink-soft);}
+.fq3-tl + .fq3-tl::before{content:"\2192"; position:absolute; left:-12px; top:50%; transform:translateY(-50%); width:18px; height:18px; display:flex; align-items:center; justify-content:center; border-radius:50%; background:var(--navy); color:var(--gold); font-size:0.75rem; font-weight:700;}
 
-/* placeholder sections: unmistakably unfinished */
-.fq3-phs{display:grid; gap:16px;}
-.fq3-ph{position:relative; margin:0; padding:18px 20px; border:2px dashed var(--slate); border-radius:12px; background:var(--paper-soft);}
-.fq3-ph h2{border-bottom-color:var(--cloud); margin-top:8px;}
-.fq3-ph p{margin:0; color:var(--slate); font-style:italic;}
-.fq3-badge{display:inline-block; padding:2px 10px; border-radius:999px; background:var(--navy); color:var(--paper); font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em;}
+/* numbered steps */
+.fq3-steps{list-style:none; margin:0 0 14px; padding:0 !important; counter-reset:fq3; display:grid; gap:8px;}
+.fq3-steps li{display:flex; gap:12px; align-items:flex-start; margin:0; padding:10px 12px; border:1px solid var(--cloud); border-radius:10px; background:var(--paper); counter-increment:fq3;}
+.fq3-num{flex:none; display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:50%; background:var(--navy); color:var(--gold); font-weight:700; font-size:0.85rem;}
+.fq3-num::before{content:counter(fq3);}
+.fq3-steps li > span:last-child{padding-top:3px;}
 
-@media (max-width:1180px){ .fq3-grid{grid-template-columns:repeat(2, minmax(0, 1fr));} }
-@media (max-width:640px){ .fq3-grid{grid-template-columns:1fr;} .fq3-confirm{width:100%;} }
+/* levels */
+.fq3-levels{display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px; margin-bottom:10px;}
+.fq3-level{display:flex; flex-direction:column; gap:6px; padding:16px; border:1px solid var(--cloud); border-top:4px solid var(--gold); border-radius:12px; background:var(--paper);}
+.fq3-level strong{font-family:var(--serif); color:var(--navy);}
+.fq3-level span{font-size:0.92rem; color:var(--ink-soft);}
 
+/* requirements */
+.fq3-tablewrap{max-width:520px; margin:0 0 12px; overflow-x:auto;}
+.fq3-table{width:100%; border-collapse:collapse; font-size:0.95rem;}
+.fq3-table caption{text-align:left; font-family:var(--serif); font-weight:700; color:var(--navy); padding:0 0 8px;}
+.fq3-table th, .fq3-table td{padding:8px 12px; border-bottom:1px solid var(--cloud); text-align:left;}
+.fq3-table thead th{background:var(--navy); color:var(--paper); font-size:0.82rem; text-transform:uppercase; letter-spacing:0.05em;}
+.fq3-table tbody th{font-weight:600; color:var(--navy);}
+.fq3-table td{white-space:nowrap; font-weight:700; color:var(--navy);}
+.fq3-table .fq3-total th, .fq3-table .fq3-total td{background:var(--gold); color:var(--navy); font-weight:700;}
+.fq3-rules{list-style:none; padding:0 !important; display:grid; gap:8px; margin:0 0 14px;}
+.fq3-rules li{margin:0; padding:10px 14px; background:var(--paper-soft); border-left:4px solid var(--sky); border-radius:0 10px 10px 0;}
+.fq3-years{list-style:none; padding:0 !important; display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:10px; margin:0 0 10px;}
+.fq3-years li{display:flex; flex-direction:column; gap:4px; margin:0; padding:12px 14px; border:1px solid var(--cloud); border-radius:10px; text-align:center;}
+.fq3-years strong{font-family:var(--serif); color:var(--navy);}
+.fq3-years span{font-size:0.9rem; color:var(--ink-soft);}
+
+/* planner call to action */
+.fq3-cta{margin:4px 0 18px !important;}
+.fq3-big{display:inline-flex; align-items:center; justify-content:center; min-height:56px; padding:14px 28px; border-radius:12px; background:var(--navy); color:var(--paper); font-family:var(--serif); font-weight:700; font-size:1.2rem; text-decoration:none; border:3px solid var(--navy); box-sizing:border-box; max-width:100%; text-align:center;}
+.fq3-big:hover{background:var(--paper); color:var(--navy);}
+.fq3-big:focus-visible{outline:3px solid var(--navy); outline-offset:3px;}
+
+/* checklist */
+.fq3-checks{list-style:none; padding:0 !important; display:grid; gap:8px; margin:0 0 10px;}
+.fq3-checks li{margin:0;}
+.fq3-check{position:relative; display:flex; align-items:center; gap:12px; min-height:44px; padding:8px 14px; border:1px solid var(--cloud); border-radius:10px; background:var(--paper); cursor:pointer; color:var(--navy); font-weight:600;}
+.fq3-check:hover{border-color:var(--navy);}
+/* the real checkbox covers the whole row (a 44px+ target); the drawn box shows its state */
+.fq3-check input{position:absolute; inset:-1px; width:auto; height:auto; margin:0; opacity:0; cursor:pointer;}
+.fq3-box{flex:none; display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; border:2px solid var(--navy); border-radius:6px; background:var(--paper); color:var(--gold); font-weight:700;}
+.fq3-check:has(input:checked){background:var(--paper-soft); border-left:4px solid var(--gold);}
+.fq3-check:has(input:checked) .fq3-box{background:var(--navy);}
+.fq3-check:has(input:checked) .fq3-box::after{content:"\2713";}
+.fq3-check:has(input:checked) span:last-child{text-decoration:line-through; text-decoration-color:var(--slate);}
+.fq3-check:has(input:focus-visible), .fq3-check input:focus-visible + .fq3-box{outline:3px solid var(--navy); outline-offset:2px;}
+.fq3-progress{font-weight:700; color:var(--navy);}
+.fq .tool-btn:focus-visible, .fq .fq-link:focus-visible{outline:3px solid var(--navy); outline-offset:2px; box-shadow:0 0 0 2px #fff;}
+
+@media (max-width:720px){
+  .fq3-timeline, .fq3-years{grid-template-columns:1fr;}
+  .fq3-tl + .fq3-tl::before{content:"\2193"; left:12px; top:-13px; transform:none;}
+  .fq3-big{width:100%;}
+}
+
+/* print: only the checklist sheet (body-class pattern from freshman-q1.css) */
 @media print{
-  .fq3-add, .fq3-msg, .fq3-rm, .fq3-confirm, #fq3-clearwrap, #fq3-print, #fq3-status, .fq3-warn{display:none !important;}
-  .fq3-grid{grid-template-columns:repeat(2, minmax(0, 1fr));}
-  body.fq-printing .fq-print-target > *:not(.fq-sheet){display:none !important;}
-  body.fq-printing .fq-print-target section.fq-sec:has(.fq-sheet){display:block !important; margin:0; padding:0;}
-  body.fq-printing .fq-print-target section.fq-sec:has(.fq-sheet) > *:not(.fq-sheet){display:none !important;}
-  body.fq-printing .fq-print-target .fq-sheet ul{margin:0 0 6px; padding-left:1.3em;}
-  body.fq-printing .fq-print-target .fq-sheet p{margin:0 0 6px;}
-  body.fq-printing .fq-print-target .fq-sheet .fq3-ps{font-weight:700; margin-bottom:10px;}
+  body.fq-printing .fq-print-target .fq-sheet .fq3-psheet{list-style:none; padding:0; margin:0 0 14px;}
+  body.fq-printing .fq-print-target .fq-sheet .fq3-psheet li{margin:0 0 8px; padding:6px 0; border-bottom:1px solid #999;}
+  body.fq-printing .fq-print-target .fq-sheet .fq3-psheet b{display:inline-block; min-width:4.5em;}
+  body.fq-printing .fq-print-target .fq-sheet .fq3-plines{display:grid; gap:0;}
+  body.fq-printing .fq-print-target .fq-sheet .fq3-plines span{display:block; height:28px; border-bottom:1px solid #999;}
 }

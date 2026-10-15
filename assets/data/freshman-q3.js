@@ -1,17 +1,17 @@
 /* =========================================================================
    FRESHMAN FOUNDATIONS, QUARTER 3 — every word on freshman-foundations-q3.html lives in this file.
-   (The logic is assets/js/freshman-q3.js; the look is assets/css/freshman-q1.css plus freshman-q3.css.
-   The list of courses comes from assets/data/courses.js.)
+   (The logic is assets/js/freshman-q3.js; the look is assets/css/freshman-q1.css plus freshman-q3.css.)
 
    TO EDIT WORDING: change the text between the quotation marks. Keep the quotation marks, commas, and
    braces. To use a quotation mark inside text, write \" instead of ".
-   Placeholder sections: when the Quarter 3 presentation content is ready, replace the "lines" of a
-   section with the real wording (and tell the developer, since the placeholder box styling is for
-   unfinished sections only).
 
-   SAVED COURSES: the four-year planner saves only the chosen courses (grade, course name, level) in the
-   student's own browser under the key in planner.key ("moeller-ex-planner"). Don't change the key, or
-   saved plans disappear. Nothing is ever sent anywhere.
+   FACTS ABOUT COURSES are NOT in this file. The registration steps, academic levels, graduation minimums,
+   and planning rules are read from assets/data/course-rules.js (COURSE_RULES), which comes from the
+   Curriculum Guide. Change them there so every page stays in step.
+
+   SAVED ANSWERS: the "Before your registration meeting" checklist saves in the student's own browser
+   under the key in checklist.key ("moeller-ex-q3-checklist"). Don't change the key, or saved checks
+   disappear. Nothing is ever sent anywhere.
    ========================================================================= */
 
 const FRESHMAN_Q3 = {
@@ -33,65 +33,105 @@ const FRESHMAN_Q3 = {
     current: 2
   },
 
-  planningOnly: "This planner is for planning only. Official requirements come from the Curriculum Guide and your counselor.",
-  planningOnlyLabel: "Planning only",
+  // Shown instead of the three guide-based sections if course-rules.js fails to load.
+  rulesMissing: "The course rules could not be loaded, so the registration steps, levels, and requirements are not showing right now. Ask your counselor or check the Curriculum Guide.",
+  guideSource: "Source: Curriculum Guide p.{page}",
 
-  planner: {
-    title: "Four-year course planner",
-    key: "moeller-ex-planner",
-    intro: "Try out a plan for each year of high school. Pick a department, then a course, then add it. Nothing here is a requirement or a recommendation. It only adds up the courses you choose.",
-    grades: [
-      { id: "9", label: "9th grade" },
-      { id: "10", label: "10th grade" },
-      { id: "11", label: "11th grade" },
-      { id: "12", label: "12th grade" }
+  // ---------- 1. How registration works ----------
+  registration: {
+    title: "How registration works",
+    lead: "Every year you choose next year's classes with your counselor. Here is how it goes from start to finish.",
+    timelineLabel: "Registration timeline",
+    timeline: [
+      { label: "January", text: "Presentation, then your one-on-one meeting" },
+      { label: "March", text: "Your family reviews your final requests" },
+      { label: "After the deadline", text: "Changes generally are not allowed" }
     ],
-    deptLabel: "Department",
-    deptPlaceholder: "Choose a department",
-    courseLabel: "Course",
-    coursePlaceholder: "Choose a course",
-    levelLabel: "Level",
-    add: "Add course",
-    addNeedsCourse: "Choose a department and a course first.",
-    added: "Added: {course}.",
-    duplicate: "{course} is already in {grade}.",
-    removed: "Removed: {course}.",
-    remove: "Remove",
-    removeLabel: "Remove {course} from {grade}",
-    empty: "No courses added yet.",
-    creditsWord: "credits",
-    creditWord: "credit",
-    yearTotal: "Credits this year",
-    allTotal: "Total credits across all four years",
-    levels: {
-      H: "Honors",
-      HP: "Honors Plus",
-      PF: "Pass/fail",
-      L1: "CP1 Level 1 math"
-    },
-    clear: "Clear planner",
-    clearAsk: "Remove every course from all four years?",
-    clearYes: "Yes, clear it",
-    clearNo: "Keep my plan",
-    cleared: "Planner cleared.",
-    saved: "Saved on this device.",
-    blocked: "This browser is blocking saving, so your plan will be lost when you close this page.",
-    unavailable: "The course list could not be loaded, so the planner is not available right now.",
-    privacy: "Your plan is saved in this browser on this device. Anyone who uses this same browser can see it. Use Clear planner when you are done on a shared computer.",
-    print: "Print my plan",
-    printTitle: "My four-year course plan",
-    printEmpty: "No courses added.",
-    printTotal: "Total credits across all four years"
+    stepsTitle: "The steps",
+    tip: "Teachers may suggest you move up or down a level based on how you are doing in their class right now. Your counselor talks that through with you."
   },
 
-  placeholders: {
-    badge: "Placeholder",
-    line: "Content coming from the Quarter 3 presentation.",
-    sections: [
-      { id: "grad", title: "Graduation requirements" },
-      { id: "register", title: "How registration works" },
-      { id: "levels", title: "Choosing levels (CP/Honors/AP)" },
-      { id: "scoir", title: "Using the SCOIR Course Planner" }
+  // ---------- 2. Levels explained ----------
+  levels: {
+    title: "Levels explained",
+    lead: "Moeller offers the same subject at different levels so the class fits you. You can mix levels, like Honors in one subject and CP1 in another.",
+    pageNote: "Levels are described in the Curriculum Guide on p.4."
+  },
+
+  // ---------- 3. Your requirements at a glance ----------
+  requirements: {
+    title: "Your requirements at a glance",
+    lead: "You need {total} credits to graduate, plus MoeTerm. Most year-long classes are worth 1 credit and semester classes are worth half a credit.",
+    tableCaption: "Minimum credits for a diploma",
+    colSubject: "Subject",
+    colCredits: "Credits",
+    totalRow: "Total credits",
+    moeTermRow: "MoeTerm",
+    moeTermShort: "Counted separately",
+    rulesTitle: "Rules to remember",
+    perYearTitle: "Credits each year",
+    perYearLead: "Plan at least this many credits each year. Everyone takes seven classes each semester.",
+    perYearLabel: "{grade}th grade",
+    perYearValue: "{n} credits",
+    ruleNeed: "Must include {list}.",
+    ruleOneOf: "Plus one of: {list}.",
+    ruleLang: "Take {years} years of the same world language. {encouraged} years is encouraged.",
+    listAnd: " and ",
+    cite: "Curriculum Guide p.6"
+  },
+
+  // ---------- 4. Course Planner ----------
+  planner: {
+    title: "Try the Course Planner",
+    lead: "The Course Planner lets you map out all four years, see how your choices add up, and spot gaps before your registration meeting.",
+    button: "Open the Course Planner",
+    href: "course-planner.html",
+    howTitle: "How to use it",
+    steps: [
+      "Pick your graduation year and the levels you expect to take.",
+      "Start from the typical plan, then make it yours.",
+      "Add or swap courses for each year.",
+      "Watch the requirement tracker fill in as you go.",
+      "Print your plan and bring it to your meeting."
+    ],
+    note: "The planner is for practice. Your official requirements come from the Curriculum Guide and your counselor."
+  },
+
+  // ---------- 5. Before your registration meeting ----------
+  checklist: {
+    title: "Before your registration meeting",
+    key: "moeller-ex-q3-checklist",
+    lead: "Check each one off as you get it done. Your checks stay on this device.",
+    items: [
+      { id: "plan", label: "Plan next year's classes in the Course Planner" },
+      { id: "reqs", label: "Check your requirements and find any gaps" },
+      { id: "pathway", label: "Look at one pathway that interests you" },
+      { id: "questions", label: "Write down questions for your counselor" }
+    ],
+    progress: "{n} of {total} done",
+    allDone: "All done. You are ready for your meeting.",
+    print: "Print my checklist",
+    clear: "Clear my checks",
+    cleared: "Checks cleared.",
+    saved: "Saved on this device.",
+    blocked: "This browser is blocking saving, so your checks will be lost when you close this page.",
+    privacy: "Your checks are saved in this browser on this device. Anyone who uses this same browser can see them. Use Clear my checks when you are done on a shared computer.",
+    printTitle: "Before your registration meeting",
+    printDone: "Done",
+    printTodo: "To do",
+    printNotes: "My questions for my counselor:"
+  },
+
+  // ---------- 6. Keep exploring ----------
+  links: {
+    title: "Keep exploring",
+    intro: "These pages go with what you learned this quarter.",
+    items: [
+      { text: "Course Planner", desc: "Map out all four years and track your requirements.", href: "course-planner.html" },
+      { text: "GPA Calculator", desc: "See how grades and levels add up.", href: "gpa-calculator.html" },
+      { text: "CCP and AP", desc: "How to earn college credit while at Moeller.", href: "ccp-ap.html" },
+      { text: "Know Yourself, Exercise 4", desc: "What fires you up? Use it to pick electives.", href: "know-yourself.html#fires" },
+      { text: "Career Exploration", desc: "Match interests to careers and the classes that lead there.", href: "career-exploration.html" }
     ]
   }
 };

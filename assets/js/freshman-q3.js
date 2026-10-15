@@ -1,8 +1,8 @@
 /* =========================================================================
    FRESHMAN FOUNDATIONS, QUARTER 3 — draws the page from FRESHMAN_Q3 (assets/data/freshman-q3.js).
-   The four-year planner uses the course list in assets/data/courses.js (MOELLER_COURSES).
-   It saves only the chosen courses (grade, course name, level) in the student's own browser.
-   Nothing is ever sent anywhere. All wording lives in the data file; this file is logic only.
+   Registration steps, levels, and graduation requirements are read from COURSE_RULES
+   (assets/data/course-rules.js), never retyped here. The checklist saves only in the student's own
+   browser. Nothing is ever sent anywhere. All wording lives in the data file; this file is logic only.
    ========================================================================= */
 (function(){
   'use strict';
@@ -12,6 +12,8 @@
   const esc = escapeHtml;
   const escA = t => esc(t).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   const fmt = (t, o) => Object.keys(o).reduce((s, k) => s.split('{' + k + '}').join(o[k]), t);
+  const num = n => (typeof n === 'number' && isFinite(n)) ? String(n) : '';
+  const R = (typeof COURSE_RULES === 'object' && COURSE_RULES) ? COURSE_RULES : null;
 
   const stageEl = document.getElementById('fq-stage'); if(stageEl) stageEl.textContent = D.stage;
   const titleEl = document.getElementById('fq-title'); if(titleEl) titleEl.textContent = D.title;
@@ -19,220 +21,106 @@
   const footEl = document.getElementById('fq-footer');
   if(footEl) footEl.innerHTML = '<a href="' + escA(D.footerBack.href) + '">' + esc(D.footerBack.text) + '</a>';
 
-  const Y = D.yearAhead, P = D.planner, PH = D.placeholders;
+  const Y = D.yearAhead, RG = D.registration, LV = D.levels, RQ = D.requirements, P = D.planner, C = D.checklist, K = D.links;
+  const cite = page => page ? '<p class="fq-hint fq3-cite">' + esc(fmt(D.guideSource, {page: num(page)})) + '</p>' : '';
+  const joinAnd = list => { list = (list || []).map(String); return list.length < 2 ? list.join('') : list.slice(0, -1).join(', ') + RQ.listAnd + list[list.length - 1]; };
 
-  /* ---------- course list (parsed strictly; bad lines are skipped) ---------- */
-  const CATALOG = [], BYNAME = Object.create(null), DEPTS = [];
-  try{
-    String(typeof MOELLER_COURSES === 'string' ? MOELLER_COURSES : '').split('\n').forEach(line => {
-      const p = line.split('|');
-      if(p.length !== 4) return;
-      const dept = p[0].trim(), name = p[1].trim();
-      const levels = p[2].split(',').map(s => s.trim()).filter(Boolean);
-      const cents = Math.round(parseFloat(p[3]) * 100);
-      if(!dept || !name || !levels.length || !(cents > 0) || BYNAME[name]) return;
-      const c = {dept: dept, name: name, levels: levels, cents: cents};
-      CATALOG.push(c); BYNAME[name] = c;
-      if(DEPTS.indexOf(dept) < 0) DEPTS.push(dept);
-    });
-  }catch(e){}
-
-  /* credits are held in hundredths so 0.25 and 0.5 add up with no float artifacts */
-  const credText = cents => { const v = cents / 100; return String(Math.round(v * 100) / 100); };
-  const credLabel = cents => credText(cents) + ' ' + (cents === 100 ? P.creditWord : P.creditsWord);
-  const levelTitle = l => Object.prototype.hasOwnProperty.call(P.levels, l) ? P.levels[l] : l;
-  const levelOpt = l => Object.prototype.hasOwnProperty.call(P.levels, l) ? l + ' (' + P.levels[l] + ')' : l;
-  const gradeOf = id => P.grades.filter(g => g.id === id)[0];
-
-  /* ---------- state: {grade id: [{name, level}]} ---------- */
-  let plan = Object.create(null);
-  P.grades.forEach(g => { plan[g.id] = []; });
-  let storageOK = true;
-  const STORE_VERSION = 1;
-  function load(){
-    let raw = null;
-    try{
-      localStorage.setItem(P.key + '-probe', '1'); localStorage.removeItem(P.key + '-probe');
-      raw = localStorage.getItem(P.key);
-    }catch(e){ storageOK = false; return; }
-    let o = null;
-    try{ o = raw ? JSON.parse(raw) : null; }catch(e){ o = null; }
-    if(!o || o.v !== STORE_VERSION || !Array.isArray(o.courses)) return;
-    o.courses.forEach(e => {
-      try{
-        if(!e || typeof e.name !== 'string' || typeof e.level !== 'string' || typeof e.grade !== 'string') return;
-        const c = BYNAME[e.name];
-        const list = plan[e.grade];
-        if(!c || !Array.isArray(list) || c.levels.indexOf(e.level) < 0) return;
-        if(list.some(x => x.name === e.name)) return;
-        list.push({name: e.name, level: e.level});
-      }catch(err){}
-    });
-  }
-  function persist(){
-    const courses = [];
-    P.grades.forEach(g => plan[g.id].forEach(x => courses.push({grade: g.id, name: x.name, level: x.level})));
-    try{ localStorage.setItem(P.key, JSON.stringify({v: STORE_VERSION, courses: courses})); return true; }
-    catch(e){ storageOK = false; return false; }
-  }
-
-  /* ---------- markup ---------- */
+  /* ---------- year ahead ---------- */
   const yearHtml = '<section class="fq-sec" id="year"><h2>' + esc(Y.title) + '</h2><ol class="fq-quarters">' +
     Y.quarters.map((q, i) => '<li class="fq-q' + (i === Y.current ? ' is-now' : '') + '"' + (i === Y.current ? ' aria-current="step"' : '') + '>' +
       (i === Y.current ? '<span class="fq-now">' + esc(Y.youAreHere) + '</span>' : '') +
       '<strong>' + esc(q.label) + '</strong><span>' + esc(q.text) + '</span></li>').join('') + '</ol></section>';
 
-  const noteHtml = '<div class="fq3-note" role="note"><strong>' + esc(D.planningOnlyLabel) + '</strong><p>' + esc(D.planningOnly) + '</p></div>' +
-    '<p class="fq3-privacy">' + esc(P.privacy) + '</p>' +
-    '<p class="fq-status is-warn fq3-warn" id="fq3-warn" role="status" aria-live="polite" hidden>' + esc(P.blocked) + '</p>';
+  /* ---------- 1. registration ---------- */
+  let regHtml = '<section class="fq-sec" id="registration"><h2>' + esc(RG.title) + '</h2><p>' + esc(RG.lead) + '</p>';
+  if(R && R.registration && Array.isArray(R.registration.steps)){
+    regHtml += '<ol class="fq3-timeline" aria-label="' + escA(RG.timelineLabel) + '">' +
+      RG.timeline.map(t => '<li class="fq3-tl"><strong>' + esc(t.label) + '</strong><span>' + esc(t.text) + '</span></li>').join('') + '</ol>' +
+      '<h3>' + esc(RG.stepsTitle) + '</h3><ol class="fq3-steps">' +
+      R.registration.steps.map(s => '<li><span class="fq3-num" aria-hidden="true"></span><span>' + esc(String(s)) + '</span></li>').join('') + '</ol>' +
+      '<div class="fq-gold"><p>' + esc(RG.tip) + '</p></div>' + cite(R.registration.page);
+  }else regHtml += '<p class="fq3-missing" role="status">' + esc(D.rulesMissing) + '</p>';
+  regHtml += '</section>';
 
-  const panelHtml = g =>
-    '<section class="fq3-panel" aria-labelledby="fq3-h-' + escA(g.id) + '" data-grade="' + escA(g.id) + '">' +
-    '<h3 id="fq3-h-' + escA(g.id) + '">' + esc(g.label) + '</h3>' +
-    '<div class="fq3-add">' +
-      '<div class="fq-field"><label class="tool-label" for="fq3-d-' + escA(g.id) + '">' + esc(P.deptLabel) + '</label>' +
-        '<select class="tool-select fq3-sel" id="fq3-d-' + escA(g.id) + '" data-role="dept"><option value="">' + esc(P.deptPlaceholder) + '</option>' +
-        DEPTS.map(d => '<option value="' + escA(d) + '">' + esc(d) + '</option>').join('') + '</select></div>' +
-      '<div class="fq-field"><label class="tool-label" for="fq3-c-' + escA(g.id) + '">' + esc(P.courseLabel) + '</label>' +
-        '<select class="tool-select fq3-sel" id="fq3-c-' + escA(g.id) + '" data-role="course" disabled><option value="">' + esc(P.coursePlaceholder) + '</option></select></div>' +
-      '<div class="fq-field" data-role="levelwrap" hidden><label class="tool-label" for="fq3-l-' + escA(g.id) + '">' + esc(P.levelLabel) + '</label>' +
-        '<select class="tool-select fq3-sel" id="fq3-l-' + escA(g.id) + '" data-role="level"></select></div>' +
-      '<button type="button" class="tool-btn" data-role="add">' + esc(P.add) + '</button>' +
-    '</div><p class="fq3-msg" data-role="msg" role="status" aria-live="polite"></p>' +
-    '<ul class="fq3-list" data-role="list"></ul>' +
-    '<p class="fq3-year" data-role="year"></p></section>';
+  /* ---------- 2. levels ---------- */
+  let lvHtml = '<section class="fq-sec" id="levels"><h2>' + esc(LV.title) + '</h2><p>' + esc(LV.lead) + '</p>';
+  if(R && Array.isArray(R.levels)){
+    lvHtml += '<div class="fq3-levels">' + R.levels.map(l => '<div class="fq3-level"><strong>' + esc(String(l.name || l.code || '')) + '</strong><span>' + esc(String(l.plain || '')) + '</span></div>').join('') + '</div>' +
+      '<p class="fq-hint fq3-cite">' + esc(LV.pageNote) + '</p>';
+  }else lvHtml += '<p class="fq3-missing" role="status">' + esc(D.rulesMissing) + '</p>';
+  lvHtml += '</section>';
 
-  const plannerHtml = '<section class="fq-sec" id="planner"><h2>' + esc(P.title) + '</h2>' + noteHtml +
-    '<p>' + esc(P.intro) + '</p>' +
-    (CATALOG.length ? '<div class="fq3-grid">' + P.grades.map(panelHtml).join('') + '</div>' +
-      '<p class="fq3-total" id="fq3-total"></p>' +
-      '<div class="fq-foot"><button type="button" class="tool-btn" id="fq3-print">' + esc(P.print) + '</button>' +
-      '<span id="fq3-clearwrap"><button type="button" class="tool-btn secondary" id="fq3-clear">' + esc(P.clear) + '</button></span>' +
-      '<span class="fq-status" id="fq3-status" role="status" aria-live="polite"></span></div>' +
-      '<div class="fq-sheet" id="fq-sheet"></div>'
-    : '<p class="fq-status is-warn">' + esc(P.unavailable) + '</p>') + '</section>';
+  /* ---------- 3. requirements ---------- */
+  let rqHtml = '<section class="fq-sec" id="requirements"><h2>' + esc(RQ.title) + '</h2>';
+  if(R && R.minimums && typeof R.minimums === 'object'){
+    const mins = R.minimums, moe = R.moeTerm || {}, rules = Array.isArray(R.rules) ? R.rules : [], py = R.perYearMin || {};
+    rqHtml += '<p>' + esc(fmt(RQ.lead, {total: num(R.totalCredits)})) + '</p>' +
+      '<div class="fq3-tablewrap"><table class="fq3-table"><caption>' + esc(RQ.tableCaption) + '</caption><thead><tr><th scope="col">' + esc(RQ.colSubject) + '</th><th scope="col">' + esc(RQ.colCredits) + '</th></tr></thead><tbody>' +
+      Object.keys(mins).map(k => '<tr><th scope="row">' + esc(k) + '</th><td>' + esc(num(mins[k])) + '</td></tr>').join('') +
+      '<tr class="fq3-total"><th scope="row">' + esc(RQ.totalRow) + '</th><td>' + esc(num(R.totalCredits)) + '</td></tr>' +
+      '<tr><th scope="row">' + esc(RQ.moeTermRow) + '</th><td>' + esc(RQ.moeTermShort) + '</td></tr></tbody></table></div>' +
+      (moe.note ? '<p class="fq-hint">' + esc(String(moe.note)) + '</p>' : '');
+    const ruleText = r => {
+      if(r.text) return esc(String(r.text));
+      let t = '';
+      if(Array.isArray(r.need) && r.need.length) t += fmt(RQ.ruleNeed, {list: joinAnd(r.need)});
+      if(Array.isArray(r.oneOf) && r.oneOf.length) t += ' ' + fmt(RQ.ruleOneOf, {list: joinAnd(r.oneOf)});
+      if(r.years) t += ' ' + fmt(RQ.ruleLang, {years: num(r.years), encouraged: num(r.encouraged)});
+      return esc(t.trim());
+    };
+    if(rules.length) rqHtml += '<h3>' + esc(RQ.rulesTitle) + '</h3><ul class="fq3-rules">' + rules.map(r => '<li>' + ruleText(r) + '</li>').join('') + '</ul>';
+    const grades = Object.keys(py);
+    if(grades.length) rqHtml += '<h3>' + esc(RQ.perYearTitle) + '</h3><p>' + esc(RQ.perYearLead) + '</p><ul class="fq3-years">' +
+      grades.map(g => '<li><strong>' + esc(fmt(RQ.perYearLabel, {grade: g})) + '</strong><span>' + esc(fmt(RQ.perYearValue, {n: num(py[g])})) + '</span></li>').join('') + '</ul>';
+    rqHtml += '<p class="fq-hint fq3-cite">' + esc(RQ.cite) + '</p>';
+  }else rqHtml += '<p class="fq3-missing" role="status">' + esc(D.rulesMissing) + '</p>';
+  rqHtml += '</section>';
 
-  const phHtml = PH.sections.map(s =>
-    '<section class="fq-sec fq3-ph" id="' + escA(s.id) + '" aria-labelledby="fq3-ph-' + escA(s.id) + '">' +
-    '<span class="fq3-badge">' + esc(PH.badge) + '</span><h2 id="fq3-ph-' + escA(s.id) + '">' + esc(s.title) + '</h2>' +
-    '<p>' + esc(PH.line) + '</p></section>').join('');
+  /* ---------- 4. planner ---------- */
+  const plHtml = '<section class="fq-sec" id="planner"><h2>' + esc(P.title) + '</h2><p>' + esc(P.lead) + '</p>' +
+    '<p class="fq3-cta"><a class="fq3-big" href="' + escA(P.href) + '">' + esc(P.button) + '</a></p>' +
+    '<h3>' + esc(P.howTitle) + '</h3><ol class="fq3-steps">' + P.steps.map(s => '<li><span class="fq3-num" aria-hidden="true"></span><span>' + esc(s) + '</span></li>').join('') + '</ol>' +
+    '<p class="fq-hint">' + esc(P.note) + '</p></section>';
 
-  root.innerHTML = yearHtml + plannerHtml + '<div class="fq3-phs">' + phHtml + '</div>';
-  if(!CATALOG.length) return;
+  /* ---------- 5. checklist ---------- */
+  const ckHtml = '<section class="fq-sec" id="checklist"><h2>' + esc(C.title) + '</h2><p>' + esc(C.lead) + '</p>' +
+    '<ul class="fq3-checks">' + C.items.map(it => '<li><label class="fq3-check"><input type="checkbox" id="fq3-c-' + escA(it.id) + '" data-c="' + escA(it.id) + '"><span class="fq3-box" aria-hidden="true"></span><span>' + esc(it.label) + '</span></label></li>').join('') + '</ul>' +
+    '<p class="fq3-progress" id="fq3-progress" role="status" aria-live="polite"></p>' +
+    '<div class="fq-foot"><button type="button" class="tool-btn" id="fq3-print">' + esc(C.print) + '</button>' +
+    '<button type="button" class="tool-btn secondary" id="fq3-clear">' + esc(C.clear) + '</button>' +
+    '<span class="fq-status" id="fq3-status" role="status" aria-live="polite"></span></div>' +
+    '<p class="fq-privacy">' + esc(C.privacy) + '</p><div class="fq-sheet" id="fq-sheet"></div></section>';
 
-  /* ---------- behavior ---------- */
-  const statusEl = document.getElementById('fq3-status');
-  let flash = '';
-  const warnEl = document.getElementById('fq3-warn');
-  const status = msg => {
-    warnEl.hidden = storageOK;
-    if(!storageOK){ statusEl.classList.add('is-warn'); statusEl.textContent = P.blocked; return; }
-    statusEl.classList.remove('is-warn'); statusEl.textContent = msg || '';
-  };
-  const sum = list => list.reduce((n, x) => n + BYNAME[x.name].cents, 0);
+  /* ---------- 6. links ---------- */
+  const lkHtml = '<section class="fq-sec" id="explore"><h2>' + esc(K.title) + '</h2><p>' + esc(K.intro) + '</p><div class="fq-links">' +
+    K.items.map(l => '<a class="fq-link" href="' + escA(l.href) + '"><strong>' + esc(l.text) + '</strong><span>' + esc(l.desc) + '</span></a>').join('') + '</div></section>';
 
-  function render(){
-    let total = 0;
-    P.grades.forEach(g => {
-      const panel = root.querySelector('.fq3-panel[data-grade="' + g.id + '"]');
-      const list = plan[g.id], yc = sum(list); total += yc;
-      const ul = panel.querySelector('[data-role="list"]');
-      ul.innerHTML = list.length ? list.map((x, i) => {
-        const c = BYNAME[x.name];
-        return '<li class="fq3-item"><span class="fq3-name">' + esc(x.name) + '</span>' +
-          '<span class="fq3-chip" title="' + escA(levelTitle(x.level)) + '">' + esc(x.level) + '</span>' +
-          '<span class="fq3-cr">' + esc(credLabel(c.cents)) + '</span>' +
-          '<button type="button" class="tool-btn secondary fq3-rm" data-i="' + i + '" aria-label="' + escA(fmt(P.removeLabel, {course: x.name, grade: g.label})) + '">' + esc(P.remove) + '</button></li>';
-      }).join('') : '<li class="fq3-empty">' + esc(P.empty) + '</li>';
-      panel.querySelector('[data-role="year"]').innerHTML = esc(P.yearTotal) + ': <strong>' + esc(credText(yc)) + '</strong>';
-    });
-    document.getElementById('fq3-total').innerHTML = esc(P.allTotal) + ': <strong>' + esc(credText(total)) + '</strong>';
-  }
-  function save(msg){ const ok = persist(); status(ok ? (msg || P.saved) : ''); }
+  root.innerHTML = yearHtml + regHtml + lvHtml + rqHtml + plHtml + ckHtml + lkHtml;
 
-  P.grades.forEach(g => {
-    const panel = root.querySelector('.fq3-panel[data-grade="' + g.id + '"]');
-    const dSel = panel.querySelector('[data-role="dept"]'), cSel = panel.querySelector('[data-role="course"]');
-    const msgEl = panel.querySelector('[data-role="msg"]');
-    const lSel = panel.querySelector('[data-role="level"]'), lWrap = panel.querySelector('[data-role="levelwrap"]');
-    dSel.addEventListener('change', () => {
-      const d = dSel.value;
-      cSel.innerHTML = '<option value="">' + esc(P.coursePlaceholder) + '</option>' +
-        CATALOG.filter(c => c.dept === d).map(c => '<option value="' + escA(c.name) + '">' + esc(c.name) + '</option>').join('');
-      cSel.disabled = !d; lWrap.hidden = true; lSel.innerHTML = '';
-    });
-    cSel.addEventListener('change', () => {
-      const c = Object.prototype.hasOwnProperty.call(BYNAME, cSel.value) ? BYNAME[cSel.value] : null;
-      if(c && c.levels.length > 1){
-        lSel.innerHTML = c.levels.map(l => '<option value="' + escA(l) + '">' + esc(levelOpt(l)) + '</option>').join('');
-        lWrap.hidden = false;
-      } else { lWrap.hidden = true; lSel.innerHTML = ''; }
-    });
-    panel.querySelector('[data-role="add"]').addEventListener('click', () => {
-      const c = Object.prototype.hasOwnProperty.call(BYNAME, cSel.value) ? BYNAME[cSel.value] : null;
-      if(!c){ msgEl.textContent = P.addNeedsCourse; return; }
-      if(plan[g.id].some(x => x.name === c.name)){ msgEl.textContent = fmt(P.duplicate, {course: c.name, grade: g.label}); return; }
-      const level = c.levels.length > 1 ? lSel.value : c.levels[0];
-      plan[g.id].push({name: c.name, level: c.levels.indexOf(level) < 0 ? c.levels[0] : level});
-      render(); msgEl.textContent = fmt(P.added, {course: c.name}); save(P.saved);
-      cSel.value = ''; lWrap.hidden = true; lSel.innerHTML = '';
-      cSel.focus();
-    });
-    panel.querySelector('[data-role="list"]').addEventListener('click', e => {
-      const b = e.target.closest('.fq3-rm'); if(!b) return;
-      const i = +b.dataset.i, x = plan[g.id][i]; if(!x) return;
-      plan[g.id].splice(i, 1); render(); msgEl.textContent = fmt(P.removed, {course: x.name}); save(P.saved);
-      const next = panel.querySelectorAll('.fq3-rm')[Math.min(i, plan[g.id].length - 1)];
-      (next || panel.querySelector('[data-role="dept"]')).focus();
-    });
+  /* ---------- checklist: save on this device, clear, print ---------- */
+  let store = {}, storageOK = true;
+  try{ const raw = localStorage.getItem(C.key); if(raw){ const o = JSON.parse(raw); if(o && typeof o === 'object') store = o; }
+       localStorage.setItem(C.key + '-probe', '1'); localStorage.removeItem(C.key + '-probe'); }catch(e){ storageOK = false; }
+  const statusEl = document.getElementById('fq3-status'), progEl = document.getElementById('fq3-progress');
+  const setStatus = k => { statusEl.classList.toggle('is-warn', k === 'blocked'); statusEl.textContent = k === 'blocked' ? C.blocked : (k === 'saved' ? C.saved : (k === 'cleared' ? C.cleared : '')); };
+  if(!storageOK) setStatus('blocked');
+  const boxes = Array.from(root.querySelectorAll('input[data-c]'));
+  const progress = () => { const n = boxes.filter(b => b.checked).length; progEl.textContent = n === boxes.length ? C.allDone : fmt(C.progress, {n: n, total: boxes.length}); };
+  const save = k => { try{ localStorage.setItem(C.key, JSON.stringify(store)); setStatus(k || 'saved'); }catch(e){ setStatus('blocked'); } };
+  boxes.forEach(b => {
+    b.checked = store[b.dataset.c] === true;
+    b.addEventListener('change', () => { store[b.dataset.c] = b.checked; progress(); save(); });
   });
-
-  /* clear planner: inline two-step confirm */
-  const clearWrap = document.getElementById('fq3-clearwrap');
-  function clearIdle(focus){
-    clearWrap.innerHTML = '<button type="button" class="tool-btn secondary" id="fq3-clear">' + esc(P.clear) + '</button>';
-    const b = document.getElementById('fq3-clear'); b.addEventListener('click', clearAsk); if(focus) b.focus();
-  }
-  function clearAsk(){
-    clearWrap.innerHTML = '<span class="fq3-confirm" role="group" aria-label="' + escA(P.clearAsk) + '"><span>' + esc(P.clearAsk) + '</span>' +
-      '<button type="button" class="tool-btn" id="fq3-yes">' + esc(P.clearYes) + '</button>' +
-      '<button type="button" class="tool-btn secondary" id="fq3-no">' + esc(P.clearNo) + '</button></span>';
-    document.getElementById('fq3-no').addEventListener('click', () => clearIdle(true));
-    document.getElementById('fq3-yes').addEventListener('click', () => {
-      P.grades.forEach(g => { plan[g.id] = []; });
-      root.querySelectorAll('[data-role="msg"]').forEach(m => { m.textContent = ''; });
-      render(); save(P.cleared); clearIdle(true);
-    });
-    document.getElementById('fq3-no').focus();
-  }
-  clearWrap.addEventListener('keydown', e => { if(e.key === 'Escape' && document.getElementById('fq3-yes')){ e.preventDefault(); clearIdle(true); } });
-  document.getElementById('fq3-clear').addEventListener('click', clearAsk);
-
-  /* print sheet: title, per-grade lists, totals, and the planning-only sentence */
+  progress();
+  document.getElementById('fq3-clear').addEventListener('click', () => { store = {}; boxes.forEach(b => { b.checked = false; }); progress(); save('cleared'); });
   document.getElementById('fq3-print').addEventListener('click', () => {
     const sheet = document.getElementById('fq-sheet');
-    let total = 0;
-    sheet.innerHTML = '<h2>' + esc(P.printTitle) + '</h2><p class="fq3-ps">' + esc(D.planningOnly) + '</p>' +
-      P.grades.map(g => {
-        const list = plan[g.id], yc = sum(list); total += yc;
-        return '<h3>' + esc(g.label) + '</h3>' + (list.length ? '<ul>' + list.map(x =>
-          '<li>' + esc(x.name) + ' (' + esc(x.level) + '), ' + esc(credLabel(BYNAME[x.name].cents)) + '</li>').join('') + '</ul>' : '<p>' + esc(P.printEmpty) + '</p>') +
-          '<p><strong>' + esc(P.yearTotal) + ': ' + esc(credText(yc)) + '</strong></p>';
-      }).join('') +
-      '<h3>' + esc(P.printTotal) + ': ' + esc(credText(total)) + '</h3>';
+    sheet.innerHTML = '<h2>' + esc(C.printTitle) + '</h2><ul class="fq3-psheet">' +
+      C.items.map(it => '<li><b>' + esc(store[it.id] === true ? C.printDone : C.printTodo) + '</b> ' + esc(it.label) + '</li>').join('') + '</ul>' +
+      '<h3>' + esc(C.printNotes) + '</h3><div class="fq3-plines" aria-hidden="true"><span></span><span></span><span></span><span></span></div>';
     document.body.classList.add('fq-printing'); root.classList.add('fq-print-target');
-    const done = () => {
-      document.body.classList.remove('fq-printing'); root.classList.remove('fq-print-target'); sheet.innerHTML = '';
-      window.removeEventListener('afterprint', done); window.removeEventListener('focus', done); document.removeEventListener('pointerdown', done); document.removeEventListener('keydown', done);
-    };
+    const done = () => { document.body.classList.remove('fq-printing'); root.classList.remove('fq-print-target'); sheet.innerHTML = ''; window.removeEventListener('afterprint', done); };
     window.addEventListener('afterprint', done);
-    window.addEventListener('focus', done);
-    document.addEventListener('pointerdown', done);
-    document.addEventListener('keydown', done);
-    try{ window.print(); }catch(e){ done(); }
+    window.print();
   });
-
-  load(); render();
-  warnEl.hidden = storageOK;
-  if(!storageOK) status('');
 })();
