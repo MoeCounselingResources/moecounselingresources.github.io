@@ -99,8 +99,8 @@
 
   /* ---------- checklist: save on this device, clear, print ---------- */
   let store = {}, storageOK = true;
-  try{ const raw = localStorage.getItem(C.key); if(raw){ const o = JSON.parse(raw); if(o && typeof o === 'object') store = o; }
-       localStorage.setItem(C.key + '-probe', '1'); localStorage.removeItem(C.key + '-probe'); }catch(e){ storageOK = false; }
+  try{ localStorage.setItem(C.key + '-probe', '1'); localStorage.removeItem(C.key + '-probe'); }catch(e){ storageOK = false; }
+  if(storageOK){ try{ const raw = localStorage.getItem(C.key); if(raw){ const o = JSON.parse(raw); if(o && typeof o === 'object' && !Array.isArray(o)) Object.keys(o).forEach(k => { if(o[k] === true) store[k] = true; }); } }catch(e){ /* unreadable saved data: start fresh, no warning */ } }
   const statusEl = document.getElementById('fq3-status'), progEl = document.getElementById('fq3-progress');
   const setStatus = k => { statusEl.classList.toggle('is-warn', k === 'blocked'); statusEl.textContent = k === 'blocked' ? C.blocked : (k === 'saved' ? C.saved : (k === 'cleared' ? C.cleared : '')); };
   if(!storageOK) setStatus('blocked');
@@ -112,7 +112,7 @@
     b.addEventListener('change', () => { store[b.dataset.c] = b.checked; progress(); save(); });
   });
   progress();
-  document.getElementById('fq3-clear').addEventListener('click', () => { store = {}; boxes.forEach(b => { b.checked = false; }); progress(); save('cleared'); });
+  document.getElementById('fq3-clear').addEventListener('click', () => { store = {}; boxes.forEach(b => { b.checked = false; }); progress(); try{ localStorage.removeItem(C.key); setStatus('cleared'); }catch(e){ setStatus('blocked'); } });
   document.getElementById('fq3-print').addEventListener('click', () => {
     const sheet = document.getElementById('fq-sheet');
     sheet.innerHTML = '<h2>' + esc(C.printTitle) + '</h2><ul class="fq3-psheet">' +

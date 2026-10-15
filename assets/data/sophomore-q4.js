@@ -48,6 +48,7 @@ const SOPHOMORE_Q4 = {
     rowLabel: "Activity {n}",
     addRow: "Add a row",
     removeRow: "Remove row {n}",
+    emptyRow: "empty row",
     removed: "Row removed.",
     added: "Row added.",
     maxRows: 30,

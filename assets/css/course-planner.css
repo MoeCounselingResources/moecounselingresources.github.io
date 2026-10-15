@@ -175,3 +175,7 @@ body.cp-modal-open{overflow:hidden;}
 }
 .cp-path-btns{display:flex; flex-wrap:wrap; gap:6px;}
 .cp-path-year em{font-style:normal; font-size:0.8rem; color:var(--slate);}
+
+.cp-programs a{display:inline-block; padding:12px 0;}
+.cp-check{display:flex; align-items:center; gap:10px; min-height:44px;}
+.cp-notes{margin:0 0 12px; padding-left:1.2em; font-size:0.95rem; color:var(--ink-soft);}

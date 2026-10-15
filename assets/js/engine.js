@@ -348,9 +348,10 @@ function renderSectionBody(s, year, key){
 /* A small support card under a checklist item (item.card). Counselor rows come from COUNSELORS (house roles). */
 function renderChecklistCard(card){
   const houses = (typeof COUNSELORS !== 'undefined' ? COUNSELORS : []).filter(c => /house/i.test(c.role));
-  const lines = (card.lines || []).map(l => `<li>${escapeHtml(l)}</li>`).join('');
+  // lines may be plain strings or {text, href}; a href makes the whole line a tap target (tel: / sms:)
+  const lines = (card.lines || []).map(l => (l && typeof l === 'object') ? `<li><a href="${escapeHtml(l.href).replace(/"/g, '&quot;')}">${escapeHtml(l.text)}</a></li>` : `<li>${escapeHtml(l)}</li>`).join('');
   const people = card.counselors ? `<ul class="check-card-people">${houses.map(c => `<li><strong>${escapeHtml(c.role)}</strong> ${escapeHtml(c.name)}${c.email ? ` · <a href="mailto:${escapeHtml(c.email)}">${escapeHtml(c.email)}</a>` : ''}</li>`).join('')}</ul>` : '';
-  const links = (card.links || []).map(l => `<a${linkAttrs(l.url)}>${escapeHtml(l.text)}</a>`).join('');
+  const links = (card.links || []).map(l => `<a href="${escapeHtml(l.url).replace(/"/g, '&quot;')}"${isExternal(l.url) ? ' target="_blank" rel="noopener noreferrer"' : ''}>${escapeHtml(l.text)}</a>`).join('');
   return `<div class="check-card" role="note">
     ${card.title ? `<h4>${escapeHtml(card.title)}</h4>` : ''}
     ${card.intro ? `<p>${escapeHtml(card.intro)}</p>` : ''}

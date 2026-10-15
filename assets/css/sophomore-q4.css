@@ -56,3 +56,9 @@
   .sq4-print-table th{background:#eee;}
   .sq4-print-note{font-size:10pt; color:#444; margin:0 0 10px;}
 }
+
+.fq-video{display:inline-block; padding:12px 0;}
+@media print{
+  header, footer, .hero, .tool-wrap > :not(#sq4-root){display:none !important;}
+  @page{margin:12mm;}
+}

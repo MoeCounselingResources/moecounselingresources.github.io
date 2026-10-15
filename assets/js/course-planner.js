@@ -110,7 +110,8 @@
     if(Array.isArray(o.courses)){
       o.courses.forEach(e => {
         try{
-          if(!isObj(e) || typeof e.id !== 'string' || typeof e.grade !== 'number' || !GRADES.includes(e.grade) || !byId[e.id] || e.id === '__proto__' || has(e.grade, e.id)) throw new Error('bad');
+          if(!isObj(e) || typeof e.id !== 'string' || typeof e.grade !== 'number' || !GRADES.includes(e.grade) || !byId[e.id] || e.id === '__proto__') throw new Error('bad');
+          if(has(e.grade, e.id)) return;   // a repeated entry is skipped quietly
           state.courses.push({grade:e.grade, id:e.id});
         }catch(err){ dropped++; }
       });
@@ -119,6 +120,7 @@
   }
   function save(){
     if(!storageOK){ setStatus(T.storage.blocked, true); return; }
+    if(!state.courses.length && !state.waiver){ try{ localStorage.removeItem(KEY); }catch(e){} return; }   // an empty plan leaves nothing behind
     try{
       localStorage.setItem(KEY, JSON.stringify({v:1, gradYear:state.gradYear, levels:{math:state.levels.math, science:state.levels.science}, waiver:state.waiver, courses:state.courses.map(c => ({grade:c.grade, id:c.id}))}));
     }catch(e){ storageOK = false; setStatus(T.storage.blocked, true); showBlocked(); }
@@ -237,7 +239,7 @@
   function programsHtml(){
     const progs = Array.isArray(R.programs) ? R.programs.filter(isObj) : [];
     return '<ul class="cp-programs">' + progs.map(p => '<li><strong>' + esc(p.title || '') + '</strong>' + (typeof p.page === 'number' ? ' <span class="cp-page">' + esc(fmt(T.programs.page, {n:p.page})) + '</span>' : '') +
-      '<span>' + esc(p.summary || '') + '</span>' + (typeof p.link === 'string' && /^https:\/\//.test(p.link) ? ' <a href="' + escA(p.link) + '" target="_blank" rel="noopener noreferrer">' + esc(T.programs.link) + '</a>' : '') + '</li>').join('') + '</ul>';
+      '<span>' + esc(p.summary || '') + '</span>' + (typeof p.link === 'string' && /^https:\/\//.test(p.link) ? ' <a href="' + escA(p.link) + '" target="_blank" rel="noopener noreferrer" aria-label="' + escA(T.programs.link + ': ' + (p.title || '')) + '">' + esc(T.programs.link) + '</a>' : '') + '</li>').join('') + '</ul>';
   }
   function levelsHtml(){
     const lv = Array.isArray(R.levels) ? R.levels.filter(isObj) : [];
@@ -279,7 +281,7 @@
 
   /* ---------- connections ---------- */
   function flags(){
-    const out = [], keys = {};
+    const out = [], keys = {}, notesOut = [];
     const C = T.connections;
     state.courses.forEach(e => {
       const c = byId[e.id]; if(!c) return;
@@ -300,9 +302,9 @@
         }
       });
       if(c.grades.length && !c.grades.includes(e.grade)) mark(fmt(C.gradeOff, {course:levelTitle(c), grade:g, grades:c.grades.map(gradeName).join(', ')}));
-      if(c.prereqNote) out.push(fmt(C.prereqNote, {course:levelTitle(c), note:c.prereqNote}));
+      if(c.prereqNote) notesOut.push(fmt(C.prereqNote, {course:levelTitle(c), note:c.prereqNote}));
     });
-    return {list:out, keys};
+    return {list:out, keys, notes:notesOut};
   }
   function suggestions(){
     const lines = [], seen = {};
@@ -325,7 +327,7 @@
 
   /* ---------- rendering the grid ---------- */
   function chipHtml(grade, c, flagged){
-    const label = fmt(T.grid.chipLabel, {course:levelTitle(c), level:c.level || '', credits:num(c.credits)});
+    const label = fmt(T.grid.chipLabel, {course:levelTitle(c), level:c.level || '', credits:num(c.credits) + (c.credits === 1 ? ' credit' : ' credits')});
     return '<span class="cp-chipwrap"><button type="button" class="cp-chip ' + lvClass(c.level) + '" data-act="details" data-grade="' + grade + '" data-id="' + escA(c.id) + '" aria-label="' + escA(label + (flagged ? '. ' + T.grid.flagMark : '')) + '">' +
       '<span class="cp-chip-t">' + esc(c.title) + '</span><span class="cp-chip-m">' + (c.level ? '<span class="cp-lvtag ' + lvClass(c.level) + '">' + esc(c.level) + '</span>' : '') + '<span>' + esc(num(c.credits)) + '</span>' + (flagged ? '<span class="cp-flag">' + esc(T.grid.flagMark) + '</span>' : '') + '</span></button>' +
       '<button type="button" class="cp-x" data-act="remove" data-grade="' + grade + '" data-id="' + escA(c.id) + '" aria-label="' + escA(fmt(T.grid.removeLabel, {course:levelTitle(c), grade:gradeName(grade)})) + '">×</button></span>';
@@ -364,7 +366,8 @@
     ROWS.forEach(r => {
       const row = calc.rows[r.key];
       if(r.key === 'Physical Education' && state.waiver){ h += line(K.rowWaiver, true); return; }
-      const done = row.have >= row.need && !(r.key === 'Science' && calc.sciMissing.length) && !(r.key === 'Social Studies' && calc.ssMissing.length);
+      const wlRule = ruleById('worldLangSame'), wlNeed = wlRule && typeof wlRule.years === 'number' ? wlRule.years : 2;
+      const done = row.have >= row.need && !(r.key === 'Science' && calc.sciMissing.length) && !(r.key === 'Social Studies' && calc.ssMissing.length) && !(r.key === 'World Language' && (calc.bestYears || 0) < wlNeed);
       let txt = fmt(done ? K.rowDone : K.row, {subject:r.label, have:num(row.have), need:num(row.need)});
       if(!done){
         const core = r.key === 'Science' ? calc.sciMissing : (r.key === 'Social Studies' ? calc.ssMissing : []);
@@ -401,7 +404,8 @@
 
   function renderConnections(fl){
     const C = T.connections;
-    document.getElementById('cp-conn').innerHTML = fl.list.length ? '<ul class="cp-flags">' + fl.list.map(m => '<li>' + esc(m) + '</li>').join('') + '</ul>' : '<p class="cp-ok">' + esc(C.none) + '</p>';
+    document.getElementById('cp-conn').innerHTML = (fl.list.length ? '<ul class="cp-flags">' + fl.list.map(m => '<li>' + esc(m) + '</li>').join('') + '</ul>' : '<p class="cp-ok">' + esc(C.none) + '</p>') +
+      (fl.notes && fl.notes.length ? '<h3>' + esc(C.notesTitle) + '</h3><ul class="cp-notes">' + fl.notes.map(m => '<li>' + esc(m) + '</li>').join('') + '</ul>' : '');
     const sug = suggestions();
     let h = sug.length ? '<ul class="cp-next">' + sug.map(s => '<li>' + esc(fmt(C.nextLine, {course:levelTitle(s.course), grade:gradeName(s.grade), next:s.next.map(levelTitle).join(' ' + T.tracker.or + ' '), nextGrade:gradeName(s.nextGrade)})) +
       ' ' + s.next.map(n => '<button type="button" class="tool-btn secondary small" data-act="addto" data-grade="' + s.nextGrade + '" data-id="' + escA(n.id) + '" id="cp-next-' + escA(n.id) + '-' + s.nextGrade + '">' + esc(fmt(C.nextAdd, {course:levelTitle(n), grade:gradeName(s.nextGrade)})) + '</button>').join(' ') + '</li>').join('') + '</ul>' : '<p class="cp-hint">' + esc(C.nextNone) + '</p>';
@@ -471,7 +475,8 @@
     out.push([R.disclaimer || '']);
     RULES.forEach(r => { if(typeof r.text === 'string' && r.text) out.push([r.text]); });
     if(typeof MOE.note === 'string' && MOE.note) out.push([MOE.note]);
-    out.push([fmt(SH.levels, {math:state.levels.math || SH.empty, science:state.levels.science || SH.empty})]);
+    const trackName = (k, key) => { const t = trackByName(k, key); return (t && (t.track || t.name)) || SH.empty; };
+    out.push([fmt(SH.levels, {math:trackName('math', state.levels.math), science:trackName('science', state.levels.science)})]);
     return out;
   }
   function renderSheet(calc){
@@ -618,7 +623,13 @@
       const entries = Array.isArray(TP[g]) ? TP[g] : [];
       entries.forEach(e => {
         if(typeof e === 'string'){ const c = byId[e]; if(!c) return; if(c.counts === 'Mathematics' || c.counts === 'Science') return; if(addCourse(g, e, true)) n++; }
-        else if(isObj(e) && Array.isArray(e.choose)) addPending(g, typeof e.label === 'string' ? e.label : '', strList(e.choose));
+        else if(isObj(e) && Array.isArray(e.choose)){
+          const ids = strList(e.choose).filter(id => byId[id]);
+          const subj = ids.length && ids.every(id => byId[id].counts === 'Mathematics') ? 'math' : (ids.length && ids.every(id => byId[id].counts === 'Science') ? 'science' : '');
+          const t = subj ? trackByName(subj, state.levels[subj]) : null;
+          if(t && isObj(t.years) && Array.isArray(t.years[g]) && t.years[g].length) return;   // the track already covers this subject and year
+          addPending(g, typeof e.label === 'string' ? e.label : '', ids);
+        }
       });
       [['math', state.levels.math, 'Mathematics'], ['science', state.levels.science, 'Science']].forEach(([kind, name, rowKey]) => {
         const t = trackByName(kind, name);
@@ -655,7 +666,8 @@
     return new Promise((res, rej) => {
       const s = document.createElement('script');
       s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
-      s.onload = () => res(window.XLSX); s.onerror = rej;
+      s.crossOrigin = 'anonymous'; s.referrerPolicy = 'no-referrer';
+      s.onload = () => res(window.XLSX); s.onerror = () => { s.remove(); rej(new Error('load')); };
       document.head.appendChild(s);
     });
   }

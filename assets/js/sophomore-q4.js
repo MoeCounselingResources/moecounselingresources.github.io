@@ -124,7 +124,7 @@
     const n = i + 1;
     return '<div class="sq4-row" role="group" aria-labelledby="sq4-rl-' + n + '" data-i="' + i + '">' +
       '<div class="sq4-row-head"><span class="sq4-row-num" id="sq4-rl-' + n + '">' + esc(fmt(B.rowLabel, {n: n})) + '</span>' +
-      '<button type="button" class="tool-btn secondary sq4-remove" data-i="' + i + '" aria-label="' + escA(fmt(B.removeRow, {n: n})) + '">' + esc(B.removeRow.replace(/\s*\{n\}\s*/, '')) + '</button></div>' +
+      '<button type="button" class="tool-btn secondary sq4-remove" data-i="' + i + '" aria-label="' + escA(fmt(B.removeRow, {n: n}) + ': ' + (r.activity && r.activity.trim() ? r.activity.trim().slice(0, 40) : B.emptyRow)) + '">' + esc(B.removeRow.replace(/\s*\{n\}\s*/, '')) + '</button></div>' +
       '<div class="sq4-grid">' + FIELDS.map(f => {
         const id = 'sq4-r' + n + '-' + f.id;
         const ctl = f.wide
@@ -163,7 +163,7 @@
   render();
 
   /* ---------- print ---------- */
-  printBtn.addEventListener('click', () => {
+  function buildSheet(){
     const sheet = document.getElementById('fq-sheet');
     const filled = rows.filter(r => FIELDS.some(f => r[f.id].trim()));
     sheet.innerHTML = '<h2>' + esc(B.printTitle) + '</h2><p class="sq4-print-note">' + esc(B.printNote) + '</p>' +
@@ -171,10 +171,12 @@
       (filled.length ? filled : [blankRow()]).map(r => '<tr>' + FIELDS.map(f => '<td class="fq-pre">' + esc(r[f.id].trim() || B.nothing) + '</td>').join('') + '</tr>').join('') +
       '</tbody></table>';
     document.body.classList.add('fq-printing'); root.classList.add('fq-print-target');
-    const done = () => { document.body.classList.remove('fq-printing'); root.classList.remove('fq-print-target'); sheet.innerHTML = ''; window.removeEventListener('afterprint', done); };
-    window.addEventListener('afterprint', done);
-    window.print();
-  });
+  }
+  function endPrint(){ document.body.classList.remove('fq-printing'); root.classList.remove('fq-print-target'); const sheet = document.getElementById('fq-sheet'); if(sheet) sheet.innerHTML = ''; }
+  // Both the Print button and a plain Ctrl+P / browser Print menu print only the brag sheet.
+  window.addEventListener('beforeprint', buildSheet);
+  window.addEventListener('afterprint', endPrint);
+  printBtn.addEventListener('click', () => { try{ window.print(); }catch(e){ endPrint(); } });
 
   /* ---------- clear: two-step confirm ---------- */
   function hideConfirm(){ confirmEl.hidden = true; clearBtn.setAttribute('aria-expanded', 'false'); }
