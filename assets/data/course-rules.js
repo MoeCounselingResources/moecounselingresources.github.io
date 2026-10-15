@@ -27,7 +27,7 @@ const COURSE_RULES = {
   moeTerm: {
     perYear: 0.25,
     byGradYear: { 2027: 0.5, 2028: 0.75, default: 1 },
-    note: "MoeTerm is a pass/fail graduation requirement on top of the 25 credits: 0.25 credit for each academic year at Moeller. The Class of 2027 needs 0.5, the Class of 2028 needs 0.75, and the Class of 2029 and later need 1 credit. Transfer students do not make up missed MoeTerm credits.",
+    note: "MoeTerm is a pass/fail graduation requirement. It is not counted in your 25 credits and does not affect your GPA. You earn 0.25 MoeTerm credit for each academic year at Moeller. The Class of 2027 needs 0.5, the Class of 2028 needs 0.75, and the Class of 2029 and later need 1. Transfer students do not make up missed MoeTerm credits.",
     page: 6
   },
 
@@ -49,9 +49,9 @@ const COURSE_RULES = {
   ],
 
   peWaiver: {
-    text: "Students need 0.5 credit of Physical Education. Instead of the classes, a student can earn a PE waiver by completing two full seasons of a Moeller sport, or two school years of Marching Band. The two seasons can be two different sports in the same school year (for example football and baseball). A sport cannot be mixed with Marching Band or with a PE class to make the waiver, and only one waiver can be earned. Once the seasons are done, the waiver request goes to the school counseling office.",
+    text: "Students need 0.5 credit of Physical Education. Instead of the classes, a student can earn a PE waiver with two full seasons of a Moeller sport (they can be two different sports in one year, for example football and baseball), or with marching band for two school years. Marching band cannot be combined with a sport or a PE class, and only one waiver can be earned. Once the seasons are done, the waiver request goes to the school counseling office.",
     sports: ["Baseball", "Basketball", "Bowling", "Cross Country", "eSports", "Football", "Golf", "Hockey", "Lacrosse", "Tennis", "Track and Field", "Rugby", "Rugby 7s", "Soccer", "Swim/Dive", "Ultimate Frisbee", "Volleyball", "Wrestling"],
-    bandRule: "Two school years of Marching Band also earn the waiver. Band can't be mixed with a sport or a PE class.",
+    bandRule: "Marching band for two school years also earns the waiver. It can't be combined with a sport or a PE class.",
     noMixing: "Students cannot satisfy the PE graduation requirement by earning a high school credit for one PE class combined with one sport/activity.",
     onlyOne: "Only one PE Waiver can be earned.",
     page: 64,
@@ -336,7 +336,7 @@ const COURSE_RULES = {
       "In January, attend the course registration presentation for your class to learn the graduation requirements, how scheduling works, and next year's course offerings.",
       "Teachers recommend a level for each of your courses before your registration meeting. They may suggest moving up or down a level based on how you are doing now.",
       "Meet one-on-one with your school counselor to enter course requests in MoeCampus. Requests are based on graduation requirements, your ability, and your college and career interests.",
-      "In March, families review the final course requests. There is a deadline, usually late March, to ask for changes. After it, change requests are denied.",
+      "In March, families review the final course requests. There is a deadline in March to ask for changes, and after it change requests are denied. More details on the exact deadline will be announced each year.",
       "The master schedule is built from these requests, so changes after it is made are limited. Schedule changes are not made because of dissatisfaction with a course or teacher, academic difficulty (except in limited cases), or a change of mind.",
       "After the second full week of the school year (or of the semester for a semester course), no schedule change can be made without approval from parents, teachers, and the Provost."
     ],
@@ -348,7 +348,7 @@ const COURSE_RULES = {
       { when: "January 29 to February 9", what: "Class of 2028 registration meetings with counselors" },
       { when: "February 10 to 19", what: "Class of 2029 registration meetings with counselors" },
       { when: "By March 10", what: "Counselors review and finalize course requests" },
-      { when: "March 23", what: "Deadline to change course requests" }
+      { when: "In March", what: "Deadline to change course requests. More details on the exact deadline will be announced each year." }
     ],
     page: 11,
     timelinePage: 12

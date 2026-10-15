@@ -263,7 +263,7 @@
     const years = {}; GRADES.forEach(g => { years[g] = 0; });
     let total = 0;
     P.forEach(({grade, c}) => {
-      const k = rowOf(c); rows[k].have += c.credits;
+      const k = rowOf(c); if(c.counts !== 'MoeTerm') rows[k].have += c.credits;   // MoeTerm is pass/fail and not part of any credit total
       if(c.counts !== 'None' && c.counts !== 'MoeTerm'){ total += c.credits; years[grade] += c.credits; }
     });
     const sciTags = P.map(x => x.c.sciTag).filter(Boolean), ssTags = P.map(x => x.c.ssTag).filter(Boolean);

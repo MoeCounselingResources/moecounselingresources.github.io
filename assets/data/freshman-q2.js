@@ -37,7 +37,7 @@ const FRESHMAN_Q2 = {
     title: "How do you like to learn?",
     key: "moeller-ex-learning",
     paras: [
-      "Do some topics come more easily to you than others? Part of it is the topic, and part of it is how you take it in. Some people like to learn by doing, some like seeing it (videos, diagrams), and some like hearing it (podcasts, audiobooks, talking it through).",
+      "Do some topics come more easily to you than others? Part of it is the topic, and part of it may be how you like to take things in. Lots of people notice preferences: some like learning by doing, some like seeing it (videos, diagrams), and some like hearing it (podcasts, audiobooks, talking it through). It's fun to be curious about yours. A preference is just something you notice, not a rule about how you have to learn.",
       "Your personality plays a part too. Some people focus better in a group, and others focus better on their own. Some work best with clear goals, and others work best when they really care about the outcome."
     ],
     styles: [
@@ -45,8 +45,8 @@ const FRESHMAN_Q2 = {
       { label: "Seeing", text: "Videos, diagrams, color-coded notes" },
       { label: "Hearing", text: "Podcasts, audiobooks, talking it through" }
     ],
-    gold: { title: "Here's the catch", text: "The strongest learners don't stick to one style. Mixing methods, like drawing a diagram, explaining it out loud, and quizzing yourself, works better than any single one. Notice what you like, then try something new." },
-    quiz: { text: "Curious about your preferences? Try a learning style quiz for fun", note: "(opens in a new tab)", label: "Try a learning style quiz for fun (opens in a new tab)", href: "https://www.learningstylequiz.com/" },
+    gold: { title: "Here's the thing", text: "Studies haven't found that studying in the way you prefer helps you learn more. What does help is mixing methods, like drawing a diagram, explaining it out loud, and quizzing yourself. Notice what you enjoy, then try something new." },
+    quiz: { text: "Curious about your preferences? Try this learning preferences quiz just for fun", note: "(opens in a new tab; it's for fun, not a test or a rule for how you must study)", label: "Try this learning preferences quiz just for fun (opens in a new tab)", href: "https://www.learningstylequiz.com/" },
     reflectTitle: "Your reflection",
     fields: [
       { id: "easiest", label: "Which subjects come easiest to you right now?" },

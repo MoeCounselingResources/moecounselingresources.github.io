@@ -61,13 +61,13 @@ const FRESHMAN_Q3 = {
   // ---------- 3. Your requirements at a glance ----------
   requirements: {
     title: "Your requirements at a glance",
-    lead: "You need {total} credits to graduate, plus MoeTerm. Most year-long classes are worth 1 credit and semester classes are worth half a credit.",
+    lead: "You need {total} credits to graduate. MoeTerm is also required, but it is pass/fail and is not counted in the {total} credits. Most year-long classes are worth 1 credit and semester classes are worth half a credit.",
     tableCaption: "Minimum credits for a diploma",
     colSubject: "Subject",
     colCredits: "Credits",
     totalRow: "Total credits",
     moeTermRow: "MoeTerm",
-    moeTermShort: "Counted separately",
+    moeTermShort: "Pass/fail, not counted in your 25 credits",
     rulesTitle: "Rules to remember",
     perYearTitle: "Credits each year",
     perYearLead: "Plan at least this many credits each year. Everyone takes seven classes each semester.",
