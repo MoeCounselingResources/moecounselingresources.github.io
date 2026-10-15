@@ -50,7 +50,7 @@ const HOW_TO_LEARN = {
   ],
 
   sourcesLink: "Sources and how we checked",
-  sourcesBlurb: "Every source, what kind of study it is, how strong the evidence is, and when we last reviewed it.",
+  sourcesBlurb: "Every source, what kind of study it is, how strong the evidence is, and the date the sources were checked.",
 
   // shared module-page wording
   m: {
@@ -64,7 +64,7 @@ const HOW_TO_LEARN = {
     research: "What the research says",
     reflection: "Reflect",
     sources: "Sources",
-    reviewed: "Last reviewed",
+    reviewed: "Sources checked on",
     prev: "Previous module",
     next: "Next module",
     soon: "(coming soon)",
@@ -76,7 +76,7 @@ const HOW_TO_LEARN = {
   src: {
     title: "Sources and how we checked",
     intro: "These are the only sources behind the research claims on these pages. Each claim is tied to an evidence label, and the label is explained below. Links open in a new tab.",
-    how: "How we checked: every research claim comes from the sources listed here. Sources are from peer-reviewed research and linked directly. We state limits when the research has them, and we never say something works when the research says it does not.",
+    how: "How we checked: every research claim comes from the sources listed here. Sources are research papers and expert guidance, linked directly. We state limits when the research has them, and we never say something works when the research says it does not.",
     legendTitle: "What the labels mean",
     legend: [
       { label: "Strong", text: "Many studies and reviews agree." },
@@ -85,6 +85,6 @@ const HOW_TO_LEARN = {
       { label: "Not supported", text: "It was tested and did not hold up." }
     ],
     typeLabel: "Type",
-    reviewed: "Last reviewed"
+    reviewed: "Sources checked on"
   }
 };

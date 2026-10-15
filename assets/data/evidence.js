@@ -11,7 +11,7 @@
 
    Each entry:  id, topic (short name), label, plain (one plain-language sentence, the "bottom line"),
    says (2–3 sentences for students: what is and isn't known), cautions (things we must NOT claim),
-   sources [{ title, type, url }], lastReviewed (YYYY-MM-DD).
+   sources [{ title, type, url }], lastReviewed (YYYY-MM-DD, shown as "Sources checked on").
    ========================================================================= */
 
 const EVIDENCE_LABELS = ["Strong", "Moderate", "Mixed", "Not supported"];
