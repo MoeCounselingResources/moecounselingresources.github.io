@@ -11,6 +11,8 @@
   const esc = escapeHtml;
   const md = t => esc(t).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   const ul = items => '<ul>' + items.map(i => '<li>' + md(i) + '</li>').join('') + '</ul>';
+  const escA = t => esc(t).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  const KINDS = {core:1, add:1, range:1};
   const fmt = (t, o) => Object.keys(o).reduce((s, k) => s.split('{' + k + '}').join(o[k]), t);
   const shuffle = a => { a = a.slice(); for(let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
   const money = n => '$' + n.toLocaleString('en-US');
@@ -33,10 +35,10 @@
     L.paras.map(p => '<p>' + esc(p) + '</p>').join('') +
     '<ul class="fq2-styles">' + L.styles.map(s => '<li><b>' + esc(s.label) + '</b>' + esc(s.text) + '</li>').join('') + '</ul>' +
     '<div class="fq-gold"><strong>' + esc(L.gold.title) + '</strong><p>' + esc(L.gold.text) + '</p></div>' +
-    '<p><a class="fq-video" href="' + esc(L.quiz.href) + '" target="_blank" rel="noopener noreferrer">' + esc(L.quiz.text) + '</a> <span class="fq-hint">' + esc(L.quiz.note) + '</span></p>' +
+    '<p><a class="fq-video" href="' + escA(L.quiz.href) + '" target="_blank" rel="noopener noreferrer" aria-label="' + escA(L.quiz.label) + '">' + esc(L.quiz.text) + '</a> <span class="fq-hint">' + esc(L.quiz.note) + '</span></p>' +
     '<h3>' + esc(L.reflectTitle) + '</h3><div class="fq2-fields">' +
-    L.fields.map(f => '<div class="fq-field"><label class="tool-label" for="fq-' + f.id + '">' + esc(f.label) + '</label>' +
-      '<textarea class="tool-textarea" id="fq-' + f.id + '" rows="3" placeholder="' + esc(L.placeholder) + '" data-f="' + f.id + '"></textarea></div>').join('') +
+    L.fields.map(f => '<div class="fq-field"><label class="tool-label" for="fq-' + escA(f.id) + '">' + esc(f.label) + '</label>' +
+      '<textarea class="tool-textarea" id="fq-' + escA(f.id) + '" rows="3" placeholder="' + escA(L.placeholder) + '" data-f="' + escA(f.id) + '"></textarea></div>').join('') +
     '</div><div class="fq-foot"><button type="button" class="tool-btn" id="fq-print">' + esc(L.print) + '</button>' +
     '<span class="fq-status" id="fq-status" role="status" aria-live="polite"></span></div>' +
     '<p class="fq-privacy">' + esc(L.privacy) + '</p><div class="fq-sheet" id="fq-sheet"></div></section>';
@@ -54,21 +56,20 @@
     '</ul><figcaption>' + esc(W.caption) + '</figcaption></figure><p class="fq-close">' + md(W.money) + '</p></section>';
 
   const degCard = c => {
-    const maxYears = 10;
-    const bar = c.segs.length ? '<div class="fq2-tl" role="img" aria-label="' + esc(c.title + ': ' + c.summary) + '">' +
-      c.segs.map(s => '<span class="fq2-seg is-' + s.kind + '" style="flex:' + s.years + ' 1 0"><i>' + esc(s.label) + '</i></span>').join('') + '</div>' : '';
-    return '<div class="fq-card" id="card-' + c.id + '"><h3><button type="button" class="fq-card-btn" aria-expanded="false" aria-controls="fq-p-' + c.id + '"><span>' + esc(c.title) + ' <small>' + esc(c.summary) + '</small></span><span class="fq-chev" aria-hidden="true"></span></button></h3>' +
-      '<div class="fq-card-body" id="fq-p-' + c.id + '" hidden>' + ul(c.items) +
-      (c.links ? '<p class="fq2-cl">' + c.links.map(l => '<a class="fq-video" href="' + esc(l.href) + '">' + esc(l.text) + '</a>').join(' · ') + '</p>' : '') + '</div></div>';
+    return '<div class="fq-card" id="card-' + escA(c.id) + '"><h3><button type="button" class="fq-card-btn" aria-expanded="false" aria-controls="fq-p-' + escA(c.id) + '"><span>' + esc(c.title) + ' <small>' + esc(c.summary) + '</small></span><span class="fq-chev" aria-hidden="true"></span></button></h3>' +
+      '<div class="fq-card-body" id="fq-p-' + escA(c.id) + '" hidden>' + ul(c.items) +
+      (c.links ? '<p class="fq2-cl">' + c.links.map(l => '<a class="fq-video" href="' + escA(l.href) + '">' + esc(l.text) + '</a>').join(' · ') + '</p>' : '') + '</div></div>';
   };
   const tlRow = c => {
-    if(!c.segs.length) return '<li class="fq2-tr"><span class="fq2-tr-l">' + esc(c.title.split(':')[0]) + '</span><span class="fq2-tr-v fq-hint">' + esc(c.summary) + '</span></li>';
-    const total = c.segs.reduce((n, s) => n + (s.kind === 'range' ? 0 : s.years), 0) + c.segs.reduce((n, s) => n + (s.kind === 'range' ? s.years : 0), 0);
-    return '<li class="fq2-tr"><span class="fq2-tr-l">' + esc(c.title.replace(' degree', '')) + '</span><span class="fq2-tl" style="width:' + (total / 10 * 100) + '%">' +
-      c.segs.map(s => '<span class="fq2-seg is-' + s.kind + '" style="flex:' + s.years + ' 1 0" title="' + esc(s.label) + '"></span>').join('') + '</span><span class="fq2-tr-v">' + esc(c.summary) + '</span></li>';
+    const name = c.title.replace(' degree', '').split(':')[0];
+    if(!c.segs.length) return '<li class="fq2-tr"><span class="fq2-tr-l">' + esc(name) + '</span><span class="fq2-tr-v fq-hint">' + esc(c.summary) + '</span></li>';
+    const total = c.segs.reduce((n, s) => n + s.years, 0);
+    const desc = c.segs.map(s => s.label).join(' + ');
+    return '<li class="fq2-tr"><span class="fq2-tr-l">' + esc(name) + '</span><span class="fq2-tl" role="img" aria-label="' + escA(name + ': ' + desc) + '" style="width:' + (total / 10 * 100) + '%">' +
+      c.segs.map(s => '<span class="fq2-seg is-' + (KINDS[s.kind] ? s.kind : 'core') + '" style="flex:' + (+s.years || 1) + ' 1 0"></span>').join('') + '</span><span class="fq2-tr-v">' + esc(c.summary) + '</span></li>';
   };
   const degreesHtml = '<section class="fq-sec" id="degrees"><h2>' + esc(G.title) + '</h2><p>' + esc(G.lead) + '</p>' +
-    '<h3>' + esc(G.timelineTitle) + '</h3><ul class="fq2-timeline">' + G.cards.map(tlRow).join('') + '</ul>' +
+    '<h3>' + esc(G.timelineTitle) + '</h3><ul class="fq2-legend" aria-hidden="true">' + G.legend.map(l => '<li><i class="fq2-seg is-' + escA(l.kind) + '"></i>' + esc(l.text) + '</li>').join('') + '</ul><p class="fq-hint">' + esc(G.scale) + '</p><ul class="fq2-timeline">' + G.cards.map(tlRow).join('') + '</ul>' +
     '<div class="fq-tools"><span class="fq-hint">' + esc(G.hint) + '</span><button type="button" class="tool-btn secondary" id="fq-toggle-all">' + esc(G.openAll) + '</button></div>' +
     G.cards.map(degCard).join('') + '</section>';
 
@@ -76,16 +77,16 @@
 
   const bingoHtml = '<section class="fq-sec" id="bingo"><h2>' + esc(BG.title) + '</h2><p>' + esc(BG.intro) + '</p>' +
     '<div class="fq-foot"><button type="button" class="tool-btn" id="fq-make">' + esc(BG.make) + '</button><span class="fq-status" id="fq-bingo-msg" role="status" aria-live="polite"></span></div>' +
-    '<div id="fq-card" class="fq2-bingo" role="group" aria-label="' + esc(BG.cardLabel) + '" hidden></div>' +
+    '<div id="fq-card" class="fq2-bingo" role="group" aria-label="' + escA(BG.cardLabel) + '" hidden></div>' +
     '<h3>' + esc(BG.glossaryTitle) + '</h3><div class="fq-field"><label class="tool-label" for="fq-search">' + esc(BG.searchLabel) + '</label>' +
-    '<input class="tool-input" type="search" id="fq-search" autocomplete="off" placeholder="' + esc(BG.searchPlaceholder) + '"></div>' +
+    '<input class="tool-input" type="search" id="fq-search" autocomplete="off" placeholder="' + escA(BG.searchPlaceholder) + '"></div>' +
     '<p class="fq-hint" id="fq-gcount" role="status" aria-live="polite"></p><dl class="fq2-gloss" id="fq-gloss"></dl></section>';
 
   const tipsHtml = '<section class="fq-sec" id="tips"><h2>' + esc(T.title) + '</h2><p>' + esc(T.lead) + '</p><div class="fq2-tiles">' +
     T.cards.map((c, i) => '<div class="fq2-tile"><span class="fq2-num" aria-hidden="true">' + (i + 1) + '</span><strong>' + esc(c.title) + '</strong><span>' + esc(c.text) + '</span></div>').join('') + '</div></section>';
 
   const nextHtml = '<section class="fq-sec" id="explore"><h2>' + esc(N.title) + '</h2><p>' + esc(N.intro) + '</p><div class="fq-links">' +
-    N.links.map(l => '<a class="fq-link" href="' + esc(l.href) + '"><strong>' + esc(l.text) + '</strong><span>' + esc(l.desc) + '</span></a>').join('') + '</div></section>';
+    N.links.map(l => '<a class="fq-link" href="' + escA(l.href) + '"><strong>' + esc(l.text) + '</strong><span>' + esc(l.desc) + '</span></a>').join('') + '</div></section>';
 
   root.innerHTML = yearHtml + learnHtml + basicsHtml + whyHtml + degreesHtml + matchHtml + bingoHtml + tipsHtml + nextHtml;
 
@@ -164,8 +165,8 @@
   function drawCard(terms){
     cardEl.hidden = false;
     cardEl.innerHTML = terms.map((t, i) => i === 12
-      ? '<button type="button" class="fq2-cell is-free is-on" aria-pressed="true" disabled>' + esc(BG.free) + '</button>'
-      : '<button type="button" class="fq2-cell" data-i="' + i + '" aria-pressed="false">' + esc(t) + '</button>').join('');
+      ? '<div class="fq2-cell is-free is-on" role="img" aria-label="' + escA(BG.freeLabel) + '">' + esc(BG.free) + '</div>'
+      : '<button type="button" class="fq2-cell" data-i="' + i + '" aria-pressed="false">' + esc(BG.breaks[t] || t) + '</button>').join('');
     cardEl.querySelectorAll('.fq2-cell[data-i]').forEach(b => b.addEventListener('click', () => {
       const i = +b.dataset.i, on = !marked.has(i);
       if(on) marked.add(i); else marked.delete(i);

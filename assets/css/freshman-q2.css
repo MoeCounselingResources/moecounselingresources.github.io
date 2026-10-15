@@ -40,16 +40,21 @@
 .fq2-seg{display:block; border-radius:4px; background:var(--cloud);}
 .fq2-seg.is-core{background:var(--navy);}
 .fq2-seg.is-add{background:var(--sky);}
-.fq2-seg.is-range{background:repeating-linear-gradient(45deg, var(--gold), var(--gold) 6px, #fff1a8 6px, #fff1a8 12px);}
+.fq2-seg{outline:1px solid var(--navy); outline-offset:-1px;}
+.fq2-seg.is-range{background:repeating-linear-gradient(45deg, var(--gold), var(--gold) 5px, var(--navy) 5px, var(--navy) 8px);}
+.fq2-legend{list-style:none; padding:0 !important; margin:0 0 4px; display:flex; flex-wrap:wrap; gap:6px 16px; font-size:0.84rem;}
+.fq2-legend li{display:flex; align-items:center; gap:6px; margin:0;}
+.fq2-legend .fq2-seg{display:inline-block; width:22px; height:14px;}
 .fq2-tr > .fq2-tr-v:nth-child(2){grid-column:2 / 4;}
 
 /* bingo */
 .fq2-bingo{display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:6px; margin:14px 0 22px;}
-.fq2-cell{display:flex; align-items:center; justify-content:center; text-align:center; min-height:84px; padding:6px; border:1px solid var(--cloud); border-radius:10px; background:var(--paper); font:inherit; font-size:0.85rem; font-weight:700; line-height:1.2; color:var(--navy); cursor:pointer; overflow-wrap:anywhere; hyphens:auto;}
+.fq2-cell{display:flex; align-items:center; justify-content:center; text-align:center; min-height:84px; padding:6px; border:1px solid var(--cloud); border-radius:10px; background:var(--paper); font:inherit; font-size:0.85rem; font-weight:700; line-height:1.2; color:var(--navy); cursor:pointer; overflow-wrap:anywhere; hyphens:manual; overflow-wrap:normal; word-break:normal;}
 .fq2-cell:hover:not(:disabled){border-color:var(--navy);}
 .fq2-cell.is-on{background:var(--navy); border-color:var(--navy); color:var(--gold);}
 .fq2-cell.is-free{background:var(--gold); border-color:var(--gold); color:var(--navy); cursor:default; opacity:1;}
-.fq2-cell:focus-visible{outline:3px solid var(--sky); outline-offset:2px;}
+.fq2-cell:focus-visible{outline:3px solid var(--navy); outline-offset:2px; box-shadow:0 0 0 2px #fff;}
+.fq2-cell.is-on:not(.is-free)::after{content:"\2713"; margin-left:4px;}
 .fq2-bingo[hidden]{display:none;}
 
 /* glossary */
@@ -64,5 +69,5 @@
   .fq2-tr{grid-template-columns:1fr; gap:4px;}
   .fq2-tr .fq2-tl, .fq2-tr > .fq2-tr-v:nth-child(2){grid-column:1;}
   .fq2-bingo{gap:4px;}
-  .fq2-cell{min-height:64px; font-size:0.7rem; padding:3px;}
+  .fq2-cell{min-height:64px; font-size:0.7rem; padding:2px;}
 }

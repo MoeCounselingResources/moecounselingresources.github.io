@@ -46,7 +46,7 @@ const FRESHMAN_Q2 = {
       { label: "Hearing", text: "Podcasts, audiobooks, talking it through" }
     ],
     gold: { title: "Here's the catch", text: "The strongest learners don't stick to one style. Mixing methods, like drawing a diagram, explaining it out loud, and quizzing yourself, works better than any single one. Notice what you like, then try something new." },
-    quiz: { text: "Curious about your preferences? Try a learning style quiz for fun", note: "(opens in a new tab)", href: "https://www.learningstylequiz.com/" },
+    quiz: { text: "Curious about your preferences? Try a learning style quiz for fun", note: "(opens in a new tab)", label: "Try a learning style quiz for fun (opens in a new tab)", href: "https://www.learningstylequiz.com/" },
     reflectTitle: "Your reflection",
     fields: [
       { id: "easiest", label: "Which subjects come easiest to you right now?" },
@@ -103,6 +103,8 @@ const FRESHMAN_Q2 = {
     lead: "The more you learn, the more you can earn. What level of education do you want to reach? It may depend on the job you want.",
     hint: "Tap a card to open it.",
     timelineTitle: "Years of school after high school",
+    legend: [{ kind: "core", text: "Bachelor's years" }, { kind: "add", text: "Added years" }, { kind: "range", text: "Varies" }],
+    scale: "Each bar is out of 10 years.",
     yearsLabel: "years",
     openAll: "Open all",
     closeAll: "Close all",
@@ -155,7 +157,7 @@ const FRESHMAN_Q2 = {
           "Different from academic degrees, which focus more on research and theory",
           "Often includes hands-on training and applying knowledge to real situations"
         ],
-        segs: [{ years: 4, kind: "core", label: "Bachelor's" }, { years: 4, kind: "add", label: "Professional school" }, { years: 1, kind: "range", label: "8+" }]
+        segs: [{ years: 4, kind: "core", label: "Bachelor's" }, { years: 4, kind: "add", label: "Professional school (4+ years)" }]
       },
       {
         id: "other", title: "Other options: Military and trade school", summary: "Length varies",
@@ -212,6 +214,15 @@ const FRESHMAN_Q2 = {
     make: "Make my card",
     remake: "Make a new card",
     free: "FREE",
+    freeLabel: "Free space, already marked",
+    // Display-only soft line breaks so long terms wrap at syllables on phones (\u00AD = soft hyphen).
+    breaks: {
+      "Commencement": "Com\u00ADmence\u00ADment", "Application": "Appli\u00ADcation", "Community College": "Commu\u00ADnity College",
+      "Prerequisite": "Pre\u00ADrequisite", "Scholarship": "Scholar\u00ADship", "Sophomore": "Sopho\u00ADmore", "Semesters": "Semes\u00ADters",
+      "Certificate": "Certi\u00ADficate", "Associate's": "Associ\u00ADate's", "Resident Advisor/Assistant": "Resident Advisor/\u200BAssistant",
+      "Financial Aid": "Finan\u00ADcial Aid", "Residence Halls": "Resi\u00ADdence Halls", "Professor": "Pro\u00ADfessor", "Transcript": "Trans\u00ADcript",
+      "Adjunct Professor": "Ad\u00ADjunct Pro\u00ADfessor", "Board of Trustees": "Board of Trust\u00ADees", "Student Union": "Student Un\u00ADion"
+    },
     win: "Bingo! You completed a row, a column, or a diagonal.",
     cardLabel: "College term bingo card",
     marked: "marked",
