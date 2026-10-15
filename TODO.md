@@ -10,3 +10,12 @@
   - NAMI link https://www.nami.org
   - "You can always walk into the counseling office." (confirm hours/location wording)
   - House counselor names and emails come from COUNSELORS in assets/js/shared-content.js; confirm they are current.
+- Course Planner / Curriculum Guide items to confirm (found in review):
+  - The registration timeline on guide p.12 prints "March 23, 2026" for the change-request deadline, probably a typo for 2027. The planner shows "March 23" without a year; confirm the date each year.
+  - PE waiver: guide p.6 and p.36 say "two seasons of marching band" but p.64 says "two school years". The planner follows p.64. Confirm which is right. (p.6 also points to p.63 for the sports list; the list is on p.64.)
+  - Confirm whether the class of 2029+ total is 25 or 26 credits with MoeTerm. The planner uses 25 (one config value, `totalCredits` in assets/data/course-rules.js) and tracks MoeTerm separately.
+  - Semester CCP courses are listed at 1 credit (from the worksheet; the guide gives no credit). Confirm.
+  - Worksheet-only courses (not in the 2026-27 guide) are in the catalog with source "worksheet": ASL I/II, Fine Arts Survey, Men's Chorus I-III, Men's Vocal Ensemble, Health (summer), Business Management and Operations, Intro to AI CCP, Summer Pre-Calc. Confirm they should be offered.
+  - The Social Sciences pathway (guide p.61) lists "Catholic Teaching in a Contemporary World"; the guide has no such course, so the planner shows the title only.
+  - Course Planner Excel download: add an integrity (SRI) hash for the SheetJS script in assets/js/course-planner.js and assets/js/app-tracker.js. It could not be computed offline: run `curl -s https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js | openssl dgst -sha512 -binary | openssl base64 -A` and set `s.integrity = 'sha512-<hash>'`.
+  - assets/data/courses.js (GPA Calculator list) differs from the new catalog: it has courses not in the guide (Catholic Teaching in the Contemporary World, English IV Contemporary Poetry / Cultural Criticism / Offbeat American Lit, Humanities, Philosophy and Literature, AP Art History, Spanish II CP2), lists semester CCP courses at 0.5 credit and PE I/II at 0.5 (the catalog has 1 and 0.25), and lists Studio Art II as H/CP1 and Marianist Community Development I as PF. Decide whether to merge the lists.

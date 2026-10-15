@@ -51,7 +51,7 @@ const COURSE_RULES = {
   peWaiver: {
     text: "Students need 0.5 credit of Physical Education. Instead of the classes, a student can earn a PE waiver by completing two full seasons of a Moeller sport, or two school years of Marching Band. The two seasons can be two different sports in the same school year (for example football and baseball). A sport cannot be mixed with Marching Band or with a PE class to make the waiver, and only one waiver can be earned. Once the seasons are done, the waiver request goes to the school counseling office.",
     sports: ["Baseball", "Basketball", "Bowling", "Cross Country", "eSports", "Football", "Golf", "Hockey", "Lacrosse", "Tennis", "Track and Field", "Rugby", "Rugby 7s", "Soccer", "Swim/Dive", "Ultimate Frisbee", "Volleyball", "Wrestling"],
-    bandRule: "Students in Marching Band can satisfy the PE waiver requirements by participating in Marching Band for at least two school years. Marching Band cannot be combined with a sport or class to satisfy the PE waiver requirement.",
+    bandRule: "Two school years of Marching Band also earn the waiver. Band can't be mixed with a sport or a PE class.",
     noMixing: "Students cannot satisfy the PE graduation requirement by earning a high school credit for one PE class combined with one sport/activity.",
     onlyOne: "Only one PE Waiver can be earned.",
     page: 64,
@@ -194,6 +194,7 @@ const COURSE_RULES = {
         ["design-thinking-cp1", "entrepreneurship-cp1", "dashed"],
         ["design-thinking-cp1", "student-run-business-cp1", "dashed"],
         ["art-pop-culture-cp1", "student-run-business-cp1", "dashed"],
+        ["art-pop-culture-cp1", "entrepreneurship-cp1", "dashed"],
         ["entrepreneurship-cp1", "student-run-business-cp1", "dashed"],
         ["entrepreneurship-cp1", "realab-business-cp1", "dashed"],
         ["student-run-business-cp1", "business-leadership-h", "solid"]
@@ -224,6 +225,7 @@ const COURSE_RULES = {
         ["hci-cp1", "game-design-ccp", "dashed"],
         ["hci-cp1", "computer-programming-1-ccp", "dashed"],
         ["hci-cp1", "robotics-cp1", "dashed"],
+        ["fundamentals-web-dev-ccp", "robotics-cp1", "dashed"],
         ["ai-uses-cp1", "robotics-cp1", "dashed"]
       ],
       notes: ["The dashed line between Design Thinking and Fundamentals of IT has no arrowhead on the chart."],
@@ -251,7 +253,7 @@ const COURSE_RULES = {
         ["art-pop-culture-cp1", "moeller-media-production-cp1", "dashed"],
         ["music-tech-cp1", "moeller-media-production-cp1", "dashed"],
         ["moeller-media-production-cp1", "advanced-media-production-cp1", "dashed"],
-        ["advanced-media-production-cp1", "sportscasting-cp1", "solid"],
+        ["advanced-media-production-cp1", "sportscasting-cp1", "dashed"],
         ["moeller-media-production-cp1", "geopolitical-negotiations-h", "dashed"],
         ["geopolitical-negotiations-h", "moeller-media-production-cp1", "dashed"],
         ["moeller-media-production-cp1", "podcasting-cp1", "dashed"],
@@ -346,7 +348,7 @@ const COURSE_RULES = {
       { when: "January 29 to February 9", what: "Class of 2028 registration meetings with counselors" },
       { when: "February 10 to 19", what: "Class of 2029 registration meetings with counselors" },
       { when: "By March 10", what: "Counselors review and finalize course requests" },
-      { when: "March 23, 2026", what: "Deadline to change course requests" }
+      { when: "March 23", what: "Deadline to change course requests" }
     ],
     page: 11,
     timelinePage: 12
