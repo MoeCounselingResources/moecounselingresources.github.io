@@ -16,7 +16,8 @@ index.html                  Moeller Counseling (main page)
 │   ├── self-discovery.html     Self-Discovery (private, self-paced exercises; saves on the student's device)
 │   ├── freshman-foundations-q1.html  Freshman Foundations, Quarter 1 (study skills, 720 Days reflection, quiz)
 │   ├── freshman-foundations-q2.html  Freshman Foundations, Quarter 2 (learning, degrees, career game, bingo, glossary)
-│   └── freshman-foundations-q3.html  Freshman Foundations, Quarter 3 (course registration and planning)
+│   ├── freshman-foundations-q3.html  Freshman Foundations, Quarter 3 (course registration and planning)
+│   ├── how-to-learn.html       How to Learn hub (modules, "which sentence sounds like you?"); one page per module, plus how-to-learn-sources.html
 ├── college-counseling.html College Counseling hub
 │   ├── seniors.html  ← "Application Resources" box opens this
 │   ├── popular-colleges.html   Moeller Popular Colleges (test ranges, deadlines)
@@ -55,6 +56,7 @@ Links from the School Counseling hub open a class page in its School view
 | Which exercises are on the Know Yourself page | `assets/data/know-yourself.js` |
 | The AI page (do's and don'ts, rules, every copyable prompt) | `assets/data/ai.js` (instructions at the top; logic `assets/js/ai.js`, look `assets/css/ai.css`) |
 | Self-Discovery page (every exercise, prompt, and word) | `assets/data/self-discovery.js` (instructions at the top; the logic is `assets/js/self-discovery.js`, the look is `assets/css/self-discovery.css`) |
+| How to Learn hub and module wording | `assets/data/how-to-learn.js` (hub) and `assets/data/htl-<module>.js` (one per module); research claims, evidence labels and source links live ONLY in `assets/data/evidence.js`; logic is `assets/js/how-to-learn.js` (+ `assets/js/htl-<module>.js` for a module's tools); look is `assets/css/how-to-learn.css` |
 | Freshmen Quarter 3 page (every word) | `assets/data/freshman-q3.js` (the logic is `assets/js/freshman-q3.js`; requirements and levels are read from `assets/data/course-rules.js`) |
 | Freshmen Quarter 2 page (every word, glossary, career game) | `assets/data/freshman-q2.js` (the logic is `assets/js/freshman-q2.js`; the look is `assets/css/freshman-q1.css` plus `freshman-q2.css`) |
 | Freshmen Quarter 1 page (every word) | `assets/data/freshman-q1.js` (the logic is `assets/js/freshman-q1.js`, the look is `assets/css/freshman-q1.css`) |
