@@ -25,7 +25,7 @@ const EVIDENCE = {
     label: "Strong",
     labelNote: "Strong for the basic idea that the brain keeps changing with experience. Be careful with popular explanations of how.",
     plain: "The brain keeps changing with experience, but many popular stories about exactly how are simplified.",
-    says: "Researchers agree that the brain changes with experience and practice, and that this goes on through the teen years and beyond. Many popular explanations of how it works are simplified, so treat catchy brain facts with some caution.",
+    says: "Research supports the idea that the brain keeps changing with experience and practice. Many popular explanations of how it works are simplified, so treat catchy brain facts with some caution.",
     cautions: ["Do not state specific brain-science claims (such as myelin or synapse details) unless they are clearly called simplified.", "Do not say that effort 'creates new brain cells' as a rule."],
     sources: [
       { title: "Howard-Jones 2014, Nature Reviews Neuroscience", type: "review", url: "https://pubmed.ncbi.nlm.nih.gov/25315391/" },
@@ -52,7 +52,7 @@ const EVIDENCE = {
     label: "Strong",
     labelNote: "Strong: feeling fluent is not the same as knowing, and testing yourself is the best check.",
     plain: "Feeling like you know something is not the same as knowing it, and testing yourself is the best way to find out.",
-    says: "When material feels easy to read, it is tempting to think you have learned it. Studies show these feelings are often wrong, and that trying to recall the material is a much better check on what you really know.",
+    says: "When material feels easy to read, it is tempting to think you have learned it. Studies show these feelings are often wrong, and that trying to recall the material is a better check on what you really know.",
     cautions: ["Do not say that how confident you feel tells you how well you know something."],
     sources: [
       { title: "Bjork, Dunlosky & Kornell 2013", type: "review", url: "https://bjorklab.psych.ucla.edu/wp-content/uploads/sites/13/2016/07/RBjork_Dunlosky_Kornell_2013.pdf" },
@@ -65,8 +65,8 @@ const EVIDENCE = {
     topic: "Retrieval practice",
     label: "Strong",
     labelNote: "Strong: many studies, in classrooms and labs, find that recalling information helps you remember it later.",
-    plain: "Trying to recall information from memory helps you remember it later better than rereading does.",
-    says: "Many studies, some in real classrooms, find that quizzing yourself helps you remember more than rereading does. Most of these studies measure memory for facts, so less is known about how much it helps deep understanding. Checking your answers after you try to recall works best.",
+    plain: "Trying to recall information from memory helps you remember it later.",
+    says: "Many studies, some in real classrooms, find that quizzing yourself helps you remember more later. Most of these studies measure memory for facts, so less is known about how much it helps deep understanding. Checking your answers afterward is a sensible step.",
     cautions: ["Most studies measure factual recall; say so. Less is known for deep understanding.", "Do not promise a grade increase."],
     sources: [
       { title: "Agarwal et al. 2021", type: "review", url: "https://pdf.poojaagarwal.com/Agarwal_etal_2021_EDPR.pdf" },
@@ -150,7 +150,7 @@ const EVIDENCE = {
     label: "Strong",
     labelNote: "Strong for health. For grades, sleep is related to school performance in a modest but reliable way.",
     plain: "Teens need about 8 to 10 hours of sleep, and sleep is modestly but reliably related to school performance.",
-    says: "Teens aged 13 to 18 need about 8 to 10 hours of sleep. Studies find that more and better sleep goes with somewhat better school performance. The link is modest, and it does not mean sleep alone fixes grades.",
+    says: "Teens aged 13 to 18 need about 8 to 10 hours of sleep. Studies find that sleep is related to school performance in a modest but reliable way. The link is modest, and it does not mean sleep alone fixes grades.",
     cautions: ["Strong for health; modest for grades.", "Do not give medical advice."],
     sources: [
       { title: "Dewald et al. 2010", type: "meta-analysis", url: "https://pubmed.ncbi.nlm.nih.gov/20093054/" },
@@ -165,7 +165,7 @@ const EVIDENCE = {
     label: "Moderate",
     labelNote: "Moderate: practicing specific skills in context helps. Generic brain-training games do not transfer.",
     plain: "Organization and planning skills improve by practicing them for real, not by playing brain-training games.",
-    says: "You get better at planning by practicing it for real, like using a planner, breaking big jobs into steps, and keeping a homework routine. Brain-training games have not been shown to help with schoolwork. School programs that teach organization help many students with ADHD, though not all, and the effects show up more in parent reports than in teacher reports.",
+    says: "You get better at planning by practicing it for real. For example, you can use a planner, break big jobs into steps, and keep a homework routine. Brain-training games have not been shown to help with schoolwork. School programs that teach organization help many students with ADHD, though not all, and the effects show up more in parent reports than in teacher reports.",
     cautions: ["Never present this as medical advice.", "Brain-training games do not transfer."],
     sources: [
       { title: "Melby-Lervåg et al. 2016", type: "meta-analysis", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC4968033/" },

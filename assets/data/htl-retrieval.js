@@ -22,13 +22,13 @@ const HTL_MODULE = {
     options: [
       { text: "I reread my notes until they feel familiar.", fix: "This is the one to try. Feeling familiar and being able to remember are not the same thing. The activity below shows you the difference." },
       { text: "I know the answer when I see it, but I can't come up with it on my own.", fix: "That gap is exactly what retrieval practice trains. Start with the brain dump below." },
-      { text: "I wait until the last minute to study.", fix: "Spreading study out is the bigger fix, and that module is coming soon. For now, retrieval still helps, even in a short session." },
+      { text: "I wait until the last minute to study.", fix: "Spreading study over several days helps, and that module is coming soon. For now, a few minutes of self-quizzing is a good place to start." },
       { text: "My phone keeps distracting me.", fix: "The focus module is coming soon. For now, try one short round of the self-quiz below, five minutes with your phone out of reach." }
     ]
   },
 
   idea: {
-    text: "Retrieval practice means pulling an answer out of your memory instead of looking at it. When you reread, the page does the work. When you close the page and try to remember, your brain does the work, and that effort helps the memory last. Quizzing yourself also shows you what you really know, which rereading hides.",
+    text: "Retrieval practice means pulling an answer out of your memory instead of looking at it. When you reread, the page does the work. When you close the page and try to remember, your brain does the work, and that practice helps you remember it later. Quizzing yourself also shows you what you really know, which rereading hides.",
     exampleLabel: "Everyday example",
     example: "Before a vocabulary test, cover the definitions on your list and say each one out loud. Then check. The words you missed are the ones to practice next."
   },
@@ -113,7 +113,7 @@ const HTL_MODULE = {
 
   research: {
     intro: "Here is what the research says, and what it does not say.",
-    extra: "Because most studies measure memory for facts, we are not claiming this builds deep understanding by itself. A good plan uses both: recall the facts, then practice using them."
+    extra: "Because most studies measure memory for facts, we are not claiming this builds deep understanding by itself. So also practice using the ideas, not only recalling them."
   },
 
   reflection: [
