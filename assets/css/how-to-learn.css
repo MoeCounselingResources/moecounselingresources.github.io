@@ -110,3 +110,4 @@
   body.htl-printing > *:not(:has(.htl-sheet)){display:none !important;}
   html:has(body.htl-printing), body.htl-printing{height:auto !important; overflow:visible;}
 }
+.htl-confirm[hidden]{display:none;}

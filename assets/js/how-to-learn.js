@@ -15,7 +15,7 @@
   const fmt = (t, o) => Object.keys(o).reduce((s, k) => s.split('{' + k + '}').join(o[k]), t);
   const LABEL_CLASS = { 'Strong': 'strong', 'Moderate': 'moderate', 'Mixed': 'mixed', 'Not supported': 'notsupported' };
   const labelHtml = label => '<span class="htl-label htl-l-' + (LABEL_CLASS[label] || 'mixed') + '"><span class="htl-label-mark" aria-hidden="true"></span>' + esc(label) + '</span>';
-  const safeUrl = u => /^https:\/\//.test(u) ? u : '#';
+  const safeUrl = u => /^https?:\/\//.test(u) ? u : '#';   // ledger links are used exactly as approved (one is http only)
   const moduleById = id => D.modules.find(m => m.id === id) || null;
   window.HTL = { esc, escA, fmt };
 
