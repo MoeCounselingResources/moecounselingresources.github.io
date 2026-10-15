@@ -15,7 +15,9 @@ index.html                  Moeller Counseling (main page)
 │   ├── honor-roll.html         Honor Roll Calculator (quarterly, unweighted)
 │   ├── self-discovery.html     Self-Discovery (private, self-paced exercises; saves on the student's device)
 │   ├── freshman-foundations-q1.html  Freshman Foundations, Quarter 1 (study skills, 720 Days reflection, quiz)
-│   └── freshman-foundations-q2.html  Freshman Foundations, Quarter 2 (learning, degrees, career game, bingo, glossary)
+│   ├── freshman-foundations-q2.html  Freshman Foundations, Quarter 2 (learning, degrees, career game, bingo, glossary)
+│   ├── freshman-foundations-q3.html  Freshman Foundations, Quarter 3 SCAFFOLD (four-year course planner; not linked yet)
+│   └── freshman-foundations-q4.html  Freshman Foundations, Quarter 4 SCAFFOLD (mental health support; not linked yet)
 ├── college-counseling.html College Counseling hub
 │   ├── seniors.html  ← "Application Resources" box opens this
 │   ├── popular-colleges.html   Moeller Popular Colleges (test ranges, deadlines)
@@ -54,6 +56,8 @@ Links from the School Counseling hub open a class page in its School view
 | Which exercises are on the Know Yourself page | `assets/data/know-yourself.js` |
 | The AI page (do's and don'ts, rules, every copyable prompt) | `assets/data/ai.js` (instructions at the top; logic `assets/js/ai.js`, look `assets/css/ai.css`) |
 | Self-Discovery page (every exercise, prompt, and word) | `assets/data/self-discovery.js` (instructions at the top; the logic is `assets/js/self-discovery.js`, the look is `assets/css/self-discovery.css`) |
+| Freshmen Quarter 3 page (planner wording, placeholders) | `assets/data/freshman-q3.js` (the logic is `assets/js/freshman-q3.js`; the course list is `assets/data/courses.js`; the planner saves on the device as `moeller-ex-planner`) |
+| Freshmen Quarter 4 page (support numbers, placeholders) | `assets/data/freshman-q4.js` (the logic is `assets/js/freshman-q4.js`; this page saves nothing on the device on purpose) |
 | Freshmen Quarter 2 page (every word, glossary, career game) | `assets/data/freshman-q2.js` (the logic is `assets/js/freshman-q2.js`; the look is `assets/css/freshman-q1.css` plus `freshman-q2.css`) |
 | Freshmen Quarter 1 page (every word) | `assets/data/freshman-q1.js` (the logic is `assets/js/freshman-q1.js`, the look is `assets/css/freshman-q1.css`) |
 | Opportunities Board cards (college fairs, programs, career exploration, jobs) | `assets/data/opportunities.js` (instructions at the top of the file) |
