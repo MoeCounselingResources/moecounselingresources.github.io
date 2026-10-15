@@ -1,0 +1,14 @@
+/* How to Learn module: sleep. Scoped to .htl-sleep-* and body.htl-sleep-printing. */
+@media print{
+  body.htl-sleep-printing *{visibility:hidden;}
+  body.htl-sleep-printing .htl-sheet, body.htl-sleep-printing .htl-sheet *{visibility:visible;}
+  body.htl-sleep-printing .htl-sheet{display:block; position:absolute; left:0; top:0; width:100%;}
+  body.htl-sleep-printing > *:not(:has(.htl-sheet)){display:none !important;}
+  html:has(body.htl-sleep-printing), body.htl-sleep-printing{height:auto !important; overflow:visible;}
+  body.htl-sleep-printing .htl-sec:not(:has(.htl-sheet)), body.htl-sleep-printing .htl-tool > :not(.htl-sheet), body.htl-sleep-printing .htl-tool:not(:has(.htl-sheet)), body.htl-sleep-printing .hero, body.htl-sleep-printing .htl-nav{display:none !important;}
+  body.htl-sleep-printing .htl-sheet{position:static;}
+}
+.htl-sleep-time{max-width:100%; width:12rem;}
+.htl-sleep-result{margin:14px 0 18px; padding:12px 14px; border-left:4px solid var(--navy); background:var(--paper); min-height:3em;}
+.htl-sleep-big{font-size:1.2rem; font-weight:700; color:var(--navy); margin:4px 0;}
+.htl-sleep-wakeline{margin:0; font-size:0.9rem; color:var(--ink-soft);}

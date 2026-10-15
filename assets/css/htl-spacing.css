@@ -1,0 +1,22 @@
+/* Module 4 (spacing): review-calendar planner. Classes are scoped with .htl-sp-. */
+.htl-sp-fields{display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:12px; margin:0 0 10px;}
+.htl-sp-fields .htl-sp-wide{grid-column:1 / -1;}
+.htl-sp-list{list-style:none; margin:0 0 12px; padding:0; display:flex; flex-direction:column; gap:8px;}
+.htl-sp-list li{display:block;}
+.htl-sp-item{display:flex; align-items:center; gap:12px; min-height:44px; padding:8px 12px; background:var(--paper-soft); border-left:4px solid var(--sky); border-radius:0 8px 8px 0; cursor:pointer;}
+.htl-sp-item input{width:24px; height:24px; flex:0 0 auto;}
+.htl-sp-item input:focus-visible{outline:3px solid var(--navy); outline-offset:2px;}
+.htl-sp-item.is-done span{text-decoration:line-through; color:var(--slate);}
+.htl-sp-plan h4{margin:0 0 4px;}
+@media (max-width:640px){ .htl-sp-fields{grid-template-columns:1fr;} }
+@media print{
+  body.htl-sp-printing *{visibility:hidden;}
+  body.htl-sp-printing .htl-sheet, body.htl-sp-printing .htl-sheet *{visibility:visible;}
+  body.htl-sp-printing .htl-sheet{display:block; position:static; width:100%;}
+  body.htl-sp-printing > *:not(:has(.htl-sheet)){display:none !important;}
+  body.htl-sp-printing .htl-sec:not(:has(.htl-sheet)), body.htl-sp-printing .htl-tool > :not(.htl-sheet), body.htl-sp-printing .htl-tool:not(:has(.htl-sheet)), body.htl-sp-printing .hero, body.htl-sp-printing .htl-nav{display:none !important;}
+  html:has(body.htl-sp-printing), body.htl-sp-printing{height:auto !important; overflow:visible;}
+  .htl-sp-sheet-list{list-style:none; padding:0; margin:12px 0;}
+  .htl-sp-sheet-list li{padding:6px 0; font-size:14pt;}
+  .htl-sp-sheet-list li::before{content:"\2610  ";}
+}

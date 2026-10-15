@@ -1,0 +1,18 @@
+/* How to Learn, module 7 (habits): styles for the if-then plan builder. Loaded after how-to-learn.css. */
+@media print{
+  body.htl-habits-printing > *:not(:has(.htl-sheet)){display:none !important;}
+  body.htl-habits-printing .htl-sec:not(:has(.htl-sheet)), body.htl-habits-printing .htl-nav, body.htl-habits-printing .hero{display:none !important;}
+  body.htl-habits-printing .htl-tool{border:0; padding:0; margin:0;}
+  body.htl-habits-printing .htl-tool > :not(.htl-sheet){display:none !important;}
+  body.htl-habits-printing .htl-sheet{display:block; position:static; width:100%;}
+  body.htl-habits-printing .htl-sheet h2{margin-top:0;}
+  body.htl-habits-printing .htl-sec > h2{display:none;}
+  html:has(body.htl-habits-printing), body.htl-habits-printing{height:auto !important; overflow:visible;}
+}
+.htl-habits-hint{padding:8px 12px; background:var(--paper-soft); border-left:4px solid var(--gold);}
+.htl-habits-hint[hidden]{display:none;}
+.htl-habits-preview{min-height:1.4em; font-family:var(--serif); font-weight:700; color:var(--navy); overflow-wrap:anywhere;}
+.htl-habits-note{padding:8px 12px; background:var(--paper-soft); border-left:4px solid var(--gold);}
+.htl-habits-plans .htl-card strong{overflow-wrap:anywhere;}
+.htl-habits-plist{padding-left:1.4em; font-size:1.15rem;}
+.htl-habits-plist li{margin:0 0 10px;}

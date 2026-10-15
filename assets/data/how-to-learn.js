@@ -37,16 +37,16 @@ const HOW_TO_LEARN = {
   soonLabel: "Coming soon",
   evidenceLabel: "Evidence:",
   modules: [
-    { id: "brain", n: 1, title: "How your brain learns", blurb: "Your brain keeps changing with practice. What that does and does not mean.", evidence: ["brain"], file: "how-to-learn-brain.html", built: false },
+    { id: "brain", n: 1, title: "How your brain learns", blurb: "Your brain keeps changing with practice. What that does and does not mean.", evidence: ["brain"], file: "how-to-learn-brain.html", built: true },
     { id: "myths", n: 2, title: "Learning myths: styles and illusions of knowing", blurb: "Why \"I know it when I see it\" can fool you, and what to do about learning styles.", evidence: ["styles", "illusions"], file: "how-to-learn-myths.html", built: false },
     { id: "retrieval", n: 3, title: "Study like it counts: retrieval practice", blurb: "Close the page and try to remember. Why it works and a self-quiz tool.", evidence: ["retrieval"], file: "how-to-learn-retrieval.html", built: true },
-    { id: "spacing", n: 4, title: "Spread it out: spacing", blurb: "Spreading study over several days works better than cramming. Plan your reviews.", evidence: ["spacing"], file: "how-to-learn-spacing.html", built: false },
-    { id: "interleaving", n: 5, title: "Making it hard in the right way: interleaving and productive struggle", blurb: "When mixing it up helps, and when struggle is just struggle.", evidence: ["interleaving"], file: "how-to-learn-interleaving.html", built: false },
-    { id: "mindset", n: 6, title: "Can you improve? Mindset, honestly", blurb: "What the research says about mindset, and why strategies matter.", evidence: ["mindset"], file: "how-to-learn-mindset.html", built: false },
-    { id: "habits", n: 7, title: "Habits that stick: if-then plans", blurb: "Make starting easier with a plan for when and where.", evidence: ["habits"], file: "how-to-learn-habits.html", built: false },
-    { id: "focus", n: 8, title: "Focus and digital distraction", blurb: "Low-cost ways to protect your attention, and what is still unproven.", evidence: ["focus"], file: "how-to-learn-focus.html", built: false },
-    { id: "sleep", n: 9, title: "Sleep and learning", blurb: "How much sleep teens need and how it connects to school.", evidence: ["sleep"], file: "how-to-learn-sleep.html", built: false },
-    { id: "executive", n: 10, title: "Planning and organization (executive skills)", blurb: "Printable planners and a task-breakdown template.", evidence: ["executive"], file: "how-to-learn-executive.html", built: false }
+    { id: "spacing", n: 4, title: "Spread it out: spacing", blurb: "Spreading study over several days works better than cramming. Plan your reviews.", evidence: ["spacing"], file: "how-to-learn-spacing.html", built: true },
+    { id: "interleaving", n: 5, title: "Making it hard in the right way: interleaving and productive struggle", blurb: "When mixing it up helps, and when struggle is just struggle.", evidence: ["interleaving"], file: "how-to-learn-interleaving.html", built: true },
+    { id: "mindset", n: 6, title: "Can you improve? Mindset, honestly", blurb: "What the research says about mindset, and why strategies matter.", evidence: ["mindset"], file: "how-to-learn-mindset.html", built: true },
+    { id: "habits", n: 7, title: "Habits that stick: if-then plans", blurb: "Make starting easier with a plan for when and where.", evidence: ["habits"], file: "how-to-learn-habits.html", built: true },
+    { id: "focus", n: 8, title: "Focus and digital distraction", blurb: "Low-cost ways to protect your attention, and what is still unproven.", evidence: ["focus"], file: "how-to-learn-focus.html", built: true },
+    { id: "sleep", n: 9, title: "Sleep and learning", blurb: "How much sleep teens need and how it connects to school.", evidence: ["sleep"], file: "how-to-learn-sleep.html", built: true },
+    { id: "executive", n: 10, title: "Planning and organization (executive skills)", blurb: "Printable planners and a task-breakdown template.", evidence: ["executive"], file: "how-to-learn-executive.html", built: true }
   ],
 
   sourcesLink: "Sources and how we checked",

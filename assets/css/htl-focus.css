@@ -1,0 +1,23 @@
+/* How to Learn module: focus. Scoped to .htl-focus-* and body.htl-focus-printing. */
+@media print{
+  body.htl-focus-printing *{visibility:hidden;}
+  body.htl-focus-printing .htl-sheet, body.htl-focus-printing .htl-sheet *{visibility:visible;}
+  body.htl-focus-printing .htl-sheet{display:block; position:absolute; left:0; top:0; width:100%;}
+  body.htl-focus-printing > *:not(:has(.htl-sheet)){display:none !important;}
+  html:has(body.htl-focus-printing), body.htl-focus-printing{height:auto !important; overflow:visible;}
+  body.htl-focus-printing .htl-sec:not(:has(.htl-sheet)), body.htl-focus-printing .htl-tool > :not(.htl-sheet), body.htl-focus-printing .htl-tool:not(:has(.htl-sheet)), body.htl-focus-printing .hero, body.htl-focus-printing .htl-nav{display:none !important;}
+  body.htl-focus-printing .htl-sheet{position:static;}
+}
+.htl-focus-set{border:0; margin:0 0 12px; padding:0; min-width:0;}
+.htl-focus-list{list-style:none; margin:0; padding:0; display:grid; gap:8px;}
+.htl-focus-item{display:flex; gap:12px; align-items:flex-start; padding:10px 12px; border:1px solid var(--slate); border-radius:10px; background:var(--paper);}
+.htl-focus-item input{flex:0 0 auto; width:24px; height:24px; margin:10px 0 0; accent-color:var(--navy);}
+.htl-focus-item label{display:block; flex:1 1 auto; min-width:0; min-height:44px; padding:6px 0; cursor:pointer; overflow-wrap:anywhere;}
+.htl-focus-item input:focus-visible{outline:3px solid var(--navy); outline-offset:2px;}
+.htl-focus-why{display:block; font-size:0.9rem; color:var(--ink-soft); margin-top:2px;}
+.htl-focus-count{font-size:1.1rem; margin:12px 0 4px;}
+@media print{
+  .htl-focus-plist{list-style:none; padding:0; margin:0 0 12px;}
+  .htl-focus-plist li{display:flex; gap:12px; margin:0 0 10px; break-inside:avoid;}
+  .htl-focus-pbox{flex:0 0 22px; width:22px; height:22px; border:2px solid #000; text-align:center; line-height:18px;}
+}

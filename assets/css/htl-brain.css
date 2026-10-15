@@ -1,0 +1,22 @@
+/* How to Learn, Module 1: practice-step planner. Scoped with .htl-brain-. */
+.htl-brain-step{margin:0 0 14px;}
+.htl-brain-step .htl-small{margin:0 0 4px;}
+.htl-brain-plan{margin:14px 0 0; padding:14px 18px; background:var(--paper-soft); border-top:4px solid var(--gold); border-radius:10px;}
+.htl-brain-plan h4{margin-top:0;}
+.htl-brain-plan h4:focus{outline:none;}
+.htl-brain-plan dl{margin:0 0 10px;}
+.htl-brain-plan dt{font-weight:700; color:var(--navy); margin-top:8px;}
+.htl-brain-plan dd{margin:0;}
+.htl-brain-plan[hidden], .htl-brain-sheet{display:none;}
+.htl-brain-sheet dl{margin:0;}
+.htl-brain-sheet dt{font-weight:700; margin-top:18px;}
+.htl-brain-sheet dd{margin:6px 0 0; min-height:2.2em; border-bottom:1px solid #666; padding-bottom:4px;}
+@media print{
+  body.htl-brain-printing *{visibility:hidden;}
+  body.htl-brain-printing .htl-brain-sheet, body.htl-brain-printing .htl-brain-sheet *{visibility:visible;}
+  body.htl-brain-printing .htl-brain-sheet{display:block; position:static; width:100%;}
+  body.htl-brain-printing > *:not(:has(.htl-brain-sheet)){display:none !important;}
+  body.htl-brain-printing .hero, body.htl-brain-printing .htl-nav, body.htl-brain-printing .htl-sec:not(:has(.htl-brain-sheet)), body.htl-brain-printing .htl-sec > h2, body.htl-brain-printing .htl-tool > :not(.htl-brain-sheet){display:none !important;}
+  body.htl-brain-printing .htl-tool{border:0; padding:0; margin:0;}
+  html:has(body.htl-brain-printing), body.htl-brain-printing{height:auto !important; overflow:visible;}
+}

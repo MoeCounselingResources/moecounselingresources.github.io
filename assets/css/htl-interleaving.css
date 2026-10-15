@@ -1,0 +1,24 @@
+/* Module 5 (interleaving): practice mixer. Classes are scoped with .htl-il-. */
+.htl-il-rows{display:flex; flex-direction:column; gap:10px; margin:0 0 10px;}
+.htl-il-row{display:grid; grid-template-columns:minmax(0, 1fr) 120px auto; gap:10px; align-items:end;}
+.htl-il-cols{display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:16px; margin-top:8px;}
+.htl-il-col{padding:12px 14px; border:1px solid var(--cloud); border-radius:10px; background:var(--paper-soft);}
+.htl-il-col h4{margin:0 0 4px;}
+.htl-il-col ol{margin:8px 0 0; padding-left:1.6em;}
+.htl-il-col li{margin-bottom:4px; overflow-wrap:anywhere;}
+@media (max-width:640px){
+  .htl-il-row{grid-template-columns:minmax(0, 1fr) 100px;}
+  .htl-il-row .htl-il-rm{grid-column:1 / -1;}
+  .htl-il-cols{grid-template-columns:1fr;}
+}
+@media print{
+  body.htl-il-printing *{visibility:hidden;}
+  body.htl-il-printing .htl-sheet, body.htl-il-printing .htl-sheet *{visibility:visible;}
+  body.htl-il-printing .htl-sheet{display:block; position:static; width:100%;}
+  body.htl-il-printing > *:not(:has(.htl-sheet)){display:none !important;}
+  body.htl-il-printing .htl-sec:not(:has(.htl-sheet)), body.htl-il-printing .htl-tool > :not(.htl-sheet), body.htl-il-printing .htl-tool:not(:has(.htl-sheet)), body.htl-il-printing .hero, body.htl-il-printing .htl-nav{display:none !important;}
+  html:has(body.htl-il-printing), body.htl-il-printing{height:auto !important; overflow:visible;}
+  .htl-il-sheet-list{list-style:none; padding:0; margin:12px 0;}
+  .htl-il-sheet-list li{padding:4px 0; font-size:13pt; border-bottom:1px solid #bbb;}
+  .htl-il-sheet-list li::before{content:"\2610  ";}
+}

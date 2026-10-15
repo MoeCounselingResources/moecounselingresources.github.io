@@ -1,0 +1,19 @@
+/* How to Learn, module 6 (mindset): styles for the "not yet" card tool. Loaded after how-to-learn.css. */
+.htl-mindset-strats{border:0; margin:0 0 12px; padding:0; min-width:0;}
+.htl-mindset-opt{display:flex; align-items:center; gap:10px; min-height:44px; padding:6px 12px; margin:0 0 6px; border:1px solid var(--slate); border-radius:10px; background:var(--paper); cursor:pointer;}
+.htl-mindset-opt input{width:20px; height:20px; flex:0 0 auto; margin:0;}
+.htl-mindset-opt:focus-within{outline:2px solid var(--navy); outline-offset:2px;}
+.htl-mindset-card p{margin:0 0 8px; overflow-wrap:anywhere;}
+.htl-mindset-big{font-family:var(--serif); font-size:1.3rem; font-weight:700; color:var(--navy);}
+#htl-m-form[hidden]{display:none;}
+.htl-mindset-card h4:focus{outline:2px solid var(--navy); outline-offset:2px;}
+@media print{
+  body.htl-mindset-printing > *:not(:has(.htl-sheet)){display:none !important;}
+  body.htl-mindset-printing .htl-sec:not(:has(.htl-sheet)), body.htl-mindset-printing .htl-nav, body.htl-mindset-printing .hero{display:none !important;}
+  body.htl-mindset-printing .htl-tool{border:0; padding:0; margin:0;}
+  body.htl-mindset-printing .htl-tool > :not(.htl-sheet){display:none !important;}
+  body.htl-mindset-printing .htl-sheet{display:block; position:static; width:100%;}
+  body.htl-mindset-printing .htl-sheet h2{margin-top:0;}
+  body.htl-mindset-printing .htl-sec > h2{display:none;}
+  html:has(body.htl-mindset-printing), body.htl-mindset-printing{height:auto !important; overflow:visible;}
+}

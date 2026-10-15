@@ -1,0 +1,16 @@
+/* How to Learn, Module 2: predict-then-test tool. Scoped with .htl-myths-. */
+.htl-myths-view[hidden], .htl-myths-own[hidden]{display:none;}
+.htl-myths-fs{border:0; margin:0 0 16px; padding:0; min-width:0;}
+.htl-myths-fs legend{font-family:var(--serif); font-size:1rem; font-weight:700; color:var(--navy); padding:0; margin:0 0 6px;}
+.htl-myths-opts{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 10px;}
+.htl-myths-opt{display:inline-flex; align-items:center; gap:8px; min-height:44px; padding:8px 14px; border:1px solid var(--slate); border-radius:999px; background:var(--paper); cursor:pointer; font-size:0.95rem;}
+.htl-myths-opt input{width:20px; height:20px; margin:0; flex:none;}
+.htl-myths-opt:has(input:checked){background:var(--paper-soft); border-color:var(--navy); font-weight:700;}
+.htl-myths-opt:has(input:focus-visible){outline:3px solid var(--navy); outline-offset:2px;}
+.htl-myths-rate .htl-myths-opt{min-width:56px; justify-content:center;}
+.htl-myths-pair{margin:0 0 12px;}
+.htl-myths-res{list-style:none; margin:0 0 12px; padding:0; display:grid; gap:8px;}
+.htl-myths-res li{display:flex; flex-direction:column; gap:2px; padding:8px 12px; background:var(--paper); border:1px solid var(--cloud); border-radius:8px;}
+.htl-myths-res span{font-size:0.9rem; color:var(--ink-soft);}
+.htl-myths-res b{font-size:0.82rem; text-transform:uppercase; letter-spacing:0.03em; color:var(--navy);}
+.htl-myths-view h4:focus{outline:none;}
