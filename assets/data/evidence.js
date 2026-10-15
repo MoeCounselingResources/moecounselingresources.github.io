@@ -66,7 +66,7 @@ const EVIDENCE = {
     label: "Strong",
     labelNote: "Strong: many studies, in classrooms and labs, find that recalling information helps you remember it later.",
     plain: "Trying to recall information from memory helps you remember it later better than rereading does.",
-    says: "Many studies, including ones in real classrooms, find that practicing recall (quizzing yourself) helps people remember more later than rereading the same material. Most of these studies measure memory for facts, so less is known about how much it helps deep understanding. Recalling and then checking your answers works best.",
+    says: "Many studies, some in real classrooms, find that quizzing yourself helps you remember more than rereading does. Most of these studies measure memory for facts, so less is known about how much it helps deep understanding. Checking your answers after you try to recall works best.",
     cautions: ["Most studies measure factual recall; say so. Less is known for deep understanding.", "Do not promise a grade increase."],
     sources: [
       { title: "Agarwal et al. 2021", type: "review", url: "https://pdf.poojaagarwal.com/Agarwal_etal_2021_EDPR.pdf" },
@@ -95,7 +95,7 @@ const EVIDENCE = {
     label: "Moderate",
     labelNote: "Moderate: some difficulty helps when it is the right kind and comes with feedback or teaching. It helps more for some materials than others.",
     plain: "Mixing up problem types and struggling a little first can help, when you get feedback afterward.",
-    says: "Mixing different kinds of problems in one sitting helps more for some materials, like math and images, than for others, and it does not clearly help with reading texts. Trying a problem first and then being taught can help too, and this is best supported in high school STEM classes.",
+    says: "Mixing problem types helps more for some subjects, like math, than for others, and it doesn't clearly help with reading. Trying a problem first and then being taught can help too, and this is best supported in high school science, technology, engineering, and math classes.",
     cautions: ["Never say that struggle is always good.", "Interleaving is not clearly helpful for texts."],
     sources: [
       { title: "Brunmair & Richter 2019", type: "meta-analysis", url: "https://www.psychologie.uni-wuerzburg.de/fileadmin/06020400/2019/Brunmair_Richter_in_press__2019_META-ANALYSIS_OF_INTERLEAVED_LEARNING.pdf" },
@@ -109,7 +109,7 @@ const EVIDENCE = {
     label: "Mixed",
     labelNote: "Mixed: a short program modestly helped some students in supportive schools, and average effects across studies are small.",
     plain: "Believing you can improve may help a little in supportive settings, but it works best with real strategies.",
-    says: "One large study found that a short mindset program modestly raised grades for lower-achieving students in supportive schools. Across many studies, the average effect is small. Believing you can improve works best when it comes with concrete strategies.",
+    says: "One large study found that a short mindset program modestly raised grades for students who were struggling, in supportive schools. Across many studies, the average effect is small. Believing you can improve works best when it comes with concrete strategies.",
     cautions: ["Never promise that believing you can improve raises your grades.", "Pair the belief with specific study strategies."],
     sources: [
       { title: "Yeager et al. 2019, Nature", type: "RCT", url: "https://www.nature.com/articles/s41586-019-1466-y" },
@@ -121,7 +121,7 @@ const EVIDENCE = {
   habits: {
     topic: "Building habits",
     label: "Moderate",
-    labelNote: "Moderate: repeating a behavior in the same setting builds automaticity. How long it takes varies a lot. If-then plans help, with smaller effects than early claims.",
+    labelNote: "Moderate: doing something in the same place again and again makes it more automatic. How long that takes varies a lot. If-then plans help, with smaller effects than early claims.",
     plain: "Doing something in the same situation again and again makes it more automatic, and how long that takes varies a lot by person.",
     says: "Repeating a behavior in the same setting makes it more automatic over time. How long that takes varies a lot from person to person and from habit to habit. If-then plans can help, mostly when you already want to do the thing.",
     cautions: ["Do NOT say '21 days' or '66 days' as a rule.", "If-then plans have smaller effects than early claims, mainly when motivation is already there."],
@@ -136,7 +136,7 @@ const EVIDENCE = {
     label: "Mixed",
     labelNote: "Mixed: keeping your phone out of reach is a reasonable habit, but the claim that a phone nearby drains your brain did not replicate.",
     plain: "Putting your phone out of reach is a low-cost habit, but the evidence on phones and the brain is mixed.",
-    says: "Keeping your phone out of reach while you study is a reasonable, low-cost habit. Heavy media multitasking is linked with poorer performance in some areas, but the evidence is mixed and mostly correlational. A well-known claim that just having a phone nearby drains your brain did not hold up when other researchers tried to repeat it.",
+    says: "Keeping your phone out of reach while you study is a reasonable, low-cost habit. Switching between screens a lot goes with lower performance in some studies, but that doesn't prove one causes the other, and the evidence is mixed. A well-known claim that just having a phone nearby drains your brain did not hold up when other researchers tried to repeat it.",
     cautions: ["Do NOT claim that the mere presence of a phone drains your brain (it did not replicate).", "Evidence on media multitasking is mostly correlational."],
     sources: [
       { title: "Uncapher & Wagner 2018", type: "review", url: "https://pubmed.ncbi.nlm.nih.gov/30275312/" },
@@ -165,7 +165,7 @@ const EVIDENCE = {
     label: "Moderate",
     labelNote: "Moderate: practicing specific skills in context helps. Generic brain-training games do not transfer.",
     plain: "Organization and planning skills improve by practicing them for real, not by playing brain-training games.",
-    says: "Executive skills like planning and organizing improve when students practice specific skills in real situations, such as using a planner, breaking tasks into steps, and keeping a homework routine. Generic brain-training games have not been shown to transfer to schoolwork. School-based organization programs help many students with ADHD, though not all, and the effects show up more in parent reports than in teacher reports.",
+    says: "You get better at planning by practicing it for real, like using a planner, breaking big jobs into steps, and keeping a homework routine. Brain-training games have not been shown to help with schoolwork. School programs that teach organization help many students with ADHD, though not all, and the effects show up more in parent reports than in teacher reports.",
     cautions: ["Never present this as medical advice.", "Brain-training games do not transfer."],
     sources: [
       { title: "Melby-Lervåg et al. 2016", type: "meta-analysis", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC4968033/" },

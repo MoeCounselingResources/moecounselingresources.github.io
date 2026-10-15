@@ -24,7 +24,7 @@ const HOW_TO_LEARN = {
     { text: "Everything looked familiar, so I thought I knew it.", module: "myths" },
     { text: "I always start studying the night before.", module: "spacing" },
     { text: "I practice one kind of problem at a time, then forget how to tell them apart.", module: "interleaving" },
-    { text: "I'm just not a smart person, so why try?", module: "mindset" },
+    { text: "Sometimes I feel like I'm just not good at this, so why try?", module: "mindset" },
     { text: "I keep saying I'll start, and then I don't.", module: "habits" },
     { text: "My phone keeps pulling me away.", module: "focus" },
     { text: "I'm tired all the time, and my brain feels foggy.", module: "sleep" },
@@ -76,7 +76,7 @@ const HOW_TO_LEARN = {
   src: {
     title: "Sources and how we checked",
     intro: "These are the only sources behind the research claims on these pages. Each claim is tied to an evidence label, and the label is explained below. Links open in a new tab.",
-    how: "How we checked: every research statement is written from the sources listed here, kept in one file so a claim and its source cannot drift apart, and reviewed before it is published. We state limits when the research has them, and we never say something works when the research says it does not.",
+    how: "How we checked: every research claim comes from the sources listed here. Each claim and its source are kept together, and we review them before publishing. We state limits when the research has them, and we never say something works when the research says it does not.",
     legendTitle: "What the labels mean",
     legend: [
       { label: "Strong", text: "Many studies and reviews agree." },

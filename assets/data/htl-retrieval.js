@@ -49,6 +49,8 @@ const HTL_MODULE = {
       timerStop: "Stop timer",
       timerReset: "Reset",
       timerDone: "Time's up. Open your notes and check.",
+      timerStarted: "Timer started.",
+      timerStopped: "Timer stopped with {t} left.",
       timerLabel: "Time left",
       clearBox: "Clear this box"
     },

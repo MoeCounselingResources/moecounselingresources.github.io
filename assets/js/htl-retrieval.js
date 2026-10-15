@@ -42,9 +42,9 @@
     const show = () => { $('htl-time').textContent = Math.floor(tLeft / 60) + ':' + String(tLeft % 60).padStart(2, '0'); };
     const stopT = () => { clearInterval(tId); tId = null; $('htl-tstart').textContent = DB.timerStart; };
     $('htl-tstart').addEventListener('click', () => {
-      if(tId){ stopT(); $('htl-tstart').textContent = DB.timerStart; return; }
+      if(tId){ stopT(); $('htl-tstatus').textContent = fmt(DB.timerStopped, { t: $('htl-time').textContent }); return; }
       if(tLeft <= 0) tLeft = 300;
-      $('htl-tstatus').textContent = ''; $('htl-tstart').textContent = DB.timerStop; show();
+      $('htl-tstatus').textContent = DB.timerStarted; $('htl-tstart').textContent = DB.timerStop; show();
       tId = setInterval(() => { tLeft--; show(); if(tLeft <= 0){ stopT(); $('htl-tstatus').textContent = DB.timerDone; } }, 1000);
     });
     $('htl-treset').addEventListener('click', () => { stopT(); tLeft = 300; show(); $('htl-tstatus').textContent = ''; });
@@ -93,7 +93,7 @@
     /* clear my data (two steps) */
     $('htl-clear').addEventListener('click', () => { $('htl-confirm').hidden = false; $('htl-cno').focus(); });
     $('htl-cno').addEventListener('click', () => { $('htl-confirm').hidden = true; $('htl-clear').focus(); });
-    $('htl-confirm').addEventListener('keydown', e => { if(e.key === 'Escape'){ $('htl-confirm').hidden = true; $('htl-clear').focus(); } });
+    document.addEventListener('keydown', e => { if(e.key === 'Escape' && !$('htl-confirm').hidden){ $('htl-confirm').hidden = true; $('htl-clear').focus(); } });
     $('htl-cyes').addEventListener('click', () => { cards = []; drawCards(); try{ localStorage.removeItem(KEY); }catch(e){} $('htl-confirm').hidden = true; status(Q.cleared); $('htl-clear').focus(); });
 
     /* ---------- quiz mode ---------- */
@@ -111,8 +111,8 @@
           '<p><button type="button" class="tool-btn" id="htl-show">' + esc(Q.show) + '</button></p><div id="htl-ans" role="status" aria-live="polite"></div></div>';
         $('htl-qh').focus();
         $('htl-show').addEventListener('click', () => {
-          $('htl-ans').innerHTML = '<p class="htl-answer">' + esc(c.a) + '</p><p><button type="button" class="tool-btn" id="htl-got">' + esc(Q.gotIt) + '</button><button type="button" class="tool-btn secondary" id="htl-not">' + esc(Q.notYet) + '</button></p>';
-          $('htl-show').hidden = true; $('htl-got').focus();
+          $('htl-ans').innerHTML = '<p class="htl-answer" id="htl-answer" tabindex="-1">' + esc(c.a) + '</p><p><button type="button" class="tool-btn" id="htl-got">' + esc(Q.gotIt) + '</button><button type="button" class="tool-btn secondary" id="htl-not">' + esc(Q.notYet) + '</button></p>';
+          $('htl-show').hidden = true; $('htl-answer').focus();
           $('htl-got').addEventListener('click', () => { queue.shift(); ask(); });
           $('htl-not').addEventListener('click', () => { const i = queue.shift(); missed.add(i); queue.push(i); ask(); });
         });

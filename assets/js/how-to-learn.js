@@ -35,8 +35,8 @@
     setText('htl-title', D.title); setText('htl-intro', D.intro); setBack(D.back);
     document.title = D.title + ' · Moeller Counseling';
     let h = '<section class="htl-sec" id="trouble"><h2>' + esc(D.troubleTitle) + '</h2><p>' + esc(D.troubleIntro) + '</p><ul class="htl-choices">' +
-      D.trouble.map((t, i) => '<li><button type="button" class="htl-choice" data-i="' + i + '" aria-pressed="false">' + esc(t.text) + '</button></li>').join('') +
-      '</ul><div class="htl-result" id="htl-trouble-result" role="status" aria-live="polite"></div></section>';
+      D.trouble.map((t, i) => '<li><button type="button" class="htl-choice" data-i="' + i + '" aria-pressed="false">' + esc(t.text) + '</button><div class="htl-result" role="status" aria-live="polite"></div></li>').join('') +
+      '</ul></section>';
     h += '<section class="htl-sec" id="modules"><h2>' + esc(D.modulesTitle) + '</h2><ol class="htl-modules">' +
       D.modules.map(m => '<li class="htl-mod' + (m.built ? ' is-built' : ' is-soon') + '"><div class="htl-mod-head"><span class="htl-mod-n" aria-hidden="true">' + m.n + '</span>' +
         (m.built ? '<h3><a href="' + escA(m.file) + '">' + esc(m.title) + '</a></h3>' : '<h3>' + esc(m.title) + ' <span class="htl-soon">' + esc(D.soonLabel) + '</span></h3>') + '</div>' +
@@ -45,9 +45,9 @@
     h += '<section class="htl-sec"><p><a class="htl-biglink" href="how-to-learn-sources.html"><strong>' + esc(D.sourcesLink) + '</strong><span>' + esc(D.sourcesBlurb) + '</span></a></p>' +
       '<p class="htl-privacy">' + esc(D.privacy) + '</p><p class="htl-privacy">' + esc(D.counselor) + '</p></section>';
     root.innerHTML = h;
-    const res = document.getElementById('htl-trouble-result');
     root.querySelectorAll('.htl-choice').forEach(b => b.addEventListener('click', () => {
-      root.querySelectorAll('.htl-choice').forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+      root.querySelectorAll('.htl-choice').forEach(x => { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); x.nextElementSibling.innerHTML = ''; });
+      const res = b.nextElementSibling;   // the answer opens right under the sentence that was tapped
       const t = D.trouble[+b.dataset.i], m = moduleById(t.module);
       res.innerHTML = m ? '<p><strong>' + esc(D.troubleTry) + '</strong> ' + (m.built ? '<a href="' + escA(m.file) + '">' + esc(m.n + '. ' + m.title) + '</a>' : esc(m.n + '. ' + m.title) + ' <span class="htl-soon">' + esc(D.troubleSoon) + '</span>') + '</p>' : '';
     }));
@@ -78,8 +78,8 @@
     const primary = EVIDENCE[ids[0]];
     let h = '<section class="htl-sec"><h2>' + esc(M.hook) + '</h2><p class="htl-hook">' + esc(X.hook) + '</p></section>';
     h += '<section class="htl-sec" id="quick"><h2>' + esc(M.quick) + '</h2><p>' + esc(X.quick.question) + '</p><ul class="htl-choices">' +
-      X.quick.options.map((o, i) => '<li><button type="button" class="htl-choice" data-i="' + i + '" aria-pressed="false">' + esc(o.text) + '</button></li>').join('') +
-      '</ul><div class="htl-result" id="htl-quick-result" role="status" aria-live="polite"></div></section>';
+      X.quick.options.map((o, i) => '<li><button type="button" class="htl-choice" data-i="' + i + '" aria-pressed="false">' + esc(o.text) + '</button><div class="htl-result" role="status" aria-live="polite"></div></li>').join('') +
+      '</ul></section>';
     h += '<section class="htl-sec" id="idea"><h2>' + esc(M.idea) + '</h2><p>' + esc(X.idea.text) + '</p><div class="htl-example"><strong>' + esc(X.idea.exampleLabel) + ':</strong> ' + esc(X.idea.example) + '</div></section>';
     h += '<section class="htl-sec" id="try"><h2>' + esc(M.try) + '</h2><div id="htl-interactive"></div></section>';
     h += '<section class="htl-sec" id="week"><h2>' + esc(M.week) + '</h2><div class="htl-gold"><p>' + esc(X.week) + '</p></div></section>';
@@ -93,9 +93,9 @@
     const nav = (m, label) => m ? (m.built ? '<a class="htl-navlink" href="' + escA(m.file) + '"><span>' + esc(label) + '</span><strong>' + esc(m.title) + '</strong></a>' : '<span class="htl-navlink is-soon"><span>' + esc(label) + '</span><strong>' + esc(m.title) + ' ' + esc(M.soon) + '</strong></span>') : '';
     h += '<nav class="htl-nav" aria-label="Module navigation">' + nav(pv, M.prev) + nav(nx, M.next) + '</nav>';
     root.innerHTML = h;
-    const res = document.getElementById('htl-quick-result');
     root.querySelectorAll('#quick .htl-choice').forEach(b => b.addEventListener('click', () => {
-      root.querySelectorAll('#quick .htl-choice').forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+      root.querySelectorAll('#quick .htl-choice').forEach(x => { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); x.nextElementSibling.innerHTML = ''; });
+      const res = b.nextElementSibling;
       res.innerHTML = '<p>' + esc(X.quick.options[+b.dataset.i].fix) + '</p>';
     }));
     const tool = window.HTL_INTERACTIVES && window.HTL_INTERACTIVES[X.id];

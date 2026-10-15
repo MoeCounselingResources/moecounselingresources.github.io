@@ -111,3 +111,16 @@
   html:has(body.htl-printing), body.htl-printing{height:auto !important; overflow:visible;}
 }
 .htl-confirm[hidden]{display:none;}
+
+/* UX review fixes */
+.htl .tool-input, .htl .tool-textarea, .htl-choice, .htl-chip, .htl .tool-btn.secondary, .htl-details{border-color:var(--slate);}
+.htl-sources a{display:inline-flex; align-items:center; min-height:44px; padding:0;}
+#htl-footer a{display:inline-block; padding:14px 6px;}
+#htl-back{padding:12px 0;}
+.htl-answer:focus{outline:2px solid var(--navy); outline-offset:2px;}
+.htl-choices li{display:block;}
+.htl-choices .htl-result:not(:empty){margin-top:8px;}
+@media print{
+  body.htl-printing .htl-sec:not(:has(.htl-sheet)), body.htl-printing .htl-tool > :not(.htl-sheet), body.htl-printing .htl-tool:not(:has(.htl-sheet)), body.htl-printing .hero, body.htl-printing .htl-nav{display:none !important;}
+  body.htl-printing .htl-sheet{position:static;}
+}
