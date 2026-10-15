@@ -848,6 +848,11 @@ YEARS["financial-aid"] = {
     },
     compare: {
       navLabel: "Comparing Award Letters",
+      linksTitle: "Related",
+      links: [
+        {text: "Not sure what you need most? Try \"Stuck on a decision? Figure out what you actually need\"", url: "seniors.html#decision"},
+        {text: "AI prompt: Explain my financial aid letter", url: "ai.html#award-letter"}
+      ],
       title: "Comparing Award Letters",
       desc: "Aid offers (often called award letters) arrive after admission, and every college lays them out differently. Line them up the same way before you decide.",
       stacked: true,

@@ -97,6 +97,7 @@
     const list = flat(cur.track);
     root.innerHTML = `
       <p class="sd-privacy">${esc(D.privacy)}</p>
+      ${D.pointer ? `<p class="sd-pointer">${esc(D.pointer.text)} <a href="${esc(D.pointer.href)}">${esc(D.pointer.linkText)}</a></p>` : ''}
       <div class="sd-tabs" role="tablist" aria-label="${esc(D.tabsLabel)}">
         ${TRACKS.map(k => `<button type="button" role="tab" class="sd-tab" data-track="${esc(k)}" aria-selected="${k === cur.track}">${esc(D.tracks[k].label)}</button>`).join('')}
       </div>

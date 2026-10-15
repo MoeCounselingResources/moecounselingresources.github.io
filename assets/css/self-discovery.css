@@ -25,6 +25,8 @@
   font-size:0.9rem;
   color:var(--ink);
 }
+.sd-pointer{margin:0 0 16px; font-size:0.92rem; color:var(--ink-soft);}
+.sd-pointer a{font-weight:700;}
 .sd-tabs{
   display:flex;
   flex-wrap:wrap;
