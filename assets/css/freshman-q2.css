@@ -1,0 +1,68 @@
+/* =========================================================================
+   FRESHMAN FOUNDATIONS, QUARTER 2 — extra styles for assets/js/freshman-q2.js. Scoped to .fq.
+   Load styles.css, tools.css, and freshman-q1.css first (the shared .fq base is in freshman-q1.css).
+   ========================================================================= */
+.fq2-styles{list-style:none; padding:0 !important; display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:10px; margin:0 0 14px;}
+.fq2-styles li{margin:0; padding:12px 14px; background:var(--paper-soft); border-left:4px solid var(--sky); border-radius:0 10px 10px 0; font-size:0.92rem; color:var(--ink-soft);}
+.fq2-styles b{display:block; font-family:var(--serif); color:var(--navy); font-size:1rem;}
+.fq2-fields{display:grid; grid-template-columns:1fr; gap:14px; margin-bottom:12px;}
+
+/* idea tiles */
+.fq2-tiles{display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px; margin-bottom:10px;}
+.fq2-tile{display:flex; flex-direction:column; gap:6px; padding:16px; border:1px solid var(--cloud); border-top:4px solid var(--gold); border-radius:12px; background:var(--paper);}
+.fq2-tile strong{font-family:var(--serif); color:var(--navy);}
+.fq2-tile span:not(.fq2-num){font-size:0.92rem; color:var(--ink-soft);}
+.fq2-num{align-self:flex-start; display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:50%; background:var(--navy); color:var(--gold); font-weight:700; font-size:0.85rem;}
+
+/* why: chips + earnings chart */
+.fq2-chips{list-style:none; padding:0 !important; display:flex; flex-wrap:wrap; gap:8px; margin:0 0 6px;}
+.fq2-chips li{margin:0; padding:7px 14px; border-radius:999px; background:var(--navy); color:var(--paper); font-weight:600; font-size:0.92rem;}
+.fq2-chart{margin:0 0 14px; padding:16px; background:var(--paper-soft); border-radius:12px;}
+.fq2-bars{list-style:none; padding:0 !important; margin:0 0 10px;}
+.fq2-bar{display:grid; grid-template-columns:minmax(150px, 230px) 1fr 84px; align-items:center; gap:10px; margin:0 0 8px;}
+.fq2-bar-l{font-size:0.88rem; color:var(--navy); font-weight:600;}
+.fq2-track{height:20px; background:var(--paper); border:1px solid var(--cloud); border-radius:999px; overflow:hidden;}
+.fq2-fill{display:block; height:100%; background:var(--sky); border-radius:999px;}
+.fq2-bar.is-high .fq2-fill{background:var(--navy);}
+.fq2-bar:last-child .fq2-fill{background:var(--gold);}
+.fq2-bar-v{font-weight:700; font-size:0.9rem; text-align:right; color:var(--navy);}
+.fq2-chart figcaption{font-size:0.84rem; color:var(--slate);}
+
+/* degrees: card summary + timelines */
+.fq-card-btn small{display:block; margin-top:2px; font-family:var(--sans); font-weight:600; font-size:0.8rem; opacity:0.85;}
+.fq2-cl{margin-top:4px;}
+.fq2-timeline{list-style:none; padding:0 !important; margin:0 0 18px;}
+.fq2-tr{display:grid; grid-template-columns:minmax(110px, 140px) 1fr 170px; align-items:center; gap:10px; margin:0 0 8px;}
+.fq2-tr-l{font-weight:700; color:var(--navy); font-size:0.92rem;}
+.fq2-tr-v{font-size:0.82rem; color:var(--slate);}
+.fq2-tl{display:flex; gap:2px; height:22px;}
+.fq2-tr .fq2-tl{grid-column:2;}
+.fq2-seg{display:block; border-radius:4px; background:var(--cloud);}
+.fq2-seg.is-core{background:var(--navy);}
+.fq2-seg.is-add{background:var(--sky);}
+.fq2-seg.is-range{background:repeating-linear-gradient(45deg, var(--gold), var(--gold) 6px, #fff1a8 6px, #fff1a8 12px);}
+.fq2-tr > .fq2-tr-v:nth-child(2){grid-column:2 / 4;}
+
+/* bingo */
+.fq2-bingo{display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:6px; margin:14px 0 22px;}
+.fq2-cell{display:flex; align-items:center; justify-content:center; text-align:center; min-height:84px; padding:6px; border:1px solid var(--cloud); border-radius:10px; background:var(--paper); font:inherit; font-size:0.85rem; font-weight:700; line-height:1.2; color:var(--navy); cursor:pointer; overflow-wrap:anywhere; hyphens:auto;}
+.fq2-cell:hover:not(:disabled){border-color:var(--navy);}
+.fq2-cell.is-on{background:var(--navy); border-color:var(--navy); color:var(--gold);}
+.fq2-cell.is-free{background:var(--gold); border-color:var(--gold); color:var(--navy); cursor:default; opacity:1;}
+.fq2-cell:focus-visible{outline:3px solid var(--sky); outline-offset:2px;}
+.fq2-bingo[hidden]{display:none;}
+
+/* glossary */
+.fq2-gloss{margin:0; display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:10px;}
+.fq2-gi{padding:12px 14px; border:1px solid var(--cloud); border-left:4px solid var(--gold); border-radius:10px; background:var(--paper);}
+.fq2-gi dt{font-family:var(--serif); font-weight:700; color:var(--navy);}
+.fq2-gi dd{margin:4px 0 0; font-size:0.9rem; color:var(--ink-soft);}
+
+@media (max-width:720px){
+  .fq2-bar{grid-template-columns:1fr auto; gap:4px 10px;}
+  .fq2-bar-l{grid-column:1 / -1;}
+  .fq2-tr{grid-template-columns:1fr; gap:4px;}
+  .fq2-tr .fq2-tl, .fq2-tr > .fq2-tr-v:nth-child(2){grid-column:1;}
+  .fq2-bingo{gap:4px;}
+  .fq2-cell{min-height:64px; font-size:0.7rem; padding:3px;}
+}
