@@ -81,7 +81,7 @@ YEARS.freshman = {
             {text:"Freshman Foundations session: Mental Health", detail:"A presentation on taking care of your mental health and where to find support at Moeller. This session is presented in person.", tip:"If you’re struggling, reach out to your counselor, a teacher, your dean, or your mentor teacher.",
               card:{title:"You're not alone", intro:"If you're going through something hard, you don't have to handle it by yourself.",
                 lines:[{text:"Call or text 988 (Suicide & Crisis Lifeline), any time.", href:"tel:988"}, {text:"Text HOME to 741741 (Crisis Text Line).", href:"sms:741741?&body=HOME"}, {text:"In an emergency, call 911.", href:"tel:911"}],
-                counselors:true, note:"You can always walk into the counseling office.",
+                note:"You can always walk into the counseling office.",
                 links:[{text:"NAMI (National Alliance on Mental Illness)", url:"https://www.nami.org"}]}}
           ]}
         ]
