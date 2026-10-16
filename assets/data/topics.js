@@ -44,18 +44,6 @@ YEARS["parent-education"] = {
   }
 };
 
-YEARS["academic-support"] = {
-  hub: "school",
-  label: "Academic Support",
-  blurb: "Study groups, Chem Block, and the tutors available to you in school.",
-  order: ["groups","chem","tutors"],
-  sections: {
-    groups: placeholderSection("Study groups", "When and where study groups meet, by subject."),
-    chem: placeholderSection("Chem Block", "Extra help time for chemistry students."),
-    tutors: placeholderSection("Tutors in school", "Peer and teacher tutoring, and how to sign up.")
-  }
-};
-
 /* ---------------- College Counseling topics ---------------- */
 
 YEARS["college-exploration"] = {

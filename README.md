@@ -10,7 +10,7 @@ index.html                  Moeller Counseling (main page)
 ├── school-counseling.html  School Counseling hub
 │   ├── study-tips.html
 │   ├── parent-education.html
-│   ├── academic-support.html
+│   ├── academic-support.html   Academic Support (study groups, Chem Block schedule with quarter filter and next-session highlight, tutors; wording and schedule in assets/data/academic-support.js)
 │   ├── gpa-calculator.html     GPA Calculator (yearly, cumulative, Latin Honors)
 │   ├── honor-roll.html         Honor Roll Calculator (quarterly, unweighted)
 │   ├── self-discovery.html     Self-Discovery (private, self-paced exercises; saves on the student's device)
@@ -59,6 +59,7 @@ Links from the School Counseling hub open a class page in its School view
 | Self-Discovery page (every exercise, prompt, and word) | `assets/data/self-discovery.js` (instructions at the top; the logic is `assets/js/self-discovery.js`, the look is `assets/css/self-discovery.css`) |
 | How to Learn hub and module wording | `assets/data/how-to-learn.js` (hub) and `assets/data/htl-<module>.js` (one per module); research claims, evidence labels and source links live ONLY in `assets/data/evidence.js`; logic is `assets/js/how-to-learn.js` (+ `assets/js/htl-<module>.js` for a module's tools); look is `assets/css/how-to-learn.css` |
 | Explore Courses and Pathways (courses, pathways, departments) | `assets/data/course-maps.js` (instructions at the top); page wording `assets/data/course-maps-text.js`; logic `assets/js/course-maps.js`; look `assets/css/course-maps.css` |
+| Academic Support page (study groups, Chem Block schedule, tutors, study tools) | `assets/data/academic-support.js` (instructions at the top); logic `assets/js/academic-support.js`; look `assets/css/academic-support.css` |
 | Freshmen Quarter 3 page (every word) | `assets/data/freshman-q3.js` (the logic is `assets/js/freshman-q3.js`; requirements and levels are read from `assets/data/course-rules.js`) |
 | Freshmen Quarter 2 page (every word, glossary, career game) | `assets/data/freshman-q2.js` (the logic is `assets/js/freshman-q2.js`; the look is `assets/css/freshman-q1.css` plus `freshman-q2.css`) |
 | Freshmen Quarter 1 page (every word) | `assets/data/freshman-q1.js` (the logic is `assets/js/freshman-q1.js`, the look is `assets/css/freshman-q1.css`) |
