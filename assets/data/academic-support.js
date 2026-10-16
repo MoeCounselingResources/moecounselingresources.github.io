@@ -27,7 +27,7 @@ const ACADEMIC_SUPPORT = {
   groups: {
     title: "Study groups",
     intro: "Drop in before a test or quiz. No sign-up needed.",
-    when: "Meets every M-Block (before school).",
+    when: "Meets every M-Block.",
     cards: [
       { subject: "Spanish", where: "Mr. Vitolo's room", time: "M-Block, Room 25" },
       { subject: "English / Writing Center", where: "CLC (Cardinal Learning Center)", time: "M-Block, CLC" },
