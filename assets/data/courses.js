@@ -5,6 +5,7 @@
        CP2, L1 (CP1 Level 1 math), CP1, H (Honors), HP (Honors Plus), AP, CCP, PF (pass/fail)
      Separate several levels with commas, e.g.  English|English I|CP2,CP1,H|1
    • Credits: 1 for a full-year course, 0.5 for a semester course.
+     CCP courses are entered as 1 credit.
    Update this list each year from the Curriculum Guide. Order here = order in the menu.
    ========================================================================= */
 const MOELLER_COURSES = `
@@ -37,7 +38,7 @@ English|English IV: Science Fiction and Science Practice|CP1|0.5
 English|English IV: Sports Writing and Analysis|CP1|0.5
 English|Humanities|CP1|0.5
 English|Philosophy and Literature|CP1|0.5
-English|Historical Foundations in Education CCP|CCP|0.5
+English|Historical Foundations in Education CCP|CCP|1
 English|Negotiations and Advanced Rhetoric|H|0.5
 English|Oral Communications|CP1|0.5
 English|Yearbook I / II|CP1|0.5
@@ -56,8 +57,8 @@ Mathematics|AP Calculus BC|AP|1
 Mathematics|AP Statistics|AP|1
 Mathematics|Mathematical Modeling|H|0.5
 Mathematics|Statistical Reasoning in Sports|CP1|0.5
-Mathematics|Multivariable Calculus CCP|CCP|0.5
-Mathematics|Ordinary Differential Equations CCP|CCP|0.5
+Mathematics|Multivariable Calculus CCP|CCP|1
+Mathematics|Ordinary Differential Equations CCP|CCP|1
 Science|Biology|CP2,CP1,H|1
 Science|Chemistry|CP2,CP1,H|1
 Science|Physics|CP1|1
@@ -68,8 +69,8 @@ Science|AP Chemistry|AP|1
 Science|AP Environmental Science|AP|1
 Science|AP Physics 1|AP|1
 Science|AP Physics C|AP|1
-Science|Foundations of Engineering Design Thinking I CCP|CCP|0.5
-Science|Foundations of Engineering Design Thinking II CCP|CCP|0.5
+Science|Foundations of Engineering Design Thinking I CCP|CCP|1
+Science|Foundations of Engineering Design Thinking II CCP|CCP|1
 Science|Molecular Biology Research Course|HP|1
 Social Studies|U.S. History|CP2,CP1|1
 Social Studies|AP U.S. History|AP|1
@@ -79,7 +80,7 @@ Social Studies|U.S. Government and Politics|CP1|0.5
 Social Studies|AP U.S. Government and Politics|AP|1
 Social Studies|American Civil War|CP1|0.5
 Social Studies|Cincinnati History|CP1|0.5
-Social Studies|European History CCP|CCP|0.5
+Social Studies|European History CCP|CCP|1
 Social Studies|History of World War II|H|0.5
 Social Studies|Holocaust and Genocide Studies|H|0.5
 Social Studies|AP Human Geography|AP|0.5
@@ -144,13 +145,13 @@ Business & Technology|AP Microeconomics|AP|0.5
 Business & Technology|Artificial Intelligence: Uses and Applications|CP1|0.5
 Business & Technology|Human-Computer Interaction|CP1|0.5
 Business & Technology|Robotics|CP1|0.5
-Business & Technology|Fundamentals of Information Technology CCP|CCP|0.5
-Business & Technology|Fundamentals of Web Development CCP|CCP|0.5
-Business & Technology|Computer Programming I CCP|CCP|0.5
-Business & Technology|Computer Networking CCP|CCP|0.5
-Business & Technology|Database Management CCP|CCP|0.5
-Business & Technology|System Administration CCP|CCP|0.5
-Business & Technology|Game Design CCP|CCP|0.5
+Business & Technology|Fundamentals of Information Technology CCP|CCP|1
+Business & Technology|Fundamentals of Web Development CCP|CCP|1
+Business & Technology|Computer Programming I CCP|CCP|1
+Business & Technology|Computer Networking CCP|CCP|1
+Business & Technology|Database Management CCP|CCP|1
+Business & Technology|System Administration CCP|CCP|1
+Business & Technology|Game Design CCP|CCP|1
 Business & Technology|Moeller Media Production|CP1|0.5
 Business & Technology|Advanced Media Production|CP1|0.5
 Business & Technology|Podcasting|CP1|0.5
