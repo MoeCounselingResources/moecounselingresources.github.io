@@ -18,3 +18,7 @@
   - The Social Sciences pathway (guide p.61) lists "Catholic Teaching in a Contemporary World"; the guide has no such course, so the planner shows the title only.
   - assets/data/courses.js (GPA Calculator list) differs from the new catalog: it has courses not in the guide (Catholic Teaching in the Contemporary World, English IV Contemporary Poetry / Cultural Criticism / Offbeat American Lit, Humanities, Philosophy and Literature, AP Art History, Spanish II CP2), lists semester CCP courses at 0.5 credit and PE I/II at 0.5 (the catalog has 1 and 0.25), and lists Studio Art II as H/CP1 and Marianist Community Development I as PF. Decide whether to merge the lists.
 - Check Latimier 2021 link annually — it is plain http on a personal faculty page and may move.
+- Flashcard Studio: deploy the proxy (scripts/README-flashcard-proxy.md), then paste the Worker URL into `api.url` in assets/data/flashcard-studio.js. Until then the page shows "not connected". Set a monthly spend limit on the API key.
+- Flashcard Studio: the PDF.js SRI fingerprints in assets/data/flashcard-studio.js were computed from the npm copy of pdfjs-dist 3.11.174. Open the page live, upload a PDF, and confirm it reads (a wrong fingerprint blocks PDF.js); if it fails, recompute from the cdnjs files.
+- Flashcard Studio: confirm the model ID `claude-sonnet-4-6` is the one to use (set in `api.model` and in the Worker's ALLOWED_MODELS).
+- Flashcard Studio: once the page is live, the Academic Support "Flashcard Studio" button turns from "Coming soon" to "Open" on its own; check it.

@@ -18,6 +18,7 @@ index.html                  Moeller Counseling (main page)
 │   ├── freshman-foundations-q2.html  Freshman Foundations, Quarter 2 (learning, degrees, career game, bingo, glossary)
 │   ├── freshman-foundations-q3.html  Freshman Foundations, Quarter 3 (course registration and planning)
 │   ├── course-maps.html        Explore Courses and Pathways (pathway explorer, course web, timeline cards; saves nothing)
+│   ├── flashcard-studio.html   Flashcard Studio (notes or PDF → cards → study with timer, coins, streak → print; wording in assets/data/flashcard-studio.js, logic assets/js/flashcard-studio.js, look assets/css/flashcard-studio.css; cards are made by a proxy, see scripts/README-flashcard-proxy.md)
 │   ├── how-to-learn.html       How to Learn hub (progress, "which sentence sounds like you?", module cards, mind map; drawn by assets/js/htl-hub.js and assets/css/htl-hub.css; module pages record which modules were opened under the browser key moeller-ex-htl-visited); one page per module, plus how-to-learn-sources.html
 ├── college-counseling.html College Counseling hub
 │   ├── seniors.html  ← "Application Resources" box opens this
@@ -60,6 +61,7 @@ Links from the School Counseling hub open a class page in its School view
 | How to Learn hub and module wording | `assets/data/how-to-learn.js` (hub) and `assets/data/htl-<module>.js` (one per module); research claims, evidence labels and source links live ONLY in `assets/data/evidence.js`; logic is `assets/js/how-to-learn.js` (+ `assets/js/htl-<module>.js` for a module's tools); look is `assets/css/how-to-learn.css` |
 | Explore Courses and Pathways (courses, pathways, departments) | `assets/data/course-maps.js` (instructions at the top); page wording `assets/data/course-maps-text.js`; logic `assets/js/course-maps.js`; look `assets/css/course-maps.css` |
 | Academic Support page (study groups, Chem Block schedule, tutors, study tools) | `assets/data/academic-support.js` (instructions at the top); logic `assets/js/academic-support.js`; look `assets/css/academic-support.css` |
+| Flashcard Studio wording, timer options, coin amounts, shop prices, prompts, proxy URL (`api.url`), PDF.js links | `assets/data/flashcard-studio.js` (instructions at the top); logic `assets/js/flashcard-studio.js`; look `assets/css/flashcard-studio.css`; the API-key proxy is `scripts/flashcard-proxy-worker.js` (deploy steps in `scripts/README-flashcard-proxy.md`) |
 | Freshmen Quarter 3 page (every word) | `assets/data/freshman-q3.js` (the logic is `assets/js/freshman-q3.js`; requirements and levels are read from `assets/data/course-rules.js`) |
 | Freshmen Quarter 2 page (every word, glossary, career game) | `assets/data/freshman-q2.js` (the logic is `assets/js/freshman-q2.js`; the look is `assets/css/freshman-q1.css` plus `freshman-q2.css`) |
 | Freshmen Quarter 1 page (every word) | `assets/data/freshman-q1.js` (the logic is `assets/js/freshman-q1.js`, the look is `assets/css/freshman-q1.css`) |
