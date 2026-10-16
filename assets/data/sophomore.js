@@ -143,7 +143,7 @@ YEARS.sophomore = {
     // ---------- School & Academics view (School Counseling side) ----------
     school: {
       blurb: "Sophomore year is when good habits pay off. Here's the school-side support for this year.",
-      order: ["studySkills","academicSupport","howToLearn","selfDiscovery","forParents"],
+      order: ["studySkills","academicSupport","courseExploration","howToLearn","selfDiscovery","forParents"],
       sections: {
         studySkills: {
           title: "Study skills for sophomore year",
@@ -164,6 +164,14 @@ YEARS.sophomore = {
             {title:"Course Planner", desc:"Map out all four years, watch your graduation requirements fill in, and explore pathways before your registration meeting.", url:"course-planner.html"},
             {title:"GPA Calculator", desc:"Figure your yearly and cumulative GPA, weighted and unweighted, and see where you stand for Latin Honors.", url:"gpa-calculator.html"},
             {title:"Honor Roll Calculator", desc:"Check whether your quarter grades put you on First or Second Honors.", url:"honor-roll.html"}
+          ]
+        },
+        courseExploration: {
+          title: "Course exploration",
+          note: "Any time",
+          desc: "See how courses connect and what a four-year path can look like. Pathways are ideas, not requirements.",
+          items: [
+            {title:"Explore pathways and courses", desc:"A pathway explorer, a course web, and timeline cards. Nothing here is saved.", url:"course-maps.html", go:"Explore pathways and courses"}
           ]
         },
         howToLearn: {
