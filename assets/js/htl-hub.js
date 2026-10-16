@@ -32,11 +32,13 @@
     /* progress: the module pages record their own id in storage; the hub only reads that list (and clears it on request) */
     let blocked = false;
     const readVisited = () => {
+      let raw = null;
+      try{ raw = window.localStorage.getItem(D.visitedKey); }catch(e){ blocked = true; return 0; }   // only a storage error counts as "blocked"
+      if(!raw || raw.length > 2000) return 0;
       try{
-        const v = JSON.parse(window.localStorage.getItem(D.visitedKey) || '[]');
-        if(!Array.isArray(v)) return 0;
-        return D.modules.filter(m => v.indexOf(m.id) > -1).length;
-      }catch(e){ blocked = true; return 0; }
+        const v = JSON.parse(raw);
+        return Array.isArray(v) ? D.modules.filter(m => v.indexOf(m.id) > -1).length : 0;
+      }catch(e){ return 0; }
     };
     const total = D.modules.length;
     const n0 = readVisited();
@@ -103,11 +105,12 @@
     /* clear my progress (the only thing on this page that writes: it removes the one list) */
     const clearBtn = document.getElementById('hh-clear');
     if(clearBtn) clearBtn.addEventListener('click', () => {
-      try{ window.localStorage.removeItem(D.visitedKey); }catch(e){}
+      let failed = false;
+      try{ window.localStorage.removeItem(D.visitedKey); }catch(e){ failed = true; }
       const t = fmt(D.progressText, { n: 0, total: total });
       document.getElementById('hh-prog-t').textContent = t;
       const bar = document.getElementById('hh-bar'); bar.setAttribute('aria-valuenow', '0'); bar.setAttribute('aria-valuetext', t); bar.firstElementChild.style.width = '0%';
-      document.getElementById('hh-prog-s').textContent = D.progressCleared;
+      document.getElementById('hh-prog-s').textContent = failed ? D.progressBlocked : D.progressCleared;
     });
 
     /* open / close a troubleshooter card (one at a time) */

@@ -100,9 +100,13 @@
     }));
     // remember that this module was opened (its id only; read by the hub's progress bar)
     try{
-      const K = D.visitedKey; let seen = JSON.parse(window.localStorage.getItem(K) || '[]');
+      const K = D.visitedKey, raw = window.localStorage.getItem(K);
+      let seen = [];
+      try{ seen = raw && raw.length < 2000 ? JSON.parse(raw) : []; }catch(e){ seen = []; }   // a damaged or oversized value starts the list over
       seen = Array.isArray(seen) ? seen.filter((id, i, a) => typeof id === 'string' && moduleById(id) && a.indexOf(id) === i) : [];
-      if(moduleById(X.id) && seen.indexOf(X.id) < 0){ seen.push(X.id); window.localStorage.setItem(K, JSON.stringify(seen)); }
+      if(moduleById(X.id) && seen.indexOf(X.id) < 0) seen.push(X.id);
+      const out = JSON.stringify(seen);
+      if(out !== raw) window.localStorage.setItem(K, out);
     }catch(e){}
     const tool = window.HTL_INTERACTIVES && window.HTL_INTERACTIVES[X.id];
     if(tool) tool(document.getElementById('htl-interactive'));

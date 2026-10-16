@@ -62,7 +62,7 @@ const HOW_TO_LEARN = {
   goLabel: "Go",
   progressLabel: "Your progress",
   progressText: "{n} of {total} modules explored",
-  progressNote: "This counts the modules you have opened on this device. It saves only which modules you opened, nothing you type, and nothing leaves your device.",
+  progressNote: "This counts the modules you have opened on this device. It saves only which modules you opened, nothing you type, and nothing leaves your device. If your count stays at 0 after you open a module, your browser may not allow saving.",
   progressClear: "Clear my progress",
   progressCleared: "Progress cleared.",
   progressBlocked: "This browser is blocking saving, so your progress cannot be remembered.",
