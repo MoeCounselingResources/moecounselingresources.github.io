@@ -102,5 +102,8 @@
     if(tool) tool(document.getElementById('htl-interactive'));
   }
 
-  if(page === 'hub') renderHub(); else if(page === 'sources') renderSources(); else if(page === 'module') renderModule();
+  if(page === 'hub'){
+    // the visual hub (assets/js/htl-hub.js); renderHub above is the plain fallback
+    if(window.HTL_HUB){ setText('htl-title', D.title); setText('htl-intro', D.intro); setBack(D.back); document.title = D.title + ' · Moeller Counseling'; window.HTL_HUB(D, { esc, escA, fmt, labelHtml }); } else renderHub();
+  } else if(page === 'sources') renderSources(); else if(page === 'module') renderModule();
 })();

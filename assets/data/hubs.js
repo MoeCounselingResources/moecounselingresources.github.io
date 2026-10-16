@@ -17,7 +17,7 @@ const HUBS = {
     // accent = sky, gold, or navy (one color per card). icon = a name from assets/js/school-hub.js.
     boxes: [
       {title:"Self-Discovery", desc:"Private exercises on your values, your roles, and your goals.", href:"self-discovery.html", grades:[9,10,11,12], accent:"sky", icon:"compass"},
-      {title:"How to Learn", desc:"Short, research-checked lessons on memory, focus, and sleep.", href:"how-to-learn.html", grades:[9,10,11], accent:"gold", icon:"brain"},
+      {title:"How to Learn", desc:"Short, research-checked lessons on memory, focus, and sleep.", href:"how-to-learn.html", grades:[9,10,11,12], accent:"gold", icon:"brain"},
       {title:"Course Planner", desc:"Map out all four years and track your graduation requirements.", href:"course-planner.html", grades:[9,10,11,12], accent:"navy", icon:"map"},
       {title:"Explore courses and pathways", desc:"See how courses connect and what a four-year path can look like.", href:"course-maps.html", grades:[9,10,11,12], accent:"gold", icon:"web"},
       {title:"GPA Calculator", desc:"Figure your GPA and see where you stand for Latin Honors.", href:"gpa-calculator.html", grades:[9,10,11,12], accent:"sky", icon:"calc"},

@@ -18,7 +18,7 @@ index.html                  Moeller Counseling (main page)
 │   ├── freshman-foundations-q2.html  Freshman Foundations, Quarter 2 (learning, degrees, career game, bingo, glossary)
 │   ├── freshman-foundations-q3.html  Freshman Foundations, Quarter 3 (course registration and planning)
 │   ├── course-maps.html        Explore Courses and Pathways (pathway explorer, course web, timeline cards; saves nothing)
-│   ├── how-to-learn.html       How to Learn hub (modules, "which sentence sounds like you?"); one page per module, plus how-to-learn-sources.html
+│   ├── how-to-learn.html       How to Learn hub (progress, "which sentence sounds like you?", module cards, mind map; drawn by assets/js/htl-hub.js and assets/css/htl-hub.css; "which sentence sounds like you?"); one page per module, plus how-to-learn-sources.html
 ├── college-counseling.html College Counseling hub
 │   ├── seniors.html  ← "Application Resources" box opens this
 │   ├── popular-colleges.html   Moeller Popular Colleges (test ranges, deadlines)

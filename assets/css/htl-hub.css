@@ -1,0 +1,103 @@
+/* How to Learn hub: progress bar, troubleshooter cards, module cards, mind map. Scoped to .hh-*; used only by how-to-learn.html.
+   Navy = structure (card blocks, section bands), gold = calls to action and highlights only, sky = small accents. */
+.hh-vh{position:absolute; width:1px; height:1px; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap;}
+.hh-sec{margin:0 0 40px;}
+.htl .hh-h2{font-family:var(--serif); font-size:1.85rem; line-height:1.15; font-weight:800; color:var(--navy); margin:0 0 8px; padding:0; border:0;}
+.hh-lead{margin:0 0 14px; font-size:1.02rem;}
+.hh-note{margin:6px 0 0; font-size:0.9rem; color:var(--slate);}
+
+/* progress */
+.hh-progress{margin:0 0 36px; padding:16px 18px; border:2px solid var(--navy); border-radius:14px; background:#fff;}
+.hh-prog-text{margin:0 0 8px; font-size:1.1rem; color:var(--navy);}
+.hh-bar{height:18px; border:2px solid var(--navy); border-radius:999px; background:var(--paper-soft); overflow:hidden;}
+.hh-bar span{display:block; height:100%; background:var(--navy); border-radius:999px; transition:width .4s ease;}
+
+/* troubleshooter */
+.hh-trouble{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:minmax(0,1fr); gap:10px; align-items:start;}
+.hh-tc{border:2px solid var(--navy); border-radius:14px; background:#fff; overflow:hidden; transition:box-shadow .2s ease;}
+.hh-tc.is-open{box-shadow:0 0 0 3px var(--gold);}
+.hh-tbtn{width:100%; min-height:60px; display:flex; align-items:center; justify-content:space-between; gap:12px; text-align:left; padding:14px 16px; border:0; background:transparent; color:var(--navy); font:700 1.02rem/1.35 var(--sans); cursor:pointer;}
+.hh-tbtn:hover{background:var(--paper-soft);}
+.hh-tc.is-open .hh-tbtn{background:var(--navy); color:#fff;}
+.hh-chev{flex:none; width:12px; height:12px; border-right:3px solid currentColor; border-bottom:3px solid currentColor; transform:rotate(45deg); transition:transform .25s ease; margin-right:4px;}
+.hh-tc.is-open .hh-chev{transform:rotate(-135deg);}
+.hh-tpanel{display:grid; grid-template-rows:0fr; transition:grid-template-rows .3s ease;}
+.hh-tc.is-open .hh-tpanel{grid-template-rows:1fr;}
+.hh-tinner{overflow:hidden; min-height:0;}
+.hh-tpanel:not(:where(.is-open *)) .hh-tinner{visibility:hidden;}
+.hh-tc.is-open .hh-tinner{visibility:visible;}
+.hh-tbody{padding:14px 16px 16px; background:var(--paper-soft);}
+.hh-tbody p{margin:0 0 10px;}
+.hh-try{color:var(--navy);}
+.hh-go, .hh-start{display:inline-flex; align-items:center; justify-content:center; min-height:48px; min-width:96px; padding:10px 24px; border-radius:12px; background:var(--gold); color:var(--navy); border:2px solid var(--navy); font:800 1rem var(--sans); text-decoration:none;}
+.hh-go:hover, .hh-start:hover{filter:brightness(.96);}
+.hh-tbtn:focus-visible, .hh-go:focus-visible, .hh-start:focus-visible, .hh-details summary:focus-visible, .hh-map a:focus-visible{outline:3px solid var(--navy); outline-offset:3px; box-shadow:0 0 0 6px var(--gold);}
+.hh-tc.is-open .hh-tbtn:focus-visible{outline-color:#fff; box-shadow:0 0 0 6px var(--navy);}
+
+/* module groups */
+.hh-group{margin:0 0 36px;}
+.htl .hh-band{display:block; width:100%; margin:0 0 16px; padding:16px 20px; background:var(--navy); color:var(--gold); border:0; border-radius:12px; font-family:var(--serif); font-size:1.85rem; line-height:1.15; font-weight:800;}
+.hh-grid{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:minmax(0,1fr); gap:16px;}
+.hh-card{position:relative; display:flex; flex-direction:column; min-height:200px; border:2px solid var(--navy); border-radius:16px; overflow:hidden; background:#fff; transition:transform .15s ease, box-shadow .15s ease;}
+.hh-card:hover{transform:translateY(-3px); box-shadow:0 8px 18px rgba(12,35,64,.2);}
+.hh-card:focus-within{box-shadow:0 0 0 4px var(--navy);}
+.hh-block{display:flex; align-items:center; justify-content:space-between; min-height:88px; padding:16px 20px; background:var(--navy); color:var(--gold);}
+.hh-ico svg{display:block; width:40px; height:40px;}
+.hh-num{font:800 2.6rem/1 var(--serif); color:var(--gold);}
+.hh-cbody{display:flex; flex-direction:column; gap:8px; padding:16px 18px 20px; flex:1;}
+.htl .hh-cbody h3{margin:0; font-family:var(--sans); font-size:1.2rem; line-height:1.25; font-weight:800; color:var(--navy);}
+.hh-cbody p{margin:0; color:var(--navy);}
+.hh-meta{display:flex; flex-wrap:wrap; align-items:center; gap:6px 12px; margin-top:auto;}
+.hh-ev{display:inline-flex; align-items:center; gap:6px; flex-wrap:wrap;}
+.hh-time{display:inline-flex; align-items:center; gap:5px; font-size:0.9rem; color:var(--slate); font-weight:600;}
+.hh-start{align-self:flex-start; margin-top:6px;}
+.hh-start::after{content:""; position:absolute; inset:0;}   /* the whole card opens the module */
+.hh-card.is-soon{background:var(--paper-soft);}
+
+/* mind map */
+.hh-details{border:2px solid var(--navy); border-radius:14px; padding:0 16px 14px; background:#fff;}
+.hh-details summary{cursor:pointer; min-height:56px; display:flex; align-items:center; font:800 1.2rem var(--sans); color:var(--navy);}
+.hh-map svg{width:100%; height:auto; display:block;}
+.hh-map-wide{display:none;}
+.hh-lines line{stroke:var(--slate); stroke-width:2;}
+.hh-centernode circle{fill:var(--gold); stroke:var(--navy); stroke-width:3;}
+.hh-ct{font:800 16px var(--sans); fill:var(--navy);}
+.hh-hubnode circle{fill:#fff; stroke:var(--navy); stroke-width:3;}
+.hh-ht{font:800 12px var(--sans); fill:var(--navy);}
+.hh-node circle{fill:var(--navy); stroke:var(--navy); stroke-width:3;}
+.hh-nt{font:800 16px var(--sans); fill:#fff;}
+.hh-nl{font:700 13px var(--sans); fill:var(--navy);}
+.hh-map a{cursor:pointer;}
+.hh-map a:hover circle{fill:var(--slate);}
+.hh-map a:focus-visible{outline:none;}
+.hh-map a:focus-visible circle{stroke:var(--gold); stroke-width:6;}
+
+@media (min-width:700px){
+  .hh-trouble{grid-template-columns:repeat(2, minmax(0,1fr));}
+  .hh-grid{grid-template-columns:repeat(2, minmax(0,1fr));}
+  .hh-card{min-height:240px;}
+  .hh-map-phone{display:none;}
+  .hh-map-wide{display:block;}
+}
+@media (max-width:380px){
+  .htl .hh-h2, .htl .hh-band{font-size:1.5rem;}
+  .hh-num{font-size:2.2rem;}
+}
+@media (prefers-reduced-motion:reduce){
+  .hh-tpanel, .hh-chev, .hh-bar span, .hh-card, .hh-tc{transition:none !important;}
+  .hh-card:hover{transform:none;}
+}
+
+/* print: a clean module list (no troubleshooter, progress, or map) */
+@media print{
+  .hh-progress, #trouble, .hh-details, .hh-start, .hh-go{display:none !important;}
+  .hh-grid{display:block !important;}
+  .hh-card{display:block; break-inside:avoid; min-height:0; margin:0 0 8pt; border:1px solid #000; border-radius:0; box-shadow:none !important; transform:none !important;}
+  .hh-block{display:flex; min-height:0; padding:4pt 8pt; background:#fff !important; color:#000 !important; border-bottom:1px solid #000;}
+  .hh-ico{display:none;}
+  .hh-num{font-size:14pt; color:#000 !important;}
+  .htl .hh-band{background:#fff !important; color:#000 !important; border:0; border-bottom:2px solid #000; border-radius:0; padding:4pt 0; font-size:16pt; margin:12pt 0 8pt;}
+  .hh-cbody{padding:6pt 8pt;}
+  .htl .hh-cbody h3{font-size:12pt;}
+  .hh-cbody p, .hh-time, .hh-ev{font-size:10pt; color:#000;}
+}
