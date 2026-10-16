@@ -18,7 +18,7 @@
   const num = n => { const v = Math.round((+n || 0) * 100) / 100; return String(v); };
   const GRADES = [9, 10, 11, 12];
   const LEVEL_CLASS = {'CP2':'cp2', 'CP1 Level 1':'l1', 'CP1':'cp1', 'Honors':'h', 'Honors+':'hp', 'AP':'ap', 'CCP':'ccp', 'PF':'pf'};
-  const lvClass = lv => 'cp-lv-' + (LEVEL_CLASS[lv] || 'none');
+  const lvClass = lv => 'cp-lv-' + (Object.prototype.hasOwnProperty.call(LEVEL_CLASS, lv) ? LEVEL_CLASS[lv] : 'none');
   const gradeName = g => fmt(T.grid.gradeHead, {n:g});
   const isObj = o => !!o && typeof o === 'object' && !Array.isArray(o);
   const strList = a => Array.isArray(a) ? a.filter(x => typeof x === 'string') : [];
@@ -77,7 +77,7 @@
   const MOE = isObj(R.moeTerm) ? R.moeTerm : {perYear:0.25, byGradYear:{}};
   const titleOf = ref => byId[ref] ? byId[ref].title : (typeof ref === 'string' ? ref : '');
   const levelTitle = c => (c.level && !c.title.endsWith(c.level) && c.title.indexOf(' ' + c.level + ':') < 0) ? c.title + ' ' + c.level : c.title;
-  const termText = c => (T.details.terms[c.term] || c.term || T.sheet.empty) + (c.online ? ' ' + T.details.online : '');
+  const termText = c => ((Object.prototype.hasOwnProperty.call(T.details.terms, c.term) ? T.details.terms[c.term] : '') || c.term || T.sheet.empty) + (c.online ? ' ' + T.details.online : '');
 
   /* ---------- state ---------- */
   const thisYear = new Date().getFullYear();
@@ -536,7 +536,7 @@
     if(overlay.hidden) return;
     overlay.hidden = true; dialog.innerHTML = ''; document.body.classList.remove('cp-modal-open');
     if(opener && document.body.contains(opener)) opener.focus();
-    else if(openerSel){ const again = root.querySelector(openerSel); if(again) again.focus(); }
+    else if(openerSel){ try{ const again = root.querySelector(openerSel); if(again) again.focus(); }catch(err){} }
     opener = null; openerSel = '';
   }
   overlay.addEventListener('click', e => { if(e.target === overlay) closeDialog(); });
