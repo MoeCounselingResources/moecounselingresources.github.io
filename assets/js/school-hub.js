@@ -19,7 +19,7 @@
   };
   const svg = n => '<svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + (ICONS[n] || ICONS.star) + '</svg>';
 
-  const read = () => { try{ const v = parseInt(localStorage.getItem(KEY), 10); return GRADES.indexOf(v) > -1 ? v : null; }catch(e){ return null; } };
+  const read = () => { try{ const v = localStorage.getItem(KEY); return /^(9|10|11|12)$/.test(v) ? parseInt(v, 10) : null; }catch(e){ return null; } };
   const write = g => { try{ if(g == null) localStorage.removeItem(KEY); else localStorage.setItem(KEY, String(g)); return true; }catch(e){ return false; } };
 
   window.renderSchoolHubCards = function(h){

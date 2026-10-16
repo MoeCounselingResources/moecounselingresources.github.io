@@ -285,7 +285,7 @@ YEARS.junior = {
     // ---------- School & Academics view (School Counseling side) ----------
     school: {
       blurb: "Junior year is often the heaviest academic year. Here's the school-side support to keep you on track.",
-      order: ["studySkills","academicSupport","selfDiscovery","forParents"],
+      order: ["studySkills","academicSupport","howToLearn","selfDiscovery","forParents"],
       sections: {
         exploration: {
           title: "Exploration",

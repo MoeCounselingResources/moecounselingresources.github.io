@@ -569,7 +569,7 @@ YEARS.senior = {
     // ---------- School & Academics view (School Counseling side) ----------
     school: {
       blurb: "Finishing strong matters — colleges see your senior grades. Here's the school-side support for this year.",
-      order: ["studySkills","academicSupport","selfDiscovery","forParents"],
+      order: ["studySkills","academicSupport","howToLearn","selfDiscovery","forParents"],
       sections: {
         exploration: {
           title: "Exploration",

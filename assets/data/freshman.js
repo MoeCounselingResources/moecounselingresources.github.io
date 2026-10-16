@@ -140,7 +140,7 @@ YEARS.freshman = {
     // ---------- School & Academics view (School Counseling side) ----------
     school: {
       blurb: "Welcome to Moeller. Here's how to get settled, study well, and find help when you need it.",
-      order: ["studySkills","academicSupport","selfDiscovery","forParents"],
+      order: ["studySkills","academicSupport","howToLearn","selfDiscovery","forParents"],
       sections: {
         studySkills: {
           title: "Study skills for freshman year",

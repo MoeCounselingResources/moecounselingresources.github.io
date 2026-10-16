@@ -143,7 +143,7 @@ YEARS.sophomore = {
     // ---------- School & Academics view (School Counseling side) ----------
     school: {
       blurb: "Sophomore year is when good habits pay off. Here's the school-side support for this year.",
-      order: ["studySkills","academicSupport","selfDiscovery","forParents"],
+      order: ["studySkills","academicSupport","howToLearn","selfDiscovery","forParents"],
       sections: {
         studySkills: {
           title: "Study skills for sophomore year",
