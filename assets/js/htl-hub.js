@@ -84,6 +84,12 @@
 
     root.innerHTML = progressHtml + troubleHtml + modulesHtml + mapHtml + tailHtml;
 
+    /* the whole module card opens its module; the Start link stays the keyboard and screen-reader way in */
+    root.querySelectorAll('.hh-card').forEach(c => c.addEventListener('click', e => {
+      if(e.target.closest('a')) return;
+      const a = c.querySelector('.hh-start'); if(a) a.click();
+    }));
+
     /* open / close a troubleshooter card (one at a time) */
     const cards = Array.from(root.querySelectorAll('.hh-tc'));
     cards.forEach(c => c.querySelector('.hh-tbtn').addEventListener('click', () => {

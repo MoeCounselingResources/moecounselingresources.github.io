@@ -38,8 +38,8 @@
 .hh-group{margin:0 0 36px;}
 .htl .hh-band{display:block; width:100%; margin:0 0 16px; padding:16px 20px; background:var(--navy); color:var(--gold); border:0; border-radius:12px; font-family:var(--serif); font-size:1.85rem; line-height:1.15; font-weight:800;}
 .hh-grid{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:minmax(0,1fr); gap:16px;}
-.hh-card{position:relative; display:flex; flex-direction:column; min-height:200px; border:2px solid var(--navy); border-radius:16px; overflow:hidden; background:#fff; transition:transform .15s ease, box-shadow .15s ease;}
-.hh-card:hover{transform:translateY(-3px); box-shadow:0 8px 18px rgba(12,35,64,.2);}
+.hh-card{position:relative; display:flex; flex-direction:column; min-height:200px; border:2px solid var(--navy); border-radius:16px; overflow:hidden; background:#fff;}
+.hh-card:hover{box-shadow:0 8px 18px rgba(12,35,64,.28);}
 .hh-card:focus-within{box-shadow:0 0 0 4px var(--navy);}
 .hh-block{display:flex; align-items:center; justify-content:space-between; min-height:88px; padding:16px 20px; background:var(--navy); color:var(--gold);}
 .hh-ico svg{display:block; width:40px; height:40px;}
@@ -51,7 +51,7 @@
 .hh-ev{display:inline-flex; align-items:center; gap:6px; flex-wrap:wrap;}
 .hh-time{display:inline-flex; align-items:center; gap:5px; font-size:0.9rem; color:var(--slate); font-weight:600;}
 .hh-start{align-self:flex-start; margin-top:6px;}
-.hh-start::after{content:""; position:absolute; inset:0;}   /* the whole card opens the module */
+.hh-card:has(.hh-start){cursor:pointer;}   /* the whole card opens the module (see htl-hub.js) */
 .hh-card.is-soon{background:var(--paper-soft);}
 
 /* mind map */
@@ -85,7 +85,6 @@
 }
 @media (prefers-reduced-motion:reduce){
   .hh-tpanel, .hh-chev, .hh-bar span, .hh-card, .hh-tc{transition:none !important;}
-  .hh-card:hover{transform:none;}
 }
 
 /* print: a clean module list (no troubleshooter, progress, or map) */
