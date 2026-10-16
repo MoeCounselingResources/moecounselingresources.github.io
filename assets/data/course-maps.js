@@ -28,8 +28,9 @@
    DEPARTMENTS  Colors are set in DEPT_COLORS. Change a hex there to
                 recolor that department's nodes in the Course Web.
 
-   WARNING: Do not rename a course id mid-year if students may have bookmarked
-   a direct link — ids appear in the URL hash on the pathway explorer.
+   WARNING: Do not rename a pathway id mid-year if students may have bookmarked
+   a direct link. Pathway ids appear in the URL hash (for example #engineering
+   opens that pathway). Course ids are used internally only.
    ========================================================================= */
 
 const DEPT_COLORS = {
