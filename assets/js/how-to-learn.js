@@ -98,6 +98,12 @@
       const res = b.nextElementSibling;
       res.innerHTML = '<p>' + esc(X.quick.options[+b.dataset.i].fix) + '</p>';
     }));
+    // remember that this module was opened (its id only; read by the hub's progress bar)
+    try{
+      const K = D.visitedKey; let seen = JSON.parse(window.localStorage.getItem(K) || '[]');
+      seen = Array.isArray(seen) ? seen.filter((id, i, a) => typeof id === 'string' && moduleById(id) && a.indexOf(id) === i) : [];
+      if(moduleById(X.id) && seen.indexOf(X.id) < 0){ seen.push(X.id); window.localStorage.setItem(K, JSON.stringify(seen)); }
+    }catch(e){}
     const tool = window.HTL_INTERACTIVES && window.HTL_INTERACTIVES[X.id];
     if(tool) tool(document.getElementById('htl-interactive'));
   }

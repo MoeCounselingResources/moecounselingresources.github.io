@@ -29,13 +29,23 @@
     const svg = (id, size) => '<svg viewBox="0 0 24 24" width="' + size + '" height="' + size + '" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + (ICON[id] || ICON.brain) + '</svg>';
     const clock = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
 
-    /* progress: count modules whose tool has saved something. Read only; any storage problem just counts as 0. */
-    const visited = () => D.modules.filter(m => { try{ return !!m.key && window.localStorage.getItem(m.key) !== null; }catch(e){ return false; } }).length;
-    const n = visited(), total = D.modules.length;
+    /* progress: the module pages record their own id in storage; the hub only reads that list (and clears it on request) */
+    let blocked = false;
+    const readVisited = () => {
+      try{
+        const v = JSON.parse(window.localStorage.getItem(D.visitedKey) || '[]');
+        if(!Array.isArray(v)) return 0;
+        return D.modules.filter(m => v.indexOf(m.id) > -1).length;
+      }catch(e){ blocked = true; return 0; }
+    };
+    const total = D.modules.length;
+    const n0 = readVisited();
     const progressHtml = '<section class="hh-progress" aria-labelledby="hh-prog-h"><h2 class="hh-vh" id="hh-prog-h">' + esc(D.progressLabel) + '</h2>' +
-      '<p class="hh-prog-text"><strong>' + esc(fmt(D.progressText, { n: n, total: total })) + '</strong></p>' +
-      '<div class="hh-bar" role="progressbar" aria-valuemin="0" aria-valuemax="' + total + '" aria-valuenow="' + n + '" aria-valuetext="' + escA(fmt(D.progressText, { n: n, total: total })) + '" aria-labelledby="hh-prog-h"><span style="width:' + (total ? n / total * 100 : 0) + '%"></span></div>' +
-      '<p class="hh-note">' + esc(D.progressNote) + '</p></section>';
+      '<p class="hh-prog-text"><strong id="hh-prog-t">' + esc(fmt(D.progressText, { n: n0, total: total })) + '</strong></p>' +
+      '<div class="hh-bar" id="hh-bar" role="progressbar" aria-valuemin="0" aria-valuemax="' + total + '" aria-valuenow="' + n0 + '" aria-valuetext="' + escA(fmt(D.progressText, { n: n0, total: total })) + '" aria-labelledby="hh-prog-h"><span style="width:' + (total ? n0 / total * 100 : 0) + '%"></span></div>' +
+      '<p class="hh-note">' + esc(D.progressNote) + '</p>' +
+      (blocked ? '<p class="hh-warn" role="status">' + esc(D.progressBlocked) + '</p>' : '') +
+      '<p class="hh-prog-actions"><button type="button" class="hh-clear" id="hh-clear">' + esc(D.progressClear) + '</button> <span class="hh-note" id="hh-prog-s" role="status" aria-live="polite"></span></p></section>';
 
     /* troubleshooter: tappable cards that open the matching module in place */
     const troubleHtml = '<section class="hh-sec" id="trouble" aria-labelledby="hh-trouble-h"><h2 id="hh-trouble-h" class="hh-h2">' + esc(D.troubleTitle) + '</h2><p class="hh-lead">' + esc(D.troubleIntro) + '</p>' +
@@ -89,6 +99,16 @@
       if(e.target.closest('a')) return;
       const a = c.querySelector('.hh-start'); if(a) a.click();
     }));
+
+    /* clear my progress (the only thing on this page that writes: it removes the one list) */
+    const clearBtn = document.getElementById('hh-clear');
+    if(clearBtn) clearBtn.addEventListener('click', () => {
+      try{ window.localStorage.removeItem(D.visitedKey); }catch(e){}
+      const t = fmt(D.progressText, { n: 0, total: total });
+      document.getElementById('hh-prog-t').textContent = t;
+      const bar = document.getElementById('hh-bar'); bar.setAttribute('aria-valuenow', '0'); bar.setAttribute('aria-valuetext', t); bar.firstElementChild.style.width = '0%';
+      document.getElementById('hh-prog-s').textContent = D.progressCleared;
+    });
 
     /* open / close a troubleshooter card (one at a time) */
     const cards = Array.from(root.querySelectorAll('.hh-tc'));

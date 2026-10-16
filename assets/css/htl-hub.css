@@ -105,3 +105,10 @@
   .htl .hh-cbody h3{font-size:12pt;}
   .hh-cbody p, .hh-time, .hh-ev{font-size:10pt; color:#000;}
 }
+
+.hh-warn{margin:8px 0 0; padding:8px 12px; background:var(--gold); color:var(--navy); border-radius:8px; font-weight:700;}
+.hh-prog-actions{display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; margin:10px 0 0;}
+.hh-clear{min-height:44px; padding:8px 16px; border-radius:10px; border:2px solid var(--navy); background:#fff; color:var(--navy); font:700 0.95rem var(--sans); cursor:pointer;}
+.hh-clear:hover{background:var(--paper-soft);}
+.hh-clear:focus-visible{outline:3px solid var(--navy); outline-offset:3px; box-shadow:0 0 0 6px var(--gold);}
+@media print{ .hh-prog-actions{display:none !important;} }

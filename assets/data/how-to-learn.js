@@ -39,18 +39,20 @@ const HOW_TO_LEARN = {
   modules: [
     { id: "brain", short: "Your brain", n: 1, title: "How your brain learns", blurb: "Your brain keeps changing with practice. What that does and does not mean.", evidence: ["brain"], file: "how-to-learn-brain.html", built: true },
     { id: "myths", short: "Myths", n: 2, title: "Learning myths: styles and illusions of knowing", blurb: "Why \"I know it when I see it\" can fool you, and what to do about learning styles.", evidence: ["styles", "illusions"], file: "how-to-learn-myths.html", built: true },
-    { id: "retrieval", short: "Retrieval", key: "moeller-ex-htl-quiz", n: 3, title: "Study like it counts: retrieval practice", blurb: "Close the page and try to remember. Why it works and a self-quiz tool.", evidence: ["retrieval"], file: "how-to-learn-retrieval.html", built: true },
-    { id: "spacing", short: "Spacing", key: "moeller-ex-htl-calendar", n: 4, title: "Spread it out: spacing", blurb: "Spreading study over several days works better than cramming. Plan your reviews.", evidence: ["spacing"], file: "how-to-learn-spacing.html", built: true },
+    { id: "retrieval", short: "Retrieval", n: 3, title: "Study like it counts: retrieval practice", blurb: "Close the page and try to remember. Why it works and a self-quiz tool.", evidence: ["retrieval"], file: "how-to-learn-retrieval.html", built: true },
+    { id: "spacing", short: "Spacing", n: 4, title: "Spread it out: spacing", blurb: "Spreading study over several days works better than cramming. Plan your reviews.", evidence: ["spacing"], file: "how-to-learn-spacing.html", built: true },
     { id: "interleaving", short: "Interleaving", n: 5, title: "Making it hard in the right way: interleaving and productive struggle", blurb: "When mixing it up helps, and when struggle is just struggle.", evidence: ["interleaving"], file: "how-to-learn-interleaving.html", built: true },
     { id: "mindset", short: "Mindset", n: 6, title: "Can you improve? Mindset, honestly", blurb: "What the research says about mindset, and why strategies matter.", evidence: ["mindset"], file: "how-to-learn-mindset.html", built: true },
     { id: "habits", short: "Habits", n: 7, title: "Habits that stick: if-then plans", blurb: "Make starting easier with a plan for when and where.", evidence: ["habits"], file: "how-to-learn-habits.html", built: true },
     { id: "focus", short: "Focus", n: 8, title: "Focus and digital distraction", blurb: "Low-cost ways to protect your attention, and what is still unproven.", evidence: ["focus"], file: "how-to-learn-focus.html", built: true },
     { id: "sleep", short: "Sleep", n: 9, title: "Sleep and learning", blurb: "How much sleep teens need and how it connects to school.", evidence: ["sleep"], file: "how-to-learn-sleep.html", built: true },
-    { id: "executive", short: "Planning", key: "moeller-ex-htl-planner", n: 10, title: "Planning and organization (executive skills)", blurb: "Printable planners and a task-breakdown template.", evidence: ["executive"], file: "how-to-learn-executive.html", built: true }
+    { id: "executive", short: "Planning", n: 10, title: "Planning and organization (executive skills)", blurb: "Printable planners and a task-breakdown template.", evidence: ["executive"], file: "how-to-learn-executive.html", built: true }
   ],
 
-  // Hub layout wording (assets/js/htl-hub.js). "key" on a module is the browser-storage key its tool already saves under;
-  // the progress bar only READS those keys (it never saves anything). Modules with no saving tool have no key.
+  // Hub layout wording (assets/js/htl-hub.js).
+  // PROGRESS: each module page records its own id (nothing else) in this browser under visitedKey, as a list like ["brain","spacing"].
+  // The hub only reads that list to draw the progress bar. Don't change the key, or students' progress resets.
+  visitedKey: "moeller-htl-visited",
   groups: [
     { id: "memory", title: "How memory works", ids: ["brain", "myths", "retrieval", "spacing", "interleaving"] },
     { id: "work", title: "How you work", ids: ["mindset", "habits", "focus", "sleep", "executive"] }
@@ -60,7 +62,10 @@ const HOW_TO_LEARN = {
   goLabel: "Go",
   progressLabel: "Your progress",
   progressText: "{n} of {total} modules explored",
-  progressNote: "This bar counts the modules where you have saved something on this device: the quiz builder, the review calendar, or the weekly planner. Reading a module does not count, and nothing leaves your device.",
+  progressNote: "This counts the modules you have opened on this device. It saves only which modules you opened, nothing you type, and nothing leaves your device.",
+  progressClear: "Clear my progress",
+  progressCleared: "Progress cleared.",
+  progressBlocked: "This browser is blocking saving, so your progress cannot be remembered.",
   troubleHint: "Tap a sentence to open it.",
   moduleWord: "Module",
   mapTitle: "See how they connect",
