@@ -351,6 +351,7 @@ const COURSE_PLANNER_TEXT = {
        "Name": "id"                      -> that one course
        "Name": ["id1", "id2"]            -> the same course at different levels; the first that fits the grade is added
        "Name": { choose: ["id1", ...] }  -> a real choice; the student picks from a short list
+       "Name": { row: "Fine Arts" }      -> any course from that grid row; the picker opens for that grade
        "Name": null                      -> not in the planner's course list (shown as a note, no Add button)
      Keep the names exactly as they appear in assets/data/course-maps.js. */
   pathwayMatch: {
@@ -366,7 +367,7 @@ const COURSE_PLANNER_TEXT = {
     "Creative Writing": "eng4-creative-writing-cp1",
     "Journalism": "eng4-journalism-cp1",
     "Religion IV": { choose: ["rel4-community-service-cp1", "rel4-spirituality-cp1", "rel4-religious-themes-fiction-h"] },
-    "Fine Arts": null,
+    "Fine Arts": { row: "Fine Arts" },
     "Fundamentals of IT CCP": "fundamentals-it-ccp",
     "Fundamentals of Web Dev CCP": "fundamentals-web-dev-ccp",
     "AI: Uses and Applications": "ai-uses-cp1",

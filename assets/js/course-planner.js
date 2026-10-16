@@ -76,7 +76,7 @@
   const ruleById = id => RULES.find(r => r.id === id) || null;
   const MOE = isObj(R.moeTerm) ? R.moeTerm : {perYear:0.25, byGradYear:{}};
   const titleOf = ref => byId[ref] ? byId[ref].title : (typeof ref === 'string' ? ref : '');
-  const levelTitle = c => (c.level && !c.title.endsWith(c.level) && c.title.indexOf(' ' + c.level + ':') < 0) ? c.title + ' ' + c.level : c.title;
+  const levelTitle = c => (c.level && !/(\bAP\b|\bHonors\b|\bCP1\b|\bCP2\b|\bCCP\b|\bPF\b|\bHonors Plus\b)/.test(c.title)) ? c.title + ' ' + c.level : c.title;
   const termText = c => ((Object.prototype.hasOwnProperty.call(T.details.terms, c.term) ? T.details.terms[c.term] : '') || c.term || T.sheet.empty) + (c.online ? ' ' + T.details.online : '');
 
   /* ---------- state ---------- */
@@ -401,7 +401,9 @@
   const tint = (h, t) => { const n = parseInt(hexOk(h).slice(1), 16), m = v => Math.round(v + (255 - v) * t); return 'rgb(' + m(n >> 16) + ',' + m(n >> 8 & 255) + ',' + m(n & 255) + ')'; };
   const pathStyle = p => '--pc:' + hexOk(p.color) + ';--pt:' + tint(p.color, 0.82);
   const normName = x => String(x).toLowerCase().replace(/\./g, '').replace(/&/g, ' and ').replace(/[^a-z0-9 ]/g, ' ').replace(/\b(cp1|cp2|level 1|pf|ccp)\b/g, ' ').replace(/\s+/g, ' ').trim();
-  const byNorm = Object.create(null); CAT.forEach(c => { const k = normName(c.title); (byNorm[k] = byNorm[k] || []).push(c.id); });
+  const baseName = x => normName(x).replace(/\b(honors plus|honors)\b/g, ' ').replace(/\s+/g, ' ').trim();
+  const byNorm = Object.create(null), byBase = Object.create(null);
+  CAT.forEach(c => { const k = normName(c.title); (byNorm[k] = byNorm[k] || []).push(c.id); const b = baseName(c.title); (byBase[b] = byBase[b] || []).push(c.id); });
   const MATCH = isObj(T.pathwayMatch) ? T.pathwayMatch : {};
   const resolved = Object.create(null);
   /* a pathway course name -> {kind:'none'} | {kind:'one', ids} | {kind:'choose', ids} */
@@ -412,8 +414,9 @@
     if(v === null) ids = [];
     else if(typeof v === 'string') ids = [v];
     else if(Array.isArray(v)) ids = strList(v);
+    else if(isObj(v) && typeof v.row === 'string') return (resolved[name] = {kind:'row', ids:[], row:v.row});
     else if(isObj(v) && Array.isArray(v.choose)){ ids = strList(v.choose); choice = true; }
-    else ids = (byNorm[normName(name)] || []).slice();
+    else { ids = (byNorm[normName(name)] || []).slice(); if(!/honors/i.test(name)) (byBase[baseName(name)] || []).forEach(id => { if(!ids.includes(id) && !/\bAP\b/.test(byId[id].title)) ids.push(id); }); }
     ids = ids.filter(id => byId[id]);
     return (resolved[name] = !ids.length ? {kind:'none', ids:[]} : {kind:choice && ids.length > 1 ? 'choose' : 'one', ids});
   }
@@ -436,8 +439,9 @@
     const legend = '<ul class="cp-px-legend" aria-label="' + escA(X.legendLabel) + '"><li><span class="cp-px-sw is-key" aria-hidden="true">★</span>' + esc(X.legendKey) + '</li><li><span class="cp-px-sw is-req" aria-hidden="true"></span>' + esc(X.legendReq) + '</li><li><span class="cp-px-sw is-opt" aria-hidden="true"></span>' + esc(X.legendOpt) + '</li></ul>';
     const action = (p, yi, ci, c) => {
       const grade = 9 + yi, r = resolveName(c.name), bid = 'cp-px-b-' + p.id + '-' + yi + '-' + ci;
+      if(r.kind === 'row') return '<button type="button" class="cp-px-add is-choose" id="' + bid + '" data-act="px-row" data-path="' + escA(p.id) + '" data-y="' + yi + '" data-c="' + ci + '" aria-label="' + escA(fmt(X.chooseLabel, {course:c.name})) + '">' + esc(X.choose) + '</button>';
       if(r.kind === 'none') return '<span class="cp-px-note">' + esc(X.noMatch) + '</span>';
-      if(r.ids.some(id => has(grade, id))) return '<span class="cp-px-done" id="' + bid + '" tabindex="-1">' + esc(X.already) + '<span class="cp-vh">: ' + esc(c.name) + '</span></span>';
+      if(r.ids.some(id => inPlan(id))) return '<span class="cp-px-done" id="' + bid + '" tabindex="-1">' + esc(X.already) + '<span class="cp-vh">: ' + esc(c.name) + '</span></span>';
       if(r.kind === 'choose') return '<button type="button" class="cp-px-add is-choose" id="' + bid + '" data-act="px-choose" data-path="' + escA(p.id) + '" data-y="' + yi + '" data-c="' + ci + '" aria-label="' + escA(fmt(X.chooseLabel, {course:c.name})) + '">' + esc(X.choose) + '</button>';
       return '<button type="button" class="cp-px-add" id="' + bid + '" data-act="px-add" data-path="' + escA(p.id) + '" data-y="' + yi + '" data-c="' + ci + '" aria-label="' + escA(fmt(X.addLabel, {course:c.name})) + '">' + esc(X.add) + '</button>';
     };
@@ -450,7 +454,7 @@
     const cols = window.matchMedia('(min-width:1000px)').matches ? 4 : (window.matchMedia('(min-width:560px)').matches ? 2 : 1);
     const oi = CM.findIndex(p => p.id === openPath), panelAt = oi < 0 ? -1 : Math.min(CM.length - 1, Math.floor(oi / cols) * cols + cols - 1);
     host.innerHTML = '<ul class="cp-px-tiles" aria-label="' + escA(X.tilesLabel) + '">' + CM.map((p, i) =>
-      '<li class="cp-px-tilewrap"><button type="button" class="cp-px-tile' + (openPath === p.id ? ' is-open' : '') + '" id="cp-px-tile-' + escA(p.id) + '" data-act="px-toggle" data-path="' + escA(p.id) + '" aria-expanded="' + (openPath === p.id) + '" aria-controls="cp-px-panel-' + escA(p.id) + '" style="' + pathStyle(p) + '">' +
+      '<li class="cp-px-tilewrap"><button type="button" class="cp-px-tile' + (openPath === p.id ? ' is-open' : '') + '" id="cp-px-tile-' + escA(p.id) + '" data-act="px-toggle" data-path="' + escA(p.id) + '" aria-expanded="' + (openPath === p.id) + '"' + (openPath === p.id ? ' aria-controls="cp-px-panel-' + escA(p.id) + '"' : '') + ' style="' + pathStyle(p) + '">' +
       '<span class="cp-px-tileicon" aria-hidden="true">' + esc(p.icon || '') + '</span><span class="cp-px-tiletext"><strong>' + esc(p.name) + '</strong><span>' + esc(p.desc || '') + '</span></span></button></li>' +
       (i === panelAt ? panel(CM[oi]) : '')).join('') + '</ul>';
     const crumb = document.getElementById('cp-crumb'), op = CM.find(p => p.id === openPath);
@@ -595,14 +599,16 @@
     const uniq = a => a.filter((x, i) => a.indexOf(x) === i);
     const req = c.prereq.map(pid => byId[pid] ? levelTitle(byId[pid]) : '').filter(Boolean);
     c.prereqAny.forEach(group => { const names = group.filter(pid => byId[pid]).map(pid => levelTitle(byId[pid])); if(names.length) req.push(fmt(P.prereqAny, {list:names.join(' ' + T.tracker.or + ' ')})); });
-    const leads = uniq(CAT.filter(x => x.prereq.includes(c.id) || x.prereqAny.some(g => g.includes(c.id))).map(levelTitle));
+    const leads = uniq(CAT.filter(x => x.prereq.includes(c.id) || x.recommended.includes(c.id) || x.prereqAny.some(g => g.includes(c.id))).map(levelTitle));
     const paths = pathwaysFor(c.id);
     const list = a => '<ul class="cp-pn-list">' + a.map(x => '<li>' + x + '</li>').join('') + '</ul>';
     panelOpener = document.activeElement; panelFallback = rowOf(c) + '|' + grade;
     panelBody.innerHTML = '<div class="cp-pn-head"><div><h2 id="cp-panel-t" class="cp-pn-title">' + esc(c.title) + '</h2><p class="cp-pn-dept"><strong>' + esc(P.dept) + ':</strong> ' + esc(c.dept || T.sheet.empty) + '</p>' +
-      '<p class="cp-hint">' + esc(fmt(P.levelLine, {level:c.level || T.sheet.empty, credits:fmt(c.credits === 1 ? T.grid.credit1 : T.grid.credits, {n:num(c.credits)})})) + ' · ' + esc(fmt(P.planned, {grade:gradeName(grade)})) + '</p></div>' +
+      '<p class="cp-hint">' + esc(T.details.grades + ': ' + (c.grades.length ? c.grades.join(', ') : T.sheet.empty) + ' · ' + termText(c)) + '</p><p class="cp-hint">' + esc(fmt(P.levelLine, {level:c.level || T.sheet.empty, credits:fmt(c.credits === 1 ? T.grid.credit1 : T.grid.credits, {n:num(c.credits)})})) + ' · ' + esc(fmt(P.planned, {grade:gradeName(grade)})) + '</p></div>' +
       '<button type="button" class="cp-pn-close" data-act="panel-close" aria-label="' + escA(P.closeLabel) + '">×</button></div>' +
       '<h3>' + esc(P.prereq) + '</h3>' + (req.length || c.prereqNote ? list(req.map(esc).concat(c.prereqNote ? [esc(c.prereqNote)] : [])) : '<p class="cp-hint">' + esc(P.prereqNone) + '</p>') +
+      (c.recommended.length ? '<h3>' + esc(T.details.recommended) + '</h3>' + list(c.recommended.map(pid => esc(titleOf(pid)))) : '') +
+      (c.coreq.length ? '<h3>' + esc(T.details.coreq) + '</h3>' + list(c.coreq.map(pid => esc(titleOf(pid)))) : '') +
       '<h3>' + esc(P.unlocks) + '</h3>' + (leads.length ? list(leads.map(esc)) : '<p class="cp-hint">' + esc(P.unlocksNone) + '</p>') +
       '<h3>' + esc(P.pathways) + '</h3>' + (paths.length ? '<ul class="cp-pn-paths">' + paths.map(p => '<li style="--pc:' + hexOk(p.color) + '"><span class="cp-pn-pdot" aria-hidden="true"></span>' + esc(p.name) + '</li>').join('') + '</ul>' : '<p class="cp-hint">' + esc(P.pathwaysNone) + '</p>') +
       '<div class="cp-pn-actions"><button type="button" class="tool-btn danger" data-act="remove" data-grade="' + grade + '" data-id="' + escA(c.id) + '" data-close="1" aria-label="' + escA(fmt(P.removeLabel, {course:levelTitle(c), grade:gradeName(grade)})) + '">' + esc(P.remove) + '</button></div>';
@@ -777,9 +783,11 @@
     if(act === 'levels'){ openLevels(); return; }
     if(act === 'crumb-clear'){ if(openPath){ const was = openPath; togglePath(was, false); const t = document.getElementById('cp-px-tile-' + was); if(t) t.focus(); } return; }
     if(act === 'px-toggle'){ togglePath(b.dataset.path, true); return; }
-    if(act === 'px-add' || act === 'px-choose'){
+    if(act === 'px-add' || act === 'px-choose' || act === 'px-row'){
       const p = CM.find(x => x.id === b.dataset.path), yi = +b.dataset.y, c = p && Array.isArray(p.years[yi]) ? p.years[yi][+b.dataset.c] : null; if(!c) return;
-      const grade = 9 + yi, r = resolveName(c.name); if(!r.ids.length) return;
+      const grade = 9 + yi, r = resolveName(c.name);
+      if(act === 'px-row'){ if(r.kind === 'row') openPicker(grade, r.row, null); return; }
+      if(!r.ids.length) return;
       if(act === 'px-choose'){ openPicker(grade, rowOf(byId[r.ids[0]]), {key:'px' + Date.now(), grade, label:c.name, choose:r.ids, row:rowOf(byId[r.ids[0]])}); return; }
       const id = pickFor(r.ids, grade); if(addCourse(grade, id, true)){ update(); setStatus(fmt(T.explore.addedLive, {course:levelTitle(byId[id]), grade:gradeName(grade)})); }
       return;

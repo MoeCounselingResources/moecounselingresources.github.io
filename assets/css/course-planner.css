@@ -290,3 +290,6 @@ body[data-page="course-planner"] .tool-wrap{max-width:1240px;}
 .cp-handle{min-height:36px;}
 .cp-acc-b a, footer a{display:inline-block; padding:12px 0;}
 .cp-privacy{font-size:0.875rem;}
+
+.cp-px-panelwrap, #cp-grid-sec, #cp-path-sec{scroll-margin-top:110px;}
+.cp-table tbody tr{scroll-margin-top:110px;}
