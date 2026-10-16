@@ -29,8 +29,9 @@
       return '<li class="sh-card sh-' + acc + '" data-grades="' + gr.join(',') + '">' +
         '<div class="sh-icon">' + svg(b.icon) + '</div>' +
         '<div class="sh-body"><h3>' + esc(b.title) + '</h3><p>' + esc(b.desc) + '</p>' +
-        '<div class="sh-tags" role="group" aria-label="' + esc(b.title) + ': most relevant to grade' + (gr.length > 1 ? 's ' : ' ') + gr.join(', ') + '">' +
-        GRADES.map(g => '<span class="sh-tag' + (gr.indexOf(g) > -1 ? ' on' : '') + '" data-g="' + g + '"' + (gr.indexOf(g) > -1 ? '' : ' aria-hidden="true"') + '>' + g + '</span>').join('') + '</div>' +
+        '<div class="sh-tags"><span class="sh-vh">Best for grade' + (gr.length > 1 ? 's ' : ' ') + gr.join(', ') + '.</span>' +
+        '<span class="sh-tags-cap" aria-hidden="true">Best for grades</span>' +
+        GRADES.map(g => '<span class="sh-tag' + (gr.indexOf(g) > -1 ? ' on' : '') + '" data-g="' + g + '" aria-hidden="true">' + g + '</span>').join('') + '</div>' +
         '<span class="sh-fit" hidden></span>' +
         '<a class="sh-open" href="' + esc(b.href) + '" aria-label="Open ' + esc(b.title) + '">Open</a></div></li>';
     }).join('');
@@ -44,7 +45,7 @@
       '<p class="sh-status" id="sh-status" role="status" aria-live="polite"></p>' +
       '<p class="sh-warn" id="sh-warn" hidden>This browser is blocking saving, so your grade will not be remembered next time.</p>' +
       '<p class="sh-privacy">Your choice saves only on this device.</p></div>' +
-      '<ul class="sh-grid">' + cards + '</ul></section>';
+      '<h2 class="sh-vh">Counseling tools and resources</h2><ul class="sh-grid">' + cards + '</ul></section>';
 
     const all = Array.from(host.querySelectorAll('.sh-card')), btns = Array.from(host.querySelectorAll('.sh-grade'));
     const status = host.querySelector('#sh-status'), warn = host.querySelector('#sh-warn');
@@ -55,10 +56,10 @@
         c.classList.toggle('is-dim', !fits);
         c.classList.toggle('is-fit', g != null && fits);
         const f = c.querySelector('.sh-fit');
-        if(g != null && fits){ f.hidden = false; f.textContent = 'Fits grade ' + g; } else if(g != null){ f.hidden = false; f.textContent = 'More for other grades'; } else { f.hidden = true; f.textContent = ''; }
+        if(g != null && fits){ f.hidden = false; f.textContent = 'Fits grade ' + g; } else if(g != null){ f.hidden = false; f.textContent = 'Made for other grades. Open it anytime.'; } else { f.hidden = true; f.textContent = ''; }
         c.querySelectorAll('.sh-tag').forEach(t => t.classList.toggle('sel', g != null && t.dataset.g === String(g) && t.classList.contains('on')));
       });
-      if(announce) status.textContent = g == null ? 'Showing all cards.' : 'Highlighting what fits grade ' + g + '. Other cards are dimmed, and you can still open them.';
+      if(announce) status.textContent = g == null ? 'Showing all cards.' : 'Showing what fits grade ' + g + '. Faded cards still open.';
     }
     btns.forEach(b => b.addEventListener('click', () => {
       const g = b.dataset.g === '' ? null : parseInt(b.dataset.g, 10);
