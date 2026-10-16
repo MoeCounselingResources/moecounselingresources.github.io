@@ -10,15 +10,17 @@
 <link rel="stylesheet" href="assets/css/course-planner.css">
 </head>
 <body data-kind="tool" data-hub="school" data-page="course-planner">
-<!-- Course Planner. Wording: assets/data/course-planner.js · Courses: assets/data/course-catalog.js · Rules: assets/data/course-rules.js · Logic: assets/js/course-planner.js -->
+<!-- Course Planner. Wording: assets/data/course-planner.js · Courses: assets/data/course-catalog.js · Rules: assets/data/course-rules.js · Pathways (read-only): assets/data/course-maps.js · Logic: assets/js/course-planner.js -->
 
 <header id="site-header"></header>
 
-<section class="hero">
-  <a class="back-link" id="cp-back" href="school-counseling.html">← Back to School Counseling</a><br>
-  <span class="hero-stage hub-school" id="cp-stage"></span>
-  <h1 id="cp-title">Course Planner</h1>
-  <p id="cp-intro"></p>
+<section class="cp-hero" id="cp-hero">
+  <div class="cp-hero-in">
+    <a class="cp-hero-back" id="cp-back" href="school-counseling.html">← Back to School Counseling</a>
+    <h1 id="cp-title">Course Planner</h1>
+    <p class="cp-hero-sub" id="cp-intro"></p>
+    <nav class="cp-pills" id="cp-pills"></nav>
+  </div>
 </section>
 
 <main class="tool-wrap" id="main">
@@ -45,6 +47,7 @@
 <script src="assets/data/hubs.js"></script>
 <script src="assets/js/engine.js"></script>
 <script src="assets/js/site.js"></script>
+<script src="assets/data/course-maps.js"></script>
 <script src="assets/data/course-catalog.js"></script>
 <script src="assets/data/course-rules.js"></script>
 <script src="assets/data/course-planner.js"></script>

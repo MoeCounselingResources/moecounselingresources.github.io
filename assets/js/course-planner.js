@@ -1,6 +1,6 @@
 /* =========================================================================
    COURSE PLANNER — draws course-planner.html from COURSE_PLANNER_TEXT (wording),
-   COURSE_CATALOG (courses) and COURSE_RULES (graduation rules, sequences, pathways, programs).
+   COURSE_CATALOG (courses), COURSE_RULES (graduation rules, sequences, programs) and PATHWAYS from assets/data/course-maps.js (read-only: the pathway tiles).
    The plan saves only in the student's own browser. Nothing is ever sent anywhere.
    The one on-demand outside script is SheetJS, loaded from cdnjs only when "Download as Excel"
    is clicked (same approach as assets/js/app-tracker.js). All wording lives in the data file.
@@ -75,8 +75,6 @@
   const RULES = Array.isArray(R.rules) ? R.rules.filter(isObj) : [];
   const ruleById = id => RULES.find(r => r.id === id) || null;
   const MOE = isObj(R.moeTerm) ? R.moeTerm : {perYear:0.25, byGradYear:{}};
-  const PATHS = Array.isArray(R.pathways) ? R.pathways.filter(p => isObj(p) && typeof p.id === 'string') : [];
-  const PATH_NOTE = typeof R.pathwaysNote === 'string' ? R.pathwaysNote : (typeof R.pathwayNote === 'string' ? R.pathwayNote : '');
   const titleOf = ref => byId[ref] ? byId[ref].title : (typeof ref === 'string' ? ref : '');
   const levelTitle = c => (c.level && !c.title.endsWith(c.level) && c.title.indexOf(' ' + c.level + ':') < 0) ? c.title + ' ' + c.level : c.title;
   const termText = c => (T.details.terms[c.term] || c.term || T.sheet.empty) + (c.online ? ' ' + T.details.online : '');
@@ -88,7 +86,6 @@
   const defaultTrack = list => { const cp1 = list.find(t => t.level === 'CP1' || trackKey(t) === 'cp1' || t.track === 'CP1'); return cp1 ? trackKey(cp1) : (list[0] ? trackKey(list[0]) : ''); };
   let state = { gradYear: YEARS[Math.min(3, YEARS.length - 1)], levels:{math:defaultTrack(mathTracks), science:defaultTrack(sciTracks)}, waiver:false, courses:[] };
   let pending = [];           /* choice groups waiting for a pick: {grade, label, choose:[ids]} — not saved */
-  let viewYear = 9;           /* phone view */
   let storageOK = true;
   const KEY = T.storage.key;
 
@@ -154,10 +151,10 @@
   const opt = (v, label, sel) => '<option value="' + escA(v) + '"' + (sel ? ' selected' : '') + '>' + esc(label) + '</option>';
   const trackOpts = (list, cur) => list.map(t => opt(trackKey(t), fmt(T.start.trackOption, {track:t.track}), trackKey(t) === cur)).join('');
   const S = T.start;
+  const splitLabel = label => { const m = /^(.*?)\s*(\(.*\))$/.exec(label); return m ? {main:m[1], qual:m[2]} : {main:label, qual:''}; };
   root.innerHTML =
-    '<div class="cp-screen">' +
+    '<div class="cp-screen" id="cp-screen">' +
     '<p class="cp-blocked" id="cp-blocked" role="alert" hidden>' + esc(T.storage.blocked) + '</p>' +
-    '<div class="cp-disclaimer"><span class="cp-badge">' + esc(T.disclaimerLabel) + '</span> ' + esc(R.disclaimer || '') + '</div>' +
     '<nav class="cp-jump" aria-label="' + escA(T.jump.label) + '"><ul>' + T.jump.items.map(j => '<li><a href="#' + escA(j.id) + '">' + esc(j.text) + '</a></li>').join('') + '</ul></nav>' +
 
     '<section class="cp-sec" id="cp-start"><h2>' + esc(S.title) + '</h2><div class="cp-fields">' +
@@ -167,54 +164,34 @@
     '</div><div class="cp-actions"><button type="button" class="tool-btn" id="cp-typical">' + esc(S.typical) + '</button><button type="button" class="tool-btn secondary" id="cp-blank">' + esc(S.blank) + '</button></div>' +
     '<div class="cp-confirm" id="cp-start-confirm" hidden></div><p class="cp-hint">' + esc(S.typicalHint) + '</p></section>' +
 
-    '<section class="cp-sec" id="cp-grid-sec"><h2>' + esc(T.grid.title) + '</h2><p>' + esc(T.grid.intro) + '</p>' +
-      '<div class="cp-year-tabs" role="group" aria-label="' + escA(T.grid.yearTabsLabel) + '" id="cp-year-tabs">' + GRADES.map(g => '<button type="button" class="cp-ytab" data-year="' + g + '" aria-pressed="' + (g === viewYear) + '">' + esc(fmt(T.grid.yearTab, {n:g})) + '</button>').join('') + '</div>' +
-      '<div class="cp-table-wrap"><table class="cp-table" id="cp-table"><thead><tr><th scope="col" class="cp-col-sub">' + esc(T.grid.subjectHead) + '</th>' +
+    '<section class="cp-sec" id="cp-grid-sec"><div class="cp-gridhead"><h2>' + esc(T.grid.title) + '</h2><button type="button" class="cp-qbtn" id="cp-levels-btn" data-act="levels" aria-label="' + escA(T.grid.levelsBtnLabel) + '">' + esc(T.grid.levelsBtn) + '</button></div><p>' + esc(T.grid.intro) + '</p>' +
+      '<div class="cp-crumb" id="cp-crumb" hidden></div><p class="cp-scrollhint">' + esc(T.grid.scrollHint) + '</p>' +
+      '<div class="cp-table-wrap" id="cp-table-wrap" tabindex="0" role="region" aria-label="' + escA(T.grid.title) + '"><table class="cp-table" id="cp-table"><thead><tr><th scope="col" class="cp-col-sub">' + esc(T.grid.subjectHead) + '</th>' +
         GRADES.map(g => '<th scope="col" class="cp-col-g" data-grade="' + g + '">' + esc(gradeName(g)) + '</th>').join('') +
-        '<th scope="col" class="cp-col-min">' + esc(T.grid.minHead) + '</th><th scope="col" class="cp-col-tot">' + esc(T.grid.totalHead) + '</th></tr></thead><tbody id="cp-tbody"></tbody></table></div>' +
+        '<th scope="col" class="cp-col-min">' + esc(T.grid.minHead) + '</th><th scope="col" class="cp-col-tot">' + esc(T.grid.totalHead) + '</th><th scope="col" class="cp-col-status">' + esc(T.grid.statusHead) + '</th></tr></thead><tbody id="cp-tbody"></tbody></table></div>' +
+      '<p class="cp-disc">' + esc(R.disclaimer || '') + '</p>' +
       '<div class="cp-foot"><button type="button" class="tool-btn" id="cp-print">' + esc(T.actions.print) + '</button><button type="button" class="tool-btn secondary" id="cp-excel">' + esc(T.actions.excel) + '</button>' +
       '<button type="button" class="tool-btn danger" id="cp-clear">' + esc(T.storage.clear) + '</button><span class="cp-status" id="cp-status" role="status" aria-live="polite"></span></div>' +
-      '<div class="cp-confirm" id="cp-clear-confirm" hidden></div><p class="cp-privacy">' + esc(T.storage.privacy) + '</p></section>' +
+      '<div class="cp-confirm" id="cp-clear-confirm" hidden></div>' +
+      '<div class="cp-waiverbox"><div class="cp-check"><input type="checkbox" id="cp-waiver"' + (state.waiver ? ' checked' : '') + '><label for="cp-waiver">' + esc(T.tracker.waiverLabel) + '</label></div><div id="cp-waiver-info" hidden></div></div>' +
+      '<p class="cp-privacy">' + esc(T.storage.privacy) + '</p></section>' +
 
-    '<section class="cp-sec" id="cp-tracker-sec"><h2>' + esc(T.tracker.title) + '</h2><p>' + esc(T.tracker.intro) + '</p><div id="cp-tracker" aria-live="polite"></div>' +
-      '<h3>' + esc(T.tracker.waiverTitle) + '</h3><div class="cp-check"><input type="checkbox" id="cp-waiver"' + (state.waiver ? ' checked' : '') + '><label for="cp-waiver">' + esc(T.tracker.waiverLabel) + '</label></div>' +
-      '<div id="cp-waiver-info" hidden></div></section>' +
+    '<section class="cp-sec" id="cp-path-sec"><h2>' + esc(T.explore.title) + '</h2><p>' + esc(T.explore.subtitle) + '</p><div id="cp-px"></div></section>' +
 
     '<section class="cp-sec" id="cp-conn-sec"><h2>' + esc(T.connections.title) + '</h2><p>' + esc(T.connections.intro) + '</p><div id="cp-conn" aria-live="polite"></div>' +
       '<h3>' + esc(T.connections.nextTitle) + '</h3><p class="cp-hint">' + esc(T.connections.nextIntro) + '</p><div id="cp-next"></div></section>' +
 
-    '<section class="cp-sec" id="cp-path-sec"><h2>' + esc(T.pathways.title) + '</h2><p>' + esc(T.pathways.intro) + '</p>' +
-      '<div class="cp-field cp-field-narrow"><label class="tool-label" for="cp-path">' + esc(T.pathways.pickLabel) + '</label><select class="tool-select" id="cp-path"><option value="">' + esc(T.pathways.pickPlaceholder) + '</option>' + pathOptions() + '</select></div>' +
-      '<div id="cp-path-panel"></div>' +
-      '<h3>' + esc(T.pathways.hubTitle) + '</h3><p class="cp-hint">' + esc(T.pathways.hubIntro) + '</p><div id="cp-hub">' + hubHtml() + '</div></section>' +
-
-    '<section class="cp-sec" id="cp-prog-sec"><h2>' + esc(T.programs.title) + '</h2><p>' + esc(T.programs.intro) + '</p>' + programsHtml() +
-      '<h3>' + esc(T.programs.levelsTitle) + '</h3>' + levelsHtml() + registrationHtml() + '</section>' +
+    '<section class="cp-sec" id="cp-prog-sec"><h2>' + esc(T.programs.title) + '</h2><p>' + esc(T.programs.intro) + '</p>' + programsHtml() + '</section>' +
     '</div>' +
     '<div class="cp-sheet" id="cp-sheet"></div>' +
-    '<div class="cp-overlay" id="cp-overlay" hidden><div class="cp-dialog" role="dialog" aria-modal="true" aria-labelledby="cp-dialog-title" id="cp-dialog"></div></div>';
+    '<div class="cp-overlay" id="cp-overlay" hidden><div class="cp-dialog" role="dialog" aria-modal="true" aria-labelledby="cp-dialog-title" id="cp-dialog"></div></div>' +
+    '<div class="cp-pbg" id="cp-pbg" hidden></div>' +
+    '<aside class="cp-panel" id="cp-panel" role="dialog" aria-modal="true" aria-labelledby="cp-panel-t" tabindex="-1" hidden><div class="cp-handle" id="cp-handle" aria-hidden="true" title="' + escA(T.panel.handle) + '"><span></span></div><div id="cp-panel-body"></div></aside>';
 
   statusEl = document.getElementById('cp-status');
   blockedEl = document.getElementById('cp-blocked');
 
   /* ---------- static panels ---------- */
-  function pathOptions(){
-    const groups = [];
-    PATHS.forEach(p => { const g = typeof p.group === 'string' ? p.group : ''; if(!groups.includes(g)) groups.push(g); });
-    return groups.map(g => {
-      const items = PATHS.filter(p => (typeof p.group === 'string' ? p.group : '') === g).map(p => opt(p.id, p.name, false)).join('');
-      return g ? '<optgroup label="' + escA(g) + '">' + items + '</optgroup>' : items;
-    }).join('');
-  }
-  function pathKeys(yrs){
-    const out = [];
-    GRADES.forEach(g => { if(Array.isArray(yrs[g]) && yrs[g].length) out.push({key:String(g), grades:[g]}); });
-    Object.keys(yrs).forEach(k => {
-      const m = /^(\d+)-(\d+)$/.exec(k); if(!m || !Array.isArray(yrs[k]) || !yrs[k].length) return;
-      const grades = GRADES.filter(g => g >= +m[1] && g <= +m[2]); if(grades.length) out.push({key:k, grades});
-    });
-    return out;
-  }
   function hubHtml(){
     const charts = Array.isArray(R.hubCharts) ? R.hubCharts.filter(isObj) : [];
     if(!charts.length) return '';
@@ -239,8 +216,12 @@
   }
   function programsHtml(){
     const progs = Array.isArray(R.programs) ? R.programs.filter(isObj) : [];
-    return '<ul class="cp-programs">' + progs.map(p => '<li><strong>' + esc(p.title || '') + '</strong>' + (typeof p.page === 'number' ? ' <span class="cp-page">' + esc(fmt(T.programs.page, {n:p.page})) + '</span>' : '') +
-      '<span>' + esc(p.summary || '') + '</span>' + (typeof p.link === 'string' && /^https:\/\//.test(p.link) ? ' <a href="' + escA(p.link) + '" target="_blank" rel="noopener noreferrer" aria-label="' + escA(T.programs.link + ': ' + (p.title || '')) + '">' + esc(T.programs.link) + '</a>' : '') + '</li>').join('') + '</ul>';
+    const item = (title, page, body) => '<details class="cp-acc"><summary><span class="cp-acc-t">' + esc(title) + '</span>' + (typeof page === 'number' ? ' <span class="cp-page">' + esc(fmt(T.programs.page, {n:page})) + '</span>' : '') + '</summary><div class="cp-acc-b">' + body + '</div></details>';
+    let h = '<div class="cp-accs">' + progs.map(p => item(p.title || '', p.page, '<p>' + esc(p.summary || '') + '</p>' +
+      (typeof p.link === 'string' && /^https:\/\//.test(p.link) ? '<p><a href="' + escA(p.link) + '" target="_blank" rel="noopener noreferrer" aria-label="' + escA(T.programs.link + ': ' + (p.title || '')) + '">' + esc(T.programs.link) + '</a></p>' : ''))).join('');
+    if(isObj(R.registration) && strList(R.registration.steps).length) h += item(T.accordion.registrationTitle, typeof R.registration.page === 'number' ? R.registration.page : null, '<ol class="cp-steps">' + strList(R.registration.steps).map(x => '<li>' + esc(x) + '</li>').join('') + '</ol>');
+    const hub = hubHtml(); if(hub) h += item(T.accordion.hubTitle, null, '<p class="cp-hint">' + esc(T.pathways.hubIntro) + '</p>' + hub);
+    return h + '</div>';
   }
   function levelsHtml(){
     const lv = Array.isArray(R.levels) ? R.levels.filter(isObj) : [];
@@ -248,11 +229,6 @@
     if(isObj(R.apFee)) h += '<p><strong>' + esc(T.programs.apFee) + ':</strong> ' + esc(R.apFee.text || '') + (typeof R.apFee.page === 'number' ? ' <span class="cp-page">' + esc(fmt(T.programs.page, {n:R.apFee.page})) + '</span>' : '') + '</p>';
     if(isObj(R.ccp)) h += '<p><strong>' + esc(T.programs.ccp) + ':</strong> ' + esc(R.ccp.text || '') + (typeof R.ccp.page === 'number' ? ' <span class="cp-page">' + esc(fmt(T.programs.page, {n:R.ccp.page})) + '</span>' : '') + '</p>';
     return h;
-  }
-  function registrationHtml(){
-    if(!isObj(R.registration) || !strList(R.registration.steps).length) return '';
-    return '<h3>' + esc(T.programs.registrationTitle) + '</h3><ol class="cp-steps">' + strList(R.registration.steps).map(s => '<li>' + esc(s) + '</li>').join('') + '</ol>' +
-      (typeof R.registration.page === 'number' ? '<p class="cp-page">' + esc(fmt(T.programs.registrationPage, {n:R.registration.page})) + '</p>' : '');
   }
 
   /* ---------- computing the tracker ---------- */
@@ -333,73 +309,68 @@
       '<span class="cp-chip-t">' + esc(c.title) + '</span><span class="cp-chip-m">' + (c.level ? '<span class="cp-lvtag ' + lvClass(c.level) + '">' + esc(c.level) + '</span>' : '') + '<span>' + esc(num(c.credits)) + '</span>' + (flagged ? '<span class="cp-flag">' + esc(T.grid.flagMark) + '</span>' : '') + '</span></button>' +
       '<button type="button" class="cp-x" data-act="remove" data-grade="' + grade + '" data-id="' + escA(c.id) + '" aria-label="' + escA(fmt(T.grid.removeLabel, {course:levelTitle(c), grade:gradeName(grade)})) + '">×</button></span>';
   }
+  /* requirement state for a grid row: met, progress (some credits, not enough), or notMet; null when the row has no minimum (Other) */
+  function rowState(key, calc){
+    if(key === OTHER) return null;
+    if(key === 'Physical Education' && state.waiver) return 'met';
+    const row = calc.rows[key] || {have:0, need:0};
+    if(row.have >= row.need) return 'met';
+    return row.have > 0 ? 'progress' : 'notMet';
+  }
+  function creditsShort(calc){
+    let n = 0;
+    ROW_KEYS.forEach(k => { if(k === 'Physical Education' && state.waiver) return; const r = calc.rows[k]; if(r && r.have < r.need) n += r.need - r.have; });
+    return Math.round(n * 100) / 100;
+  }
+  const dotHtml = (st, label) => '<span class="cp-dot is-' + st + '" role="img" aria-label="' + escA(label) + '"></span>';
+  const dotLabel = (st, subject) => fmt(st === 'met' ? T.status.met : st === 'progress' ? T.status.progress : T.status.notMet, {subject});
   function renderGrid(calc, fl){
     const tb = document.getElementById('cp-tbody');
     const showOther = state.courses.some(e => byId[e.id] && rowOf(byId[e.id]) === OTHER);
     const rows = ROWS.concat(showOther ? [T.grid.otherRow] : []);
     let h = '';
-    rows.forEach(r => {
+    rows.forEach((r, ri) => {
       const isPE = r.key === 'Physical Education', row = calc.rows[r.key] || {have:0, need:0};
-      h += '<tr><th scope="row" class="cp-col-sub">' + esc(r.label) + '</th>';
+      const lab = splitLabel(r.label), st = rowState(r.key, calc);
+      h += '<tr id="cp-row-' + ri + '" data-row="' + escA(r.key) + '"><th scope="row" class="cp-col-sub" tabindex="-1"><span class="cp-sub-main">' + esc(lab.main) + '</span>' + (lab.qual ? '<span class="cp-qual">' + esc(lab.qual) + '</span>' : '') + '</th>';
       GRADES.forEach(g => {
         const items = state.courses.filter(e => e.grade === g && byId[e.id] && rowOf(byId[e.id]) === r.key);
         const pend = pending.filter(p => p.grade === g && p.row === r.key);
-        h += '<td class="cp-col-g" data-grade="' + g + '"><span class="cp-cell-g">' + esc(gradeName(g)) + '</span><div class="cp-cell">' +
+        h += '<td class="cp-col-g" data-grade="' + g + '"><div class="cp-cell">' +
           items.map(e => chipHtml(g, byId[e.id], !!fl.keys[g + ':' + e.id])).join('') +
           pend.map(p => '<button type="button" class="cp-choose" data-act="choose" data-pend="' + escA(p.key) + '" aria-label="' + escA(fmt(T.grid.chooseLabel, {label:p.label, grade:gradeName(g)})) + '">' + esc(fmt(T.grid.choose, {label:p.label})) + '</button>').join('') +
           (isPE && state.waiver && !items.length ? '<span class="cp-waived">' + esc(T.grid.waiverCell) + '</span>' : '') +
           '<button type="button" class="cp-add" data-act="add" data-grade="' + g + '" data-row="' + escA(r.key) + '" aria-label="' + escA(fmt(T.grid.addLabel, {subject:r.label, grade:gradeName(g)})) + '">' + esc(T.grid.add) + '</button></div></td>';
       });
       const minTxt = isPE && state.waiver ? T.grid.waiverCell : (r.key === OTHER ? T.sheet.empty : num(row.need));
-      h += '<td class="cp-col-min">' + esc(minTxt) + '</td><td class="cp-col-tot">' + esc(num(row.have)) + '</td></tr>';
+      h += '<td class="cp-col-min">' + esc(minTxt) + '</td><td class="cp-col-tot">' + esc(num(row.have)) + '</td><td class="cp-col-status">' + (st ? dotHtml(st, dotLabel(st, lab.main)) : '<span aria-hidden="true">' + esc(T.status.none) + '</span>') + '</td></tr>';
     });
-    h += '<tr class="cp-yearrow"><th scope="row" class="cp-col-sub">' + esc(T.grid.yearTotalRow) + '</th>' +
-      GRADES.map(g => '<td class="cp-col-g" data-grade="' + g + '"><span class="cp-cell-g">' + esc(gradeName(g)) + '</span><strong>' + esc(num(calc.years[g])) + '</strong><span class="cp-hint"> ' + esc(fmt(T.grid.yearMin, {n:num(YEAR_MIN[g] || 0)})) + '</span></td>').join('') +
-      '<td class="cp-col-min">' + esc(num(TOTAL)) + '</td><td class="cp-col-tot"><strong>' + esc(num(calc.total)) + '</strong></td></tr>';
+    const short = creditsShort(calc), overallTxt = short <= 0 ? T.status.onTrack : (short === 1 ? T.status.needed1 : fmt(T.status.needed, {n:num(short)}));
+    h += '<tr class="cp-yearrow"><th scope="row" class="cp-col-sub"><span class="cp-sub-main">' + esc(T.grid.yearTotalRow) + '</span></th>' +
+      GRADES.map(g => '<td class="cp-col-g" data-grade="' + g + '"><strong>' + esc(num(calc.years[g])) + '</strong><span class="cp-hint"> ' + esc(fmt(T.grid.yearMin, {n:num(YEAR_MIN[g] || 0)})) + '</span></td>').join('') +
+      '<td class="cp-col-min">' + esc(num(TOTAL)) + '</td><td class="cp-col-tot"><strong>' + esc(num(calc.total)) + '</strong></td>' +
+      '<td class="cp-col-status"><span class="cp-overall ' + (short <= 0 ? 'is-ok' : 'is-short') + '" aria-label="' + escA(fmt(T.status.overall, {text:overallTxt})) + '">' + esc(overallTxt) + '</span></td></tr>';
     tb.innerHTML = h;
   }
 
-  /* ---------- rendering the tracker ---------- */
-  function renderTracker(calc){
-    const K = T.tracker;
-    const line = (txt, done) => '<li class="' + (done ? 'is-done' : 'is-open') + '"><span class="cp-mark">' + esc(done ? K.statusDone : K.statusOpen) + '</span> ' + esc(txt) + '</li>';
-    let h = '<p class="cp-total">' + esc(fmt(calc.total >= TOTAL ? (calc.total > TOTAL ? K.totalOver : K.totalDone) : K.total, {have:num(calc.total), need:num(TOTAL)})) + '</p><ul class="cp-reqs">';
-    ROWS.forEach(r => {
-      const row = calc.rows[r.key];
-      if(r.key === 'Physical Education' && state.waiver){ h += line(K.rowWaiver, true); return; }
-      const wlRule = ruleById('worldLangSame'), wlNeed = wlRule && typeof wlRule.years === 'number' ? wlRule.years : 2;
-      const done = row.have >= row.need && !(r.key === 'Science' && calc.sciMissing.length) && !(r.key === 'Social Studies' && calc.ssMissing.length) && !(r.key === 'World Language' && (calc.bestYears || 0) < wlNeed);
-      let txt = fmt(done ? K.rowDone : K.row, {subject:r.label, have:num(row.have), need:num(row.need)});
-      if(!done){
-        const core = r.key === 'Science' ? calc.sciMissing : (r.key === 'Social Studies' ? calc.ssMissing : []);
-        txt += ', ' + (core.length ? fmt(K.stillNeedList, {list:core.join(', ')}) : fmt(K.stillNeed, {n:num(row.need - row.have)}));
-      }
-      h += line(txt, done);
-    });
-    h += '</ul><h3>' + esc(K.yearsTitle) + '</h3><ul class="cp-reqs">' + GRADES.map(g => {
-      const need = YEAR_MIN[g] || 0, have = calc.years[g], done = have >= need;
-      return line(fmt(done ? K.yearDone : K.yearShort, {grade:gradeName(g), have:num(have), need:num(need), n:num(need - have)}), done);
-    }).join('') + '</ul>' + (typeof R.classesPerSemester === 'number' ? '<p class="cp-hint">' + esc(fmt(K.classesPerSemester, {n:R.classesPerSemester})) + (typeof R.perYearMinNote === 'string' ? ' ' + esc(R.perYearMinNote) : '') + '</p>' : '');
-    h += '<h3>' + esc(K.rulesTitle) + '</h3><ul class="cp-reqs">';
-    const pg = id => { const r = ruleById(id); return r && typeof r.page === 'number' ? ' ' + fmt(K.rulePage, {n:r.page}) : ''; };
-    h += line((calc.mathMissing.length ? fmt(K.mathEveryYear.missing, {grades:calc.mathMissing.map(gradeName).join(', ')}) : K.mathEveryYear.ok) + pg('mathEveryYear'), !calc.mathMissing.length);
-    if(ruleById('scienceCore')) h += line((calc.sciMissing.length ? fmt(K.scienceCore.missing, {list:calc.sciMissing.join(', ')}) : K.scienceCore.ok) + pg('scienceCore'), !calc.sciMissing.length);
-    if(ruleById('ssCore')) h += line((calc.ssMissing.length ? fmt(K.ssCore.missing, {list:calc.ssMissing.join(', ')}) : K.ssCore.ok) + pg('ssCore'), !calc.ssMissing.length);
-    const wl = ruleById('worldLangSame'), need = wl && typeof wl.years === 'number' ? wl.years : 2, enc = wl && typeof wl.encouraged === 'number' ? wl.encouraged : 3;
-    let wlTxt, wlOk = calc.bestYears >= need;
-    if(!calc.bestYears) wlTxt = K.worldLang.none;
-    else if(calc.bestYears < need) wlTxt = fmt(K.worldLang.missing, {n:calc.bestYears, lang:calc.bestLang});
-    else if(calc.bestYears < enc) wlTxt = fmt(K.worldLang.encouraged, {n:calc.bestYears, lang:calc.bestLang});
-    else wlTxt = fmt(K.worldLang.ok, {n:calc.bestYears, lang:calc.bestLang});
-    h += line(wlTxt + pg('worldLangSame'), wlOk);
-    h += '</ul><h3>' + esc(K.moeTermTitle) + '</h3><ul class="cp-reqs">';
-    const m = calc.moe, mDone = m.have >= m.need;
-    h += line(fmt(mDone ? K.moeTermDone : K.moeTerm, {have:num(m.have), need:num(m.need), n:m.years, per:num(m.per)}), mDone) + '</ul>' + (typeof MOE.note === 'string' && MOE.note ? '<p class="cp-hint">' + esc(MOE.note) + '</p>' : '');
-    document.getElementById('cp-tracker').innerHTML = h;
-    const W = isObj(R.peWaiver) ? R.peWaiver : {};
+  /* ---------- hero pills and the PE waiver note ---------- */
+  function groupState(g, calc){
+    const sts = g.rows.map(k => rowState(k, calc)).filter(Boolean);
+    if(sts.every(x => x === 'met')) return 'met';
+    const anyCredit = g.rows.some(k => k !== OTHER && !(k === 'Physical Education' && state.waiver) && (calc.rows[k] || {have:0}).have > 0);
+    return sts.some(x => x === 'met') || anyCredit ? 'progress' : 'notMet';
+  }
+  function renderStatus(calc){
+    const stateWord = st => st === 'met' ? T.status.stateMet : st === 'progress' ? T.status.stateProgress : T.status.stateNotMet;
+    const nav = document.getElementById('cp-pills');
+    if(nav){
+      nav.setAttribute('aria-label', T.hero.pillsLabel);
+      nav.innerHTML = T.hero.pills.map((g, i) => { const st = groupState(g, calc); return '<button type="button" class="cp-pill is-' + st + '" data-act="pill" data-pill="' + i + '" aria-label="' + escA(fmt(T.hero.pillLabel, {name:g.label, state:stateWord(st)})) + '"><span class="cp-dot is-' + st + '" aria-hidden="true"></span><span>' + esc(g.label) + '</span></button>'; }).join('');
+    }
+    const K = T.tracker, W = isObj(R.peWaiver) ? R.peWaiver : {};
     const wi = document.getElementById('cp-waiver-info');
     wi.hidden = !state.waiver;
-    wi.innerHTML = '<p>' + esc(W.text || '') + '</p>' + (strList(W.sports).length ? '<p><strong>' + esc(K.waiverSports) + '</strong></p><ul class="cp-sports">' + strList(W.sports).map(s => '<li>' + esc(s) + '</li>').join('') + '</ul>' : '') +
+    wi.innerHTML = '<p>' + esc(W.text || '') + '</p>' + (strList(W.sports).length ? '<p><strong>' + esc(K.waiverSports) + '</strong></p><ul class="cp-sports">' + strList(W.sports).map(x => '<li>' + esc(x) + '</li>').join('') + '</ul>' : '') +
       (W.bandRule ? '<p>' + esc(W.bandRule) + '</p>' : '') + (W.onlyOne ? '<p>' + esc(W.onlyOne) + '</p>' : '') + (typeof W.page === 'number' ? '<p class="cp-page">' + esc(fmt(K.waiverPage, {n:W.page})) + '</p>' : '');
   }
 
@@ -416,32 +387,73 @@
     document.getElementById('cp-next').innerHTML = h;
   }
 
-  /* ---------- pathway panel ---------- */
+  /* ---------- pathway explorer: the eight tiles from course-maps.js ---------- */
+  const CM = typeof PATHWAYS !== 'undefined' && Array.isArray(PATHWAYS) ? PATHWAYS.filter(p => isObj(p) && typeof p.id === 'string' && /^[\w-]+$/.test(p.id) && Array.isArray(p.years)) : [];
+  const hexOk = h => typeof h === 'string' && /^#[0-9a-fA-F]{6}$/.test(h) ? h : '#898781';
+  const tint = (h, t) => { const n = parseInt(hexOk(h).slice(1), 16), m = v => Math.round(v + (255 - v) * t); return 'rgb(' + m(n >> 16) + ',' + m(n >> 8 & 255) + ',' + m(n & 255) + ')'; };
+  const pathStyle = p => '--pc:' + hexOk(p.color) + ';--pt:' + tint(p.color, 0.82);
+  const normName = x => String(x).toLowerCase().replace(/\./g, '').replace(/&/g, ' and ').replace(/[^a-z0-9 ]/g, ' ').replace(/\b(cp1|cp2|level 1|pf|ccp)\b/g, ' ').replace(/\s+/g, ' ').trim();
+  const byNorm = Object.create(null); CAT.forEach(c => { const k = normName(c.title); (byNorm[k] = byNorm[k] || []).push(c.id); });
+  const MATCH = isObj(T.pathwayMatch) ? T.pathwayMatch : {};
+  const resolved = Object.create(null);
+  /* a pathway course name -> {kind:'none'} | {kind:'one', ids} | {kind:'choose', ids} */
+  function resolveName(name){
+    if(resolved[name]) return resolved[name];
+    const known = Object.prototype.hasOwnProperty.call(MATCH, name), v = known ? MATCH[name] : undefined;
+    let ids = [], choice = false;
+    if(v === null) ids = [];
+    else if(typeof v === 'string') ids = [v];
+    else if(Array.isArray(v)) ids = strList(v);
+    else if(isObj(v) && Array.isArray(v.choose)){ ids = strList(v.choose); choice = true; }
+    else ids = (byNorm[normName(name)] || []).slice();
+    ids = ids.filter(id => byId[id]);
+    return (resolved[name] = !ids.length ? {kind:'none', ids:[]} : {kind:choice && ids.length > 1 ? 'choose' : 'one', ids});
+  }
+  /* the version of a course to add for a grade: one open to that grade, and the student's chosen math/science level when it names one */
+  function pickFor(ids, grade){
+    const fits = ids.filter(id => !byId[id].grades.length || byId[id].grades.includes(grade)), pool = fits.length ? fits : ids;
+    const rk = rowOf(byId[pool[0]]), kind = rk === 'Mathematics' ? 'math' : (rk === 'Science' ? 'science' : '');
+    if(kind){ const t = trackByName(kind, state.levels[kind]); const want = t && isObj(t.years) ? flatIds(t.years[grade]) : []; const hit = pool.find(id => want.includes(id)); if(hit) return hit; }
+    return pool[0];
+  }
+  const pathwaysCache = Object.create(null);
+  function pathwaysFor(id){
+    if(pathwaysCache[id]) return pathwaysCache[id];
+    return (pathwaysCache[id] = CM.filter(p => p.years.some(y => Array.isArray(y) && y.some(c => isObj(c) && typeof c.name === 'string' && resolveName(c.name).ids.includes(id)))));
+  }
+  let openPath = null;
   function renderPath(){
-    const sel = document.getElementById('cp-path'), panel = document.getElementById('cp-path-panel');
-    const p = PATHS.find(x => x.id === sel.value);
-    if(!p){ panel.innerHTML = ''; return; }
-    const P = T.pathways, yrs = isObj(p.years) ? p.years : {};
-    let h = '<div class="cp-path"><h3>' + esc(p.name || '') + (typeof p.page === 'number' ? ' <span class="cp-page">' + esc(fmt(P.page, {n:p.page})) + '</span>' : '') + '</h3>';
-    const item = (id, grades, label) => {
-      const c = byId[id];
-      if(!c) return '<li>' + esc(fmt(P.unmatched, {title:id})) + '</li>';
-      const planned = grades.some(g => has(g, id));
-      return '<li><span>' + (label ? '<em>' + esc(label) + ':</em> ' : '') + esc(levelTitle(c)) + '</span> ' + (planned ? '<span class="cp-inplan">' + esc(T.picker.inPlan) + '</span>' :
-        '<span class="cp-path-btns">' + grades.map(g => '<button type="button" class="tool-btn secondary small" data-act="addto" data-grade="' + g + '" data-id="' + escA(id) + '" id="cp-path-' + escA(id) + '-' + g + '" aria-label="' + escA(fmt(P.addOneLabel, {course:levelTitle(c), grade:gradeName(g)})) + '">' + esc(grades.length > 1 ? fmt(P.addOneTo, {grade:gradeName(g)}) : P.addOne) + '</button>').join('') + '</span>') + '</li>';
+    const host = document.getElementById('cp-px'); if(!host) return;
+    const X = T.explore;
+    const legend = '<ul class="cp-px-legend" aria-label="' + escA(X.legendLabel) + '"><li><span class="cp-px-sw is-key" aria-hidden="true">★</span>' + esc(X.legendKey) + '</li><li><span class="cp-px-sw is-req" aria-hidden="true"></span>' + esc(X.legendReq) + '</li><li><span class="cp-px-sw is-opt" aria-hidden="true"></span>' + esc(X.legendOpt) + '</li></ul>';
+    const action = (p, yi, ci, c) => {
+      const grade = 9 + yi, r = resolveName(c.name), bid = 'cp-px-b-' + p.id + '-' + yi + '-' + ci;
+      if(r.kind === 'none') return '<span class="cp-px-note">' + esc(X.noMatch) + '</span>';
+      if(r.ids.some(id => has(grade, id))) return '<span class="cp-px-done" id="' + bid + '" tabindex="-1" aria-label="' + escA(fmt(X.alreadyLabel, {course:c.name})) + '">' + esc(X.already) + '</span>';
+      if(r.kind === 'choose') return '<button type="button" class="cp-px-add is-choose" id="' + bid + '" data-act="px-choose" data-path="' + escA(p.id) + '" data-y="' + yi + '" data-c="' + ci + '" aria-label="' + escA(fmt(X.chooseLabel, {course:c.name})) + '">' + esc(X.choose) + '</button>';
+      return '<button type="button" class="cp-px-add" id="' + bid + '" data-act="px-add" data-path="' + escA(p.id) + '" data-y="' + yi + '" data-c="' + ci + '" aria-label="' + escA(fmt(X.addLabel, {course:c.name})) + '">' + esc(X.add) + '</button>';
     };
-    h += '<div class="cp-path-years">' + pathKeys(yrs).map(({key, grades}) => {
-      const entries = Array.isArray(yrs[key]) ? yrs[key] : [];
-      const title = grades.length > 1 ? (key === '11-12' ? P.juniorSenior : fmt(P.rangeLabel, {a:gradeName(grades[0]), b:gradeName(grades[grades.length - 1])})) : gradeName(grades[0]);
-      const lis = [];
-      entries.forEach(e => { if(typeof e === 'string') lis.push(item(e, grades, '')); else if(titleEntry(e)) lis.push('<li>' + esc(fmt(P.unmatched, {title:titleEntry(e)})) + '</li>'); else if(isObj(e) && Array.isArray(e.choose)) strList(e.choose).forEach(id => lis.push(item(id, grades, typeof e.label === 'string' ? e.label : ''))); });
-      return '<div class="cp-path-year"><h4>' + esc(title) + '</h4>' + (lis.length ? '<ul>' + lis.join('') + '</ul>' : '<p class="cp-hint">' + esc(P.noCourses) + '</p>') + '</div>';
-    }).join('') + '</div>';
-    h += '<p><button type="button" class="tool-btn" data-act="addall" data-path="' + escA(p.id) + '" id="cp-addall">' + esc(P.addAll) + '</button></p>';
-    if(strList(p.clubs).length) h += '<p><strong>' + esc(P.clubs) + ':</strong> ' + esc(strList(p.clubs).join(' · ')) + '</p>';
-    if(typeof p.note === 'string' && p.note) h += '<p>' + esc(p.note) + '</p>';
-    if(PATH_NOTE) h += '<p class="cp-hint">' + esc(PATH_NOTE) + '</p>';
-    panel.innerHTML = h + '</div>';
+    const chip = (p, yi, ci, c) => '<li class="cp-px-chip is-' + escA(['key', 'req', 'opt'].includes(c.type) ? c.type : 'req') + '"><span class="cp-px-cname">' + (c.type === 'key' ? '<span class="cp-px-star" aria-hidden="true">★</span><span class="cp-vh">' + esc(X.keyWord) + ': </span>' : '') + esc(c.name) + (c.type === 'opt' ? ' <span class="cp-px-optw">' + esc(X.optWord) + '</span>' : '') + '</span>' + action(p, yi, ci, c) + '</li>';
+    const clubs = p => String(p.cocurr || '').split('·').map(x => x.trim()).filter(Boolean);
+    const panel = p => '<li class="cp-px-panelwrap" id="cp-px-panel-' + escA(p.id) + '" style="' + pathStyle(p) + '"><div class="cp-px-panel" role="region" aria-labelledby="cp-px-h-' + escA(p.id) + '"><div class="cp-px-band" aria-hidden="true"></div><div class="cp-px-in">' +
+      '<div class="cp-px-head"><span class="cp-px-icon" aria-hidden="true">' + esc(p.icon || '') + '</span><div><h3 id="cp-px-h-' + escA(p.id) + '">' + esc(p.name) + ': ' + esc(X.panelHint) + '</h3><p>' + esc(p.desc || '') + '</p></div></div>' + legend +
+      '<div class="cp-px-cols">' + X.gradeNames.map((gn, yi) => '<section class="cp-px-col"><h4>' + esc(gn) + '</h4><ul>' + ((Array.isArray(p.years[yi]) ? p.years[yi] : []).filter(c => isObj(c) && typeof c.name === 'string').map((c, ci) => chip(p, yi, ci, c)).join('')) + '</ul></section>').join('') + '</div>' +
+      (clubs(p).length ? '<p class="cp-px-clubs"><strong>' + esc(X.clubs) + ':</strong> ' + esc(clubs(p).join(' · ')) + '</p>' : '') + '</div></div></li>';
+    host.innerHTML = '<ul class="cp-px-tiles" aria-label="' + escA(X.tilesLabel) + '">' + CM.map(p =>
+      '<li class="cp-px-tilewrap"><button type="button" class="cp-px-tile' + (openPath === p.id ? ' is-open' : '') + '" id="cp-px-tile-' + escA(p.id) + '" data-act="px-toggle" data-path="' + escA(p.id) + '" aria-expanded="' + (openPath === p.id) + '" aria-controls="cp-px-panel-' + escA(p.id) + '" style="' + pathStyle(p) + '">' +
+      '<span class="cp-px-tileicon" aria-hidden="true">' + esc(p.icon || '') + '</span><span class="cp-px-tiletext"><strong>' + esc(p.name) + '</strong><span>' + esc(p.desc || '') + '</span></span></button></li>' +
+      (openPath === p.id ? panel(p) : '')).join('') + '</ul>';
+    const crumb = document.getElementById('cp-crumb'), op = CM.find(p => p.id === openPath);
+    if(crumb){
+      crumb.hidden = !op;
+      crumb.innerHTML = op ? '<span class="cp-crumb-dot" style="background:' + hexOk(op.color) + '" aria-hidden="true"></span><span>' + esc(fmt(X.breadcrumb, {name:op.name})) + '</span><button type="button" class="cp-crumb-x" data-act="crumb-clear" aria-label="' + escA(fmt(X.breadcrumbClearLabel, {name:op.name})) + '">×</button>' : '';
+    }
+  }
+  function togglePath(id, fromUser){
+    const p = CM.find(x => x.id === id); if(!p) return;
+    openPath = openPath === id ? null : id;
+    renderPath(); setStatus(fmt(openPath ? T.explore.opened : T.explore.closed, {name:p.name}));
+    const t = document.getElementById('cp-px-tile-' + id); if(t && fromUser) t.focus();
   }
 
   /* ---------- the print sheet ---------- */
@@ -496,7 +508,7 @@
   function update(){
     const calc = compute(), fl = flags();
     const active = document.activeElement && document.activeElement.id;
-    renderGrid(calc, fl); renderTracker(calc); renderConnections(fl); renderPath(); renderSheet(calc);
+    renderGrid(calc, fl); renderStatus(calc); renderConnections(fl); renderPath(); renderSheet(calc);
     if(active){ const el = document.getElementById(active); if(el && el !== document.activeElement) el.focus(); }
     save();
   }
@@ -560,23 +572,58 @@
       (has(picker.grade, c.id) ? '<span class="cp-inplan">' + esc(PK.inPlan) + '</span>' : '<button type="button" class="tool-btn small" data-act="pick" data-id="' + escA(c.id) + '" aria-label="' + escA(fmt(PK.addBtnLabel, {course:c.title, level:c.level || '', grade:gradeName(picker.grade)})) + '">' + esc(PK.addBtn) + '</button>') + '</li>').join('') :
       '<li class="cp-hint">' + esc(PK.none) + '</li>';
   }
-  function openDetails(grade, id){
+  /* ---------- course connection panel: slides in from the right on desktop, a bottom sheet on phones ---------- */
+  const panelEl = document.getElementById('cp-panel'), panelBg = document.getElementById('cp-pbg'), panelBody = document.getElementById('cp-panel-body'), handle = document.getElementById('cp-handle');
+  let panelOpener = null, panelFallback = '';
+  const inertTargets = () => ['site-header', 'cp-hero', 'cp-screen'].map(id => document.getElementById(id)).concat(Array.from(document.querySelectorAll('footer')));
+  function openPanel(grade, id){
     const c = byId[id]; if(!c) return;
-    const D = T.details;
-    const req = c.prereq.map(titleOf).filter(Boolean);
-    const leads = CAT.filter(x => x.prereq.includes(c.id) || x.prereqAny.some(g => g.includes(c.id))).map(levelTitle);
-    const counts = c.counts === 'None' ? D.countsNone : (c.counts === 'MoeTerm' ? D.countsMoeTerm : ((ROWS.find(r => r.key === c.counts) || {}).label || c.counts));
-    const dl = [[D.level, c.level || T.sheet.empty], [D.credits, num(c.credits)], [D.term, termText(c)],
-      [D.grades, c.grades.length ? c.grades.map(gradeName).join(', ') : T.sheet.empty], [D.counts, counts + (c.countsNote ? ' — ' + c.countsNote : '')],
-      [D.requires, (req.length ? req.join(', ') : D.requiresNone) + (c.prereqNote ? ' — ' + c.prereqNote : '')]];
-    c.prereqAny.forEach(group => dl.push([D.requiresAny, group.map(titleOf).join(' ' + T.tracker.or + ' ')]));
-    if(c.recommended.length) dl.push([D.recommended, c.recommended.map(titleOf).join(', ')]);
-    if(c.coreq.length) dl.push([D.coreq, c.coreq.map(titleOf).join(', ')]);
-    c.coreqAny.forEach(group => dl.push([D.coreqAny, group.map(titleOf).join(' ' + T.tracker.or + ' ')]));
-    dl.push([D.leadsTo, leads.length ? leads.join(', ') : D.leadsToNone]);
-    openDialog('<h2 class="cp-dialog-title" id="cp-dialog-title">' + esc(c.title) + '</h2><p class="cp-hint">' + esc(fmt(D.planned, {grade:gradeName(grade)})) + (c.page ? ' · ' + esc(fmt(D.page, {n:c.page})) : '') + '</p>' +
-      '<dl class="cp-dl">' + dl.map(([k, v]) => '<div><dt>' + esc(k) + '</dt><dd>' + esc(v) + '</dd></div>').join('') + '</dl>' +
-      '<p class="cp-actions"><button type="button" class="tool-btn danger" data-act="remove" data-grade="' + grade + '" data-id="' + escA(c.id) + '" data-close="1">' + esc(fmt(D.remove, {grade:gradeName(grade)})) + '</button><button type="button" class="tool-btn secondary" id="cp-dt-close" data-autofocus>' + esc(D.close) + '</button></p>');
+    const P = T.panel;
+    const uniq = a => a.filter((x, i) => a.indexOf(x) === i);
+    const req = c.prereq.map(pid => byId[pid] ? levelTitle(byId[pid]) : '').filter(Boolean);
+    c.prereqAny.forEach(group => { const names = group.filter(pid => byId[pid]).map(pid => levelTitle(byId[pid])); if(names.length) req.push(fmt(P.prereqAny, {list:names.join(' ' + T.tracker.or + ' ')})); });
+    const leads = uniq(CAT.filter(x => x.prereq.includes(c.id) || x.prereqAny.some(g => g.includes(c.id))).map(levelTitle));
+    const paths = pathwaysFor(c.id);
+    const list = a => '<ul class="cp-pn-list">' + a.map(x => '<li>' + x + '</li>').join('') + '</ul>';
+    panelOpener = document.activeElement; panelFallback = rowOf(c) + '|' + grade;
+    panelBody.innerHTML = '<div class="cp-pn-head"><div><h2 id="cp-panel-t" class="cp-pn-title">' + esc(c.title) + '</h2><p class="cp-pn-dept"><strong>' + esc(P.dept) + ':</strong> ' + esc(c.dept || T.sheet.empty) + '</p>' +
+      '<p class="cp-hint">' + esc(fmt(P.levelLine, {level:c.level || T.sheet.empty, credits:fmt(c.credits === 1 ? T.grid.credit1 : T.grid.credits, {n:num(c.credits)})})) + ' · ' + esc(fmt(P.planned, {grade:gradeName(grade)})) + '</p></div>' +
+      '<button type="button" class="cp-pn-close" data-act="panel-close" aria-label="' + escA(P.closeLabel) + '">×</button></div>' +
+      '<h3>' + esc(P.prereq) + '</h3>' + (req.length || c.prereqNote ? list(req.map(esc).concat(c.prereqNote ? [esc(c.prereqNote)] : [])) : '<p class="cp-hint">' + esc(P.prereqNone) + '</p>') +
+      '<h3>' + esc(P.unlocks) + '</h3>' + (leads.length ? list(leads.map(esc)) : '<p class="cp-hint">' + esc(P.unlocksNone) + '</p>') +
+      '<h3>' + esc(P.pathways) + '</h3>' + (paths.length ? '<ul class="cp-pn-paths">' + paths.map(p => '<li style="--pc:' + hexOk(p.color) + '"><span class="cp-pn-pdot" aria-hidden="true"></span>' + esc(p.name) + '</li>').join('') + '</ul>' : '<p class="cp-hint">' + esc(P.pathwaysNone) + '</p>') +
+      '<div class="cp-pn-actions"><button type="button" class="tool-btn danger" data-act="remove" data-grade="' + grade + '" data-id="' + escA(c.id) + '" data-close="1" aria-label="' + escA(fmt(P.removeLabel, {course:levelTitle(c), grade:gradeName(grade)})) + '">' + esc(P.remove) + '</button></div>';
+    inertTargets().forEach(el => { if(el) el.setAttribute('inert', ''); });
+    panelBg.hidden = false; panelEl.hidden = false; panelEl.style.transform = ''; document.body.classList.add('cp-modal-open');
+    (panelBody.querySelector('.cp-pn-close') || panelEl).focus();
+  }
+  function closePanel(){
+    if(panelEl.hidden) return;
+    panelEl.hidden = true; panelBg.hidden = true; panelBody.innerHTML = ''; document.body.classList.remove('cp-modal-open');
+    inertTargets().forEach(el => { if(el) el.removeAttribute('inert'); });
+    let back = panelOpener && document.body.contains(panelOpener) ? panelOpener : null;
+    if(!back && panelFallback){ const [rk, g] = panelFallback.split('|'); back = Array.from(root.querySelectorAll('[data-act="add"]')).find(b => b.dataset.row === rk && b.dataset.grade === g) || document.getElementById('cp-grid-sec'); }
+    if(back){ if(!back.hasAttribute('tabindex') && back.tagName === 'SECTION') back.tabIndex = -1; back.focus(); }
+    panelOpener = null; panelFallback = '';
+  }
+  panelBg.addEventListener('click', closePanel);
+  panelEl.addEventListener('keydown', e => {
+    if(e.key === 'Escape'){ e.preventDefault(); closePanel(); return; }
+    if(e.key !== 'Tab') return;
+    const f = Array.from(panelEl.querySelectorAll('button, a[href], input, select')).filter(x => !x.disabled && x.offsetParent !== null);
+    if(!f.length){ e.preventDefault(); return; }
+    if(e.shiftKey && (document.activeElement === f[0] || document.activeElement === panelEl)){ e.preventDefault(); f[f.length - 1].focus(); }
+    else if(!e.shiftKey && document.activeElement === f[f.length - 1]){ e.preventDefault(); f[0].focus(); }
+  });
+  /* drag the handle down to close the bottom sheet (touch and mouse); the Close button is the keyboard way */
+  let dragY = null;
+  handle.addEventListener('pointerdown', e => { dragY = e.clientY; try{ handle.setPointerCapture(e.pointerId); }catch(err){} });
+  handle.addEventListener('pointermove', e => { if(dragY == null) return; const dy = Math.max(0, e.clientY - dragY); panelEl.style.transform = 'translateY(' + dy + 'px)'; });
+  const endDrag = e => { if(dragY == null) return; const dy = e.clientY - dragY; dragY = null; if(dy > 90) closePanel(); else panelEl.style.transform = ''; };
+  handle.addEventListener('pointerup', endDrag); handle.addEventListener('pointercancel', endDrag);
+
+  function openLevels(){
+    openDialog('<h2 class="cp-dialog-title" id="cp-dialog-title">' + esc(T.grid.levelsTitle) + '</h2>' + levelsHtml() + '<p class="cp-actions"><button type="button" class="tool-btn secondary" id="cp-lv-close" data-autofocus>' + esc(T.grid.levelsClose) + '</button></p>');
   }
   dialog.addEventListener('input', e => {
     if(!picker) return;
@@ -588,7 +635,7 @@
   });
   dialog.addEventListener('click', e => {
     const b = e.target.closest('button'); if(!b) return;
-    if(b.id === 'cp-pk-close' || b.id === 'cp-dt-close'){ closeDialog(); return; }
+    if(b.id === 'cp-pk-close' || b.id === 'cp-lv-close'){ closeDialog(); return; }
     if(b.dataset.act === 'pick' && picker){
       const g = picker.grade, key = picker.pendKey;
       if(addCourse(g, b.dataset.id)){
@@ -601,6 +648,7 @@
   document.addEventListener('keydown', e => {
     if(e.key !== 'Escape') return;
     if(!overlay.hidden){ closeDialog(); return; }
+    if(!panelEl.hidden){ closePanel(); return; }
     ['cp-start-confirm', 'cp-clear-confirm'].forEach(id => { const el = document.getElementById(id); if(el && !el.hidden){ hideConfirm(id); } });
   });
 
@@ -691,28 +739,38 @@
     }
   }
 
+  /* ---------- hero pills: jump to the row and flash it ---------- */
+  function jumpToPill(i){
+    const g = T.hero.pills[i]; if(!g) return;
+    const key = g.rows[0], tr = Array.from(root.querySelectorAll('#cp-tbody tr')).find(x => x.dataset.row === key); if(!tr) return;
+    tr.scrollIntoView({block:'center', behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+    const th = tr.querySelector('th'); if(th) th.focus({preventScroll:true});
+    tr.classList.add('is-flash'); setTimeout(() => tr.classList.remove('is-flash'), 1800);
+  }
+  const heroEl = document.getElementById('cp-hero');
+  if(heroEl) heroEl.addEventListener('click', e => { const b = e.target.closest('button[data-act="pill"]'); if(b) jumpToPill(+b.dataset.pill); });
+
   /* ---------- events ---------- */
   root.addEventListener('click', e => {
     const b = e.target.closest('button'); if(!b || dialog.contains(b)) return;
     const act = b.dataset.act;
     if(act === 'add'){ openPicker(+b.dataset.grade, b.dataset.row, null); return; }
     if(act === 'choose'){ const p = pending.find(x => x.key === b.dataset.pend); if(p) openPicker(p.grade, p.row, p); return; }
-    if(act === 'details'){ openDetails(+b.dataset.grade, b.dataset.id); return; }
-    if(act === 'remove'){ removeCourse(+b.dataset.grade, b.dataset.id); update(); return; }
+    if(act === 'details'){ openPanel(+b.dataset.grade, b.dataset.id); return; }
+    if(act === 'panel-close'){ closePanel(); return; }
+    if(act === 'remove'){ removeCourse(+b.dataset.grade, b.dataset.id); update(); if(b.dataset.close) closePanel(); return; }
     if(act === 'addto'){ if(addCourse(+b.dataset.grade, b.dataset.id)) update(); return; }
-    if(act === 'addall'){
-      const p = PATHS.find(x => x.id === b.dataset.path); if(!p) return;
-      let n = 0, skipped = 0;
-      const yrs = isObj(p.years) ? p.years : {};
-      pathKeys(yrs).forEach(({key, grades}) => (Array.isArray(yrs[key]) ? yrs[key] : []).forEach(e => {
-        if(typeof e !== 'string'){ skipped++; return; }           /* choice groups stay a choice */
-        const c = byId[e]; if(!c){ skipped++; return; }
-        const g = grades.find(x => c.grades.includes(x)) || grades[0];
-        if(addCourse(g, e, true)) n++; else skipped++;
-      }));
-      update(); setStatus(fmt(T.pathways.addedAll, {n, skipped, name:p.name || ''})); return;
+    if(act === 'levels'){ openLevels(); return; }
+    if(act === 'crumb-clear'){ if(openPath){ const was = openPath; togglePath(was, false); const t = document.getElementById('cp-px-tile-' + was); if(t) t.focus(); } return; }
+    if(act === 'px-toggle'){ togglePath(b.dataset.path, true); return; }
+    if(act === 'px-add' || act === 'px-choose'){
+      const p = CM.find(x => x.id === b.dataset.path), yi = +b.dataset.y, c = p && Array.isArray(p.years[yi]) ? p.years[yi][+b.dataset.c] : null; if(!c) return;
+      const grade = 9 + yi, r = resolveName(c.name); if(!r.ids.length) return;
+      if(act === 'px-choose'){ openPicker(grade, rowOf(byId[r.ids[0]]), {key:'px' + Date.now(), grade, label:c.name, choose:r.ids, row:rowOf(byId[r.ids[0]])}); return; }
+      const id = pickFor(r.ids, grade); if(addCourse(grade, id, true)){ update(); setStatus(fmt(T.explore.addedLive, {course:levelTitle(byId[id]), grade:gradeName(grade)})); }
+      return;
     }
-    if(b.classList.contains('cp-ytab')){ viewYear = +b.dataset.year; root.dataset.year = String(viewYear); root.querySelectorAll('.cp-ytab').forEach(x => x.setAttribute('aria-pressed', String(+x.dataset.year === viewYear))); return; }
+    if(act === 'pill'){ jumpToPill(+b.dataset.pill); return; }
     if(b.id === 'cp-typical'){
       if(state.courses.length) showConfirm('cp-start-confirm', S.replaceConfirm, S.replaceYes, S.replaceNo, loadTypical); else loadTypical();
       return;
@@ -737,17 +795,17 @@
   document.getElementById('cp-math').addEventListener('change', e => { state.levels.math = e.target.value; update(); });
   document.getElementById('cp-sci').addEventListener('change', e => { state.levels.science = e.target.value; update(); });
   document.getElementById('cp-waiver').addEventListener('change', e => { state.waiver = e.target.checked; update(); });
-  document.getElementById('cp-path').addEventListener('change', renderPath);
 
   /* ---------- go ---------- */
   const loaded = loadSaved();
-  root.dataset.year = String(viewYear);
   document.getElementById('cp-year').value = String(state.gradYear);
   document.getElementById('cp-math').value = state.levels.math;
   document.getElementById('cp-sci').value = state.levels.science;
   document.getElementById('cp-waiver').checked = state.waiver;
   showBlocked();
+  const hm = /^#path-([\w-]+)$/.exec(location.hash || ''); if(hm && CM.some(p => p.id === hm[1])) openPath = hm[1];
   update();
+  if(openPath){ const t = document.getElementById('cp-px-panel-' + openPath); if(t) t.scrollIntoView({block:'start'}); }
   if(!storageOK) setStatus(T.storage.blocked, true);
   else if(loaded && loaded.n) setStatus(fmt(T.storage.loaded, {n:loaded.n}) + (loaded.dropped ? ' ' + fmt(T.storage.dropped, {n:loaded.dropped}) : ''));
 })();

@@ -17,7 +17,8 @@ index.html                  Moeller Counseling (main page)
 │   ├── freshman-foundations-q1.html  Freshman Foundations, Quarter 1 (study skills, 720 Days reflection, quiz)
 │   ├── freshman-foundations-q2.html  Freshman Foundations, Quarter 2 (learning, degrees, career game, bingo, glossary)
 │   ├── freshman-foundations-q3.html  Freshman Foundations, Quarter 3 (course registration and planning)
-│   ├── course-maps.html        Explore Courses and Pathways (pathway explorer, course web, timeline cards; saves nothing)
+│   ├── course-planner.html     Course Planner (four-year grid with a Status column, hero requirement pills, pathway tiles with Add to my plan, course connection panel, programs accordion; wording assets/data/course-planner.js, logic assets/js/course-planner.js, look assets/css/course-planner.css; reads pathways from assets/data/course-maps.js)
+│   ├── course-maps.html        Course timelines and connections (course web and timeline cards; saves nothing; the pathway explorer moved to the Course Planner)
 │   ├── how-to-learn.html       How to Learn hub (progress, "which sentence sounds like you?", module cards, mind map; drawn by assets/js/htl-hub.js and assets/css/htl-hub.css; module pages record which modules were opened under the browser key moeller-ex-htl-visited); one page per module, plus how-to-learn-sources.html
 ├── college-counseling.html College Counseling hub
 │   ├── seniors.html  ← "Application Resources" box opens this
@@ -58,7 +59,8 @@ Links from the School Counseling hub open a class page in its School view
 | The AI page (do's and don'ts, rules, every copyable prompt) | `assets/data/ai.js` (instructions at the top; logic `assets/js/ai.js`, look `assets/css/ai.css`) |
 | Self-Discovery page (every exercise, prompt, and word) | `assets/data/self-discovery.js` (instructions at the top; the logic is `assets/js/self-discovery.js`, the look is `assets/css/self-discovery.css`) |
 | How to Learn hub and module wording | `assets/data/how-to-learn.js` (hub) and `assets/data/htl-<module>.js` (one per module); research claims, evidence labels and source links live ONLY in `assets/data/evidence.js`; logic is `assets/js/how-to-learn.js` (+ `assets/js/htl-<module>.js` for a module's tools); look is `assets/css/how-to-learn.css` |
-| Explore Courses and Pathways (courses, pathways, departments) | `assets/data/course-maps.js` (instructions at the top); page wording `assets/data/course-maps-text.js`; logic `assets/js/course-maps.js`; look `assets/css/course-maps.css` |
+| Course timelines and connections, and the pathway tiles in the Course Planner (courses, pathways, departments) | `assets/data/course-maps.js` (instructions at the top); page wording `assets/data/course-maps-text.js`; logic `assets/js/course-maps.js`; look `assets/css/course-maps.css` |
+| Course Planner wording, hero pills, status wording, and the list that matches pathway course names to the planner's course list (`pathwayMatch`) | `assets/data/course-planner.js` (instructions at the top); graduation rules and programs stay in `assets/data/course-rules.js`; courses in `assets/data/course-catalog.js` |
 | Academic Support page (study groups, Chem Block schedule, tutors, study tools) | `assets/data/academic-support.js` (instructions at the top); logic `assets/js/academic-support.js`; look `assets/css/academic-support.css` |
 | Freshmen Quarter 3 page (every word) | `assets/data/freshman-q3.js` (the logic is `assets/js/freshman-q3.js`; requirements and levels are read from `assets/data/course-rules.js`) |
 | Freshmen Quarter 2 page (every word, glossary, career game) | `assets/data/freshman-q2.js` (the logic is `assets/js/freshman-q2.js`; the look is `assets/css/freshman-q1.css` plus `freshman-q2.css`) |

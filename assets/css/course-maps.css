@@ -161,3 +161,9 @@
   .cm-printlegend small{color:#444;}
   .cm-info, .cm-tip{display:none !important;}
 }
+
+/* link to the Course Planner (where the pathway explorer now lives) */
+.cm-planlink{margin:0 0 18px;}
+.cm-planbtn{display:inline-flex; align-items:center; min-height:48px; padding:10px 22px; border-radius:12px; border:2px solid var(--navy); background:var(--gold); color:var(--navy); font:800 1rem var(--sans); text-decoration:none;}
+.cm-planbtn:hover{filter:brightness(.96);}
+.cm-planbtn:focus-visible{outline:3px solid var(--navy); outline-offset:3px; box-shadow:0 0 0 6px var(--gold);}
