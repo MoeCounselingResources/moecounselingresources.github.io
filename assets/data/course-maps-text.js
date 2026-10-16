@@ -27,6 +27,7 @@ const CM_TEXT = {
   collapse: "Collapse",
   expandAria: "{action} the {area} area",
   print: "Print",
+  printLegendTitle: "Course key (the numbers on the circles)",
   printAria: "Print the {area}",
 
   gradeNames: ["Grade 9", "Grade 10", "Grade 11", "Grade 12"],
@@ -77,6 +78,7 @@ const CM_TEXT = {
     showAll: "Show all pathways",
     allShown: "Showing all {n} pathways.",
     someShown: "Showing {n} of {total} pathways.",
+    badge: "{n} of {total} shown",
     cardsLabel: "Pathway cards"
   }
 };

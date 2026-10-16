@@ -95,10 +95,13 @@
 .cm-info:empty{display:none;}
 
 /* tab 3: full-width cards stacked on the page; a sticky filter row; a chevron on every card header */
-.cm-cardfilter{position:sticky; top:var(--cm-hdr, 0px); z-index:10; margin:0 -24px 14px; padding:10px 24px 8px; background:#fff; border-bottom:2px solid var(--cloud);}
-.cm-filters-row{flex-wrap:nowrap; overflow-x:auto; padding:8px 8px 10px; margin:-8px -8px 0; scroll-snap-type:x proximity; -webkit-overflow-scrolling:touch;}
+.cm-cardfilter{position:sticky; top:var(--cm-hdr, 0px); z-index:10; margin:0 -24px 14px; padding:6px 24px 4px; background:#fff; border-bottom:2px solid var(--cloud);}
+.cm-filters-row{flex-wrap:nowrap; overflow-x:auto; padding:6px 8px 8px; margin:-6px -8px 0; scroll-snap-type:x proximity; -webkit-overflow-scrolling:touch;}
 .cm-filters-row > *{flex:0 0 auto;}
-@media (min-width:1000px){ .cm-filters-row{flex-wrap:wrap; overflow-x:visible; padding:8px 8px 6px;} }
+.cm-count{display:inline-flex; align-items:center; min-height:32px; padding:2px 12px; border-radius:999px; background:var(--paper-soft); border:1px solid var(--cloud); color:var(--slate); font-size:0.85rem; font-weight:700; white-space:nowrap;}
+.cm-filters-row .cm-btn, .cm-filters-row .cm-fbtn{min-height:40px; padding:4px 12px; font-size:0.9rem;}
+@media (max-width:999px){ .cm-filters-row .cm-btn, .cm-filters-row .cm-fbtn{min-height:44px;} }
+@media (min-width:1000px){ .cm-filters-row{flex-wrap:wrap; overflow-x:visible; padding:6px 8px 4px; gap:6px 8px; align-items:center;} }
 .cm-cards{display:grid; grid-template-columns:minmax(0,1fr); gap:0;}
 .cm-cardwrap{display:grid; grid-template-rows:1fr; margin:0 0 16px; opacity:1; transition:grid-template-rows .35s ease, opacity .3s ease, margin .35s ease, visibility 0s;}
 .cm-cardinner{overflow:hidden; min-height:0;}
@@ -143,4 +146,18 @@
   #cm-canvas{width:100% !important; height:auto !important; max-height:8.6in;}
   .cm-tip{display:none;}
   .cm-panelhead h2{font-size:16pt;}
+}
+
+/* printed course key (only shown while printing the course web) */
+.cm-printlegend{display:none;}
+@media print{
+  .cm-printlegend:not([hidden]){display:block; margin:12pt 0 0; break-before:page;}
+  .cm-printlegend h3{font-size:13pt; margin:0 0 6pt;}
+  .cm-printlegend section{break-inside:avoid; margin:0 0 8pt;}
+  .cm-printlegend h4{display:flex; align-items:center; gap:6pt; margin:0 0 3pt; font-size:10pt;}
+  .cm-printlegend ul{list-style:none; margin:0; padding:0; columns:3; column-gap:16pt; font-size:9pt; line-height:1.3;}
+  .cm-printlegend li{break-inside:avoid; margin:0 0 1pt;}
+  .cm-printlegend li b{display:inline-block; min-width:2.2ch;}
+  .cm-printlegend small{color:#444;}
+  .cm-info, .cm-tip{display:none !important;}
 }

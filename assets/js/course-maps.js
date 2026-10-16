@@ -58,15 +58,17 @@
     '<div class="cm-webctl"><div class="cm-filters" role="group" aria-label="' + esc(T.web.filterLabel) + '"></div>' +
     '<p class="cm-note">' + esc(T.web.bigger) + '</p></div>' +
     '<div class="cm-webwrap" id="cm-webwrap"><canvas id="cm-canvas" role="img" aria-label="' + esc(T.web.mapLabel) + '"></canvas><div class="cm-tip" id="cm-tip" aria-hidden="true" hidden></div></div>' +
+    '<div class="cm-printlegend" id="cm-printlegend" hidden></div>' +
     '<div class="cm-pick"><label for="cm-pick">' + esc(T.web.pickLabel) + '</label><select id="cm-pick"></select> <button type="button" class="cm-btn" id="cm-reset">' + esc(T.web.reset) + '</button></div>' +
     '<div class="cm-info" id="cm-info" role="status" aria-live="polite"></div></section>' +
 
     '<section class="cm-panel" id="cm-panel-cards" role="tabpanel" aria-labelledby="cm-tab-cards" data-tab="cards" hidden>' +
     '<div class="cm-panelhead"><div><h2>' + esc(T.cards.heading) + '</h2><p>' + esc(T.cards.help) + '</p></div>' + tools('cards', T.tabs[2].area) + '</div>' +
     '<div class="cm-cardfilter" id="cm-cardfilter"><div class="cm-filters cm-filters-row" id="cm-cardfilters" role="group" aria-label="' + esc(T.cards.filterLabel) + '">' +
-    '<button type="button" class="cm-btn" id="cm-cardall">' + esc(T.cards.showAll) + '</button>' +
+    '<button type="button" class="cm-btn cm-showall" id="cm-cardall">' + esc(T.cards.showAll) + '</button>' +
+    '<span class="cm-count" id="cm-cardstatus" role="status" aria-live="polite"></span>' +
     PATHWAYS.map(p => '<button type="button" class="cm-fbtn" data-id="' + esc(p.id) + '" aria-pressed="false" style="' + pathStyle(p) + '"><span class="cm-fdot" aria-hidden="true"></span>' + esc(p.name) + '</button>').join('') +
-    '</div><p class="cm-note" id="cm-cardstatus" role="status" aria-live="polite"></p></div>' +
+    '</div></div>' +
     '<div class="cm-cards">' +
     PATHWAYS.map(p => '<div class="cm-cardwrap" data-id="' + esc(p.id) + '"><div class="cm-cardinner"><article class="cm-card" aria-labelledby="cm-card-h-' + esc(p.id) + '" style="' + pathStyle(p) + '"><div class="cm-cardband" aria-hidden="true"></div>' +
       '<h3 class="cm-cardtitle" id="cm-card-h-' + esc(p.id) + '"><button type="button" class="cm-cardhead" aria-expanded="true" aria-controls="cm-card-b-' + esc(p.id) + '"><span class="cm-cardicon" aria-hidden="true">' + esc(p.icon) + '</span>' +
@@ -94,7 +96,7 @@
   });
   sel.addEventListener('change', () => showTab(sel.value, false));
 
-  root.querySelectorAll('.cm-print').forEach(b => b.addEventListener('click', () => { if(activeTab === 'web') drawWeb(); window.print(); }));
+  root.querySelectorAll('.cm-print').forEach(b => b.addEventListener('click', () => { window.print(); }));
 
   /* ---------- Tab 1: pathway explorer ---------- */
   const tiles = Array.from(root.querySelectorAll('.cm-tile')), xp = $('cm-xp-panel'), xpArea = $('cm-xpwrap'), live = $('cm-xp-live');
@@ -128,7 +130,8 @@
   function applyCards(){
     wraps.forEach(w => w.classList.toggle('is-out', chosen.size > 0 && !chosen.has(w.dataset.id)));
     fbtns.forEach(b => b.setAttribute('aria-pressed', String(chosen.has(b.dataset.id))));
-    cstatus.textContent = chosen.size ? fmt(T.cards.someShown, { n: chosen.size, total: PATHWAYS.length }) : fmt(T.cards.allShown, { n: PATHWAYS.length });
+    cstatus.textContent = fmt(T.cards.badge, { n: chosen.size || PATHWAYS.length, total: PATHWAYS.length });
+    cstatus.title = chosen.size ? fmt(T.cards.someShown, { n: chosen.size, total: PATHWAYS.length }) : fmt(T.cards.allShown, { n: PATHWAYS.length });
   }
   fbtns.forEach(b => b.addEventListener('click', () => { chosen.has(b.dataset.id) ? chosen.delete(b.dataset.id) : chosen.add(b.dataset.id); applyCards(); }));
   $('cm-cardall').addEventListener('click', () => { chosen.clear(); applyCards(); });
@@ -159,7 +162,7 @@
   const deptColor = d => hexOk(DEPT_COLORS[d]);
   const names = ids => ids.map(i => byId[i].name);
   const grades = c => c.grade.slice().sort((a, b) => a - b).join(', ');
-  const web = { dept: 'All', sel: null, pos: {}, w: 0, h: 0 };
+  const web = { dept: 'All', sel: null, pos: {}, w: 0, h: 0, print: false };
   const canvas = $('cm-canvas'), ctx = canvas.getContext('2d'), wrap = $('cm-webwrap'), tip = $('cm-tip'), info = $('cm-info'), pick = $('cm-pick');
   const MAXUNL = Math.max.apply(null, COURSE_LIST.map(c => unl[c.id].length).concat([1]));
   const PADX = 12, HEAD = 34;
@@ -171,11 +174,24 @@
   pick.innerHTML = '<option value="">' + esc(T.web.pickNone) + '</option>' +
     COURSE_LIST.slice().sort((a, b) => a.name.localeCompare(b.name)).map(c => '<option value="' + esc(c.id) + '">' + esc(c.name) + ' (' + esc(c.dept) + ')</option>').join('');
 
+  // Printing: every circle carries a number and a numbered course key (sorted by department) is printed under the map.
+  const NUM = {}; COURSE_LIST.slice().sort((a, b) => DEPTS.indexOf(a.dept) - DEPTS.indexOf(b.dept) || a.name.localeCompare(b.name)).forEach((c, i) => { NUM[c.id] = i + 1; });
+  const lum = h => { const n = parseInt(hexOk(h).slice(1), 16), f = v => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }; return 0.2126 * f(n >> 16) + 0.7152 * f(n >> 8 & 255) + 0.0722 * f(n & 255); };
+  const textOn = h => { const L = lum(h); return (L + 0.05) / 0.0665 >= 1.05 / (L + 0.05) ? NAVY : '#fff'; };   // navy (luminance about 0.0165) or white, whichever has more contrast
+  function buildLegend(){
+    const el = $('cm-printlegend');
+    const vis = COURSE_LIST.filter(c => web.pos[c.id]);
+    el.innerHTML = '<h3>' + esc(T.printLegendTitle) + '</h3>' + DEPTS.map(d => {
+      const cs = vis.filter(c => c.dept === d).sort((a, b) => NUM[a.id] - NUM[b.id]); if(!cs.length) return '';
+      return '<section><h4><span class="cm-fdot" style="--pc:' + deptColor(d) + '"></span>' + esc(d) + '</h4><ul>' + cs.map(c => '<li><b>' + NUM[c.id] + '</b> ' + esc(c.name) + ' <small>(' + esc(grades(c)) + ')</small></li>').join('') + '</ul></section>';
+    }).join('');
+  }
+
   /* Bubble layout: four grade bands side by side; inside a band the courses fill a grid (grouped by department).
      The grid cell is the biggest that lets every band fit the canvas height. Names show for the selected course and its neighbors. */
   const compact = () => !window.matchMedia('(min-width: 700px)').matches;
   function layout(){
-    const W = Math.max(280, wrap.clientWidth || 320), H = compact() ? 320 : 500;
+    const W = web.print ? 940 : Math.max(280, wrap.clientWidth || 320), H = web.print ? 560 : (compact() ? 320 : 500);
     const vis = COURSE_LIST.filter(c => web.dept === 'All' || c.dept === web.dept), bands = [[], [], [], []];
     vis.forEach(c => bands[Math.min(Math.max(Math.min.apply(null, c.grade), 9), 12) - 9].push(c));
     bands.forEach(b => b.sort((a, c) => DEPTS.indexOf(a.dept) - DEPTS.indexOf(c.dept) || a.name.localeCompare(c.name)));
@@ -192,7 +208,7 @@
     });
     web.bandW = bandW; web.w = W; web.h = H;
   }
-  const R = c => { const rmax = web.cell * 0.46, rmin = Math.max(3.5, web.cell * 0.2); return rmin + (rmax - rmin) * (unl[c.id].length / MAXUNL); };
+  const R = c => { const rmax = web.cell * 0.46, rmin = web.print ? 8 : Math.max(3.5, web.cell * 0.2); return rmin + (rmax - rmin) * (unl[c.id].length / MAXUNL); };
   function related(){
     if(!web.sel) return null;
     const s = {}; s[web.sel] = 1; pre[web.sel].forEach(i => { s[i] = 1; }); unl[web.sel].forEach(i => { s[i] = 1; }); return s;
@@ -211,7 +227,7 @@
       ctx.fillText(compact() ? g.replace('Grade ', 'Gr ') : g, x + 2, 12);
       ctx.fillStyle = CLOUD; ctx.fillRect(x + 2, 24, web.bandW - 8, 2);
     });
-    const rel = related();
+    const rel = web.print ? null : related();
     if(rel){   // lines only for the selected course: what it needs and what it unlocks
       COURSE_LIST.forEach(c => pre[c.id].forEach(p => {
         const a = web.pos[p], b = web.pos[c.id]; if(!a || !b || !(p === web.sel || c.id === web.sel)) return;
@@ -222,7 +238,8 @@
       const p = web.pos[c.id]; if(!p) return;
       ctx.globalAlpha = !rel || rel[c.id] ? 1 : 0.15;
       ctx.beginPath(); ctx.arc(p.x, p.y, R(c), 0, Math.PI * 2); ctx.fillStyle = deptColor(c.dept); ctx.fill();
-      ctx.lineWidth = c.id === web.sel ? 3.5 : 1.5; ctx.strokeStyle = NAVY; ctx.stroke();
+      ctx.lineWidth = c.id === web.sel && !web.print ? 3.5 : 1.5; ctx.strokeStyle = NAVY; ctx.stroke();
+      if(web.print){ ctx.font = 'bold 10px "Libre Franklin", sans-serif'; ctx.textAlign = 'center'; ctx.fillStyle = textOn(deptColor(c.dept)); ctx.fillText(String(NUM[c.id]), p.x, p.y + 0.5); ctx.textAlign = 'left'; }
     });
     ctx.globalAlpha = 1;
     if(rel){   // names for the selected course and its neighbors
@@ -273,7 +290,18 @@
     if(best) select(best, false); else if(web.sel){ select(null); }
   });
   canvas.style.cursor = 'pointer';
-  window.addEventListener('beforeprint', () => { if(activeTab === 'web') drawWeb(); });
+  // Printing the course web: landscape, numbered circles, and a numbered key underneath (the screen layout is put back afterwards)
+  let pageStyle = null;
+  window.addEventListener('beforeprint', () => {
+    if(activeTab !== 'web') return;
+    web.print = true; drawWeb(); buildLegend(); $('cm-printlegend').hidden = false;
+    pageStyle = document.createElement('style'); pageStyle.textContent = '@page{size:landscape; margin:0.4in;}'; document.head.appendChild(pageStyle);
+  });
+  window.addEventListener('afterprint', () => {
+    if(!web.print) return;
+    web.print = false; $('cm-printlegend').hidden = true; if(pageStyle){ pageStyle.remove(); pageStyle = null; }
+    drawWeb(); if(web.sel) select(web.sel, false);
+  });
   let rz = null; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { if(activeTab === 'web'){ drawWeb(); if(web.sel) select(web.sel, false); } }, 120); });
 
   /* ---------- start ---------- */
