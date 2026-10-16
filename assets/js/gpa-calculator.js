@@ -20,7 +20,9 @@ function cp2(g){ if(g>=96) return 4.3; if(g>=94) return 4.2; if(g>=92) return 4.
 function wt(g,level){ if(g<70) return 0; return cp2(g)+LEVELS[level].bonus; }
 const r1 = x => Math.round(x*10)/10;
 const trunc2 = x => Math.floor(x*100+1e-6)/100;
-const fmt = x => (x==null||isNaN(x)) ? "–" : trunc2(x).toFixed(2);
+/* GPAs are rounded to the nearest hundredth for display and for the Latin Honors comparison (2.765 -> 2.77). */
+const round2 = x => Math.round(x*100+1e-6)/100;
+const fmt = x => (x==null||isNaN(x)) ? "–" : round2(x).toFixed(2);
 const letter = g => g>=90?"A":g>=80?"B":g>=75?"C":g>=70?"D":"F";
 
 /* ---------- Course catalog (2024-25 through 2026-27 curriculum guides) ---------- */
@@ -93,7 +95,7 @@ const TIERS = [
 ];
 function latin(w){
   if(w==null) return null;
-  const v = trunc2(w);
+  const v = round2(w);
   for(const t of TIERS){ if(t.cap && !state.capstone) continue; if(v>=t.min) return t; }
   return null;
 }
@@ -166,7 +168,7 @@ function renderOverall(){
   const per = YEARS.map(y=>({y, s:summarize(state.years[y.key])}));
   const all = summarize(YEARS.flatMap(y=>state.years[y.key]));
   const cur = latin(all.w);
-  const v = all.w==null?null:trunc2(all.w);
+  const v = all.w==null?null:round2(all.w);
   $("#panel").innerHTML = `
     <div class="panel-head"><h2>Overall</h2></div>
     <p class="callout"><b>Your cumulative GPA is only as accurate as the grades you enter.</b> Fill in each year with the final grades from your transcript. Cumulative GPA combines every graded course from all four years, weighted by credits.</p>
@@ -198,7 +200,7 @@ function howHTML(){
     <li>Decimal grades are dropped to the whole number (89.7 counts as 89).</li>
     <li>Grades below 70 earn 0 points and still count toward the GPA.</li>
     <li>Pass/fail courses earn credit but don't count in the GPA.</li>
-    <li>GPAs are cut off (not rounded) at two decimals, so 3.799 shows as 3.79.</li>
+    <li>GPAs are rounded to the nearest hundredth, so 2.765 shows as 2.77. The same rounded number is used for Latin Honors.</li>
     <li>Honor roll is figured each quarter with unweighted grades. Use the <a href="${HONOR_ROLL_URL}">Honor Roll Calculator</a> for that.</li>
   </ul></details>`;
 }
