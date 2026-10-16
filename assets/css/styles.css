@@ -184,7 +184,7 @@ header{
 }
 .updates-chips{
   display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(210px, 1fr));
+  grid-template-columns:repeat(auto-fill, minmax(min(210px, 100%), 1fr));
   grid-auto-rows:1fr;
   gap:10px;
   transition:opacity 0.25s ease;
@@ -535,9 +535,11 @@ header{
   margin-top:20px;
 }
 .resource-grid.stacked{
-  grid-template-columns:1fr;
+  grid-template-columns:minmax(0, 1fr);
 }
 .resource-card{
+  min-width:0;
+  overflow-wrap:anywhere;
   display:flex;
   flex-direction:column;
   gap:16px;
@@ -611,7 +613,7 @@ header{
 }
 .panel-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(240px,1fr));
+  grid-template-columns:repeat(auto-fit, minmax(min(240px, 100%),1fr));
   gap:1px;
   background:var(--rule);
   border:1px solid var(--rule);
@@ -1454,7 +1456,7 @@ footer .footer-inner{
   .header-inner{flex-direction:column; align-items:flex-start;}
   .year-tabs{width:100%; justify-content:space-between;}
   .year-tab{flex:1; text-align:center; padding:8px 8px;}
-  .resource-grid{grid-template-columns:1fr;}
+  .resource-grid{grid-template-columns:minmax(0, 1fr);}
 }
 
 /* =====================================================================
@@ -2209,7 +2211,7 @@ a.resource-link{border-bottom-color:var(--sky);}
 /* ---------- Opportunities Board ---------- */
 .opp-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns:repeat(auto-fill, minmax(min(300px, 100%), 1fr));
   gap:16px;
   margin-top:8px;
 }
@@ -2343,3 +2345,30 @@ a.resource-link{border-bottom-color:var(--sky);}
 .check-card-people li{margin-bottom:0;}
 .check-card-links a + a{margin-left:14px;}
 @media (max-width:600px){ .check-card{margin-left:0;} }
+
+/* ---------- Small screens and 200% zoom: nothing in the header may push the page sideways ---------- */
+.header-inner, .site-brand, .hub-links, .year-tabs{min-width:0; max-width:100%;}
+@media (max-width:480px){
+  .wordmark{white-space:normal;}
+  .hub-links{flex-wrap:wrap; gap:4px 16px;}
+  .year-tabs{flex-wrap:wrap; border-radius:20px;}
+  .year-tab{flex:1 1 auto; min-width:0; padding:8px 10px;}
+}
+.class-link{min-width:0;}
+.view-switch{flex-wrap:wrap; max-width:100%;}
+.view-switch button{min-width:0;}
+.panel-card{min-width:0; overflow-wrap:anywhere;}
+@media (max-width:360px){
+  .updates-wrap{padding:0 12px;}
+  .updates-box{padding:14px 12px;}
+  .updates-head{flex-direction:column; align-items:stretch; gap:10px;}
+  .updates-datebadge{width:52px; align-self:flex-start;}
+  .updates-chip{min-height:0;}
+  .updates-chip-title, .updates-chip-body{overflow-wrap:anywhere;}
+  .updates-nav{flex-wrap:wrap; gap:8px;}
+}
+@media (max-width:360px){
+  .class-row{grid-template-columns:1fr;}
+  .hero h1{overflow-wrap:anywhere; hyphens:auto;}
+  .class-link span{overflow-wrap:anywhere;}
+}
