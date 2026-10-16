@@ -40,8 +40,8 @@
   .as-table thead{position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%);}
   .as-table tbody tr{margin:0 0 12px; border:2px solid var(--navy); border-radius:12px; overflow:hidden;}
   .as-table tr.is-next{outline-offset:-1px;}
-  .as-table td{display:flex; gap:10px; justify-content:space-between; border-top:1px solid var(--cloud); padding:8px 12px;}
+  .as-table td{display:grid; grid-template-columns:minmax(0,42%) minmax(0,1fr); gap:10px; align-items:baseline; border-top:1px solid var(--cloud); padding:8px 12px;}
   .as-table td:first-child{border-top:0;}
-  .as-table td::before{content:attr(data-label); font-weight:800; flex:0 0 42%; color:var(--slate);}
+  .as-table td::before{content:attr(data-label); font-weight:800; color:var(--slate);}
 }
 @media print{ .as-filters, .as-status, .as-go{display:none !important;} .as-table tr[hidden]{display:none !important;} .as-card{break-inside:avoid;} }

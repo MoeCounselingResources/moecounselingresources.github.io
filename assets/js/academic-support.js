@@ -37,11 +37,11 @@
   const tbody = rows.map((r, i) => {
     const isNext = r === nextRow;
     return '<tr role="row" data-q="' + (+r.q || 0) + '"' + (isNext ? ' class="is-next" aria-current="date"' : '') + '>' +
-      '<td role="cell" data-label="' + esc(cols.quarter) + '">Q' + esc(r.q) + '</td>' +
-      '<td role="cell" data-label="' + esc(cols.chapter) + '">' + esc(r.chapter) + '</td>' +
-      '<td role="cell" data-label="' + esc(cols.test) + '">' + esc(r.test) + '</td>' +
-      '<td role="cell" data-label="' + esc(cols.session) + '">' + esc(r.session) + (isNext ? ' <span class="as-next-badge">' + esc(C.nextBadge) + '</span>' : '') + '</td>' +
-      '<td role="cell" data-label="' + esc(cols.topic) + '">' + esc(r.topic) + '</td></tr>';
+      '<td role="cell" data-label="' + esc(cols.quarter) + '"><span class="as-val">Q' + esc(r.q) + '</span></td>' +
+      '<td role="cell" data-label="' + esc(cols.chapter) + '"><span class="as-val">' + esc(r.chapter) + '</span></td>' +
+      '<td role="cell" data-label="' + esc(cols.test) + '"><span class="as-val">' + esc(r.test) + '</span></td>' +
+      '<td role="cell" data-label="' + esc(cols.session) + '"><span class="as-val">' + esc(r.session) + (isNext ? ' <span class="as-next-badge">' + esc(C.nextBadge) + '</span>' : '') + '</span></td>' +
+      '<td role="cell" data-label="' + esc(cols.topic) + '"><span class="as-val">' + esc(r.topic) + '</span></td></tr>';
   }).join('');
   const nextText = nextRow ? fmt(C.next, { date: nextRow.session, topic: nextRow.topic }) : C.none;
 
