@@ -253,7 +253,8 @@
     const per = typeof MOE.perYear === 'number' ? MOE.perYear : 0.25;
     const by = isObj(MOE.byGradYear) ? MOE.byGradYear : {};
     const moeNeed = typeof by[state.gradYear] === 'number' ? by[state.gradYear] : (typeof by.default === 'number' ? by.default : 1);
-    return {rows, years, total, sciMissing, ssMissing, mathMissing, bestLang, bestYears, moe:{have:yearsPlanned * per, need:moeNeed, years:yearsPlanned, per}};
+    const rowCourses = {}; P.forEach(({c}) => { rowCourses[rowOf(c)] = true; });
+    return {rowCourses, rows, years, total, sciMissing, ssMissing, mathMissing, bestLang, bestYears, moe:{have:yearsPlanned * per, need:moeNeed, years:yearsPlanned, per}};
   }
 
   /* ---------- connections ---------- */
@@ -310,12 +311,19 @@
       '<button type="button" class="cp-x" data-act="remove" data-grade="' + grade + '" data-id="' + escA(c.id) + '" aria-label="' + escA(fmt(T.grid.removeLabel, {course:levelTitle(c), grade:gradeName(grade)})) + '">×</button></span>';
   }
   /* requirement state for a grid row: met, progress (some credits, not enough), or notMet; null when the row has no minimum (Other) */
+  /* what a row still needs beyond its credit count: science core, social studies core, two years of one language */
+  function rowNeeds(key, calc){
+    if(key === 'Science') return calc.sciMissing;
+    if(key === 'Social Studies') return calc.ssMissing;
+    if(key === 'World Language'){ const wl = ruleById('worldLangSame'), need = wl && typeof wl.years === 'number' ? wl.years : 2; return (calc.bestYears || 0) < need ? [fmt(T.status.needLanguage, {n:need})] : []; }
+    return [];
+  }
   function rowState(key, calc){
     if(key === OTHER) return null;
     if(key === 'Physical Education' && state.waiver) return 'met';
     const row = calc.rows[key] || {have:0, need:0};
-    if(row.have >= row.need) return 'met';
-    return row.have > 0 ? 'progress' : 'notMet';
+    if(row.have >= row.need && !rowNeeds(key, calc).length) return 'met';
+    return row.have > 0 || (calc.rowCourses && calc.rowCourses[key]) ? 'progress' : 'notMet';
   }
   function creditsShort(calc){
     let n = 0;
@@ -323,7 +331,7 @@
     return Math.round(n * 100) / 100;
   }
   const dotHtml = (st, label) => '<span class="cp-dot is-' + st + '" role="img" aria-label="' + escA(label) + '"></span>';
-  const dotLabel = (st, subject) => fmt(st === 'met' ? T.status.met : st === 'progress' ? T.status.progress : T.status.notMet, {subject});
+  const dotLabel = (st, subject, needs) => fmt(st === 'met' ? T.status.met : st === 'progress' ? T.status.progress : T.status.notMet, {subject}) + (st !== 'met' && needs && needs.length ? '. ' + fmt(T.status.stillNeeded, {list:needs.join(', ')}) : '');
   function renderGrid(calc, fl){
     const tb = document.getElementById('cp-tbody');
     const showOther = state.courses.some(e => byId[e.id] && rowOf(byId[e.id]) === OTHER);
@@ -343,13 +351,13 @@
           '<button type="button" class="cp-add" data-act="add" data-grade="' + g + '" data-row="' + escA(r.key) + '" aria-label="' + escA(fmt(T.grid.addLabel, {subject:r.label, grade:gradeName(g)})) + '">' + esc(T.grid.add) + '</button></div></td>';
       });
       const minTxt = isPE && state.waiver ? T.grid.waiverCell : (r.key === OTHER ? T.sheet.empty : num(row.need));
-      h += '<td class="cp-col-min">' + esc(minTxt) + '</td><td class="cp-col-tot">' + esc(num(row.have)) + '</td><td class="cp-col-status">' + (st ? dotHtml(st, dotLabel(st, lab.main)) : '<span aria-hidden="true">' + esc(T.status.none) + '</span>') + '</td></tr>';
+      h += '<td class="cp-col-min">' + esc(minTxt) + '</td><td class="cp-col-tot">' + esc(num(row.have)) + '</td><td class="cp-col-status">' + (st ? dotHtml(st, dotLabel(st, lab.main, rowNeeds(r.key, calc))) : '<span aria-hidden="true">' + esc(T.status.none) + '</span>') + '</td></tr>';
     });
-    const short = creditsShort(calc), overallTxt = short <= 0 ? T.status.onTrack : (short === 1 ? T.status.needed1 : fmt(T.status.needed, {n:num(short)}));
+    const short = creditsShort(calc), coreOpen = ROW_KEYS.some(k => rowNeeds(k, calc).length), overallTxt = short > 0 ? (short === 1 ? T.status.needed1 : fmt(T.status.needed, {n:num(short)})) : (coreOpen ? T.status.coreNeeded : T.status.onTrack), ok = short <= 0 && !coreOpen;
     h += '<tr class="cp-yearrow"><th scope="row" class="cp-col-sub"><span class="cp-sub-main">' + esc(T.grid.yearTotalRow) + '</span></th>' +
       GRADES.map(g => '<td class="cp-col-g" data-grade="' + g + '"><strong>' + esc(num(calc.years[g])) + '</strong><span class="cp-hint"> ' + esc(fmt(T.grid.yearMin, {n:num(YEAR_MIN[g] || 0)})) + '</span></td>').join('') +
       '<td class="cp-col-min">' + esc(num(TOTAL)) + '</td><td class="cp-col-tot"><strong>' + esc(num(calc.total)) + '</strong></td>' +
-      '<td class="cp-col-status"><span class="cp-overall ' + (short <= 0 ? 'is-ok' : 'is-short') + '" aria-label="' + escA(fmt(T.status.overall, {text:overallTxt})) + '">' + esc(overallTxt) + '</span></td></tr>';
+      '<td class="cp-col-status"><span class="cp-overall ' + (ok ? 'is-ok' : 'is-short') + '" aria-label="' + escA(fmt(T.status.overall, {text:overallTxt})) + '">' + esc(overallTxt) + '</span></td></tr>';
     tb.innerHTML = h;
   }
 
@@ -365,7 +373,7 @@
     const nav = document.getElementById('cp-pills');
     if(nav){
       nav.setAttribute('aria-label', T.hero.pillsLabel);
-      nav.innerHTML = T.hero.pills.map((g, i) => { const st = groupState(g, calc); return '<button type="button" class="cp-pill is-' + st + '" data-act="pill" data-pill="' + i + '" aria-label="' + escA(fmt(T.hero.pillLabel, {name:g.label, state:stateWord(st)})) + '"><span class="cp-dot is-' + st + '" aria-hidden="true"></span><span>' + esc(g.label) + '</span></button>'; }).join('');
+      nav.innerHTML = T.hero.pills.map((g, i) => { const st = groupState(g, calc); return '<button type="button" class="cp-pill is-' + st + '" data-act="pill" data-pill="' + i + '" aria-label="' + escA(fmt(T.hero.pillLabel, {name:g.label, state:stateWord(st)})) + '" title="' + escA(g.rows.map(k => rowNeeds(k, calc).join(', ')).filter(Boolean).join('; ')) + '"><span class="cp-dot is-' + st + '" aria-hidden="true"></span><span>' + esc(g.label) + '</span></button>'; }).join('');
     }
     const K = T.tracker, W = isObj(R.peWaiver) ? R.peWaiver : {};
     const wi = document.getElementById('cp-waiver-info');

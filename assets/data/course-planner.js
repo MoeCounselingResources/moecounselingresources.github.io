@@ -278,7 +278,10 @@ const COURSE_PLANNER_TEXT = {
     needed: "{n} credits needed",
     needed1: "1 credit needed",
     overall: "Overall status: {text}",
-    none: "—"
+    none: "—",
+    stillNeeded: "Still needed: {list}",
+    needLanguage: "{n} years of the same language",
+    coreNeeded: "Core courses still needed"
   },
 
   /* ---------- Explore pathways (tiles, from assets/data/course-maps.js) ---------- */
