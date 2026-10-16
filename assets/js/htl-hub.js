@@ -34,7 +34,7 @@
     const n = visited(), total = D.modules.length;
     const progressHtml = '<section class="hh-progress" aria-labelledby="hh-prog-h"><h2 class="hh-vh" id="hh-prog-h">' + esc(D.progressLabel) + '</h2>' +
       '<p class="hh-prog-text"><strong>' + esc(fmt(D.progressText, { n: n, total: total })) + '</strong></p>' +
-      '<div class="hh-bar" role="progressbar" aria-valuemin="0" aria-valuemax="' + total + '" aria-valuenow="' + n + '" aria-valuetext="' + escA(fmt(D.progressText, { n: n, total: total })) + '" aria-labelledby="hh-prog-h"><span style="width:' + (n / total * 100) + '%"></span></div>' +
+      '<div class="hh-bar" role="progressbar" aria-valuemin="0" aria-valuemax="' + total + '" aria-valuenow="' + n + '" aria-valuetext="' + escA(fmt(D.progressText, { n: n, total: total })) + '" aria-labelledby="hh-prog-h"><span style="width:' + (total ? n / total * 100 : 0) + '%"></span></div>' +
       '<p class="hh-note">' + esc(D.progressNote) + '</p></section>';
 
     /* troubleshooter: tappable cards that open the matching module in place */
@@ -59,7 +59,7 @@
     const modulesHtml = '<div id="modules">' + groupsHtml + '</div>';
 
     /* mind map: two layouts (phone / wide) drawn from the same data; decorative and supplementary */
-    const node = (m, x, y, r, cls) => '<a href="' + escA(href(m)) + '" aria-label="' + escA(m.n + '. ' + m.title) + '"><g class="hh-node ' + cls + '"><circle class="hh-hit" cx="' + x + '" cy="' + y + '" r="' + (r + 8) + '"/><circle cx="' + x + '" cy="' + y + '" r="' + r + '"/><text x="' + x + '" y="' + (y + 5) + '" text-anchor="middle" class="hh-nt">' + m.n + '</text><text x="' + x + '" y="' + (y + r + 18) + '" text-anchor="middle" class="hh-nl">' + esc(m.short || m.title) + '</text></g></a>';
+    const node = (m, x, y, r, cls) => '<a href="' + escA(href(m)) + '" aria-label="' + escA(m.n + '. ' + m.title) + '"><g class="hh-node ' + cls + '"><circle class="hh-hit" cx="' + x + '" cy="' + y + '" r="' + (r + 8) + '"/><circle cx="' + x + '" cy="' + y + '" r="' + r + '"/><text x="' + x + '" y="' + (y + 5) + '" text-anchor="middle" class="hh-nt">' + esc(m.n) + '</text><text x="' + x + '" y="' + (y + r + 18) + '" text-anchor="middle" class="hh-nl">' + esc(m.short || m.title) + '</text></g></a>';
     const hub = (x, y, r, t) => '<g class="hh-hubnode"><circle cx="' + x + '" cy="' + y + '" r="' + r + '"/><text text-anchor="middle" class="hh-ht">' + t.split(' ').map((w, i, a) => '<tspan x="' + x + '" y="' + (y + 5 - (a.length - 1) * 8 + i * 16) + '">' + esc(w) + '</tspan>').join('') + '</text></g>';
     const line = (x1, y1, x2, y2) => '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '"/>';
     const map = (w, h, cx, cy, hubs, cols) => {
