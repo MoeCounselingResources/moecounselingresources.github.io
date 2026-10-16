@@ -78,7 +78,8 @@ const ACADEMIC_SUPPORT = {
   tools: {
     title: "Study tools",
     cards: [
-      { title: "Turn your notes into flashcards", text: "Flashcard Studio", soon: "Coming soon.", href: "flashcard-studio.html", go: "Open Flashcard Studio" }
+      // The page checks that "href" really exists on the site. Until it does, the button shows "soon" and is not a link.
+      { title: "Flashcard Studio", text: "Turn your notes into flashcards — coming soon.", textLive: "Turn your notes into flashcards.", href: "flashcard-studio.html", go: "Open", soon: "Coming soon" }
     ]
   }
 };

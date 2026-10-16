@@ -13,6 +13,7 @@
 .as-soon{display:inline-block; padding:1px 10px; border:1.5px dashed var(--slate); border-radius:999px; font-size:0.85rem; font-weight:700; color:var(--slate);}
 .as-go{align-self:flex-start; margin-top:6px; display:inline-flex; align-items:center; justify-content:center; min-height:48px; padding:10px 22px; border-radius:12px; background:var(--gold); color:var(--navy); border:2px solid var(--navy); font:800 1rem var(--sans); text-decoration:none;}
 .as-go:hover{filter:brightness(.96);}
+.as-go:disabled, .as-soon-btn{background:var(--paper-soft); color:var(--slate); border:2px dashed var(--slate); cursor:not-allowed; filter:none;}
 .as button:focus-visible, .as-go:focus-visible{outline:3px solid var(--navy); outline-offset:3px; box-shadow:0 0 0 6px var(--gold);}
 
 .as-nextline{margin:0 0 12px; padding:10px 14px; border-left:6px solid var(--gold); background:var(--paper-soft); border-radius:0 10px 10px 0;}

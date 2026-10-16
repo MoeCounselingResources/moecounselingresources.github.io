@@ -30,8 +30,9 @@
   const C = D.chem, cols = C.columns;
   const groupCards = D.groups.cards.map(c => '<li class="as-card"><h3>' + esc(c.subject) + '</h3><p class="as-where">' + esc(c.where) + '</p><p class="as-time">' + esc(c.time) + '</p></li>').join('');
   const tutorCards = D.tutors.cards.map(c => '<li class="as-card"><h3>' + esc(c.title) + '</h3><p>' + esc(c.text) + '</p></li>').join('');
-  const toolCards = D.tools.cards.map(c => '<li class="as-card as-tool"><h3>' + esc(c.title) + '</h3><p>' + esc(c.text) + (c.soon ? ' <span class="as-soon">' + esc(c.soon) + '</span>' : '') + '</p>' +
-    (/^[\w.-]+\.html$/.test(c.href) ? '<a class="as-go" href="' + esc(c.href) + '">' + esc(c.go) + '</a>' : '') + '</li>').join('');
+  // A study-tool card shows a gold "Open" link only if its page exists on the site (checked below); until then it shows a disabled button.
+  const toolCards = D.tools.cards.map((c, i) => '<li class="as-card as-tool" data-i="' + i + '"><h3>' + esc(c.title) + '</h3><p class="as-tool-text">' + esc(c.text) + '</p>' +
+    '<button type="button" class="as-go as-soon-btn" disabled aria-disabled="true">' + esc(c.soon) + '</button></li>').join('');
   const filterBtns = [1, 2, 3, 4].map(q => '<button type="button" class="as-fbtn" data-q="' + q + '" aria-pressed="false">Q' + q + '</button>').join('') +
     '<button type="button" class="as-fbtn" data-q="all" aria-pressed="true">' + esc(C.all) + '</button>';
   const tbody = rows.map((r, i) => {
@@ -56,6 +57,19 @@
     '<p class="as-note">' + esc(C.note) + '</p></section>' +
     '<section class="as-sec" id="tutors" aria-labelledby="as-h-tutors"><h2 id="as-h-tutors">' + esc(D.tutors.title) + '</h2><p class="as-lead">' + esc(D.tutors.intro) + '</p><ul class="as-cards">' + tutorCards + '</ul></section>' +
     '<section class="as-sec" id="tools" aria-labelledby="as-h-tools"><h2 id="as-h-tools">' + esc(D.tools.title) + '</h2><ul class="as-cards">' + toolCards + '</ul></section>';
+
+  /* ---------- study tools: turn "coming soon" into a link once the page exists (a same-site check; nothing is sent anywhere else) ---------- */
+  D.tools.cards.forEach((c, i) => {
+    if(!/^[\w.-]+\.html$/.test(c.href) || !window.fetch) return;
+    fetch(c.href, { method: 'HEAD', cache: 'no-store' }).then(r => {
+      if(!r.ok) return;
+      const li = root.querySelector('.as-tool[data-i="' + i + '"]'); if(!li) return;
+      li.querySelector('.as-tool-text').textContent = c.textLive || c.text;
+      const b = li.querySelector('.as-soon-btn');
+      const a = document.createElement('a'); a.className = 'as-go'; a.href = c.href; a.textContent = c.go;
+      b.replaceWith(a);
+    }).catch(() => {});
+  });
 
   /* ---------- quarter filter ---------- */
   const btns = Array.from(root.querySelectorAll('.as-fbtn')), trs = Array.from(root.querySelectorAll('#as-body tr')), status = document.getElementById('as-status');
