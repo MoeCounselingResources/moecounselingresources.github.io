@@ -2,8 +2,8 @@
    FLASHCARD STUDIO — scoped styles (.fc-). Uses the brand tokens from styles.css and the page shell from tools.css.
    Load styles.css and tools.css first. Study mode is a full-window layer toggled by the .fc-full class (no browser fullscreen).
    ========================================================================= */
-.fc{min-width:0; overflow-wrap:anywhere;}
-.fc *{min-width:0;}
+.fc, .fc-full, .fc-dlg, .fc-printsheet{min-width:0; overflow-wrap:anywhere;}
+.fc *, .fc-full *, .fc-dlg *, .fc-printsheet *{min-width:0;}
 .fc-vh{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;}
 .fc-sec{margin:0 0 36px;}
 .fc h2, .fc-full h2, .fc-dlg h2{font-family:var(--serif); font-size:1.45rem; margin:0 0 12px; padding-bottom:8px; border-bottom:3px solid var(--gold); color:var(--navy);}
@@ -131,7 +131,7 @@ body.fc-study-open{overflow:hidden;}
 .fc-backlabel{text-transform:uppercase; letter-spacing:.06em; font-weight:700;}
 
 /* toasts */
-.fc-toasts{position:fixed; top:70px; left:50%; transform:translateX(-50%); z-index:1300; display:grid; gap:8px; pointer-events:none; width:min(92vw,420px);}
+.fc-toasts{position:fixed; bottom:18px; left:50%; transform:translateX(-50%); z-index:1300; display:grid; gap:8px; pointer-events:none; width:min(92vw,420px);}
 .fc-toast{background:var(--navy); color:var(--gold); border:3px solid var(--gold); padding:10px 16px; border-radius:12px; font-weight:800; text-align:center; animation:fc-pop .3s ease-out;}
 .fc-toast.is-big{font-size:1.25rem; padding:14px 18px;}
 @keyframes fc-pop{from{transform:scale(.85); opacity:0;} to{transform:scale(1); opacity:1;}}

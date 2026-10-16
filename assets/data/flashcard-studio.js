@@ -238,5 +238,5 @@ const FLASHCARD_STUDIO = {
   },
 
   // ---------- print ----------
-  print: { page: "Flashcards: {name}", q: "Question", a: "Answer" }
+  print: { page: "{name}", q: "Question", a: "Answer" }
 };

@@ -155,7 +155,7 @@
     return pdfReady;
   }
   async function readPdf(file){
-    const I = D.input, err = $('fc-pdferr'), prog = $('fc-prog'), bar = $('fc-pbar'), msg = $('fc-pmsg');
+    const I = D.input, err = $('fc-pdferr'), prog = $('fc-prog'), bar = $('fc-pbar'), msg = $('fc-pmsg'); if(!err || !prog || S.busy) return;
     err.hidden = true;
     const isPdf = /\.pdf$/i.test(file.name || '') || file.type === 'application/pdf';
     if(!isPdf){ err.textContent = I.pdfOnly; err.hidden = false; return; }
@@ -163,7 +163,7 @@
     prog.hidden = false; bar.value = 0; msg.textContent = fmt(I.reading, { n: 0, total: '…' }); $('fc-gen').disabled = true;
     let text = '';
     try{
-      await loadPdfJs();
+      await loadPdfJs(); if(!$('fc-pdferr')) return;
       const data = new Uint8Array(await file.arrayBuffer());
       const pdf = await window.pdfjsLib.getDocument({ data: data, isEvalSupported: false }).promise;
       const total = Math.min(pdf.numPages, D.pdf.maxPages);
@@ -306,7 +306,7 @@
         (blocked ? '<p class="fc-warn" role="status">' + esc(T.blocked) + '</p>' : '') +
         '<p id="fc-dstat" class="fc-small" role="status" aria-live="polite"></p><div class="fc-actions"><button type="button" class="fc-btn fc-go" id="fc-dclose">' + esc(T.close) + '</button></div>';
     };
-    const box = openDialog(esc(T.title), body(), { focus: '#fc-dclose' });
+    const box = openDialog(esc(T.title), body(), { focus: '#fc-dclose', onClose: () => { const e = $('fc-rverr'); if(e) e.hidden = true; } });
     const bind = () => {
       box.querySelector('#fc-dclose').addEventListener('click', () => closeDialog());
       box.querySelectorAll('[data-load]').forEach(b => b.addEventListener('click', () => {
@@ -448,8 +448,8 @@
     else { cs.phase = 'retry'; setFeedback(res.result, res.feedback); say(T[res.result === 'close' ? 'closeWord' : 'wrongWord'] + '. ' + res.feedback); retryButtons(); }
   }
   function retryButtons(){
-    const T = D.study;
-    buttons([{ id: 'fc-retry', label: T.tryAgain, go: true, fn: () => { const inp = $('fc-ans'); inp.value = ''; $('fc-fb').textContent = ''; $('fc-fb').className = 'fc-fb'; $('fc-fbtns').innerHTML = ''; S.sess.cardState.phase = 'answering'; inp.focus(); } },
+    const T = D.study; const sb = $('fc-showbtn'); if(sb) sb.hidden = true;
+    buttons([{ id: 'fc-retry', label: T.tryAgain, go: true, fn: () => { const inp = $('fc-ans'); inp.value = ''; $('fc-fb').textContent = ''; $('fc-fb').className = 'fc-fb'; $('fc-fbtns').innerHTML = ''; S.sess.cardState.phase = 'answering'; const sb2 = $('fc-showbtn'); if(sb2) sb2.hidden = false; inp.focus(); } },
              { id: 'fc-show', label: T.showAnswer, fn: () => reveal(false) }]);
     $('fc-retry').focus();
   }
@@ -465,13 +465,13 @@
   /* ----- coins, streak, toasts ----- */
   function saveCoins(){ if(!store.write(D.keys.coins, String(S.coins))) { /* the warning shows on the notes and review screens */ } }
   function award(n){
-    if(n <= 0) return; S.coins = loadInt(D.keys.coins) + n; S.sess.earned += n; saveCoins();
+    if(n <= 0) return; S.coins = (blocked ? S.coins : loadInt(D.keys.coins)) + n; S.sess.earned += n; saveCoins();
     setText('fc-coinn', num(S.coins)); const c = $('fc-coin'); if(c) c.setAttribute('aria-label', fmt(D.study.coinCounterLabel, { n: num(S.coins) }));
     const f = $('fc-float'); if(f){ const el = document.createElement('span'); el.className = 'fc-floatitem'; el.textContent = '+' + n + ' MGC'; f.appendChild(el); setTimeout(() => el.remove(), reduceMotion() ? 1200 : 1400); }
   }
   function toast(text, big){
     const host = $('fc-toasts'); if(!host) return; const el = document.createElement('div'); el.className = 'fc-toast' + (big ? ' is-big' : ''); el.textContent = text; host.appendChild(el);
-    setTimeout(() => el.remove(), 2600);
+    setTimeout(() => el.remove(), 1400);
   }
   function setStreak(n){
     S.sess.streak = n; S.sess.best = Math.max(S.sess.best, n);
@@ -543,7 +543,7 @@
       box.querySelectorAll('[data-use]').forEach(b => b.addEventListener('click', () => { S.themes.active = b.dataset.use; saveThemes(); apply(); bind('.fc-badge'); say(fmt(D.study.inUseLive, { name: (T.items.find(x => x.id === b.dataset.use) || {}).name || '' })); }));
       box.querySelectorAll('[data-buy]').forEach(b => b.addEventListener('click', () => {
         const it = T.items.find(x => x.id === b.dataset.buy); if(!it || S.coins < it.price || S.themes.owned.indexOf(it.id) > -1) return;
-        S.coins = Math.max(0, loadInt(D.keys.coins) - it.price); saveCoins(); S.themes.owned.push(it.id); S.themes.active = it.id; saveThemes(); apply();
+        S.coins = Math.max(0, (blocked ? S.coins : loadInt(D.keys.coins)) - it.price); saveCoins(); S.themes.owned.push(it.id); S.themes.active = it.id; saveThemes(); apply();
         setText('fc-coinn', num(S.coins)); const ce = $('fc-coin'); if(ce) ce.setAttribute('aria-label', fmt(D.study.coinCounterLabel, { n: num(S.coins) }));
         bind('#fc-shopclose'); say(fmt(T.bought, { name: it.name }));
       }));
@@ -564,7 +564,7 @@
     if(dk.id){ const decks = loadDecks(), i = decks.findIndex(d => d.id === dk.id); if(i > -1){ decks[i].stats = cleanDeck(dk).stats; saveDecks(decks); } }
     const st0 = $('fc-study'); if(st0) st0.remove(); document.body.classList.remove('fc-study-open'); hideOutside(false);
     if(early){ const keep = ss; S.sess = null; renderReview(); return; }
-    S.last = { first: first, second: second, missed: missed, earned: ss.earned, best: ss.best, missedCards: ss.cards.filter((c, i) => ss.results[i] === 'missed'), all: ss.cards.slice(), deckBonus: completed && ss.mode === 'all' };
+    S.last = { first: first, second: second, missed: missed, earned: ss.earned, best: ss.best, missedCards: ss.cards.filter((c, i) => ss.results[i] === 'missed'), all: S.deck.cards.slice(), deckBonus: completed && ss.mode === 'all' };
     S.sess = null; renderEnd();
   }
   function renderEnd(){
