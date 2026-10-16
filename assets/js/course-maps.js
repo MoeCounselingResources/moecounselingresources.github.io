@@ -35,9 +35,8 @@
     '<li><span class="cm-sw is-opt" aria-hidden="true"></span>' + esc(T.legend.opt) + '</li></ul>';
 
   /* ---------- page skeleton: tabs, select, three panels ---------- */
-  const tools = (id, area, desktopOnly) =>
-    '<div class="cm-tools"><button type="button" class="cm-btn cm-expand' + (desktopOnly ? ' cm-desktop-only' : '') + '" data-area="' + id + '" data-name="' + esc(area) + '" aria-controls="cm-area-' + id + '"></button>' +
-    '<button type="button" class="cm-btn cm-print" aria-label="' + esc(fmt(T.printAria, { area })) + '">' + esc(T.print) + '</button></div>';
+  const tools = (id, area) =>
+    '<div class="cm-tools"><button type="button" class="cm-btn cm-print" aria-label="' + esc(fmt(T.printAria, { area })) + '">' + esc(T.print) + '</button></div>';
   root.innerHTML =
     '<p class="cm-intro">' + esc(T.intro) + '</p>' +
     '<div class="cm-tabbar"><div class="cm-tabs" role="tablist" aria-label="' + esc(T.tabBarLabel) + '">' +
@@ -46,8 +45,8 @@
     T.tabs.map(t => '<option value="' + t.id + '">' + esc(t.label) + '</option>').join('') + '</select></div></div>' +
 
     '<section class="cm-panel" id="cm-panel-explorer" role="tabpanel" aria-labelledby="cm-tab-explorer" data-tab="explorer" hidden>' +
-    '<div class="cm-panelhead"><div><h2>' + esc(T.explorer.heading) + '</h2><p>' + esc(T.explorer.help) + '</p></div>' + tools('explorer', T.tabs[0].area, true) + '</div>' +
-    '<div class="cm-area" id="cm-area-explorer" tabindex="0" role="region" aria-label="' + esc(T.explorer.heading) + '">' +
+    '<div class="cm-panelhead"><div><h2>' + esc(T.explorer.heading) + '</h2><p>' + esc(T.explorer.help) + '</p></div>' + tools('explorer', T.tabs[0].area) + '</div>' +
+    '<div class="cm-xpwrap" id="cm-xpwrap">' +
     '<ul class="cm-tiles" aria-label="' + esc(T.explorer.tilesLabel) + '">' +
     PATHWAYS.map(p => '<li><button type="button" class="cm-tile" data-id="' + esc(p.id) + '" aria-expanded="false" aria-controls="cm-xp-panel" style="' + pathStyle(p) + '">' +
       '<span class="cm-tileicon" aria-hidden="true">' + esc(p.icon) + '</span><span class="cm-tiletext"><strong>' + esc(p.name) + '</strong><span>' + esc(p.desc) + '</span></span></button></li>').join('') + '</ul>' +
@@ -55,25 +54,24 @@
     '<p class="cm-sr" id="cm-xp-live" role="status" aria-live="polite"></p></section>' +
 
     '<section class="cm-panel" id="cm-panel-web" role="tabpanel" aria-labelledby="cm-tab-web" data-tab="web" hidden>' +
-    '<div class="cm-panelhead"><div><h2>' + esc(T.web.heading) + '</h2><p>' + esc(T.web.help) + '</p></div>' + tools('web', T.tabs[1].area, false) + '</div>' +
+    '<div class="cm-panelhead"><div><h2>' + esc(T.web.heading) + '</h2><p>' + esc(T.web.help) + '</p></div>' + tools('web', T.tabs[1].area) + '</div>' +
     '<div class="cm-webctl"><div class="cm-filters" role="group" aria-label="' + esc(T.web.filterLabel) + '"></div>' +
-    '<div class="cm-pick"><label for="cm-pick">' + esc(T.web.pickLabel) + '</label><select id="cm-pick"></select> <button type="button" class="cm-btn" id="cm-reset">' + esc(T.web.reset) + '</button></div>' +
     '<p class="cm-note">' + esc(T.web.bigger) + '</p></div>' +
-    '<div class="cm-area cm-webarea" id="cm-area-web" tabindex="0" role="region" aria-label="' + esc(T.web.scrollLabel) + '"><div class="cm-webwrap" id="cm-webwrap">' +
-    '<canvas id="cm-canvas" role="img" aria-label="' + esc(T.web.mapLabel) + '"></canvas><div class="cm-tip" id="cm-tip" aria-hidden="true" hidden></div></div></div>' +
+    '<div class="cm-webwrap" id="cm-webwrap"><canvas id="cm-canvas" role="img" aria-label="' + esc(T.web.mapLabel) + '"></canvas><div class="cm-tip" id="cm-tip" aria-hidden="true" hidden></div></div>' +
+    '<div class="cm-pick"><label for="cm-pick">' + esc(T.web.pickLabel) + '</label><select id="cm-pick"></select> <button type="button" class="cm-btn" id="cm-reset">' + esc(T.web.reset) + '</button></div>' +
     '<div class="cm-info" id="cm-info" role="status" aria-live="polite"></div></section>' +
 
     '<section class="cm-panel" id="cm-panel-cards" role="tabpanel" aria-labelledby="cm-tab-cards" data-tab="cards" hidden>' +
-    '<div class="cm-panelhead"><div><h2>' + esc(T.cards.heading) + '</h2><p>' + esc(T.cards.help) + '</p></div>' + tools('cards', T.tabs[2].area, true) + '</div>' +
-    '<div class="cm-cardfilter"><div class="cm-filters" id="cm-cardfilters" role="group" aria-label="' + esc(T.cards.filterLabel) + '">' +
+    '<div class="cm-panelhead"><div><h2>' + esc(T.cards.heading) + '</h2><p>' + esc(T.cards.help) + '</p></div>' + tools('cards', T.tabs[2].area) + '</div>' +
+    '<div class="cm-cardfilter" id="cm-cardfilter"><div class="cm-filters cm-filters-row" id="cm-cardfilters" role="group" aria-label="' + esc(T.cards.filterLabel) + '">' +
+    '<button type="button" class="cm-btn" id="cm-cardall">' + esc(T.cards.showAll) + '</button>' +
     PATHWAYS.map(p => '<button type="button" class="cm-fbtn" data-id="' + esc(p.id) + '" aria-pressed="false" style="' + pathStyle(p) + '"><span class="cm-fdot" aria-hidden="true"></span>' + esc(p.name) + '</button>').join('') +
-    '<button type="button" class="cm-btn" id="cm-cardall">' + esc(T.cards.showAll) + '</button></div>' +
-    '<p class="cm-note" id="cm-cardstatus" role="status" aria-live="polite"></p></div>' +
-    '<div class="cm-area" id="cm-area-cards" tabindex="0" role="region" aria-label="' + esc(T.cards.cardsLabel) + '"><div class="cm-cards">' +
-    PATHWAYS.map(p => '<article class="cm-card" data-id="' + esc(p.id) + '" aria-labelledby="cm-card-h-' + esc(p.id) + '" style="' + pathStyle(p) + '"><div class="cm-cardband" aria-hidden="true"></div>' +
-      '<header class="cm-cardhead"><span class="cm-cardicon" aria-hidden="true">' + esc(p.icon) + '</span><div><h3 id="cm-card-h-' + esc(p.id) + '">' + esc(p.name) + '</h3>' +
-      '<p><strong>' + esc(T.cocurrTitle) + ':</strong> ' + esc(clubs(p).join(', ')) + '</p></div></header>' +
-      '<div class="cm-cols">' + gradeBlocks(p) + '</div></article>').join('') + '</div></div></section>';
+    '</div><p class="cm-note" id="cm-cardstatus" role="status" aria-live="polite"></p></div>' +
+    '<div class="cm-cards">' +
+    PATHWAYS.map(p => '<div class="cm-cardwrap" data-id="' + esc(p.id) + '"><div class="cm-cardinner"><article class="cm-card" aria-labelledby="cm-card-h-' + esc(p.id) + '" style="' + pathStyle(p) + '"><div class="cm-cardband" aria-hidden="true"></div>' +
+      '<h3 class="cm-cardtitle" id="cm-card-h-' + esc(p.id) + '"><button type="button" class="cm-cardhead" aria-expanded="true" aria-controls="cm-card-b-' + esc(p.id) + '"><span class="cm-cardicon" aria-hidden="true">' + esc(p.icon) + '</span>' +
+      '<span class="cm-cardhtext"><span class="cm-cardname">' + esc(p.name) + '</span><span class="cm-cardclubs"><strong>' + esc(T.cocurrTitle) + ':</strong> ' + esc(clubs(p).join(', ')) + '</span></span><span class="cm-chev" aria-hidden="true"></span></button></h3>' +
+      '<div class="cm-cardbody" id="cm-card-b-' + esc(p.id) + '"><div class="cm-cols">' + gradeBlocks(p) + '</div></div></article></div></div>').join('') + '</div></section>';
 
   /* ---------- tabs and select ---------- */
   const tabs = Array.from(root.querySelectorAll('.cm-tab')), panels = Array.from(root.querySelectorAll('.cm-panel')), sel = $('cm-select');
@@ -96,20 +94,10 @@
   });
   sel.addEventListener('change', () => showTab(sel.value, false));
 
-  /* ---------- expand / collapse (taller area on screen; no fullscreen) ---------- */
-  root.querySelectorAll('.cm-expand').forEach(b => {
-    const area = $('cm-area-' + b.dataset.area);
-    const label = () => {
-      const open = area.classList.contains('is-expanded'), action = open ? T.collapse : T.expand;
-      b.textContent = action; b.setAttribute('aria-label', fmt(T.expandAria, { action, area: b.dataset.name }));
-    };
-    label();
-    b.addEventListener('click', () => { area.classList.toggle('is-expanded'); label(); if(b.dataset.area === 'web') drawWeb(); });
-  });
   root.querySelectorAll('.cm-print').forEach(b => b.addEventListener('click', () => { if(activeTab === 'web') drawWeb(); window.print(); }));
 
   /* ---------- Tab 1: pathway explorer ---------- */
-  const tiles = Array.from(root.querySelectorAll('.cm-tile')), xp = $('cm-xp-panel'), xpArea = $('cm-area-explorer'), live = $('cm-xp-live');
+  const tiles = Array.from(root.querySelectorAll('.cm-tile')), xp = $('cm-xp-panel'), xpArea = $('cm-xpwrap'), live = $('cm-xp-live');
   let openId = null;
   function openPathway(id, fromHash){
     const p = PATHWAYS.find(x => x.id === id);
@@ -123,9 +111,9 @@
     openId = id;
     tiles.forEach(t => { const on = t.dataset.id === id; t.setAttribute('aria-expanded', String(on)); t.classList.toggle('is-open', on); });
     xp.style.cssText = pathStyle(p);
-    xp.innerHTML = '<div class="cm-xphead"><span class="cm-cardicon" aria-hidden="true">' + esc(p.icon) + '</span><div><h3 id="cm-xp-h">' + esc(p.name) + ': ' + esc(T.explorer.panelHint) + '</h3><p>' + esc(p.desc) + '</p></div></div>' +
+    xp.innerHTML = '<div class="cm-cardband" aria-hidden="true"></div><div class="cm-xpin"><div class="cm-xphead"><span class="cm-cardicon" aria-hidden="true">' + esc(p.icon) + '</span><div><h3 id="cm-xp-h">' + esc(p.name) + ': ' + esc(T.explorer.panelHint) + '</h3><p>' + esc(p.desc) + '</p></div></div>' +
       legendHtml + '<div class="cm-cols">' + gradeBlocks(p) + '</div>' +
-      '<section class="cm-clubs"><h4>' + esc(T.cocurrTitle) + '</h4><ul>' + list(clubs(p)) + '</ul></section>';
+      '<section class="cm-clubs"><h4>' + esc(T.cocurrTitle) + '</h4><ul>' + list(clubs(p)) + '</ul></section></div>';
     xp.hidden = false; xpArea.classList.add('has-open');
     live.textContent = fmt(T.explorer.opened, { name: p.name });
     try{ history.replaceState(null, '', '#' + id); }catch(e){}
@@ -134,17 +122,25 @@
   }
   tiles.forEach(t => t.addEventListener('click', () => openPathway(t.dataset.id, false)));
 
-  /* ---------- Tab 3: timeline cards with filter ---------- */
-  const fbtns = Array.from(root.querySelectorAll('.cm-fbtn')), cards = Array.from(root.querySelectorAll('.cm-card')), cstatus = $('cm-cardstatus');
+  /* ---------- Tab 3: timeline cards (filter + a collapse chevron on every card) ---------- */
+  const fbtns = Array.from(root.querySelectorAll('#cm-cardfilters .cm-fbtn')), wraps = Array.from(root.querySelectorAll('.cm-cardwrap')), cstatus = $('cm-cardstatus');
   const chosen = new Set();
   function applyCards(){
-    cards.forEach(c => { c.hidden = chosen.size > 0 && !chosen.has(c.dataset.id); });
+    wraps.forEach(w => w.classList.toggle('is-out', chosen.size > 0 && !chosen.has(w.dataset.id)));
     fbtns.forEach(b => b.setAttribute('aria-pressed', String(chosen.has(b.dataset.id))));
     cstatus.textContent = chosen.size ? fmt(T.cards.someShown, { n: chosen.size, total: PATHWAYS.length }) : fmt(T.cards.allShown, { n: PATHWAYS.length });
   }
   fbtns.forEach(b => b.addEventListener('click', () => { chosen.has(b.dataset.id) ? chosen.delete(b.dataset.id) : chosen.add(b.dataset.id); applyCards(); }));
   $('cm-cardall').addEventListener('click', () => { chosen.clear(); applyCards(); });
+  wraps.forEach(w => {
+    const btn = w.querySelector('.cm-cardhead'), body = w.querySelector('.cm-cardbody');
+    btn.addEventListener('click', () => { const open = btn.getAttribute('aria-expanded') !== 'true'; btn.setAttribute('aria-expanded', String(open)); w.classList.toggle('is-collapsed', !open); });
+  });
   applyCards();
+  // the sticky filter row sits just under the site's own sticky header, whatever height that is
+  const siteHeader = document.getElementById('site-header');
+  const setHdr = () => { root.style.setProperty('--cm-hdr', (siteHeader ? siteHeader.getBoundingClientRect().height : 0) + 'px'); };
+  setHdr(); window.addEventListener('resize', setHdr);
 
   /* ---------- Tab 2: course web (canvas) ---------- */
   // Courses with the same name are shown once (the first one in the data file wins).
@@ -159,8 +155,9 @@
   const names = ids => ids.map(i => byId[i].name);
   const grades = c => c.grade.slice().sort((a, b) => a - b).join(', ');
   const web = { dept: 'All', sel: null, pos: {}, w: 0, h: 0 };
-  const canvas = $('cm-canvas'), ctx = canvas.getContext('2d'), wrap = $('cm-webwrap'), tip = $('cm-tip'), info = $('cm-info'), pick = $('cm-pick'), scroller = $('cm-area-web');
-  const R = c => 6 + 2.2 * unl[c.id].length, COLW = 250, PADX = 36, TOP = 40, ROW = 36;
+  const canvas = $('cm-canvas'), ctx = canvas.getContext('2d'), wrap = $('cm-webwrap'), tip = $('cm-tip'), info = $('cm-info'), pick = $('cm-pick');
+  const MAXUNL = Math.max.apply(null, COURSE_LIST.map(c => unl[c.id].length).concat([1]));
+  const PADX = 12, HEAD = 34;
   const FONT = '12px "Libre Franklin", -apple-system, "Segoe UI", sans-serif';
 
   root.querySelector('#cm-panel-web .cm-filters').innerHTML =
@@ -169,47 +166,71 @@
   pick.innerHTML = '<option value="">' + esc(T.web.pickNone) + '</option>' +
     COURSE_LIST.slice().sort((a, b) => a.name.localeCompare(b.name)).map(c => '<option value="' + esc(c.id) + '">' + esc(c.name) + ' (' + esc(c.dept) + ')</option>').join('');
 
+  /* Bubble layout: four grade bands side by side; inside a band the courses fill a grid (grouped by department).
+     The grid cell is the biggest that lets every band fit the canvas height. Names show for the selected course and its neighbors. */
+  const compact = () => !window.matchMedia('(min-width: 700px)').matches;
   function layout(){
-    const vis = COURSE_LIST.filter(c => web.dept === 'All' || c.dept === web.dept), cols = [[], [], [], []];
-    vis.forEach(c => cols[Math.min(Math.max(Math.min.apply(null, c.grade), 9), 12) - 9].push(c));
-    web.pos = {}; let most = 1;
-    cols.forEach((col, ci) => {
-      col.sort((a, b) => DEPTS.indexOf(a.dept) - DEPTS.indexOf(b.dept) || a.name.localeCompare(b.name));
-      most = Math.max(most, col.length);
-      col.forEach((c, i) => { web.pos[c.id] = { x: PADX + ci * COLW, y: TOP + i * ROW + 14 }; });
+    const W = Math.max(280, wrap.clientWidth || 320), H = compact() ? 320 : 500;
+    const vis = COURSE_LIST.filter(c => web.dept === 'All' || c.dept === web.dept), bands = [[], [], [], []];
+    vis.forEach(c => bands[Math.min(Math.max(Math.min.apply(null, c.grade), 9), 12) - 9].push(c));
+    bands.forEach(b => b.sort((a, c) => DEPTS.indexOf(a.dept) - DEPTS.indexOf(c.dept) || a.name.localeCompare(c.name)));
+    const bandW = (W - PADX * 2) / 4, availH = H - HEAD - 8;
+    let cell = 12, cols = Math.max(1, Math.floor((bandW - 6) / 12));
+    for(let c = 52; c >= 12; c--){
+      const k = Math.max(1, Math.floor((bandW - 6) / c));
+      if(bands.every(b => Math.ceil(b.length / k) * c <= availH)){ cell = c; cols = k; break; }
+    }
+    web.pos = {}; web.cell = cell;
+    bands.forEach((b, bi) => {
+      const x0 = PADX + bi * bandW + (bandW - cols * cell) / 2;
+      b.forEach((c, j) => { web.pos[c.id] = { x: x0 + (j % cols) * cell + cell / 2, y: HEAD + Math.floor(j / cols) * cell + cell / 2 + 4 }; });
     });
-    web.w = PADX * 2 + 3 * COLW + 230; web.h = TOP + most * ROW + 24;
+    web.bandW = bandW; web.w = W; web.h = H;
   }
+  const R = c => { const rmax = web.cell * 0.46, rmin = Math.max(3.5, web.cell * 0.2); return rmin + (rmax - rmin) * (unl[c.id].length / MAXUNL); };
   function related(){
     if(!web.sel) return null;
     const s = {}; s[web.sel] = 1; pre[web.sel].forEach(i => { s[i] = 1; }); unl[web.sel].forEach(i => { s[i] = 1; }); return s;
   }
   function drawWeb(){
+    if(!wrap.clientWidth) return;   // the tab is hidden; it draws when it is shown
     layout();
     const dpr = Math.max(1, window.devicePixelRatio || 1);
     canvas.width = Math.round(web.w * dpr); canvas.height = Math.round(web.h * dpr);
-    canvas.style.width = web.w + 'px'; canvas.style.height = web.h + 'px'; wrap.style.width = web.w + 'px'; wrap.style.height = web.h + 'px';
+    canvas.style.width = web.w + 'px'; canvas.style.height = web.h + 'px';
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, web.w, web.h);
-    ctx.font = 'bold 13px "Libre Franklin", sans-serif'; ctx.fillStyle = NAVY; ctx.textBaseline = 'middle';
-    T.gradeNames.forEach((g, i) => { ctx.fillText(g, PADX + i * COLW - 6, 16); ctx.fillStyle = CLOUD; ctx.fillRect(PADX + i * COLW - 6, 28, COLW - 40, 1); ctx.fillStyle = NAVY; });
+    ctx.textBaseline = 'middle';
+    T.gradeNames.forEach((g, i) => {
+      const x = PADX + i * web.bandW;
+      ctx.font = 'bold ' + (compact() ? 11 : 13) + 'px "Libre Franklin", sans-serif'; ctx.fillStyle = NAVY; ctx.textAlign = 'left';
+      ctx.fillText(compact() ? g.replace('Grade ', 'Gr ') : g, x + 2, 12);
+      ctx.fillStyle = CLOUD; ctx.fillRect(x + 2, 24, web.bandW - 8, 2);
+    });
     const rel = related();
-    // lines from a course to the courses it unlocks
-    COURSE_LIST.forEach(c => pre[c.id].forEach(p => {
-      const a = web.pos[p], b = web.pos[c.id]; if(!a || !b) return;
-      const hot = rel && (p === web.sel || c.id === web.sel);
-      ctx.globalAlpha = rel ? (hot ? 1 : 0.05) : 0.28; ctx.strokeStyle = hot ? NAVY : SLATE; ctx.lineWidth = hot ? 2 : 1;
-      ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
-    }));
-    ctx.globalAlpha = 1;
+    if(rel){   // lines only for the selected course: what it needs and what it unlocks
+      COURSE_LIST.forEach(c => pre[c.id].forEach(p => {
+        const a = web.pos[p], b = web.pos[c.id]; if(!a || !b || !(p === web.sel || c.id === web.sel)) return;
+        ctx.strokeStyle = NAVY; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+      }));
+    }
     COURSE_LIST.forEach(c => {
       const p = web.pos[c.id]; if(!p) return;
-      const on = !rel || rel[c.id]; ctx.globalAlpha = on ? 1 : 0.15;
+      ctx.globalAlpha = !rel || rel[c.id] ? 1 : 0.15;
       ctx.beginPath(); ctx.arc(p.x, p.y, R(c), 0, Math.PI * 2); ctx.fillStyle = deptColor(c.dept); ctx.fill();
-      ctx.lineWidth = c.id === web.sel ? 4 : 2; ctx.strokeStyle = NAVY; ctx.stroke();
-      ctx.font = (c.id === web.sel ? 'bold ' : '') + FONT; ctx.fillStyle = NAVY; ctx.textBaseline = 'middle';
-      ctx.fillText(c.name, p.x + R(c) + 6, p.y);
+      ctx.lineWidth = c.id === web.sel ? 3.5 : 1.5; ctx.strokeStyle = NAVY; ctx.stroke();
     });
     ctx.globalAlpha = 1;
+    if(rel){   // names for the selected course and its neighbors
+      ctx.font = 'bold 12px "Libre Franklin", sans-serif';
+      Object.keys(rel).forEach(id => {
+        const c = byId[id], p = web.pos[id]; if(!c || !p) return;
+        const w = ctx.measureText(c.name).width, right = p.x + R(c) + 6 + w < web.w - 4;
+        ctx.textAlign = right ? 'left' : 'right'; const x = right ? p.x + R(c) + 5 : p.x - R(c) - 5;
+        ctx.lineWidth = 4; ctx.strokeStyle = '#fff'; ctx.lineJoin = 'round'; ctx.strokeText(c.name, x, p.y);
+        ctx.fillStyle = NAVY; ctx.fillText(c.name, x, p.y);
+      });
+      ctx.textAlign = 'left';
+    }
   }
   function infoHtml(c){
     const row = (k, v) => '<div><dt>' + esc(k) + '</dt><dd>' + v + '</dd></div>';
@@ -231,7 +252,6 @@
     let left = Math.min(Math.max(8, p.x - 24), web.w - tw - 8), top = p.y + R(c) + 10;
     tip.style.left = left + 'px'; tip.style.top = top + 'px';
     if(top + tip.offsetHeight > web.h - 4) tip.style.top = Math.max(4, p.y - R(c) - 10 - tip.offsetHeight) + 'px';
-    if(center){ scroller.scrollTo({ left: Math.max(0, p.x - scroller.clientWidth / 3), top: Math.max(0, p.y - scroller.clientHeight / 3) }); }
   }
   function syncFilters(){ root.querySelectorAll('#cm-panel-web .cm-fbtn').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.dept === web.dept))); }
   root.querySelectorAll('#cm-panel-web .cm-fbtn').forEach(b => b.addEventListener('click', () => {
@@ -244,11 +264,12 @@
   canvas.addEventListener('click', e => {
     const r = canvas.getBoundingClientRect(), x = (e.clientX - r.left) * (web.w / r.width), y = (e.clientY - r.top) * (web.h / r.height);
     let best = null, bd = 1e9;
-    COURSE_LIST.forEach(c => { const p = web.pos[c.id]; if(!p) return; const d = Math.hypot(p.x - x, p.y - y); if(d <= Math.min(R(c) + 10, 17) && d < bd){ bd = d; best = c.id; } });
+    COURSE_LIST.forEach(c => { const p = web.pos[c.id]; if(!p) return; const d = Math.hypot(p.x - x, p.y - y); if(d <= Math.max(R(c) + 4, 12) && d < bd){ bd = d; best = c.id; } });
     if(best) select(best, false); else if(web.sel){ select(null); }
   });
   canvas.style.cursor = 'pointer';
   window.addEventListener('beforeprint', () => { if(activeTab === 'web') drawWeb(); });
+  let rz = null; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { if(activeTab === 'web'){ drawWeb(); if(web.sel) select(web.sel, false); } }, 120); });
 
   /* ---------- start ---------- */
   const hash = (location.hash || '').slice(1), fromHash = PATHWAYS.some(p => p.id === hash) ? hash : null;
