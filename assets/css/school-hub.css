@@ -1,0 +1,53 @@
+/* School Counseling hub: grade selector and colorful cards. Scoped to .sh-* so nothing else changes.
+   Colors: navy = structure, gold = highlights and the Open buttons, sky = interactive accents. One accent color per card. */
+.sh-wrap{margin:0 auto; max-width:1200px;}
+.sh-picker{background:var(--navy); color:#fff; border-radius:16px; padding:20px 18px; margin:0 0 18px;}
+.sh-picker h2{color:#fff; font-size:1.25rem; margin:0 0 4px;}
+.sh-pick-help{margin:0 0 12px; color:#fff;}
+.sh-grades{display:flex; flex-wrap:wrap; gap:10px;}
+.sh-grade{min-height:48px; min-width:56px; padding:8px 16px; border-radius:12px; border:2px solid var(--sky); background:transparent; color:#fff; font:700 1.05rem var(--sans); cursor:pointer;}
+.sh-grade.sh-all{font-size:0.95rem;}
+.sh-grade:hover{background:rgba(105,179,231,.25);}
+.sh-grade[aria-pressed="true"]{background:var(--gold); border-color:var(--gold); color:var(--navy);}
+.sh-grade:focus-visible, .sh-open:focus-visible{outline:3px solid #fff; outline-offset:3px; box-shadow:0 0 0 6px var(--navy);}
+.sh-vh{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;}
+.sh-status{min-height:1.4em; margin:12px 0 0; color:#fff; font-weight:600;}
+.sh-warn{margin:8px 0 0; padding:8px 12px; background:var(--gold); color:var(--navy); border-radius:8px; font-weight:700;}
+.sh-warn[hidden]{display:none;}
+.sh-privacy{margin:6px 0 0; font-size:0.85rem; color:#fff;}
+
+.sh-grid{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:1fr; gap:14px;}
+.sh-card{position:relative; display:flex; gap:14px; align-items:stretch; background:#fff; border:2px solid var(--navy); border-radius:16px; overflow:hidden; transition:transform .12s ease, box-shadow .12s ease;}
+.sh-icon{flex:0 0 76px; display:flex; align-items:center; justify-content:center;}
+.sh-icon svg{width:34px; height:34px;}
+.sh-sky .sh-icon{background:var(--sky); color:var(--navy);}
+.sh-gold .sh-icon{background:var(--gold); color:var(--navy);}
+.sh-navy .sh-icon{background:var(--navy); color:#fff;}
+.sh-body{flex:1; min-width:0; padding:16px 16px 16px 0; display:flex; flex-direction:column; gap:6px;}
+.sh-body h3{margin:0; font:700 1.15rem var(--sans); color:var(--navy);}
+.sh-body p{margin:0; color:var(--navy);}
+.sh-tags{display:flex; gap:6px; margin-top:2px;}
+.sh-tag{min-width:28px; text-align:center; padding:2px 6px; border-radius:999px; font:700 0.8rem var(--sans); border:1.5px solid var(--cloud); color:var(--slate); background:#fff;}
+.sh-tag.on{border-color:var(--navy); color:var(--navy);}
+.sh-tag.on.sel{background:var(--navy); color:#fff;}
+.sh-fit{font:700 0.85rem var(--sans); color:var(--navy);}
+.sh-fit[hidden]{display:none;}
+.sh-open{align-self:flex-start; margin-top:6px; display:inline-flex; align-items:center; justify-content:center; min-height:48px; min-width:96px; padding:10px 22px; border-radius:12px; background:var(--gold); color:var(--navy); font:800 1rem var(--sans); text-decoration:none; border:2px solid var(--navy);}
+.sh-open::after{content:""; position:absolute; inset:0;}   /* the whole card is tappable */
+.sh-card:hover{transform:translateY(-2px); box-shadow:0 6px 16px rgba(12,35,64,.18);}
+.sh-card.is-fit{border-color:var(--gold); box-shadow:0 0 0 3px var(--gold);}
+.sh-card.is-dim{background:var(--paper-soft); border-color:var(--cloud);}
+.sh-card.is-dim .sh-icon{background:var(--cloud); color:var(--navy);}
+.sh-card.is-dim .sh-body h3, .sh-card.is-dim .sh-body p, .sh-card.is-dim .sh-fit{color:var(--slate);}
+.sh-card.is-dim .sh-open{background:#fff; border-color:var(--slate); color:var(--navy);}
+.sh-card:focus-within{box-shadow:0 0 0 3px var(--navy);}
+
+@media (min-width:640px){ .sh-grid{grid-template-columns:repeat(2, 1fr);} .sh-picker{padding:24px 28px;} }
+@media (min-width:1000px){
+  .sh-grid{grid-template-columns:repeat(3, 1fr);}
+  .sh-card{flex-direction:column; gap:0;}
+  .sh-icon{flex:0 0 auto; height:84px;}
+  .sh-body{padding:16px 18px 20px;}
+}
+@media (prefers-reduced-motion:reduce){ .sh-card{transition:none;} .sh-card:hover{transform:none;} }
+@media print{ .sh-picker{display:none;} }

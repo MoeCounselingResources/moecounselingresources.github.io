@@ -168,7 +168,8 @@ function renderLanding(){
 function renderHub(hubKey){
   const h = HUBS[hubKey];
   document.getElementById('hero').innerHTML = heroHtml(h.title + ' Hub', h.title, h.blurb, hubKey);
-  document.getElementById('dashboard').innerHTML = `
+  if(h.design === 'cards' && window.renderSchoolHubCards){ window.renderSchoolHubCards(h); }
+  else document.getElementById('dashboard').innerHTML = `
     <div class="dash-grid">
       ${h.boxes.map(b=>`
         <a class="dash-box"${linkAttrs(b.href)}>

@@ -12,15 +12,17 @@ const HUBS = {
     page: "school-counseling.html",
     blurb: "With a best-in-class student to counselor ratio, the young men of Moeller build genuine relationships with their counselors over their four-year education journey. Moeller’s counseling program delivers holistic, individualized, data-driven counseling activities and interventions to support students in their social and emotional development, academic growth, and college and career planning. Counselors provide support for students who need help adjusting to high school, seek mental and emotional support, need strategies for managing stress, struggle with anxiety and depression, and/or experience sudden life changes.",
     cardBlurb: "Support for how you learn and grow at Moeller — study skills, academic help, and resources for families.",
+    design: "cards",   // draws the School Counseling cards with the grade selector (assets/js/school-hub.js)
+    // grades = which grades the card is most relevant to (shown as the small 9/10/11/12 tags and used by the grade selector).
+    // accent = sky, gold, or navy (one color per card). icon = a name from assets/js/school-hub.js.
     boxes: [
-      {title:"Study Tips & How to Study", desc:"Proven ways to study, take notes, and prepare for tests.", href:"study-tips.html"},
-      {title:"Education for Parents", desc:"Guidance and sessions to help families support their students.", href:"parent-education.html"},
-      {title:"Academic Support", desc:"Study groups, Chem Block, and the tutors we have in school.", href:"academic-support.html"},
-      {title:"Self-Discovery", desc:"Private, self-paced exercises on your values, your roles, your goals, and who's in your corner. For every grade.", href:"self-discovery.html"},
-      {title:"How to Learn", desc:"Short modules on how memory and focus really work, with a self-quiz builder. What the research supports, and what it doesn't.", href:"how-to-learn.html"},
-      {title:"Course Planner", desc:"Map out all four years, track your graduation requirements, and explore pathways. For every grade.", href:"course-planner.html"},
-      {title:"GPA Calculator", desc:"Figure your yearly and cumulative GPA, weighted and unweighted, and see where you stand for Latin Honors.", href:"gpa-calculator.html"},
-      {title:"Honor Roll Calculator", desc:"Check whether your quarter grades put you on First or Second Honors.", href:"honor-roll.html"}
+      {title:"Self-Discovery", desc:"Private exercises on your values, your roles, and your goals.", href:"self-discovery.html", grades:[9,10,11,12], accent:"sky", icon:"compass"},
+      {title:"How to Learn", desc:"Short, research-checked lessons on memory, focus, and sleep.", href:"how-to-learn.html", grades:[9,10,11], accent:"gold", icon:"brain"},
+      {title:"Course Planner", desc:"Map out all four years and track your graduation requirements.", href:"course-planner.html", grades:[9,10,11], accent:"navy", icon:"map"},
+      {title:"GPA Calculator", desc:"Figure your GPA and see where you stand for Latin Honors.", href:"gpa-calculator.html", grades:[9,10,11,12], accent:"sky", icon:"calc"},
+      {title:"Honor Roll Calculator", desc:"Check whether your quarter grades earn First or Second Honors.", href:"honor-roll.html", grades:[9,10,11,12], accent:"gold", icon:"star"},
+      {title:"Academic Support", desc:"Study groups, Chem Block, and tutoring in school.", href:"academic-support.html", grades:[9,10,11,12], accent:"navy", icon:"people"},
+      {title:"Education for Parents", desc:"Guidance and sessions to help families support their students.", href:"parent-education.html", grades:[9,10,11,12], accent:"sky", icon:"home"}
     ],
     classHeading: "Your class",
     classIntro: "Each class page has a School & Academics view with support for that year.",

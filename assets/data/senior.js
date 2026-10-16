@@ -601,6 +601,14 @@ YEARS.senior = {
             {title:"Honor Roll Calculator", desc:"Check whether your quarter grades put you on First or Second Honors.", url:"honor-roll.html"}
           ]
         },
+        howToLearn: {
+          title: "How to learn",
+          note: "Any time",
+          desc: "Short, research-checked lessons on how memory, focus, and sleep work, with tools you can use right away.",
+          items: [
+            {title:"How to Learn", desc:"Ten short modules, each with a quick check and something to try. Start anywhere.", url:"how-to-learn.html", go:"Start How to Learn"}
+          ]
+        },
         selfDiscovery: {
           title: "Self-discovery",
           note: "Any time",
