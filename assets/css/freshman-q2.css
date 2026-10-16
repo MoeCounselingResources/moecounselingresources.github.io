@@ -62,3 +62,19 @@
 
 .fq2-more{color:var(--navy); text-decoration:underline; font-weight:700; display:inline-block; padding:10px 0;}
 .fq2-more:focus-visible{outline:3px solid var(--navy); outline-offset:2px;}
+
+/* Earnings bar chart */
+.fq2-chart{margin:0 0 14px; padding:16px; background:var(--paper-soft); border-radius:12px;}
+.fq2-bars{list-style:none; padding:0 !important; margin:0 0 10px;}
+.fq2-bar{display:grid; grid-template-columns:minmax(150px, 230px) 1fr 84px; align-items:center; gap:10px; margin:0 0 8px;}
+.fq2-bar-l{font-size:0.88rem; color:var(--navy); font-weight:600;}
+.fq2-track{height:20px; background:var(--paper); border:1px solid var(--cloud); border-radius:999px; overflow:hidden;}
+.fq2-fill{display:block; height:100%; background:var(--sky); border-radius:999px;}
+.fq2-bar.is-high .fq2-fill{background:var(--navy);}
+.fq2-bar:last-child .fq2-fill{background:var(--gold);}
+.fq2-bar-v{font-weight:700; font-size:0.9rem; text-align:right; color:var(--navy);}
+.fq2-chart figcaption{font-size:0.9rem; color:var(--slate);}
+@media (max-width:720px){
+  .fq2-bar{grid-template-columns:1fr auto; gap:4px 10px;}
+  .fq2-bar-l{grid-column:1 / -1;}
+}

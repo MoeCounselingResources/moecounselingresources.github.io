@@ -2,7 +2,7 @@
 
 - Decide whether to link the junior recommendation request and questionnaire Microsoft Forms on the Juniors page.
 - Add any test prep providers left out of this update (Torch Prep, Whiz, Mathnasium Blue Ash, NKY Tutoring).
-- Confirm source and year for the Q2 earnings chart, then restore it (the figures and restore steps are in a comment in assets/data/freshman-q2.js).
+- Confirm source and year for the Q2 earnings chart, then update the caption.
 - Freshmen page, Quarter 4 support card ("You're not alone", in assets/data/freshman.js): counseling team to VERIFY every number and resource before launch:
   - 988 Suicide & Crisis Lifeline (call or text 988, any time)
   - Crisis Text Line (text HOME to 741741)
@@ -17,4 +17,5 @@
   - Worksheet-only courses (not in the 2026-27 guide) are in the catalog with source "worksheet": ASL I/II, Fine Arts Survey, Men's Chorus I-III, Men's Vocal Ensemble, Health (summer), Business Management and Operations, Intro to AI CCP, Summer Pre-Calc. Confirm they should be offered.
   - The Social Sciences pathway (guide p.61) lists "Catholic Teaching in a Contemporary World"; the guide has no such course, so the planner shows the title only.
   - assets/data/courses.js (GPA Calculator list) differs from the new catalog: it has courses not in the guide (Catholic Teaching in the Contemporary World, English IV Contemporary Poetry / Cultural Criticism / Offbeat American Lit, Humanities, Philosophy and Literature, AP Art History, Spanish II CP2), lists semester CCP courses at 0.5 credit and PE I/II at 0.5 (the catalog has 1 and 0.25), and lists Studio Art II as H/CP1 and Marianist Community Development I as PF. Decide whether to merge the lists.
+
 - How to Learn sources: Latimier 2021 (source 9 in assets/data/evidence.js) is a plain http link on a personal university page (lscp.net). Check once a year that it still loads. All other ledger links should be clicked through at the same time.

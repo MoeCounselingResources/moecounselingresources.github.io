@@ -47,8 +47,14 @@
     '<h3>' + esc(B.whatTitle) + '</h3><div class="fq2-tiles">' +
     B.what.map((c, i) => '<div class="fq2-tile"><span class="fq2-num" aria-hidden="true">' + (i + 1) + '</span><strong>' + esc(c.title) + '</strong><span>' + esc(c.text) + '</span></div>').join('') + '</div></section>';
 
+  const money = n => '$' + n.toLocaleString('en-US');
+  const chartMax = Math.max.apply(null, W.earnings.rows.map(r => r.value));
   const whyHtml = '<section class="fq-sec" id="why"><h2>' + esc(W.title) + '</h2><ul class="fq2-chips">' +
     W.reasons.map(r => '<li>' + esc(r) + '</li>').join('') + '</ul>' +
+    '<h3>' + esc(W.chartTitle) + '</h3><figure class="fq2-chart"><ul class="fq2-bars">' +
+    W.earnings.rows.map((r, i) => '<li class="fq2-bar' + (i >= 5 ? ' is-high' : '') + '"><span class="fq2-bar-l">' + esc(r.label) + '</span>' +
+      '<span class="fq2-track"><span class="fq2-fill" style="width:' + (r.value / chartMax * 100).toFixed(1) + '%"></span></span><span class="fq2-bar-v">' + money(r.value) + '</span></li>').join('') +
+    '</ul><figcaption>' + esc(W.caption) + '</figcaption></figure>' +
     '<p class="fq-close">' + esc(W.money) + '</p></section>';
 
   const degCard = c => {

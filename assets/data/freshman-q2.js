@@ -6,7 +6,7 @@
    braces. To use a quotation mark inside text, write \" instead of ". In text you can use **bold**.
    Glossary: add or change a { term: "...", def: "..." } line. The Bingo card is drawn from these same terms.
    Career game: each career names the right choice with "answer" (a number counting from 0 in "choices").
-   Earnings chart: removed for now. The figures are saved in a comment inside the "why" section below.
+   Earnings chart: change the numbers in "earnings.rows" in the "why" section; the bars resize themselves.
 
    SAVED ANSWERS: the "How do you like to learn?" reflection saves in the student's own browser under the
    key in learn.key ("moeller-ex-learning"). Don't change the key, or saved answers disappear. Nothing is
@@ -81,23 +81,20 @@ const FRESHMAN_Q2 = {
   why: {
     title: "Why should I go to college?",
     reasons: ["Earn more", "Live longer, healthier lives", "Less likely to be unemployed", "Less likely to be incarcerated", "Actively contribute to society"],
-    /* EARNINGS CHART, REMOVED UNTIL THE SOURCE IS CONFIRMED (see TODO.md). To restore it, add these back to this
-       "why" section as chartTitle, caption (with the real source and year), and earnings, then restore the chart
-       code from git history (commit fc80333: the "Why" block in assets/js/freshman-q2.js and the .fq2-bar rules
-       in assets/css/freshman-q2.css).
-         chartTitle: "Earnings by education level",
-         caption: "Typical yearly earnings by education level (source: [to confirm])",
-         Yearly earnings by education level:
-           Less than a high school diploma ........ $40,300
-           High school graduate, no college ....... $51,896
-           Some college, no degree ................ $58,032
-           Associate degree (academic program) .... $58,552
-           Associate degree (occupational program)  $61,984
-           Bachelor's degree ...................... $88,764
-           Master's degree ........................ $104,936
-           Doctoral degree (e.g., PhD) ............ $130,832
-           Professional degree (e.g., JD, MD) ..... $145,704
-    */
+    // Earnings chart. The bars resize themselves from "earnings.rows". Source and year are still to be confirmed (see TODO.md); update the caption when they are.
+    chartTitle: "Earnings by education level",
+    caption: "Typical yearly earnings by education level (source: to be confirmed — check TODO.md)",
+    earnings: { rows: [
+      { label: "Less than a high school diploma", value: 40300 },
+      { label: "High school graduate, no college", value: 51896 },
+      { label: "Some college, no degree", value: 58032 },
+      { label: "Associate degree (academic program)", value: 58552 },
+      { label: "Associate degree (occupational program)", value: 61984 },
+      { label: "Bachelor's degree", value: 88764 },
+      { label: "Master's degree", value: 104936 },
+      { label: "Doctoral degree (e.g., PhD)", value: 130832 },
+      { label: "Professional degree (e.g., JD, MD)", value: 145704 }
+    ] },
     money: "Over a lifetime, a bachelor's degree can mean about $1 million or more in extra earnings compared with a high school diploma (estimates vary)."
   },
 
