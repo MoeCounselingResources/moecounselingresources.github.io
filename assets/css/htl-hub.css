@@ -31,8 +31,9 @@
 .hh-try{color:var(--navy);}
 .hh-go, .hh-start{display:inline-flex; align-items:center; justify-content:center; min-height:48px; min-width:96px; padding:10px 24px; border-radius:12px; background:var(--gold); color:var(--navy); border:2px solid var(--navy); font:800 1rem var(--sans); text-decoration:none;}
 .hh-go:hover, .hh-start:hover{filter:brightness(.96);}
-.hh-tbtn:focus-visible, .hh-go:focus-visible, .hh-start:focus-visible, .hh-details summary:focus-visible, .hh-map a:focus-visible{outline:3px solid var(--navy); outline-offset:3px; box-shadow:0 0 0 6px var(--gold);}
-.hh-tc.is-open .hh-tbtn:focus-visible{outline-color:#fff; box-shadow:0 0 0 6px var(--navy);}
+.hh-tbtn:focus-visible{outline:3px solid var(--navy); outline-offset:-7px; box-shadow:none;}
+.hh-tc.is-open .hh-tbtn:focus-visible{outline-color:#fff; box-shadow:none;}
+.hh-go:focus-visible, .hh-start:focus-visible, .hh-details summary:focus-visible, .hh-map a:focus-visible{outline:3px solid var(--navy); outline-offset:3px; box-shadow:0 0 0 6px var(--gold);}
 
 /* module groups */
 .hh-group{margin:0 0 36px;}
@@ -49,6 +50,8 @@
 .hh-cbody p{margin:0; color:var(--navy);}
 .hh-meta{display:flex; flex-wrap:wrap; align-items:center; gap:6px 12px; margin-top:auto;}
 .hh-ev{display:inline-flex; align-items:center; gap:6px; flex-wrap:wrap;}
+.hh-ev .htl-label{font-size:0.88rem;}
+.hh-ev .htl-topic{font-size:0.9rem;}
 .hh-time{display:inline-flex; align-items:center; gap:5px; font-size:0.9rem; color:var(--slate); font-weight:600;}
 .hh-start{align-self:flex-start; margin-top:6px;}
 .hh-card:has(.hh-start){cursor:pointer;}   /* the whole card opens the module (see htl-hub.js) */
@@ -64,18 +67,20 @@
 .hh-ct{font:800 16px var(--sans); fill:var(--navy);}
 .hh-hubnode circle{fill:#fff; stroke:var(--navy); stroke-width:3;}
 .hh-ht{font:800 12px var(--sans); fill:var(--navy);}
-.hh-node circle{fill:var(--navy); stroke:var(--navy); stroke-width:3;}
+.hh-node circle:not(.hh-hit){fill:var(--navy); stroke:var(--navy); stroke-width:3;}
 .hh-nt{font:800 16px var(--sans); fill:#fff;}
-.hh-nl{font:700 13px var(--sans); fill:var(--navy);}
+.hh-nl{font:700 15px var(--sans); fill:var(--navy); paint-order:stroke; stroke:#fff; stroke-width:4px; stroke-linejoin:round;}
+.hh-hit{fill:transparent; stroke:none;}
 .hh-map a{cursor:pointer;}
-.hh-map a:hover circle{fill:var(--slate);}
+.hh-map a:hover circle:not(.hh-hit){fill:var(--slate);}
 .hh-map a:focus-visible{outline:none;}
-.hh-map a:focus-visible circle{stroke:var(--gold); stroke-width:6;}
+.hh-map a:focus-visible circle:not(.hh-hit){stroke:var(--gold); stroke-width:6;}
 
 @media (min-width:700px){
   .hh-trouble{grid-template-columns:repeat(2, minmax(0,1fr));}
   .hh-grid{grid-template-columns:repeat(2, minmax(0,1fr));}
   .hh-card{min-height:240px;}
+  .hh-card:last-child:nth-child(odd){grid-column:1 / -1;}
   .hh-map-phone{display:none;}
   .hh-map-wide{display:block;}
 }

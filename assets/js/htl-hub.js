@@ -41,10 +41,10 @@
     const troubleHtml = '<section class="hh-sec" id="trouble" aria-labelledby="hh-trouble-h"><h2 id="hh-trouble-h" class="hh-h2">' + esc(D.troubleTitle) + '</h2><p class="hh-lead">' + esc(D.troubleIntro) + '</p>' +
       '<ul class="hh-trouble">' + D.trouble.map((t, i) => {
         const m = byId(t.module);
-        const body = m ? '<p class="hh-try"><strong>' + esc(D.troubleTry) + '</strong> ' + (m.built ? esc(m.n + '. ' + m.title) : esc(m.n + '. ' + m.title) + ' <span class="htl-soon">' + esc(D.troubleSoon) + '</span>') + '</p><p>' + esc(m.blurb) + '</p>' +
+        const body = m ? '<p class="hh-try"><strong>' + esc(D.troubleTry) + '</strong> ' + (m.built ? esc(D.moduleWord + ' ' + m.n + ': ' + m.title) : esc(D.moduleWord + ' ' + m.n + ': ' + m.title) + ' <span class="htl-soon">' + esc(D.troubleSoon) + '</span>') + '</p><p>' + esc(m.blurb) + '</p>' +
           (m.built ? '<a class="hh-go" href="' + escA(href(m)) + '" aria-label="' + escA(D.goLabel + ': ' + m.title) + '">' + esc(D.goLabel) + '</a>' : '') : '';
         return '<li class="hh-tc" data-i="' + i + '"><button type="button" class="hh-tbtn" aria-expanded="false" aria-controls="hh-tp-' + i + '"><span>' + esc(t.text) + '</span><span class="hh-chev" aria-hidden="true"></span></button>' +
-          '<div class="hh-tpanel" id="hh-tp-' + i + '" role="region" aria-label="' + escA(t.text) + '"><div class="hh-tinner"><div class="hh-tbody">' + body + '</div></div></div></li>';
+          '<div class="hh-tpanel" id="hh-tp-' + i + '"><div class="hh-tinner"><div class="hh-tbody">' + body + '</div></div></div></li>';
       }).join('') + '</ul></section>';
 
     /* module cards in two groups */
@@ -59,7 +59,7 @@
     const modulesHtml = '<div id="modules">' + groupsHtml + '</div>';
 
     /* mind map: two layouts (phone / wide) drawn from the same data; decorative and supplementary */
-    const node = (m, x, y, r, cls) => '<a href="' + escA(href(m)) + '" aria-label="' + escA(m.n + '. ' + m.title) + '"><g class="hh-node ' + cls + '"><circle cx="' + x + '" cy="' + y + '" r="' + r + '"/><text x="' + x + '" y="' + (y + 5) + '" text-anchor="middle" class="hh-nt">' + m.n + '</text><text x="' + x + '" y="' + (y + r + 18) + '" text-anchor="middle" class="hh-nl">' + esc(m.short || m.title) + '</text></g></a>';
+    const node = (m, x, y, r, cls) => '<a href="' + escA(href(m)) + '" aria-label="' + escA(m.n + '. ' + m.title) + '"><g class="hh-node ' + cls + '"><circle class="hh-hit" cx="' + x + '" cy="' + y + '" r="' + (r + 8) + '"/><circle cx="' + x + '" cy="' + y + '" r="' + r + '"/><text x="' + x + '" y="' + (y + 5) + '" text-anchor="middle" class="hh-nt">' + m.n + '</text><text x="' + x + '" y="' + (y + r + 18) + '" text-anchor="middle" class="hh-nl">' + esc(m.short || m.title) + '</text></g></a>';
     const hub = (x, y, r, t) => '<g class="hh-hubnode"><circle cx="' + x + '" cy="' + y + '" r="' + r + '"/><text text-anchor="middle" class="hh-ht">' + t.split(' ').map((w, i, a) => '<tspan x="' + x + '" y="' + (y + 5 - (a.length - 1) * 8 + i * 16) + '">' + esc(w) + '</tspan>').join('') + '</text></g>';
     const line = (x1, y1, x2, y2) => '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '"/>';
     const map = (w, h, cx, cy, hubs, cols) => {
@@ -68,7 +68,7 @@
         lines += line(cx, cy, hubs[gi][0], hubs[gi][1]);
         g.ids.forEach((id, i) => { const p = cols[gi][i]; lines += line(hubs[gi][0], hubs[gi][1], p[0], p[1]); });
       });
-      D.groups.forEach((g, gi) => { g.ids.forEach((id, i) => { const p = cols[gi][i], m = byId(id); if(m) nodes += node(m, p[0], p[1], 26, 'g' + gi); }); });
+      D.groups.forEach((g, gi) => { g.ids.forEach((id, i) => { const p = cols[gi][i], m = byId(id); if(m) nodes += node(m, p[0], p[1], 30, 'g' + gi); }); });
       const hubsSvg = D.groups.map((g, gi) => hub(hubs[gi][0], hubs[gi][1], 44, g.title)).join('');
       return '<svg viewBox="0 0 ' + w + ' ' + h + '" role="group" aria-label="' + escA(D.mapLabel) + '" focusable="false"><g class="hh-lines" aria-hidden="true">' + lines + '</g>' + hubsSvg +
         '<g class="hh-centernode"><circle cx="' + cx + '" cy="' + cy + '" r="46"/><text text-anchor="middle" class="hh-ct">' + D.mapCenter.split(' ').map((wd, i, a) => '<tspan x="' + cx + '" y="' + (cy + 5 - (a.length - 1) * 9 + i * 18) + '">' + esc(wd) + '</tspan>').join('') + '</text></g>' + nodes + '</svg>';
