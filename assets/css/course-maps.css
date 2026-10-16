@@ -96,9 +96,9 @@
 
 /* tab 3: full-width cards stacked on the page; a sticky filter row; a chevron on every card header */
 .cm-cardfilter{position:sticky; top:var(--cm-hdr, 0px); z-index:10; margin:0 -24px 14px; padding:10px 24px 8px; background:#fff; border-bottom:2px solid var(--cloud);}
-.cm-filters-row{flex-wrap:nowrap; overflow-x:auto; padding-bottom:6px; scroll-snap-type:x proximity; -webkit-overflow-scrolling:touch;}
+.cm-filters-row{flex-wrap:nowrap; overflow-x:auto; padding:8px 8px 10px; margin:-8px -8px 0; scroll-snap-type:x proximity; -webkit-overflow-scrolling:touch;}
 .cm-filters-row > *{flex:0 0 auto;}
-@media (min-width:1000px){ .cm-filters-row{flex-wrap:wrap; overflow-x:visible;} }
+@media (min-width:1000px){ .cm-filters-row{flex-wrap:wrap; overflow-x:visible; padding:8px 8px 6px;} }
 .cm-cards{display:grid; grid-template-columns:minmax(0,1fr); gap:0;}
 .cm-cardwrap{display:grid; grid-template-rows:1fr; margin:0 0 16px; opacity:1; transition:grid-template-rows .35s ease, opacity .3s ease, margin .35s ease, visibility 0s;}
 .cm-cardinner{overflow:hidden; min-height:0;}
@@ -118,7 +118,8 @@
 .cm-cardbody{display:grid; grid-template-rows:1fr; transition:grid-template-rows .3s ease;}
 .cm-cardbody > .cm-cols{overflow:hidden; min-height:0; padding:14px 16px;}
 .cm-cardwrap.is-collapsed .cm-cardbody{grid-template-rows:0fr;}
-.cm-cardwrap.is-collapsed .cm-cardbody > .cm-cols{padding-top:0; padding-bottom:0; visibility:hidden;}
+.cm-cardbody > .cm-cols{transition:padding .3s ease, visibility 0s;}
+.cm-cardwrap.is-collapsed .cm-cardbody > .cm-cols{padding-top:0; padding-bottom:0; visibility:hidden; transition:padding .3s ease, visibility 0s .3s;}
 
 @media (prefers-reduced-motion:reduce){ *{scroll-behavior:auto !important;} .cm-cardwrap, .cm-cardwrap.is-out, .cm-cardbody, .cm-chev{transition:none !important;} }
 

@@ -139,8 +139,13 @@
   applyCards();
   // the sticky filter row sits just under the site's own sticky header, whatever height that is
   const siteHeader = document.getElementById('site-header');
-  const setHdr = () => { root.style.setProperty('--cm-hdr', (siteHeader ? siteHeader.getBoundingClientRect().height : 0) + 'px'); };
-  setHdr(); window.addEventListener('resize', setHdr);
+  // (on phones the site header is not sticky, so the filter row then sticks to the very top)
+  const setHdr = () => {
+    const sticky = siteHeader && window.getComputedStyle(siteHeader).position === 'sticky';
+    root.style.setProperty('--cm-hdr', (sticky ? siteHeader.getBoundingClientRect().height : 0) + 'px');
+  };
+  setHdr(); window.addEventListener('resize', setHdr); window.addEventListener('load', setHdr);
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(setHdr);
 
   /* ---------- Tab 2: course web (canvas) ---------- */
   // Courses with the same name are shown once (the first one in the data file wins).
