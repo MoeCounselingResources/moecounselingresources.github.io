@@ -38,7 +38,7 @@ const HOW_TO_LEARN = {
   evidenceLabel: "Evidence:",
   modules: [
     { id: "brain", n: 1, title: "How your brain learns", blurb: "Your brain keeps changing with practice. What that does and does not mean.", evidence: ["brain"], file: "how-to-learn-brain.html", built: true },
-    { id: "myths", n: 2, title: "Learning myths: styles and illusions of knowing", blurb: "Why \"I know it when I see it\" can fool you, and what to do about learning styles.", evidence: ["styles", "illusions"], file: "how-to-learn-myths.html", built: false },
+    { id: "myths", n: 2, title: "Learning myths: styles and illusions of knowing", blurb: "Why \"I know it when I see it\" can fool you, and what to do about learning styles.", evidence: ["styles", "illusions"], file: "how-to-learn-myths.html", built: true },
     { id: "retrieval", n: 3, title: "Study like it counts: retrieval practice", blurb: "Close the page and try to remember. Why it works and a self-quiz tool.", evidence: ["retrieval"], file: "how-to-learn-retrieval.html", built: true },
     { id: "spacing", n: 4, title: "Spread it out: spacing", blurb: "Spreading study over several days works better than cramming. Plan your reviews.", evidence: ["spacing"], file: "how-to-learn-spacing.html", built: true },
     { id: "interleaving", n: 5, title: "Making it hard in the right way: interleaving and productive struggle", blurb: "When mixing it up helps, and when struggle is just struggle.", evidence: ["interleaving"], file: "how-to-learn-interleaving.html", built: true },

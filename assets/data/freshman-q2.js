@@ -37,16 +37,17 @@ const FRESHMAN_Q2 = {
     title: "How do you like to learn?",
     key: "moeller-ex-learning",
     paras: [
-      "Do some topics come more easily to you than others? Part of it is the topic, and part of it may be how you like to take things in. Lots of people notice preferences: some like learning by doing, some like seeing it (videos, diagrams), and some like hearing it (podcasts, audiobooks, talking it through). It's fun to be curious about yours. A preference is just something you notice, not a rule about how you have to learn.",
-      "Your personality plays a part too. Some people focus better in a group, and others focus better on their own. Some work best with clear goals, and others work best when they really care about the outcome."
+      "Do some topics come more easily to you than others? Part of it is the topic, and part of it is what you already know and how much you care. Lots of people notice that they enjoy some ways of learning more than others: some like doing it, some like seeing it (videos, diagrams), and some like hearing it (podcasts, audiobooks, talking it through). It's fun to be curious about yours. A preference is just something you notice, and noticing it is real. It is not a rule about how you have to learn.",
+      "What you like plays a part too. Some people focus better in a group, and others focus better on their own. Some work best with clear goals, and others work best when they really care about the outcome."
     ],
+    stylesTitle: "Ways you might enjoy learning",
     styles: [
       { label: "Doing", text: "Hands-on practice, building, trying it yourself" },
       { label: "Seeing", text: "Videos, diagrams, color-coded notes" },
       { label: "Hearing", text: "Podcasts, audiobooks, talking it through" }
     ],
-    gold: { title: "Here's the thing", text: "Studies haven't found that studying in the way you prefer helps you learn more. What does help is mixing methods, like drawing a diagram, explaining it out loud, and quizzing yourself. Notice what you enjoy, then try something new." },
-    quiz: { text: "Curious about your preferences? Try this learning preferences quiz just for fun", note: "(opens in a new tab; it's for fun, not a test or a rule for how you must study)", label: "Try this learning preferences quiz just for fun (opens in a new tab)", href: "https://www.learningstylequiz.com/" },
+    gold: { title: "Here's the thing", text: "Your preferences are real, and they are fun to notice. But careful tests haven't shown that studying in the way you prefer helps you learn more, so \"learning styles\" is a myth we can let go of kindly. A better plan is to mix methods, like drawing a diagram, explaining it out loud, and quizzing yourself on what you know. Notice what you enjoy, then try something new. Want to know more? See the How to Learn module on learning myths." },
+    quiz: { text: "Curious about your preferences? Try this learning preferences quiz just for fun", note: "(opens in a new tab; it's just for fun. It can't tell you how you should study.)", label: "Try this learning preferences quiz just for fun (opens in a new tab)", href: "https://www.learningstylequiz.com/" },
     reflectTitle: "Your reflection",
     fields: [
       { id: "easiest", label: "Which subjects come easiest to you right now?" },

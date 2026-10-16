@@ -32,7 +32,7 @@
 
   const learnHtml = '<section class="fq-sec" id="learn"><h2>' + esc(L.title) + '</h2>' +
     L.paras.map(p => '<p>' + esc(p) + '</p>').join('') +
-    '<ul class="fq2-styles">' + L.styles.map(s => '<li><b>' + esc(s.label) + '</b>' + esc(s.text) + '</li>').join('') + '</ul>' +
+    (L.stylesTitle ? '<h3>' + esc(L.stylesTitle) + '</h3>' : '') + '<ul class="fq2-styles">' + L.styles.map(s => '<li><b>' + esc(s.label) + '</b>' + esc(s.text) + '</li>').join('') + '</ul>' +
     '<div class="fq-gold"><strong>' + esc(L.gold.title) + '</strong><p>' + esc(L.gold.text) + '</p></div>' +
     '<p><a class="fq-video" href="' + escA(L.quiz.href) + '" target="_blank" rel="noopener noreferrer" aria-label="' + escA(L.quiz.label) + '">' + esc(L.quiz.text) + '</a> <span class="fq-hint">' + esc(L.quiz.note) + '</span></p>' +
     '<h3>' + esc(L.reflectTitle) + '</h3><div class="fq2-fields">' +
