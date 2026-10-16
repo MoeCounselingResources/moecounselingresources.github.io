@@ -129,6 +129,7 @@
     xp.hidden = false; xpArea.classList.add('has-open');
     live.textContent = fmt(T.explorer.opened, { name: p.name });
     try{ history.replaceState(null, '', '#' + id); }catch(e){}
+    if(!fromHash){ xp.tabIndex = -1; xp.focus({ preventScroll: true }); }
     if(!fromHash) xp.scrollIntoView({ block: 'nearest', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   }
   tiles.forEach(t => t.addEventListener('click', () => openPathway(t.dataset.id, false)));
@@ -243,7 +244,7 @@
   canvas.addEventListener('click', e => {
     const r = canvas.getBoundingClientRect(), x = (e.clientX - r.left) * (web.w / r.width), y = (e.clientY - r.top) * (web.h / r.height);
     let best = null, bd = 1e9;
-    COURSE_LIST.forEach(c => { const p = web.pos[c.id]; if(!p) return; const d = Math.hypot(p.x - x, p.y - y); if(d <= R(c) + 6 && d < bd){ bd = d; best = c.id; } });
+    COURSE_LIST.forEach(c => { const p = web.pos[c.id]; if(!p) return; const d = Math.hypot(p.x - x, p.y - y); if(d <= Math.min(R(c) + 10, 17) && d < bd){ bd = d; best = c.id; } });
     if(best) select(best, false); else if(web.sel){ select(null); }
   });
   canvas.style.cursor = 'pointer';

@@ -37,7 +37,7 @@ const CM_TEXT = {
     opt: "Elective option"
   },
   keyWord: "Key course",
-  optWord: "Option",
+  optWord: "Elective",
   cocurrTitle: "Co-curricular clubs",
 
   explorer: {
@@ -51,10 +51,10 @@ const CM_TEXT = {
 
   web: {
     heading: "Course web",
-    help: "Each circle is a course. A bigger circle unlocks more courses. Tap a circle to see what it needs and what it leads to. Tap empty space to start over.",
+    help: "Each circle is a course. A bigger circle unlocks more courses. Tap a circle, or pick a course from the list, to see what it needs and what it leads to.",
     filterLabel: "Show one department",
     all: "All departments",
-    pickLabel: "Pick a course (works without a mouse)",
+    pickLabel: "Pick a course to see what it needs and unlocks",
     pickNone: "No course picked",
     reset: "Start over",
     mapLabel: "Course map. Circles are courses, arranged by the grade they are first taken. Use the course picker above to explore with a keyboard or screen reader.",
@@ -67,7 +67,7 @@ const CM_TEXT = {
     none: "Nothing listed",
     noPrereq: "Nothing listed",
     note: "Note",
-    bigger: "Bigger circle = unlocks more courses"
+    bigger: "Bigger circle = unlocks more courses. Colors show departments (see the buttons above). Tap empty space or press Start over to clear."
   },
 
   cards: {
