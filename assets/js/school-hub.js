@@ -6,6 +6,9 @@
 (function(){
   const GRADES = [9, 10, 11, 12], KEY = 'moeller-grade-pref';
   const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  /* only this site's own pages or https links; anything else becomes # (hrefs come from hubs.js) */
+  const safeHref = u => /^(https:\/\/|[\w.\/-]+\.html(\?[\w=&.-]*)?$)/i.test(String(u)) ? u : '#';
+  const extAttrs = u => /^https:/i.test(String(u)) ? ' target="_blank" rel="noopener noreferrer"' : '';
   const ACCENTS = { sky: 'sky', gold: 'gold', navy: 'navy' };
   /* simple inline icons (24x24, drawn with the current text color) */
   const ICONS = {
@@ -33,7 +36,7 @@
         '<span class="sh-tags-cap" aria-hidden="true">Best for grades</span>' +
         GRADES.map(g => '<span class="sh-tag' + (gr.indexOf(g) > -1 ? ' on' : '') + '" data-g="' + g + '" aria-hidden="true">' + g + '</span>').join('') + '</div>' +
         '<span class="sh-fit" hidden></span>' +
-        '<a class="sh-open" href="' + esc(b.href) + '" aria-label="Open ' + esc(b.title) + '">Open</a></div></li>';
+        '<a class="sh-open" href="' + esc(safeHref(b.href)) + '"' + extAttrs(b.href) + ' aria-label="Open ' + esc(b.title) + '">Open</a></div></li>';
     }).join('');
     host.innerHTML =
       '<section class="sh-wrap" aria-labelledby="sh-h">' +
