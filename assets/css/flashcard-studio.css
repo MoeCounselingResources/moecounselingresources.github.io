@@ -93,7 +93,7 @@ body.fc-study-open{overflow:hidden;}
 .fc-gear{min-width:44px; padding:9px 12px;}
 .fc-float{position:absolute; right:0; top:100%; pointer-events:none;}
 .fc-floatitem{position:absolute; right:0; white-space:nowrap; font-weight:800; color:var(--navy); background:var(--gold); padding:2px 10px; border-radius:999px; animation:fc-floatup 1.4s ease-out forwards;}
-@keyframes fc-floatup{0%{transform:translateY(0); opacity:0;} 15%{opacity:1;} 100%{transform:translateY(-46px) translateY(60px); opacity:0;}}
+@keyframes fc-floatup{0%{transform:translateY(0); opacity:0;} 15%{opacity:1;} 100%{transform:translateY(-46px); opacity:0;}}
 .fc-cardno{font-weight:700; margin:6px 2px;}
 .fc-stage{flex:1; display:flex; align-items:flex-start; justify-content:center; padding:6px 0;}
 .fc-flip{width:100%; display:grid; perspective:1400px;}
@@ -101,13 +101,18 @@ body.fc-study-open{overflow:hidden;}
 .fc-back{transform:rotateY(180deg); justify-content:center; text-align:center;}
 .fc-flip.is-flipped .fc-front{transform:rotateY(-180deg);}
 .fc-flip.is-flipped .fc-back{transform:rotateY(0deg);}
-.fc-tbar{position:relative; height:12px; border-radius:999px; background:var(--rule-soft); overflow:hidden; margin:-6px -6px 14px; border:1px solid var(--navy);}
+.fc-twrap{display:flex; align-items:center; gap:10px; margin:0 0 12px;}
+.fc-tbar{flex:1; height:14px; border-radius:999px; background:var(--navy); overflow:hidden; border:2px solid var(--navy);}
+.fc-tpause{min-height:44px; padding:6px 12px; font-size:.9rem;}
 .fc-tfill{height:100%; width:100%; transition:width .1s linear, background-color .3s;}
 .fc-tfill.is-gold{background:var(--gold);}
-.fc-tfill.is-amber{background:#E08A00;}
-.fc-tfill.is-red{background:#C0392B;}
-.fc-tfill.is-off{background:var(--cloud);}
-.fc-tnum{position:absolute; right:6px; top:-3px; font-size:.7rem; font-weight:700; color:var(--navy);}
+.fc-tfill.is-amber{background:#FFA726;}
+.fc-tfill.is-red{background:#FF7A6B;}
+.fc-tfill.is-off{background:var(--cloud); opacity:.7;}
+.fc-tnum{min-width:3ch; text-align:right; font-size:.9rem; font-weight:700; color:inherit;}
+.fc-hintline{text-align:center; font-weight:600; margin:0 0 8px !important;}
+.fc-hintline[hidden]{display:none;}
+#fc-back{display:inline-block; padding:10px 0; min-height:44px; box-sizing:border-box;}
 .fc-q{font-family:var(--serif); font-size:clamp(1.35rem,4.6vw,2rem); font-weight:700; text-align:center; margin:12px 0 16px !important; line-height:1.3;}
 .fc-a{font-family:var(--serif); font-size:clamp(1.3rem,4.4vw,1.9rem); font-weight:700; margin:6px 0 14px !important; line-height:1.3;}
 .fc-ansform{max-width:560px; width:100%; margin:0 auto;}
@@ -142,6 +147,9 @@ body.fc-study-open{overflow:hidden;}
 
 /* ---------- phones ---------- */
 @media (max-width:520px){
+  .fc-sticky{position:static; border-top:0;}
+  .fc-cards{max-height:none; overflow:visible; border:0; padding:0;}
+  .fc-keys{display:none;}
   .fc-face{min-height:340px; padding:14px 12px 12px;}
   .fc-studyin{padding:8px 10px 20px;}
   .fc-bar .fc-btn{min-height:44px; padding:8px 12px;}
@@ -153,7 +161,7 @@ body.fc-study-open{overflow:hidden;}
   .fc-face{transition:none;}
   .fc-tfill{transition:none;}
   .fc-floatitem, .fc-toast{animation:none;}
-  .fc-spin{animation-duration:2.4s;}
+  .fc-spin{animation:none;}
 }
 
 /* ---------- print: a plain two-column sheet of cards, no game parts ---------- */

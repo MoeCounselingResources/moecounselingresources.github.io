@@ -13,7 +13,7 @@ This folder is not part of the published site's pages; nothing here runs on GitH
    main = "src/index.js"
    compatibility_date = "2025-01-01"
 
-   # Optional but recommended: a real rate limiter (20 requests / 60 s per IP)
+   # REQUIRED: the Worker refuses to run without this rate limiter (20 requests / 60 s per IP)
    [[unsafe.bindings]]
    name = "RATE_LIMITER"
    type = "ratelimit"
@@ -22,11 +22,12 @@ This folder is not part of the published site's pages; nothing here runs on GitH
    ```
 3. `wrangler secret put ANTHROPIC_API_KEY`
 4. `wrangler deploy`, then paste the Worker URL into `api.url` in `assets/data/flashcard-studio.js`.
-5. In the Anthropic console, set a monthly spend limit on that key.
+5. In the Anthropic console, set a monthly spend limit on that key. This is mandatory, not optional: the Worker has no student login, so the spend cap is the real backstop.
+6. Leave Workers Logs / observability OFF so nothing students type is logged. The prompts live in the Worker (`PROMPTS`); `assets/data/flashcard-studio.js` holds a reference copy, so change both together.
 
 ## Local testing
 
-`wrangler dev` with `ANTHROPIC_API_KEY=…` in `.dev.vars`; set `api.url` to `http://localhost:8787` (the Worker allows `http://localhost:8000` as an origin).
+`wrangler dev` with `ANTHROPIC_API_KEY=…` and `DEV=1` in `.dev.vars` (DEV=1 allows the localhost origins and a simple in-memory limiter); set `api.url` to `http://localhost:8787` (the Worker allows `http://localhost:8000` as an origin).
 
 ## What it enforces
 

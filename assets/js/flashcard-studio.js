@@ -65,7 +65,7 @@
     closeDialog(true);
     const opener = document.activeElement;
     const wrap = document.createElement('div'); wrap.className = 'fc-dlgwrap';
-    wrap.innerHTML = '<div class="fc-dlg" role="dialog" aria-modal="true" aria-labelledby="fc-dlg-t"><div class="fc-dlghead"><h2 id="fc-dlg-t">' + titleHtml + '</h2></div><div class="fc-dlgbody">' + bodyHtml + '</div></div>';
+    wrap.innerHTML = '<div class="fc-dlg" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="fc-dlg-t"><div class="fc-dlghead"><h2 id="fc-dlg-t">' + titleHtml + '</h2></div><div class="fc-dlgbody">' + bodyHtml + '</div></div>';
     const host = S.screen === 'study' ? $('fc-study') : document.body; host.appendChild(wrap);
     const box = wrap.querySelector('.fc-dlg');
     const focusables = () => Array.from(box.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')).filter(e => !e.disabled && e.offsetParent !== null);
@@ -87,25 +87,25 @@
   }
 
   /* ---------- live announcements ---------- */
-  function say(t){ const l = $('fc-live') || $('fc-live-main'); if(!l) return; l.textContent = ''; setTimeout(() => { l.textContent = t; }, 30); }
+  function say(t){ const l = $('fc-live-main'); if(!l) return; l.textContent = ''; setTimeout(() => { l.textContent = t; }, 30); }
 
   /* =====================================================================
      STEP 1 — notes
      ===================================================================== */
-  function renderInput(){
+  function renderInput(focusHead){
     S.screen = 'input'; document.body.classList.remove('fc-study-open'); hideOutside(false);
     const I = D.input, n = loadDecks().length;
     root.innerHTML =
-      '<section class="fc-sec" aria-labelledby="fc-h-in"><h2 id="fc-h-in">' + esc(I.title) + '</h2>' +
+      '<section class="fc-sec" aria-labelledby="fc-h-in"><h2 id="fc-h-in" tabindex="-1">' + esc(I.title) + '</h2>' +
       '<div class="fc-in2">' +
       '<div class="fc-box"><label for="fc-notes" class="fc-lbl">' + esc(I.pasteLabel) + '</label>' +
-      '<textarea id="fc-notes" class="fc-notes" rows="10" maxlength="200000" placeholder="' + esc(I.pastePlaceholder) + '">' + esc(S.notes) + '</textarea>' +
+      '<textarea id="fc-notes" class="fc-notes" autocomplete="off" spellcheck="false" rows="10" maxlength="200000" placeholder="' + esc(I.pastePlaceholder) + '">' + esc(S.notes) + '</textarea>' +
       '<div class="fc-row"><p class="fc-count" id="fc-count"></p><button type="button" class="fc-btn fc-btn2" id="fc-clear">' + esc(I.clear) + '</button></div></div>' +
       '<div class="fc-box"><span class="fc-lbl" id="fc-up-l">' + esc(I.uploadTitle) + '</span>' +
       '<div class="fc-drop" id="fc-drop" role="group" aria-labelledby="fc-up-l"><p class="fc-droptext">' + esc(I.dropText) + '</p>' +
       '<button type="button" class="fc-btn fc-btn2" id="fc-choose">' + esc(I.choose) + '</button>' +
       '<input type="file" id="fc-file" accept=".pdf,application/pdf" class="fc-vh" tabindex="-1" aria-hidden="true"><p class="fc-small">' + esc(I.pdfOnly) + '</p></div>' +
-      '<div class="fc-prog" id="fc-prog" hidden><progress id="fc-pbar" max="100" value="0" aria-labelledby="fc-pmsg"></progress><p id="fc-pmsg" class="fc-small" role="status" aria-live="polite"></p></div>' +
+      '<div class="fc-prog" id="fc-prog" hidden><progress id="fc-pbar" max="100" value="0" aria-labelledby="fc-pmsg"></progress><p id="fc-pmsg" class="fc-small"></p></div>' +
       '<p class="fc-err" id="fc-pdferr" role="alert" hidden></p></div></div>' +
       '<p class="fc-priv">' + esc(I.privacy) + '</p><p class="fc-priv">' + esc(I.pdfPrivacy) + '</p>' +
       '<p class="fc-err" id="fc-generr" role="alert" hidden></p>' +
@@ -114,6 +114,7 @@
       '<button type="button" class="fc-btn fc-btn2" id="fc-mydecks">' + esc(fmt(I.myDecks, { n: n })) + '</button></div>' +
       (blocked ? '<p class="fc-warn" role="status">' + esc(D.decks.blocked) + '</p>' : '') + '</section>';
     const ta = $('fc-notes'), gen = $('fc-gen');
+    if(focusHead === true || (focusHead && focusHead.type === 'click')) $('fc-h-in').focus();
     const upd = () => {
       S.notes = ta.value; const len = ta.value.length;
       $('fc-count').textContent = (len === 1 ? I.countOne : fmt(I.count, { n: num(len) })) + (len > D.pdf.maxChars ? ' · ' + fmt(I.tooLong, { n: num(D.pdf.maxChars) }) : '');
@@ -179,7 +180,7 @@
       err.textContent = (e && /^(script|worker)/.test(e.message || '')) ? I.pdfLoadFail : I.pdfFail; err.hidden = false;
       $('fc-gen').disabled = !$('fc-notes').value.trim(); return;
     }
-    text = text.replace(/[ \t]+/g, ' ').replace(/\n{3,}/g, '\n\n').trim();
+    text = text.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, ' ').replace(/[ \t]+/g, ' ').replace(/\n{3,}/g, '\n\n').trim();
     prog.hidden = true;
     if(text.length < D.pdf.minChars){ err.textContent = I.pdfFail; err.hidden = false; $('fc-gen').disabled = !$('fc-notes').value.trim(); return; }
     const ta = $('fc-notes'); ta.value = ta.value.trim() ? ta.value.trim() + '\n\n' + text : text; ta.value = ta.value.slice(0, 200000);
@@ -188,12 +189,12 @@
   }
 
   /* ----- the card maker proxy ----- */
-  async function callApi(kind, system, userText, maxTokens){
+  async function callApi(kind, userText, maxTokens){
     if(!D.api.url) throw { code: 'unconfigured' };
     const ctrl = new AbortController(), timer = setTimeout(() => ctrl.abort(), D.api.timeoutMs);
     try{
       const res = await fetch(D.api.url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'omit', referrerPolicy: 'no-referrer', signal: ctrl.signal,
-        body: JSON.stringify({ kind: kind, model: D.api.model, max_tokens: maxTokens, system: system, messages: [{ role: 'user', content: userText }] }) });
+        body: JSON.stringify({ kind: kind, model: D.api.model, max_tokens: maxTokens, messages: [{ role: 'user', content: userText }] }) });
       if(!res.ok) throw { code: res.status === 429 ? 'busy' : 'http' };
       const j = await res.json();
       const t = j && j.content && j.content[0] && j.content[0].text;
@@ -207,21 +208,21 @@
     let t = stripFences(text); const a = t.indexOf('['), b = t.lastIndexOf(']'); if(a < 0 || b < a) throw { code: 'parse' };
     let arr; try{ arr = JSON.parse(t.slice(a, b + 1)); }catch(e){ throw { code: 'parse' }; }
     if(!Array.isArray(arr)) throw { code: 'parse' };
-    const seen = {}, out = [];
+    const seen = Object.create(null), out = [];
     arr.forEach(c => { const k = cleanCard(c); if(!k || !k.question || !k.answer) return; const key = k.question.toLowerCase(); if(seen[key]) return; seen[key] = 1; out.push(k); });
     if(!out.length) throw { code: 'parse' };
     return out.slice(0, 20);
   }
   async function generate(){
-    const I = D.input, notes = $('fc-notes').value.trim(); if(!notes || S.busy) return;
+    const I = D.input, notes = $('fc-notes').value.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, ' ').trim(); if(!notes || S.busy) return;
     S.busy = true; const gen = $('fc-gen'); gen.disabled = true; gen.querySelector('.fc-spin').hidden = false; $('fc-gen-t').textContent = I.generating; $('fc-generr').hidden = true;
     ['fc-notes', 'fc-clear', 'fc-choose', 'fc-manual', 'fc-mydecks'].forEach(id => { const el = $(id); if(el) el.disabled = true; });
     say(I.generating);
     try{
-      const text = await callApi('generate', D.prompts.generate, notes.slice(0, D.pdf.maxChars), D.api.generateMaxTokens);
+      const text = await callApi('generate', notes.slice(0, D.pdf.maxChars), D.api.generateMaxTokens);
       const cards = parseCards(text);
       S.deck = { id: '', name: defaultName(), cards: cards, stats: { studied: 0, correct: 0, coins: 0, bestStreak: 0 } };
-      S.busy = false; renderReview(); return;
+      S.busy = false; renderReview(); say(fmt(I.cardsReadyLive || D.study.cardsReadyLive, { n: cards.length })); return;
     }catch(e){
       S.busy = false;
       const msg = e && e.code === 'unconfigured' ? I.notConnected : e && e.code === 'busy' ? I.busy : e && e.code === 'network' ? I.offline : I.genFail;
@@ -236,8 +237,8 @@
     S.screen = 'review'; document.body.classList.remove('fc-study-open'); hideOutside(false);
     const R = D.review, dk = S.deck;
     root.innerHTML =
-      '<section class="fc-sec" aria-labelledby="fc-h-rv"><h2 id="fc-h-rv">' + esc(R.title) + '</h2><p class="fc-lead">' + esc(R.intro) + '</p>' +
-      '<div class="fc-namebox"><label for="fc-dname" class="fc-lbl">' + esc(R.deckName) + '</label><input type="text" id="fc-dname" class="fc-inp" maxlength="80" value="' + esc(dk.name) + '"></div>' +
+      '<section class="fc-sec" aria-labelledby="fc-h-rv"><h2 id="fc-h-rv" tabindex="-1">' + esc(R.title) + '</h2><p class="fc-lead">' + esc(R.intro) + '</p>' +
+      '<div class="fc-namebox"><label for="fc-dname" class="fc-lbl">' + esc(R.deckName) + '</label><input type="text" id="fc-dname" autocomplete="off" class="fc-inp" maxlength="80" value="' + esc(dk.name) + '"></div>' +
       '<p class="fc-ready" id="fc-ready" role="status" aria-live="polite"></p>' +
       '<div class="fc-cards" id="fc-cardlist"></div>' +
       '<p class="fc-err" id="fc-rverr" role="alert" hidden></p><p class="fc-ok" id="fc-rvok" role="status" aria-live="polite"></p>' +
@@ -256,16 +257,16 @@
     $('fc-print').addEventListener('click', () => printCards(dk));
     $('fc-mydecks2').addEventListener('click', () => openDecks());
     $('fc-backnotes').addEventListener('click', renderInput);
-    setCount();
+    setCount(); $('fc-h-rv').focus(); window.scrollTo(0, 0);
   }
   function setCount(){ const n = S.deck.cards.length; setText('fc-ready', n ? (n === 1 ? D.review.readyOne : fmt(D.review.ready, { n: n })) : D.review.none); }
   function drawCards(){
     const R = D.review, list = $('fc-cardlist');
     list.innerHTML = S.deck.cards.map((c, i) =>
       '<fieldset class="fc-card-ed" data-i="' + i + '"><legend>' + esc(fmt(R.card, { n: i + 1 })) + '</legend>' +
-      '<label class="fc-lbl" for="fc-q' + i + '">' + esc(R.question) + '</label><textarea id="fc-q' + i + '" class="fc-inp" rows="2" maxlength="300" data-f="question">' + esc(c.question) + '</textarea>' +
-      '<label class="fc-lbl" for="fc-a' + i + '">' + esc(R.answer) + '</label><textarea id="fc-a' + i + '" class="fc-inp" rows="2" maxlength="400" data-f="answer">' + esc(c.answer) + '</textarea>' +
-      '<label class="fc-lbl" for="fc-h' + i + '">' + esc(R.hint) + '</label><textarea id="fc-h' + i + '" class="fc-inp" rows="2" maxlength="200" data-f="hint">' + esc(c.hint) + '</textarea>' +
+      '<label class="fc-lbl" for="fc-q' + i + '">' + esc(R.question) + '</label><textarea id="fc-q' + i + '" class="fc-inp" autocomplete="off" spellcheck="false" rows="2" maxlength="300" data-f="question">' + esc(c.question) + '</textarea>' +
+      '<label class="fc-lbl" for="fc-a' + i + '">' + esc(R.answer) + '</label><textarea id="fc-a' + i + '" class="fc-inp" autocomplete="off" spellcheck="false" rows="2" maxlength="400" data-f="answer">' + esc(c.answer) + '</textarea>' +
+      '<label class="fc-lbl" for="fc-h' + i + '">' + esc(R.hint) + '</label><textarea id="fc-h' + i + '" class="fc-inp" autocomplete="off" spellcheck="false" rows="2" maxlength="200" data-f="hint">' + esc(c.hint) + '</textarea>' +
       '<button type="button" class="fc-btn fc-btn2 fc-del" data-del="' + i + '" aria-label="' + esc(fmt(R.delLabel, { n: i + 1 })) + '">' + esc(R.del) + '</button></fieldset>').join('');
     list.querySelectorAll('textarea').forEach(t => t.addEventListener('input', () => { const i = +t.closest('.fc-card-ed').dataset.i; S.deck.cards[i][t.dataset.f] = t.value.slice(0, +t.maxLength); }));
     list.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', () => {
@@ -351,8 +352,8 @@
   function studyBar(){
     const T = D.study;
     return '<div class="fc-bar"><button type="button" class="fc-btn fc-btn2" id="fc-exit">' + esc(T.exit) + '</button>' +
-      '<div class="fc-bar-r"><span class="fc-streak" id="fc-streak" aria-label="' + esc(fmt(T.streakLabel, { n: S.sess.streak })) + '"><span aria-hidden="true">🔥</span><b id="fc-streakn">' + S.sess.streak + '</b></span>' +
-      '<span class="fc-coin" id="fc-coin" aria-label="' + esc(fmt(T.coinCounterLabel, { n: num(S.coins) })) + '"><span class="fc-coinico" aria-hidden="true">MGC</span><b id="fc-coinn">' + num(S.coins) + '</b><span class="fc-float" id="fc-float" aria-hidden="true"></span></span>' +
+      '<div class="fc-bar-r"><span class="fc-streak" id="fc-streak" role="img" aria-label="' + esc(fmt(T.streakLabel, { n: S.sess.streak })) + '"><span aria-hidden="true">🔥</span><b id="fc-streakn">' + S.sess.streak + '</b></span>' +
+      '<span class="fc-coin" id="fc-coin" role="img" aria-label="' + esc(fmt(T.coinCounterLabel, { n: num(S.coins) })) + '"><span class="fc-coinico" aria-hidden="true">MGC</span><b id="fc-coinn">' + num(S.coins) + '</b><span class="fc-float" id="fc-float" aria-hidden="true"></span></span>' +
       '<button type="button" class="fc-btn fc-btn2" id="fc-shop">' + esc(T.shop) + '</button>' +
       '<button type="button" class="fc-btn fc-btn2 fc-gear" id="fc-gear" aria-label="' + esc(T.timerSettings) + '"><span aria-hidden="true">⚙</span></button></div></div>';
   }
@@ -362,17 +363,25 @@
     $('fc-studyin').innerHTML = studyBar() +
       '<p class="fc-cardno" id="fc-cardno">' + esc(fmt(T.cardOf, { n: ss.i + 1, total: total })) + '</p>' +
       '<div class="fc-stage"><div class="fc-flip' + themeClass() + '" id="fc-flip">' +
-      '<div class="fc-face fc-front" id="fc-front"><div class="fc-tbar" id="fc-tbarwrap"><div class="fc-tfill" id="fc-tfill"></div><span class="fc-tnum" id="fc-tnum" aria-hidden="true"></span></div>' +
+      '<div class="fc-face fc-front" id="fc-front"><div class="fc-twrap" id="fc-tbarwrap"><div class="fc-tbar"><div class="fc-tfill" id="fc-tfill"></div></div><span class="fc-tnum" id="fc-tnum" aria-hidden="true"></span><button type="button" class="fc-btn fc-btn2 fc-tpause" id="fc-tpausebtn" aria-pressed="' + (S.timerPaused ? 'true' : 'false') + '">' + esc(S.timerPaused ? T.timerResume : T.timerPause) + '</button></div>' +
       '<p class="fc-q" id="fc-q">' + esc(c.question) + '</p>' +
       '<form class="fc-ansform" id="fc-ansform" autocomplete="off"><label for="fc-ans" class="fc-lbl">' + esc(T.answerLabel) + '</label>' +
       '<input type="text" id="fc-ans" class="fc-inp fc-ansinp" maxlength="300" aria-describedby="fc-q fc-fb" autocomplete="off" autocapitalize="off" spellcheck="false">' +
-      '<div class="fc-actions"><button type="submit" class="fc-btn fc-go" id="fc-submit">' + esc(T.submit) + '</button></div></form>' +
-      '<div class="fc-fb" id="fc-fb" role="status" aria-live="polite"></div><div class="fc-fbtns" id="fc-fbtns"></div><p class="fc-small fc-keys">' + esc(T.keys) + '</p></div>' +
-      '<div class="fc-face fc-back" id="fc-backface" inert><p class="fc-small fc-backlabel">' + esc(T.yourAnswerWas) + '</p><p class="fc-a" id="fc-a">' + esc(c.answer) + '</p><div class="fc-fb" id="fc-fb2" role="status" aria-live="polite"></div><div class="fc-fbtns" id="fc-fbtns2"></div></div>' +
-      '</div></div><div class="fc-live fc-vh" id="fc-live" role="status" aria-live="polite"></div>';
+      '<div class="fc-actions"><button type="submit" class="fc-btn fc-go" id="fc-submit">' + esc(T.submit) + '</button>' + (c.hint ? '<button type="button" class="fc-btn fc-btn2" id="fc-hintbtn">' + esc(T.hintBtn) + '</button>' : '') + '<button type="button" class="fc-btn fc-btn2" id="fc-showbtn">' + esc(T.showAnswer) + '</button></div><p class="fc-hintline" id="fc-hintline" hidden></p></form>' +
+      '<div class="fc-fb" id="fc-fb"></div><div class="fc-fbtns" id="fc-fbtns"></div><p class="fc-small fc-keys">' + esc(T.keys) + '</p></div>' +
+      '<div class="fc-face fc-back" id="fc-backface" inert><p class="fc-small fc-backlabel">' + esc(T.yourAnswerWas) + '</p><p class="fc-a" id="fc-a">' + esc(c.answer) + '</p><div class="fc-fb" id="fc-fb2"></div><div class="fc-fbtns" id="fc-fbtns2"></div></div>' +
+      '</div></div>';
     bindBar(); $('fc-ansform').addEventListener('submit', e => { e.preventDefault(); submitAnswer(); });
-    drawTimer(); startTick(); say(fmt(T.cardOf, { n: ss.i + 1, total: total }) + '. ' + c.question);
+    $('fc-showbtn').addEventListener('click', () => { const cs2 = S.sess.cardState; if(cs2.phase === 'answering' || cs2.phase === 'retry') reveal(false); });
+    const hb = $('fc-hintbtn'); if(hb) hb.addEventListener('click', () => { const hl = $('fc-hintline'); hl.textContent = T.hintLead + ' ' + c.hint; hl.hidden = false; hb.disabled = true; say(T.hintLead + ' ' + c.hint); $('fc-ans').focus(); });
+    $('fc-tpausebtn').addEventListener('click', () => setPaused(!S.timerPaused));
+    ss.lowSaid = false;
+    drawTimer(); startTick(); say(fmt(T.cardOf, { n: ss.i + 1, total: total }));
     $('fc-ans').focus();
+  }
+  function setPaused(on){
+    S.timerPaused = !!on; const b = $('fc-tpausebtn'); if(b){ b.setAttribute('aria-pressed', on ? 'true' : 'false'); b.textContent = on ? D.study.timerResume : D.study.timerPause; }
+    drawTimer(); say(on ? D.timer.pause : D.study.timerResume);
   }
   function bindBar(){
     $('fc-exit').addEventListener('click', () => endSession(true));
@@ -398,6 +407,7 @@
     const pct = clamp(cs.remaining / S.timerSecs, 0, 1) * 100;
     fill.style.width = pct + '%'; fill.className = 'fc-tfill ' + (pct > 50 ? 'is-gold' : pct > 25 ? 'is-amber' : 'is-red');
     numEl.textContent = fmt(D.timer.seconds, { n: Math.ceil(cs.remaining) });
+    if(cs.remaining <= 10 && S.timerSecs > 10 && !cs.lowSaid && cs.phase === 'answering'){ cs.lowSaid = true; say(D.study.lowTime); }
   }
   function timeUp(){ const cs = S.sess.cardState; if(cs.done || cs.phase === 'checking') return; reveal(true); }
   function openTimer(){
@@ -407,7 +417,7 @@
       '<label class="fc-check"><input type="checkbox" id="fc-tpause"' + (S.timerPaused ? ' checked' : '') + '><span>' + esc(T.pause) + '</span></label><p class="fc-small">' + esc(T.pauseHelp) + '</p>' +
       '<div class="fc-actions"><button type="button" class="fc-btn fc-go" id="fc-tdone">' + esc(T.done) + '</button></div>', { focus: 'input:checked' });
     box.querySelectorAll('input[name="fc-secs"]').forEach(r => r.addEventListener('change', () => { S.timerSecs = +r.value; const cs = S.sess && S.sess.cardState; if(cs) cs.remaining = S.timerSecs; drawTimer(); }));
-    box.querySelector('#fc-tpause').addEventListener('change', e => { S.timerPaused = e.target.checked; drawTimer(); });
+    box.querySelector('#fc-tpause').addEventListener('change', e => { setPaused(e.target.checked); });
     box.querySelector('#fc-tdone').addEventListener('click', () => closeDialog());
   }
 
@@ -426,14 +436,14 @@
     const input = $('fc-ans'), ans = clip(input.value, 300);
     if(!ans){ setFeedback('info', T.typeFirst); say(T.typeFirst); input.focus(); return; }
     cs.phase = 'checking'; S.busy = true; cs.attempts++;
-    const sub = $('fc-submit'); sub.disabled = true; sub.textContent = T.checking; input.disabled = true; $('fc-fbtns').innerHTML = '';
+    const sub = $('fc-submit'); sub.disabled = true; sub.textContent = T.checking; input.readOnly = true; $('fc-fbtns').innerHTML = ''; say(T.checkingLive);
     const t = performance.now();
     let res = null;
     try{ res = await checkAnswer(c, ans); }catch(e){ res = null; }
     cs.apiMs += performance.now() - t; S.busy = false;
     if(!S.sess || S.sess.cardState !== cs) return;   // left study mode meanwhile
-    sub.disabled = false; sub.textContent = T.submit; input.disabled = false;
-    if(!res){ cs.attempts--; cs.phase = 'retry'; setFeedback('wrong', T.checkFail); say(T.checkFail); retryButtons(); return; }
+    sub.disabled = false; sub.textContent = T.submit; input.readOnly = false;
+    if(!res){ cs.attempts--; cs.phase = 'retry'; setFeedback('info', T.checkFail); say(T.checkFail); retryButtons(); return; }
     if(res.result === 'correct'){ onCorrect(res.feedback || T.praise[Math.floor(Math.random() * T.praise.length)]); }
     else { cs.phase = 'retry'; setFeedback(res.result, res.feedback); say(T[res.result === 'close' ? 'closeWord' : 'wrongWord'] + '. ' + res.feedback); retryButtons(); }
   }
@@ -445,7 +455,7 @@
   }
   async function checkAnswer(card, ans){
     const user = JSON.stringify({ question: card.question, correct_answer: card.answer, student_answer: ans, hint: card.hint });
-    const text = await callApi('check', D.prompts.check, user, D.api.checkMaxTokens);
+    const text = await callApi('check', user, D.api.checkMaxTokens);
     let t = stripFences(text); const a = t.indexOf('{'), b = t.lastIndexOf('}'); if(a < 0 || b < a) throw { code: 'parse' };
     const j = JSON.parse(t.slice(a, b + 1)); const r = String(j.result || '').toLowerCase();
     if(['correct', 'close', 'wrong'].indexOf(r) < 0) throw { code: 'parse' };
@@ -455,7 +465,7 @@
   /* ----- coins, streak, toasts ----- */
   function saveCoins(){ if(!store.write(D.keys.coins, String(S.coins))) { /* the warning shows on the notes and review screens */ } }
   function award(n){
-    if(n <= 0) return; S.coins += n; S.sess.earned += n; saveCoins();
+    if(n <= 0) return; S.coins = loadInt(D.keys.coins) + n; S.sess.earned += n; saveCoins();
     setText('fc-coinn', num(S.coins)); const c = $('fc-coin'); if(c) c.setAttribute('aria-label', fmt(D.study.coinCounterLabel, { n: num(S.coins) }));
     const f = $('fc-float'); if(f){ const el = document.createElement('span'); el.className = 'fc-floatitem'; el.textContent = '+' + n + ' MGC'; f.appendChild(el); setTimeout(() => el.remove(), reduceMotion() ? 1200 : 1400); }
   }
@@ -480,9 +490,11 @@
     const earned = base + (ss.streak === 3 ? C.streak3 : ss.streak === 5 ? C.streak5 : 0);
     flip(true); const fb2 = $('fc-fb2'); fb2.className = 'fc-fb is-correct'; fb2.innerHTML = '<span class="fc-fbword">' + esc(T.correctWord) + '</span> ' + esc(feedback);
     const last = ss.i === ss.cards.length - 1;
-    buttons([{ id: 'fc-next', label: last ? T.finish : T.next, go: true, fn: advance }], 'fc-fbtns2'); $('fc-next').focus();
+    buttons([{ id: 'fc-next', label: last ? T.finish : T.next, go: true, fn: advance }], 'fc-fbtns2');
     say(T.correctWord + '. ' + plural(earned, T.coinsEarnedOne, T.coinsEarned) + '. ' + feedback + ' ' + extra.join(' '));
     cs.timer = setTimeout(advance, 1500);
+    const stopAuto = () => { if(cs.timer){ clearTimeout(cs.timer); cs.timer = null; } };
+    const bk = $('fc-backface'); ['keydown', 'pointerdown', 'focusin'].forEach(ev => bk.addEventListener(ev, stopAuto));
   }
   function reveal(timeout){
     const T = D.study, ss = S.sess, cs = ss.cardState; if(cs.done) return; cs.done = true; cs.phase = 'revealed';
@@ -516,7 +528,7 @@
     const body = () => '<p>' + esc(T.intro) + '</p><p class="fc-bal" id="fc-bal" role="status" aria-live="polite">' + esc(fmt(T.balance, { n: num(S.coins) })) + '</p><ul class="fc-shoplist">' +
       T.items.map(it => {
         const owned = S.themes.owned.indexOf(it.id) > -1, active = S.themes.active === it.id;
-        const action = active ? '<span class="fc-badge">' + esc(T.inUse) + '</span>' : owned ? '<button type="button" class="fc-btn fc-btn2" data-use="' + it.id + '" aria-label="' + esc(T.use + ': ' + it.name) + '">' + esc(T.use) + '</button>'
+        const action = active ? '<span class="fc-badge" tabindex="-1">' + esc(T.inUse) + '</span>' : owned ? '<button type="button" class="fc-btn fc-btn2" data-use="' + it.id + '" aria-label="' + esc(T.use + ': ' + it.name) + '">' + esc(T.use) + '</button>'
           : S.coins >= it.price ? '<button type="button" class="fc-btn fc-go" data-buy="' + it.id + '" aria-label="' + esc(T.buy + ': ' + it.name + ', ' + fmt(T.price, { n: it.price })) + '">' + esc(T.buy) + '</button>'
           : '<span class="fc-small">' + esc(fmt(T.cantAfford, { n: it.price - S.coins })) + '</span>';
         return '<li class="fc-shopitem"><span class="fc-swatch fc-theme-' + it.id + '" aria-hidden="true">Aa</span><div class="fc-shopinfo"><strong>' + esc(it.name) + '</strong><span class="fc-small">' + esc(it.desc) + '</span><span class="fc-small">' + esc(owned ? T.owned : fmt(T.price, { n: it.price })) + '</span></div><div class="fc-shopact">' + action + '</div></li>';
@@ -528,10 +540,10 @@
       box.querySelector('.fc-dlgbody').innerHTML = body();
       box.querySelector('#fc-shopclose').addEventListener('click', () => closeDialog());
       box.querySelector('#fc-resettheme').addEventListener('click', () => { S.themes.active = null; saveThemes(); apply(); bind('#fc-resettheme', T.reset + '.'); say(T.resetDone); });
-      box.querySelectorAll('[data-use]').forEach(b => b.addEventListener('click', () => { S.themes.active = b.dataset.use; saveThemes(); apply(); bind('[data-use="' + b.dataset.use + '"], .fc-badge'); }));
+      box.querySelectorAll('[data-use]').forEach(b => b.addEventListener('click', () => { S.themes.active = b.dataset.use; saveThemes(); apply(); bind('.fc-badge'); say(fmt(D.study.inUseLive, { name: (T.items.find(x => x.id === b.dataset.use) || {}).name || '' })); }));
       box.querySelectorAll('[data-buy]').forEach(b => b.addEventListener('click', () => {
         const it = T.items.find(x => x.id === b.dataset.buy); if(!it || S.coins < it.price || S.themes.owned.indexOf(it.id) > -1) return;
-        S.coins -= it.price; saveCoins(); S.themes.owned.push(it.id); S.themes.active = it.id; saveThemes(); apply();
+        S.coins = Math.max(0, loadInt(D.keys.coins) - it.price); saveCoins(); S.themes.owned.push(it.id); S.themes.active = it.id; saveThemes(); apply();
         setText('fc-coinn', num(S.coins)); const ce = $('fc-coin'); if(ce) ce.setAttribute('aria-label', fmt(D.study.coinCounterLabel, { n: num(S.coins) }));
         bind('#fc-shopclose'); say(fmt(T.bought, { name: it.name }));
       }));
@@ -543,7 +555,7 @@
   /* ----- end of the deck ----- */
   function endSession(early){
     const ss = S.sess; if(!ss) return; stopTick(); const cs = ss.cardState; if(cs && cs.timer) clearTimeout(cs.timer);
-    document.removeEventListener('keydown', studyKeys, true); closeDialog(true);
+    document.removeEventListener('keydown', studyKeys, true); closeDialog(true); S.timerPaused = false;
     const first = ss.results.filter(r => r === 'first').length, second = ss.results.filter(r => r === 'second').length, missed = ss.results.filter(r => r === 'missed').length;
     const completed = !early && ss.results.length === ss.cards.length;
     if(completed && ss.mode === 'all'){ const prevEarned = ss.earned; S.sess = ss; award(D.coins.deck); ss.earned = prevEarned + D.coins.deck; }
@@ -580,11 +592,12 @@
      ===================================================================== */
   function printCards(deck){
     const P = D.print, old = document.title, cards = (deck.cards || []).filter(c => c.question && c.answer);
+    const prev = $('fc-printsheet'); if(prev) prev.remove();
     const sheet = document.createElement('div'); sheet.className = 'fc-printsheet'; sheet.id = 'fc-printsheet';
     sheet.innerHTML = '<h1>' + esc(deck.name) + '</h1><div class="fc-pgrid">' + cards.map(c => '<div class="fc-pcard"><p class="fc-pq">' + esc(c.question) + '</p><hr><p class="fc-pa">' + esc(c.answer) + '</p></div>').join('') + '</div>';
     document.body.appendChild(sheet); document.body.classList.add('fc-printing'); document.title = fmt(P.page, { name: deck.name });
     const done = () => { window.removeEventListener('afterprint', done); sheet.remove(); document.body.classList.remove('fc-printing'); document.title = old; };
-    window.addEventListener('afterprint', done); setTimeout(() => window.print(), 30);
+    window.addEventListener('afterprint', done); setTimeout(() => { window.print(); setTimeout(done, 60000); }, 30);
   }
 
   /* ---------- go ---------- */
