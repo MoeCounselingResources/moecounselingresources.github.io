@@ -65,7 +65,7 @@ const COURSE_PLANNER_TEXT = {
     levelsTitle: "Levels explained",
     levelsClose: "Close",
     statusHead: "Status",
-    scrollHint: "Swipe the grid sideways (or use the arrow keys) to see all four years. The Status column stays in view.",
+    scrollHint: "Swipe the grid sideways (or use the arrow keys) to see all four years. The Subject and Status columns stay in view.",
     dotsHint: "A dot turns green when you have planned enough credits and any required core courses for that subject.",
     subjectHead: "Subject",
     gradeHead: "{n}th grade",
