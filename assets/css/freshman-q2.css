@@ -59,3 +59,6 @@
   .fq2-bingo{gap:4px;}
   .fq2-cell{min-height:64px; font-size:0.7rem; padding:2px;}
 }
+
+.fq2-more{color:var(--navy); text-decoration:underline; font-weight:700; display:inline-block; padding:10px 0;}
+.fq2-more:focus-visible{outline:3px solid var(--navy); outline-offset:2px;}

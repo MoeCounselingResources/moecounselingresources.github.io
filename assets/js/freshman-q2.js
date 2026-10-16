@@ -33,7 +33,8 @@
   const learnHtml = '<section class="fq-sec" id="learn"><h2>' + esc(L.title) + '</h2>' +
     L.paras.map(p => '<p>' + esc(p) + '</p>').join('') +
     (L.stylesTitle ? '<h3>' + esc(L.stylesTitle) + '</h3>' : '') + '<ul class="fq2-styles">' + L.styles.map(s => '<li><b>' + esc(s.label) + '</b>' + esc(s.text) + '</li>').join('') + '</ul>' +
-    '<div class="fq-gold"><strong>' + esc(L.gold.title) + '</strong><p>' + esc(L.gold.text) + '</p></div>' +
+    '<div class="fq-gold"><strong>' + esc(L.gold.title) + '</strong><p>' + esc(L.gold.text) + '</p>' +
+      (L.more ? '<p>' + esc(L.more.lead) + ' <a class="fq2-more" href="' + escA(L.more.href) + '">' + esc(L.more.text) + '</a></p>' : '') + '</div>' +
     '<p><a class="fq-video" href="' + escA(L.quiz.href) + '" target="_blank" rel="noopener noreferrer" aria-label="' + escA(L.quiz.label) + '">' + esc(L.quiz.text) + '</a> <span class="fq-hint">' + esc(L.quiz.note) + '</span></p>' +
     '<h3>' + esc(L.reflectTitle) + '</h3><div class="fq2-fields">' +
     L.fields.map(f => '<div class="fq-field"><label class="tool-label" for="fq-' + escA(f.id) + '">' + esc(f.label) + '</label>' +

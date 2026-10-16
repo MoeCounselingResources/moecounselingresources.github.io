@@ -46,7 +46,8 @@ const FRESHMAN_Q2 = {
       { label: "Seeing", text: "Videos, diagrams, color-coded notes" },
       { label: "Hearing", text: "Podcasts, audiobooks, talking it through" }
     ],
-    gold: { title: "Here's the thing", text: "Your preferences are real, and they are fun to notice. But careful tests haven't shown that studying in the way you prefer helps you learn more, so \"learning styles\" is a myth we can let go of kindly. A better plan is to mix methods, like drawing a diagram, explaining it out loud, and quizzing yourself on what you know. Notice what you enjoy, then try something new. Want to know more? See the How to Learn module on learning myths." },
+    gold: { title: "Here's the thing", text: "Your preferences are real, and they are fun to notice. But careful tests haven't shown that studying in the way you prefer helps you learn more, so \"learning styles\" is a myth we can let go of kindly. A better plan is to mix methods, like drawing a diagram, explaining it out loud, and quizzing yourself on what you know. Notice what you enjoy, then try something new." },
+    more: { lead: "Want to know more?", text: "See the How to Learn module on learning myths.", href: "how-to-learn-myths.html" },
     quiz: { text: "Curious about your preferences? Try this learning preferences quiz just for fun", note: "(opens in a new tab; it's just for fun. It can't tell you how you should study.)", label: "Try this learning preferences quiz just for fun (opens in a new tab)", href: "https://www.learningstylequiz.com/" },
     reflectTitle: "Your reflection",
     fields: [
