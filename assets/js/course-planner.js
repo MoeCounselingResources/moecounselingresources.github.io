@@ -164,9 +164,9 @@
     '</div><div class="cp-actions"><button type="button" class="tool-btn" id="cp-typical">' + esc(S.typical) + '</button><button type="button" class="tool-btn secondary" id="cp-blank">' + esc(S.blank) + '</button></div>' +
     '<div class="cp-confirm" id="cp-start-confirm" hidden></div><p class="cp-hint">' + esc(S.typicalHint) + '</p></section>' +
 
-    '<section class="cp-sec" id="cp-grid-sec"><div class="cp-gridhead"><h2>' + esc(T.grid.title) + '</h2><button type="button" class="cp-qbtn" id="cp-levels-btn" data-act="levels" aria-label="' + escA(T.grid.levelsBtnLabel) + '">' + esc(T.grid.levelsBtn) + '</button></div><p>' + esc(T.grid.intro) + '</p>' +
+    '<section class="cp-sec" id="cp-grid-sec"><div class="cp-gridhead"><h2>' + esc(T.grid.title) + '</h2><button type="button" class="cp-qbtn" id="cp-levels-btn" data-act="levels" aria-label="' + escA(T.grid.levelsBtnLabel) + '">' + esc(T.grid.levelsBtn) + '</button></div><p>' + esc(T.grid.intro) + '</p><p class="cp-hint">' + esc(T.grid.dotsHint) + '</p>' +
       '<div class="cp-crumb" id="cp-crumb" hidden></div><p class="cp-scrollhint">' + esc(T.grid.scrollHint) + '</p>' +
-      '<div class="cp-table-wrap" id="cp-table-wrap" tabindex="0" role="region" aria-label="' + escA(T.grid.title) + '"><table class="cp-table" id="cp-table"><thead><tr><th scope="col" class="cp-col-sub">' + esc(T.grid.subjectHead) + '</th>' +
+      '<div class="cp-table-wrap" id="cp-table-wrap" tabindex="0" role="region" aria-label="' + escA(T.grid.title) + '"><table class="cp-table" id="cp-table"><caption class="cp-vh">' + esc(T.grid.title) + '</caption><thead><tr><th scope="col" class="cp-col-sub">' + esc(T.grid.subjectHead) + '</th>' +
         GRADES.map(g => '<th scope="col" class="cp-col-g" data-grade="' + g + '">' + esc(gradeName(g)) + '</th>').join('') +
         '<th scope="col" class="cp-col-min">' + esc(T.grid.minHead) + '</th><th scope="col" class="cp-col-tot">' + esc(T.grid.totalHead) + '</th><th scope="col" class="cp-col-status">' + esc(T.grid.statusHead) + '</th></tr></thead><tbody id="cp-tbody"></tbody></table></div>' +
       '<p class="cp-disc">' + esc(R.disclaimer || '') + '</p>' +
@@ -178,7 +178,7 @@
 
     '<section class="cp-sec" id="cp-path-sec"><h2>' + esc(T.explore.title) + '</h2><p>' + esc(T.explore.subtitle) + '</p><div id="cp-px"></div></section>' +
 
-    '<section class="cp-sec" id="cp-conn-sec"><h2>' + esc(T.connections.title) + '</h2><p>' + esc(T.connections.intro) + '</p><div id="cp-conn" aria-live="polite"></div>' +
+    '<section class="cp-sec" id="cp-conn-sec"><h2>' + esc(T.connections.title) + '</h2><p>' + esc(T.connections.intro) + '</p><div id="cp-conn"></div>' +
       '<h3>' + esc(T.connections.nextTitle) + '</h3><p class="cp-hint">' + esc(T.connections.nextIntro) + '</p><div id="cp-next"></div></section>' +
 
     '<section class="cp-sec" id="cp-prog-sec"><h2>' + esc(T.programs.title) + '</h2><p>' + esc(T.programs.intro) + '</p>' + programsHtml() + '</section>' +
@@ -200,7 +200,7 @@
       const nodes = (Array.isArray(ch.nodes) ? ch.nodes.filter(isObj) : []).map(n => ({key:typeof n.course === 'string' ? n.course : (typeof n.title === 'string' ? n.title : ''), name:typeof n.course === 'string' ? titleOf(n.course) : (typeof n.title === 'string' ? n.title : ''), grades:numList(n.grades), prereq:n.prereq, recommended:n.recommended, coreq:n.coreq, group:typeof n.group === 'string' ? n.group : ''})).filter(n => n.name);
       const edges = Array.isArray(ch.edges) ? ch.edges.filter(e => Array.isArray(e) && e.length >= 2) : [];
       const list = a => strList(a).map(titleOf).join(', ');
-      return '<div class="cp-hubchart"><h4>' + esc(ch.title || ch.id || '') + (typeof ch.page === 'number' ? ' <span class="cp-page">' + esc(fmt(P.page, {n:ch.page})) + '</span>' : '') + '</h4><ul class="cp-hublist">' +
+      return '<div class="cp-hubchart"><h3>' + esc(ch.title || ch.id || '') + (typeof ch.page === 'number' ? ' <span class="cp-page">' + esc(fmt(P.page, {n:ch.page})) + '</span>' : '') + '</h3><ul class="cp-hublist">' +
         nodes.map(n => {
           const leads = edges.filter(e => e[0] === n.key).map(e => titleOf(e[1]) + (e[2] === 'dashed' ? ' ' + P.hubLeadsOptional : ''));
           const bits = [];
@@ -351,13 +351,13 @@
           '<button type="button" class="cp-add" data-act="add" data-grade="' + g + '" data-row="' + escA(r.key) + '" aria-label="' + escA(fmt(T.grid.addLabel, {subject:r.label, grade:gradeName(g)})) + '">' + esc(T.grid.add) + '</button></div></td>';
       });
       const minTxt = isPE && state.waiver ? T.grid.waiverCell : (r.key === OTHER ? T.sheet.empty : num(row.need));
-      h += '<td class="cp-col-min">' + esc(minTxt) + '</td><td class="cp-col-tot">' + esc(num(row.have)) + '</td><td class="cp-col-status">' + (st ? dotHtml(st, dotLabel(st, lab.main, rowNeeds(r.key, calc))) : '<span aria-hidden="true">' + esc(T.status.none) + '</span>') + '</td></tr>';
+      h += '<td class="cp-col-min">' + esc(minTxt) + '</td><td class="cp-col-tot">' + esc(num(row.have)) + '</td><td class="cp-col-status">' + (st ? dotHtml(st, dotLabel(st, lab.main, rowNeeds(r.key, calc))) : '<span class="cp-vh">' + esc(T.status.noneLabel) + '</span><span aria-hidden="true">' + esc(T.status.none) + '</span>') + '</td></tr>';
     });
     const short = creditsShort(calc), coreOpen = ROW_KEYS.some(k => rowNeeds(k, calc).length), overallTxt = short > 0 ? (short === 1 ? T.status.needed1 : fmt(T.status.needed, {n:num(short)})) : (coreOpen ? T.status.coreNeeded : T.status.onTrack), ok = short <= 0 && !coreOpen;
     h += '<tr class="cp-yearrow"><th scope="row" class="cp-col-sub"><span class="cp-sub-main">' + esc(T.grid.yearTotalRow) + '</span></th>' +
       GRADES.map(g => '<td class="cp-col-g" data-grade="' + g + '"><strong>' + esc(num(calc.years[g])) + '</strong><span class="cp-hint"> ' + esc(fmt(T.grid.yearMin, {n:num(YEAR_MIN[g] || 0)})) + '</span></td>').join('') +
       '<td class="cp-col-min">' + esc(num(TOTAL)) + '</td><td class="cp-col-tot"><strong>' + esc(num(calc.total)) + '</strong></td>' +
-      '<td class="cp-col-status"><span class="cp-overall ' + (ok ? 'is-ok' : 'is-short') + '" aria-label="' + escA(fmt(T.status.overall, {text:overallTxt})) + '">' + esc(overallTxt) + '</span></td></tr>';
+      '<td class="cp-col-status"><span class="cp-overall ' + (ok ? 'is-ok' : 'is-short') + '"><span class="cp-vh">' + esc(T.status.overallPrefix) + ' </span>' + esc(overallTxt) + '</span></td></tr>';
     tb.innerHTML = h;
   }
 
@@ -373,7 +373,7 @@
     const nav = document.getElementById('cp-pills');
     if(nav){
       nav.setAttribute('aria-label', T.hero.pillsLabel);
-      nav.innerHTML = T.hero.pills.map((g, i) => { const st = groupState(g, calc); return '<button type="button" class="cp-pill is-' + st + '" data-act="pill" data-pill="' + i + '" aria-label="' + escA(fmt(T.hero.pillLabel, {name:g.label, state:stateWord(st)})) + '" title="' + escA(g.rows.map(k => rowNeeds(k, calc).join(', ')).filter(Boolean).join('; ')) + '"><span class="cp-dot is-' + st + '" aria-hidden="true"></span><span>' + esc(g.label) + '</span></button>'; }).join('');
+      nav.innerHTML = T.hero.pills.map((g, i) => { const st = groupState(g, calc); return '<button type="button" class="cp-pill is-' + st + '" data-act="pill" data-pill="' + i + '" aria-label="' + escA(fmt(T.hero.pillLabel, {name:g.label, state:stateWord(st)}) + (st !== 'met' && g.rows.some(k => rowNeeds(k, calc).length) ? ' ' + fmt(T.status.stillNeeded, {list:g.rows.map(k => rowNeeds(k, calc).join(', ')).filter(Boolean).join('; ')}) : '')) + '" title="' + escA(g.rows.map(k => rowNeeds(k, calc).join(', ')).filter(Boolean).join('; ')) + '"><span class="cp-dot is-' + st + '" aria-hidden="true"></span><span>' + esc(g.label) + '</span></button>'; }).join('');
     }
     const K = T.tracker, W = isObj(R.peWaiver) ? R.peWaiver : {};
     const wi = document.getElementById('cp-waiver-info');
@@ -437,7 +437,7 @@
     const action = (p, yi, ci, c) => {
       const grade = 9 + yi, r = resolveName(c.name), bid = 'cp-px-b-' + p.id + '-' + yi + '-' + ci;
       if(r.kind === 'none') return '<span class="cp-px-note">' + esc(X.noMatch) + '</span>';
-      if(r.ids.some(id => has(grade, id))) return '<span class="cp-px-done" id="' + bid + '" tabindex="-1" aria-label="' + escA(fmt(X.alreadyLabel, {course:c.name})) + '">' + esc(X.already) + '</span>';
+      if(r.ids.some(id => has(grade, id))) return '<span class="cp-px-done" id="' + bid + '" tabindex="-1">' + esc(X.already) + '<span class="cp-vh">: ' + esc(c.name) + '</span></span>';
       if(r.kind === 'choose') return '<button type="button" class="cp-px-add is-choose" id="' + bid + '" data-act="px-choose" data-path="' + escA(p.id) + '" data-y="' + yi + '" data-c="' + ci + '" aria-label="' + escA(fmt(X.chooseLabel, {course:c.name})) + '">' + esc(X.choose) + '</button>';
       return '<button type="button" class="cp-px-add" id="' + bid + '" data-act="px-add" data-path="' + escA(p.id) + '" data-y="' + yi + '" data-c="' + ci + '" aria-label="' + escA(fmt(X.addLabel, {course:c.name})) + '">' + esc(X.add) + '</button>';
     };
@@ -447,20 +447,23 @@
       '<div class="cp-px-head"><span class="cp-px-icon" aria-hidden="true">' + esc(p.icon || '') + '</span><div><h3 id="cp-px-h-' + escA(p.id) + '">' + esc(p.name) + ': ' + esc(X.panelHint) + '</h3><p>' + esc(p.desc || '') + '</p></div></div>' + legend +
       '<div class="cp-px-cols">' + X.gradeNames.map((gn, yi) => '<section class="cp-px-col"><h4>' + esc(gn) + '</h4><ul>' + ((Array.isArray(p.years[yi]) ? p.years[yi] : []).filter(c => isObj(c) && typeof c.name === 'string').map((c, ci) => chip(p, yi, ci, c)).join('')) + '</ul></section>').join('') + '</div>' +
       (clubs(p).length ? '<p class="cp-px-clubs"><strong>' + esc(X.clubs) + ':</strong> ' + esc(clubs(p).join(' · ')) + '</p>' : '') + '</div></div></li>';
-    host.innerHTML = '<ul class="cp-px-tiles" aria-label="' + escA(X.tilesLabel) + '">' + CM.map(p =>
+    const cols = window.matchMedia('(min-width:1000px)').matches ? 4 : (window.matchMedia('(min-width:560px)').matches ? 2 : 1);
+    const oi = CM.findIndex(p => p.id === openPath), panelAt = oi < 0 ? -1 : Math.min(CM.length - 1, Math.floor(oi / cols) * cols + cols - 1);
+    host.innerHTML = '<ul class="cp-px-tiles" aria-label="' + escA(X.tilesLabel) + '">' + CM.map((p, i) =>
       '<li class="cp-px-tilewrap"><button type="button" class="cp-px-tile' + (openPath === p.id ? ' is-open' : '') + '" id="cp-px-tile-' + escA(p.id) + '" data-act="px-toggle" data-path="' + escA(p.id) + '" aria-expanded="' + (openPath === p.id) + '" aria-controls="cp-px-panel-' + escA(p.id) + '" style="' + pathStyle(p) + '">' +
       '<span class="cp-px-tileicon" aria-hidden="true">' + esc(p.icon || '') + '</span><span class="cp-px-tiletext"><strong>' + esc(p.name) + '</strong><span>' + esc(p.desc || '') + '</span></span></button></li>' +
-      (openPath === p.id ? panel(p) : '')).join('') + '</ul>';
+      (i === panelAt ? panel(CM[oi]) : '')).join('') + '</ul>';
     const crumb = document.getElementById('cp-crumb'), op = CM.find(p => p.id === openPath);
     if(crumb){
       crumb.hidden = !op;
       crumb.innerHTML = op ? '<span class="cp-crumb-dot" style="background:' + hexOk(op.color) + '" aria-hidden="true"></span><span>' + esc(fmt(X.breadcrumb, {name:op.name})) + '</span><button type="button" class="cp-crumb-x" data-act="crumb-clear" aria-label="' + escA(fmt(X.breadcrumbClearLabel, {name:op.name})) + '">×</button>' : '';
     }
   }
+  let lastCols = 0; window.addEventListener('resize', () => { const c = window.matchMedia('(min-width:1000px)').matches ? 4 : (window.matchMedia('(min-width:560px)').matches ? 2 : 1); if(c !== lastCols){ lastCols = c; if(openPath){ const a = document.activeElement && document.activeElement.id; renderPath(); const el = a && document.getElementById(a); if(el) el.focus(); } } });
   function togglePath(id, fromUser){
     const p = CM.find(x => x.id === id); if(!p) return;
     openPath = openPath === id ? null : id;
-    renderPath(); setStatus(fmt(openPath ? T.explore.opened : T.explore.closed, {name:p.name}));
+    renderPath();
     const t = document.getElementById('cp-px-tile-' + id); if(t && fromUser) t.focus();
   }
 
@@ -529,12 +532,14 @@
     const d = opener && opener.dataset ? opener.dataset : {};
     openerSel = d.act ? '[data-act="' + d.act + '"]' + (d.grade ? '[data-grade="' + d.grade + '"]' : '') + (d.row ? '[data-row="' + d.row.replace(/"/g, '') + '"]' : '') + (d.id ? '[data-id="' + d.id.replace(/"/g, '') + '"]' : '') : '';
     dialog.innerHTML = html; overlay.hidden = false; document.body.classList.add('cp-modal-open');
+    inertTargets().forEach(el => { if(el) el.setAttribute('inert', ''); });
     const first = dialog.querySelector('input, select, button');
     (dialog.querySelector('[data-autofocus]') || first || dialog).focus();
   }
   function closeDialog(){
     if(overlay.hidden) return;
     overlay.hidden = true; dialog.innerHTML = ''; document.body.classList.remove('cp-modal-open');
+    inertTargets().forEach(el => { if(el) el.removeAttribute('inert'); });
     if(opener && document.body.contains(opener)) opener.focus();
     else if(openerSel){ try{ const again = root.querySelector(openerSel); if(again) again.focus(); }catch(err){} }
     opener = null; openerSel = '';
@@ -553,7 +558,7 @@
     const PK = T.picker, rowLabel = (ROWS.find(r => r.key === row) || {}).label || '';
     picker = {grade, row, only:pend ? pend.choose : null, pendKey:pend ? pend.key : null, dept:'', eligible:true, q:'', onlyRow:!!row && row !== OTHER};
     const title = pend ? fmt(PK.titleChoice, {label:pend.label, grade:gradeName(grade)}) : fmt(PK.title, {grade:gradeName(grade)});
-    openDialog('<h2 class="cp-dialog-title" id="cp-dialog-title">' + esc(title) + '</h2>' +
+    openDialog('<h2 class="cp-dialog-title" id="cp-dialog-title" tabindex="-1"' + (pend ? ' data-autofocus' : '') + '>' + esc(title) + '</h2>' +
       (pend ? '' : '<div class="cp-pick-filters"><div class="cp-field"><label class="tool-label" for="cp-pk-dept">' + esc(PK.deptLabel) + '</label><select class="tool-select" id="cp-pk-dept" data-autofocus><option value="">' + esc(PK.allDepts) + '</option>' + DEPTS.map(d => opt(d, d, false)).join('') + '</select></div>' +
         '<div class="cp-field"><label class="tool-label" for="cp-pk-q">' + esc(PK.searchLabel) + '</label><input class="tool-input" type="search" id="cp-pk-q" autocomplete="off" placeholder="' + escA(PK.searchPlaceholder) + '"></div>' +
         '<div class="cp-check"><input type="checkbox" id="cp-pk-elig" checked><label for="cp-pk-elig">' + esc(fmt(PK.eligibleLabel, {grade:gradeName(grade)})) + '</label></div>' +
@@ -631,7 +636,7 @@
   handle.addEventListener('pointerup', endDrag); handle.addEventListener('pointercancel', endDrag);
 
   function openLevels(){
-    openDialog('<h2 class="cp-dialog-title" id="cp-dialog-title">' + esc(T.grid.levelsTitle) + '</h2>' + levelsHtml() + '<p class="cp-actions"><button type="button" class="tool-btn secondary" id="cp-lv-close" data-autofocus>' + esc(T.grid.levelsClose) + '</button></p>');
+    openDialog('<h2 class="cp-dialog-title" id="cp-dialog-title" tabindex="-1" data-autofocus>' + esc(T.grid.levelsTitle) + '</h2>' + levelsHtml() + '<p class="cp-actions"><button type="button" class="tool-btn secondary" id="cp-lv-close">' + esc(T.grid.levelsClose) + '</button></p>');
   }
   dialog.addEventListener('input', e => {
     if(!picker) return;
@@ -747,13 +752,14 @@
     }
   }
 
+  function focusAdd(rk, grade){ const el = Array.from(root.querySelectorAll('[data-act="add"]')).find(x => x.dataset.row === rk && x.dataset.grade === String(grade)); if(el) el.focus(); }
   /* ---------- hero pills: jump to the row and flash it ---------- */
   function jumpToPill(i){
     const g = T.hero.pills[i]; if(!g) return;
-    const key = g.rows[0], tr = Array.from(root.querySelectorAll('#cp-tbody tr')).find(x => x.dataset.row === key); if(!tr) return;
+    const trs = Array.from(root.querySelectorAll('#cp-tbody tr')).filter(x => g.rows.includes(x.dataset.row)), tr = trs[0]; if(!tr) return;
     tr.scrollIntoView({block:'center', behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
     const th = tr.querySelector('th'); if(th) th.focus({preventScroll:true});
-    tr.classList.add('is-flash'); setTimeout(() => tr.classList.remove('is-flash'), 1800);
+    trs.forEach(x => { x.classList.add('is-flash'); setTimeout(() => x.classList.remove('is-flash'), 2600); });
   }
   const heroEl = document.getElementById('cp-hero');
   if(heroEl) heroEl.addEventListener('click', e => { const b = e.target.closest('button[data-act="pill"]'); if(b) jumpToPill(+b.dataset.pill); });
@@ -766,8 +772,8 @@
     if(act === 'choose'){ const p = pending.find(x => x.key === b.dataset.pend); if(p) openPicker(p.grade, p.row, p); return; }
     if(act === 'details'){ openPanel(+b.dataset.grade, b.dataset.id); return; }
     if(act === 'panel-close'){ closePanel(); return; }
-    if(act === 'remove'){ removeCourse(+b.dataset.grade, b.dataset.id); update(); if(b.dataset.close) closePanel(); return; }
-    if(act === 'addto'){ if(addCourse(+b.dataset.grade, b.dataset.id)) update(); return; }
+    if(act === 'remove'){ const rk = byId[b.dataset.id] ? rowOf(byId[b.dataset.id]) : ''; removeCourse(+b.dataset.grade, b.dataset.id); update(); if(b.dataset.close) closePanel(); else focusAdd(rk, b.dataset.grade); return; }
+    if(act === 'addto'){ const rk = byId[b.dataset.id] ? rowOf(byId[b.dataset.id]) : ''; if(addCourse(+b.dataset.grade, b.dataset.id)){ update(); focusAdd(rk, b.dataset.grade); } return; }
     if(act === 'levels'){ openLevels(); return; }
     if(act === 'crumb-clear'){ if(openPath){ const was = openPath; togglePath(was, false); const t = document.getElementById('cp-px-tile-' + was); if(t) t.focus(); } return; }
     if(act === 'px-toggle'){ togglePath(b.dataset.path, true); return; }

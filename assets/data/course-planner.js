@@ -65,7 +65,8 @@ const COURSE_PLANNER_TEXT = {
     levelsTitle: "Levels explained",
     levelsClose: "Close",
     statusHead: "Status",
-    scrollHint: "Swipe the grid sideways to see all four years. The Status column stays in view.",
+    scrollHint: "Swipe the grid sideways (or use the arrow keys) to see all four years. The Status column stays in view.",
+    dotsHint: "A dot turns green when you have planned enough credits and any required core courses for that subject.",
     subjectHead: "Subject",
     gradeHead: "{n}th grade",
     gradeHeadShort: "Grade {n}",
@@ -87,7 +88,7 @@ const COURSE_PLANNER_TEXT = {
       { key: "Physical Education", label: "Physical Education (or waiver)" },
       { key: "Electives", label: "Electives" }
     ],
-    otherRow: { key: "__other", label: "Other (not counted in the 25)" },
+    otherRow: { key: "__other", label: "Extra courses (not counted in the 25)" },
     add: "Add",
     addLabel: "Add a {subject} course for {grade}",
     choose: "Choose: {label}",
@@ -104,7 +105,7 @@ const COURSE_PLANNER_TEXT = {
     credits: "{n} credits",
     credit1: "1 credit",
     waiverCell: "Met by waiver",
-    flagMark: "Check",
+    flagMark: "Needs a look",
     flagged: "{course} has a note. See Connections below."
   },
 
@@ -264,7 +265,7 @@ const COURSE_PLANNER_TEXT = {
       { label: "Social Studies", rows: ["Social Studies"] },
       { label: "World Language", rows: ["World Language"] },
       { label: "Fine Arts", rows: ["Fine Arts"] },
-      { label: "Other", rows: ["Financial Literacy", "Oral Communications", "Health", "Physical Education", "Electives"] }
+      { label: "Other requirements", rows: ["Financial Literacy", "Oral Communications", "Health", "Physical Education", "Electives"] }
     ]
   },
   status: {
@@ -279,6 +280,8 @@ const COURSE_PLANNER_TEXT = {
     needed1: "1 credit needed",
     overall: "Overall status: {text}",
     none: "—",
+    noneLabel: "No requirement for this row",
+    overallPrefix: "Overall status:",
     stillNeeded: "Still needed: {list}",
     needLanguage: "{n} years of the same language",
     coreNeeded: "Core courses still needed"
