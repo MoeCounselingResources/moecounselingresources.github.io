@@ -164,7 +164,7 @@ const EVIDENCE = {
     label: "Moderate",
     labelNote: "Moderate: practicing specific skills in context helps. Generic brain-training games do not transfer.",
     plain: "Organization and planning skills improve by practicing them for real, not by playing brain-training games.",
-    says: "You get better at planning by practicing it for real. For example, you can use a planner, break big jobs into steps, and keep a homework routine. Brain-training games have not been shown to help with schoolwork. School programs that teach organization help many students with ADHD, though not all, and the effects show up more in parent reports than in teacher reports.",
+    says: "You get better at planning by practicing it for real. For example, you can use a planner, break big jobs into steps, and keep a homework routine. Brain-training games have not been shown to help with schoolwork. Programs that teach organization skills have helped some students, though effects vary.",
     cautions: ["Never present this as medical advice.", "Brain-training games do not transfer."],
     sources: [
       { title: "Melby-Lervåg et al. 2016", type: "meta-analysis", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC4968033/" },
