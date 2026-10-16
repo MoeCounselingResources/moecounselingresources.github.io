@@ -52,7 +52,7 @@ const HOW_TO_LEARN = {
   // Hub layout wording (assets/js/htl-hub.js).
   // PROGRESS: each module page records its own id (nothing else) in this browser under visitedKey, as a list like ["brain","spacing"].
   // The hub only reads that list to draw the progress bar. Don't change the key, or students' progress resets.
-  visitedKey: "moeller-htl-visited",
+  visitedKey: "moeller-ex-htl-visited",
   groups: [
     { id: "memory", title: "How memory works", ids: ["brain", "myths", "retrieval", "spacing", "interleaving"] },
     { id: "work", title: "How you work", ids: ["mindset", "habits", "focus", "sleep", "executive"] }
@@ -73,7 +73,10 @@ const HOW_TO_LEARN = {
   mapCenter: "How to Learn",
   mapLabel: "Mind map: How to Learn in the center, with two themes, How memory works and How you work, and five modules under each.",
 
-  sourcesLink: "Sources and how we checked",
+  sourcesLink: "Sources",
+  bylineText: "Research sources and evidence labels — ",
+  bylineLink: "Sources page",
+  siteFooter: "Built for our students, edited every year. Have a broken link or a resource we should add? Tell your counselor.",
   sourcesBlurb: "Every source, what kind of study it is, how strong the evidence is, and the date the sources were checked.",
 
   // shared module-page wording
@@ -98,7 +101,7 @@ const HOW_TO_LEARN = {
 
   // sources page
   src: {
-    title: "Sources and how we checked",
+    title: "Sources",
     intro: "These are the only sources behind the research claims on these pages. Each claim is tied to an evidence label, and the label is explained below. Links open in a new tab.",
     how: "How we checked: every research claim comes from the sources listed here. Sources are research papers and expert guidance, linked directly. We state limits when the research has them, and we never say something works when the research says it does not.",
     legendTitle: "What the labels mean",

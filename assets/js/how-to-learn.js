@@ -23,7 +23,10 @@
   const setBack = (b) => { const el = document.getElementById('htl-back'); if(el){ el.textContent = b.text; el.href = b.href; } };
   setText('htl-stage', D.stage);
   const footEl = document.getElementById('htl-footer');
-  if(footEl) footEl.innerHTML = '<a href="how-to-learn.html">' + esc(D.title) + '</a> · <a href="how-to-learn-sources.html">' + esc(D.sourcesLink) + '</a>';
+  const byline = () => '<span class="htl-byline">' + esc(D.bylineText) + '<a href="how-to-learn-sources.html">' + esc(D.bylineLink) + '</a>.</span>';
+  // module pages end with a small muted byline; the hub and the sources page use the site's usual footer line
+  if(footEl) footEl.innerHTML = page === 'module' ? byline() : esc(D.siteFooter);
+  window.HTL.byline = byline;
 
   function sourcesList(ids){
     return ids.map(id => EVIDENCE[id]).filter(Boolean).map(e => e.sources.map(s =>
@@ -114,6 +117,6 @@
 
   if(page === 'hub'){
     // the visual hub (assets/js/htl-hub.js); renderHub above is the plain fallback
-    if(window.HTL_HUB){ setText('htl-title', D.title); setText('htl-intro', D.intro); setBack(D.back); document.title = D.title + ' · Moeller Counseling'; window.HTL_HUB(D, { esc, escA, fmt, labelHtml }); } else renderHub();
+    if(window.HTL_HUB){ setText('htl-title', D.title); setText('htl-intro', D.intro); setBack(D.back); document.title = D.title + ' · Moeller Counseling'; window.HTL_HUB(D, { esc, escA, fmt, labelHtml, byline: window.HTL.byline }); } else renderHub();
   } else if(page === 'sources') renderSources(); else if(page === 'module') renderModule();
 })();

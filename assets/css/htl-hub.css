@@ -112,3 +112,6 @@
 .hh-clear:hover{background:var(--paper-soft);}
 .hh-clear:focus-visible{outline:3px solid var(--navy); outline-offset:3px; box-shadow:0 0 0 6px var(--gold);}
 @media print{ .hh-prog-actions{display:none !important;} }
+
+.hh-byline{margin:-20px 0 36px;}
+@media print{ .hh-byline{display:none !important;} }

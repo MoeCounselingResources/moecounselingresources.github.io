@@ -91,10 +91,10 @@
     const mapHtml = '<section class="hh-sec"><details class="hh-details" id="hh-map"><summary>' + esc(D.mapTitle) + '</summary><p class="hh-lead">' + esc(D.mapIntro) + '</p>' +
       '<div class="hh-map hh-map-phone">' + phone + '</div><div class="hh-map hh-map-wide">' + wide + '</div></details></section>';
 
-    const tailHtml = '<section class="hh-sec"><p><a class="htl-biglink" href="how-to-learn-sources.html"><strong>' + esc(D.sourcesLink) + '</strong><span>' + esc(D.sourcesBlurb) + '</span></a></p>' +
-      '<p class="htl-privacy">' + esc(D.privacy) + '</p><p class="htl-privacy">' + esc(D.counselor) + '</p></section>';
+    const tailHtml = '<section class="hh-sec"><p class="htl-privacy">' + esc(D.privacy) + '</p><p class="htl-privacy">' + esc(D.counselor) + '</p></section>';
+    const bylineHtml = '<p class="hh-byline">' + H.byline() + '</p>';
 
-    root.innerHTML = progressHtml + troubleHtml + modulesHtml + mapHtml + tailHtml;
+    root.innerHTML = progressHtml + troubleHtml + modulesHtml + bylineHtml + mapHtml + tailHtml;
 
     /* the whole module card opens its module; the Start link stays the keyboard and screen-reader way in */
     root.querySelectorAll('.hh-card').forEach(c => c.addEventListener('click', e => {
