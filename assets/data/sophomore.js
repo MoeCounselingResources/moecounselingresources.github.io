@@ -171,7 +171,7 @@ YEARS.sophomore = {
           note: "Any time",
           desc: "See how courses connect and what a four-year path can look like. Pathways are ideas, not requirements.",
           items: [
-            {title:"Explore pathways and courses", desc:"A pathway explorer, a course web, and timeline cards. Nothing here is saved.", url:"course-maps.html", go:"Explore pathways and courses"}
+            {title:"Course timelines and connections", desc:"A course web and pathway timeline cards. Nothing here is saved. The pathway explorer lives in the Course Planner.", url:"course-maps.html", go:"Open course timelines"}
           ]
         },
         howToLearn: {

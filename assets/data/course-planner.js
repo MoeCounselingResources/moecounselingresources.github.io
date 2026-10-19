@@ -20,7 +20,7 @@ const COURSE_PLANNER_TEXT = {
   title: "Course Planner",
   stage: "Planning tool",
   back: { text: "← Back to School Counseling", href: "school-counseling.html" },
-  intro: "Lay out all four years of Moeller courses, watch the graduation requirements fill in, and spot a course that needs something first. Any grade can use it. When you are ready, print the one-page plan or download it as a spreadsheet to bring to your counselor.",
+  intro: "Build your four-year plan, track your requirements, and explore pathways.",
   footer: "Based on the Moeller Curriculum Guide. This is a planning tool, not a schedule. Your plan is saved only on this device.",
   footerBack: { text: "Back to the School Counseling hub", href: "school-counseling.html" },
 
@@ -29,9 +29,8 @@ const COURSE_PLANNER_TEXT = {
     items: [
       {id: "cp-start", text: "Start"},
       {id: "cp-grid-sec", text: "My plan"},
-      {id: "cp-tracker-sec", text: "Requirements"},
+      {id: "cp-path-sec", text: "Explore pathways"},
       {id: "cp-conn-sec", text: "Connections"},
-      {id: "cp-path-sec", text: "Pathways"},
       {id: "cp-prog-sec", text: "Programs"}
     ]
   },
@@ -61,6 +60,13 @@ const COURSE_PLANNER_TEXT = {
   grid: {
     title: "My four-year plan",
     intro: "Each row is a graduation requirement, each column a year. Use Add to pick a course; tap a course to see what it needs and where it leads.",
+    levelsBtn: "?",
+    levelsBtnLabel: "What do the course levels mean?",
+    levelsTitle: "Levels explained",
+    levelsClose: "Close",
+    statusHead: "Status",
+    scrollHint: "Swipe the grid sideways (or use the arrow keys) to see all four years. The Subject and Status columns stay in view.",
+    dotsHint: "A dot turns green when you have planned enough credits and any required core courses for that subject.",
     subjectHead: "Subject",
     gradeHead: "{n}th grade",
     gradeHeadShort: "Grade {n}",
@@ -82,7 +88,7 @@ const COURSE_PLANNER_TEXT = {
       { key: "Physical Education", label: "Physical Education (or waiver)" },
       { key: "Electives", label: "Electives" }
     ],
-    otherRow: { key: "__other", label: "Other (not counted in the 25)" },
+    otherRow: { key: "__other", label: "Extra courses (not counted in the 25)" },
     add: "Add",
     addLabel: "Add a {subject} course for {grade}",
     choose: "Choose: {label}",
@@ -99,7 +105,7 @@ const COURSE_PLANNER_TEXT = {
     credits: "{n} credits",
     credit1: "1 credit",
     waiverCell: "Met by waiver",
-    flagMark: "Check",
+    flagMark: "Needs a look",
     flagged: "{course} has a note. See Connections below."
   },
 
@@ -244,6 +250,146 @@ const COURSE_PLANNER_TEXT = {
     ccp: "College Credit Plus",
     registrationTitle: "How registration works",
     registrationPage: "Curriculum Guide page {n}"
+  },
+
+  /* ---------- Hero requirement pills and the Status column ---------- */
+  hero: {
+    pillsLabel: "Requirement summary. Choose one to jump to its row in the grid.",
+    pillLabel: "{name}: {state}. Jump to this row in the grid.",
+    // rows = which grid rows the pill covers (keys from grid.rows); "Other" covers the smaller requirements together
+    pills: [
+      { label: "Religion", rows: ["Religion"] },
+      { label: "English", rows: ["English"] },
+      { label: "Math", rows: ["Mathematics"] },
+      { label: "Science", rows: ["Science"] },
+      { label: "Social Studies", rows: ["Social Studies"] },
+      { label: "World Language", rows: ["World Language"] },
+      { label: "Fine Arts", rows: ["Fine Arts"] },
+      { label: "Other requirements", rows: ["Financial Literacy", "Oral Communications", "Health", "Physical Education", "Electives"] }
+    ]
+  },
+  status: {
+    met: "{subject}: requirement met",
+    progress: "{subject}: requirement in progress",
+    notMet: "{subject}: requirement not met",
+    stateMet: "met",
+    stateProgress: "in progress",
+    stateNotMet: "not met yet",
+    onTrack: "✓ On track",
+    needed: "{n} credits needed",
+    needed1: "1 credit needed",
+    overall: "Overall status: {text}",
+    none: "—",
+    noneLabel: "No requirement for this row",
+    overallPrefix: "Overall status:",
+    stillNeeded: "Still needed: {list}",
+    needLanguage: "{n} years of the same language",
+    coreNeeded: "Core courses still needed"
+  },
+
+  /* ---------- Explore pathways (tiles, from assets/data/course-maps.js) ---------- */
+  explore: {
+    title: "Explore pathways",
+    subtitle: "See what a four-year path looks like, then add courses to your plan.",
+    tilesLabel: "Pathways",
+    panelHint: "Four-year plan",
+    gradeNames: ["Grade 9", "Grade 10", "Grade 11", "Grade 12"],
+    keyWord: "Key course",
+    optWord: "Elective",
+    legendLabel: "How courses are shown",
+    legendKey: "Key course for this pathway",
+    legendReq: "Required or core course",
+    legendOpt: "Elective option",
+    clubs: "Co-curricular clubs",
+    add: "Add to my plan",
+    addLabel: "Add {course} to my plan",
+    choose: "Choose…",
+    chooseLabel: "Choose which {course} to add to my plan",
+    chooseTitle: "{label} for {grade}",
+    already: "Already planned",
+    alreadyLabel: "{course} is already planned",
+    noMatch: "Not in the planner's course list",
+    breadcrumb: "Viewing: {name} pathway",
+    breadcrumbClear: "Clear pathway",
+    breadcrumbClearLabel: "Clear the {name} pathway",
+    opened: "{name} pathway opened.",
+    closed: "{name} pathway closed.",
+    addedLive: "Added {course} to {grade}."
+  },
+
+  /* ---------- Course connection panel ---------- */
+  panel: {
+    label: "Course details",
+    dept: "Department",
+    level: "Level and credits",
+    levelLine: "{level} · {credits}",
+    prereq: "Prerequisites",
+    prereqNone: "No prerequisite listed",
+    prereqAny: "one of: {list}",
+    unlocks: "What this course unlocks",
+    unlocksNone: "Nothing in the course list requires this course.",
+    pathways: "Pathways that include this course",
+    pathwaysNone: "Not in any of the eight pathways.",
+    planned: "In your plan for {grade}",
+    remove: "Remove from plan",
+    removeLabel: "Remove {course} from {grade}",
+    close: "Close",
+    closeLabel: "Close course details",
+    handle: "Drag down to close",
+    removedLive: "Removed {course} from {grade}."
+  },
+
+  /* ---------- Programs accordion ---------- */
+  accordion: {
+    hubTitle: "Burns Innovation Hub course maps",
+    registrationTitle: "How registration works"
+  },
+
+  /* ---------- Matching pathway course names to the planner's course list ----------
+     course-maps.js names courses in plain words; the planner's list (course-catalog.js) uses ids. Most names match on their
+     own once level codes (CP1, CP2, CCP) and punctuation are ignored. This list covers the rest.
+       "Name": "id"                      -> that one course
+       "Name": ["id1", "id2"]            -> the same course at different levels; the first that fits the grade is added
+       "Name": { choose: ["id1", ...] }  -> a real choice; the student picks from a short list
+       "Name": { row: "Fine Arts" }      -> any course from that grid row; the picker opens for that grade
+       "Name": null                      -> not in the planner's course list (shown as a note, no Add button)
+     Keep the names exactly as they appear in assets/data/course-maps.js. */
+  pathwayMatch: {
+    "Business Applications": ["business-apps-cp1", "business-apps-h"],
+    "Portfolio Management Honors": "portfolio-mgmt-1-hp",
+    "Portfolio Management Honors II": "portfolio-mgmt-2-hp",
+    "AP English": { choose: ["ap-english-lit", "ap-english-lang"] },
+    "AP English Language": "ap-english-lang",
+    "Art and Pop Culture: Design/Branding": "art-pop-culture-cp1",
+    "Negotiations and Advanced Rhetoric": "geopolitical-negotiations-h",
+    "AP Seminar": "eng2-ap-seminar",
+    "Intro to Media Production": null,
+    "Creative Writing": "eng4-creative-writing-cp1",
+    "Journalism": "eng4-journalism-cp1",
+    "Religion IV": { choose: ["rel4-community-service-cp1", "rel4-spirituality-cp1", "rel4-religious-themes-fiction-h"] },
+    "Fine Arts": { row: "Fine Arts" },
+    "Fundamentals of IT CCP": "fundamentals-it-ccp",
+    "Fundamentals of Web Dev CCP": "fundamentals-web-dev-ccp",
+    "AI: Uses and Applications": "ai-uses-cp1",
+    "Database Management I CCP": "database-mgmt-ccp",
+    "Intro to AI CCP": "intro-ai-ccp",
+    "REALab: Design + Build Lab II": "realab-design-build2-cp1",
+    "Engineering Design Thinking I CCP": "eng-design1-ccp",
+    "Engineering Design Thinking II CCP": "eng-design2-ccp",
+    "World Language I": { choose: ["spanish-1-cp1", "french-1-cp1", "german-1-cp1", "latin-1-cp1"] },
+    "World Language II": { choose: ["spanish-2-cp1", "french-2-cp1", "german-2-cp1", "latin-2-cp1"] },
+    "AP World Language": { choose: ["ap-spanish", "ap-french", "ap-german", "ap-latin"] },
+    "Molecular Biology Research Honors": "molecular-bio-research-hp",
+    "AP US History": "ap-us-history",
+    "AP World History": "ap-world-history",
+    "AP US Government": "ap-us-gov",
+    "Catholic Teaching in a Contemporary World": null,
+    "Studio Art I": "studio-art-1-cp1",
+    "Studio Art II": "studio-art-2-h",
+    "AP 2D Design": { choose: ["ap-2d-design-studio", "ap-2d-design-digital"] },
+    "Photography": "photography-cp1",
+    "AP Studio Art: Drawing": "ap-drawing",
+    "Yearbook": ["yearbook1-cp1", "yearbook1-sem-cp1"]
   },
 
   /* ---------- Save, print, download ---------- */

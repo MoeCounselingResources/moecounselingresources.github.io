@@ -1,5 +1,5 @@
 /* =========================================================================
-   EXPLORE COURSES AND PATHWAYS — the words on course-maps.html (tab names, buttons, help text).
+   COURSE TIMELINES AND CONNECTIONS — the words on course-maps.html (the pathway explorer now lives in the Course Planner) (tab names, buttons, help text).
    The courses and pathways themselves are in assets/data/course-maps.js (instructions at the top of that file).
    Logic: assets/js/course-maps.js · Look: assets/css/course-maps.css
 
@@ -9,14 +9,14 @@
    ========================================================================= */
 
 const CM_TEXT = {
-  title: "Explore Courses and Pathways",
+  title: "Course timelines and connections",
   stage: "School Counseling",
   footer: "Course information comes from the Curriculum Guide. Always check with your counselor before you register.",
 
-  intro: "See how Moeller courses connect and what a four-year path can look like. Pathways are ideas, not requirements.",
+  intro: "See how courses connect and browse pathway timelines.",
+  planner: { text: "Ready to build your plan? Open the Course Planner.", href: "course-planner.html" },
 
   tabs: [
-    { id: "explorer", label: "Pathway explorer", area: "pathway explorer" },
     { id: "web", label: "Course web", area: "course web" },
     { id: "cards", label: "Timeline cards", area: "timeline cards" }
   ],
@@ -40,15 +40,6 @@ const CM_TEXT = {
   keyWord: "Key course",
   optWord: "Elective",
   cocurrTitle: "Co-curricular clubs",
-
-  explorer: {
-    heading: "Pathway explorer",
-    help: "Tap a pathway to see a four-year course sequence. Tap it again to close it.",
-    opened: "{name} opened. The four-year plan is below.",
-    closed: "{name} closed.",
-    panelHint: "Four-year plan",
-    tilesLabel: "Pathways"
-  },
 
   web: {
     heading: "Course web",
