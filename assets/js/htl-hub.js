@@ -59,6 +59,9 @@
           '<div class="hh-tpanel" id="hh-tp-' + i + '"><div class="hh-tinner"><div class="hh-tbody">' + body + '</div></div></div></li>';
       }).join('') + '</ul></section>';
 
+    /* Flashcard Studio feature card, above the module grid */
+    const fcHtml = D.flashcards && /^[\w.-]+\.html$/.test(D.flashcards.href) ? '<section class="hh-sec hh-fc" aria-labelledby="hh-fc-t"><div class="hh-fc-body"><span class="hh-fc-tag">' + esc(D.flashcards.grades) + '</span><h2 class="hh-fc-h" id="hh-fc-t">' + esc(D.flashcards.title) + '</h2><p>' + esc(D.flashcards.text) + '</p></div><a class="hh-go" href="' + escA(D.flashcards.href) + '">' + esc(D.flashcards.button) + '</a></section>' : '';
+
     /* module cards in two groups */
     const card = m => {
       const ev = m.evidence.map(id => EVIDENCE[id] ? '<span class="hh-ev">' + labelHtml(EVIDENCE[id].label) + (m.evidence.length > 1 ? ' <span class="htl-topic">' + esc(EVIDENCE[id].topic) + '</span>' : '') + '</span>' : '').join('');
@@ -94,7 +97,7 @@
     const tailHtml = '<section class="hh-sec"><p class="htl-privacy">' + esc(D.privacy) + '</p><p class="htl-privacy">' + esc(D.counselor) + '</p></section>';
     const bylineHtml = '<p class="hh-byline">' + H.byline() + '</p>';
 
-    root.innerHTML = progressHtml + troubleHtml + modulesHtml + bylineHtml + mapHtml + tailHtml;
+    root.innerHTML = progressHtml + troubleHtml + fcHtml + modulesHtml + bylineHtml + mapHtml + tailHtml;
 
     /* the whole module card opens its module; the Start link stays the keyboard and screen-reader way in */
     root.querySelectorAll('.hh-card').forEach(c => c.addEventListener('click', e => {

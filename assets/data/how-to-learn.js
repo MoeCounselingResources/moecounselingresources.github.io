@@ -80,6 +80,9 @@ const HOW_TO_LEARN = {
   sourcesBlurb: "Every source, what kind of study it is, how strong the evidence is, and the date the sources were checked.",
 
   // shared module-page wording
+  // Flashcard Studio feature card (shown above the module grid on the hub)
+  flashcards: { title: "Flashcard Studio", text: "Paste your notes or upload a PDF and we'll turn them into smart flashcards. Study with timers, earn coins, and print your deck.", button: "Make flashcards", href: "flashcard-studio.html", grades: "Grades 9–12" },
+
   m: {
     back: { text: "← Back to How to Learn", href: "how-to-learn.html" },
     hook: "Sound familiar?",
