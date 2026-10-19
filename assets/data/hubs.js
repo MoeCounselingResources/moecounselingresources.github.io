@@ -18,6 +18,7 @@ const HUBS = {
     boxes: [
       {title:"Self-Discovery", desc:"Private exercises on your values, your roles, and your goals.", href:"self-discovery.html", grades:[9,10,11,12], accent:"sky", icon:"compass"},
       {title:"How to Learn", desc:"Short, research-checked lessons on memory, focus, and sleep.", href:"how-to-learn.html", grades:[9,10,11,12], accent:"gold", icon:"brain"},
+      {title:"Flashcard Studio", desc:"Turn your notes into smart flashcards. Study with timers, track your streak, and print your deck.", href:"flashcard-studio.html", grades:[9,10,11,12], accent:"sky", icon:"cards"},
       {title:"Course Planner", desc:"Map out all four years and track your graduation requirements.", href:"course-planner.html", grades:[9,10,11,12], accent:"navy", icon:"map"},
       {title:"Course timelines and connections", desc:"Browse pathway timelines and see how courses connect across four years.", href:"course-maps.html", grades:[9,10,11,12], accent:"gold", icon:"web"},
       {title:"GPA Calculator", desc:"Figure your GPA and see where you stand for Latin Honors.", href:"gpa-calculator.html", grades:[9,10,11,12], accent:"sky", icon:"calc"},
