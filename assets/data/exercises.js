@@ -111,6 +111,9 @@ const EXERCISES = {
       "**Step 1:** Tap the 10 that matter most to you. **Step 2:** Narrow to 5. **Step 3:** Pick your top 3."
     ],
     rounds: [10, 5, 3],
+    bracketLabel: "Your values bracket",
+    bracketAll: "All {n}",
+    bracketTop: "Top {n}",
     roundTitles: ["Step 1: pick 10", "Step 2: narrow to 5", "Step 3: pick your top 3"],
     items: [
       { name: "Faith", desc: "Your relationship with God guides how you live." },

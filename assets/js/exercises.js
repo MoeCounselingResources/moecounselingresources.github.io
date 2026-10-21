@@ -18,6 +18,11 @@
   const clone = o => JSON.parse(JSON.stringify(o));
   const has = v => typeof v === 'string' ? v.trim() !== '' : !!v;
 
+  const fmtN = (t, n) => String(t).split('{n}').join(n);
+  const reduceMotion = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // a flame that grows from a small spark (1) to a big blaze (5); drawn with the current text color
+  const flame = n => `<svg class="ex-flame ex-flame-${n}" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12.5 2c.7 3.4-1.1 5-2.6 6.9C8.4 10.7 7 12.4 7 14.9A5 5 0 0 0 17 14.9c0-2-1-3.6-1.6-4.7-.4 1.3-1.2 2-2.1 2.2.7-3.2-.1-6.8-.8-10.4z"/></svg>`;
+
   function readKey(key){
     try{ const r = localStorage.getItem(key); return r ? JSON.parse(r) : null; }catch(e){ return null; }
   }
@@ -151,6 +156,16 @@
     init: s => { s.step = s.step || 1; s.r = s.r || [[], [], []]; s.moments = s.moments || {}; },
     pool(d, s, step){ return step === 1 ? d.items : s.r[step - 2].map(n => d.items.find(i => i.name === n)).filter(Boolean); },
     html(d, s){ return `${paras(d.intro)}<div data-vals>${B.values.stage(d, s)}</div>`; },
+    // the bracket: all values -> top 10 -> top 5 -> top 3, with the current round lit
+    bracket(d, s){
+      const sizes = [d.items.length].concat(d.rounds);
+      const at = Math.min(s.step - 1, 3);   // 0..3 (the moments step counts as the last box)
+      return `<ol class="ex-bracket" aria-label="${esc(d.bracketLabel)}">${sizes.map((n, i) => {
+        const state = i < at + 1 ? (i === at ? 'is-now' : 'is-past') : '';
+        const text = i === 0 ? fmtN(d.bracketAll, n) : fmtN(d.bracketTop, n);
+        return `<li class="ex-bk ${state}"${i === at ? ' aria-current="step"' : ''}><span class="ex-bk-n" aria-hidden="true">${n}</span><span class="ex-bk-t">${esc(text)}</span></li>`;
+      }).join('')}</ol>`;
+    },
     stage(d, s){
       if(s.step > 3){
         const top = s.r[2];
@@ -163,15 +178,30 @@
       }
       const max = d.rounds[s.step - 1];
       const picked = s.r[s.step - 1];
-      return `<h3>${esc(d.roundTitles[s.step - 1])}</h3>
+      return `${B.values.bracket(d, s)}<div class="ex-round" data-round="${s.step}"><h3>${esc(d.roundTitles[s.step - 1])}</h3>
         <p class="ex-count${picked.length === max ? ' is-met' : ''}" data-count aria-live="polite">${picked.length} of ${max}</p>
         ${tileGrid('ex-val' + s.step, B.values.pool(d, s, s.step), picked, max)}
         <div class="ex-nav">
           ${s.step > 1 ? `<button type="button" class="tool-btn secondary" data-act="prev">Back</button>` : ''}
           <button type="button" class="tool-btn gold" data-act="next" ${picked.length === max ? '' : 'disabled'}>${s.step === 3 ? 'Done: write my moments' : 'Continue'}</button>
-        </div>`;
+        </div></div>`;
     },
-    redraw(ctx){ ctx.body.querySelector('[data-vals]').innerHTML = B.values.stage(ctx.def, ctx.state); },
+    redraw(ctx, enter){
+      const host = ctx.body.querySelector('[data-vals]');
+      host.innerHTML = B.values.stage(ctx.def, ctx.state);
+      if(enter && !reduceMotion()) host.classList.add('is-entering');
+      if(enter) setTimeout(() => host.classList.remove('is-entering'), 700);
+    },
+    // moving between rounds: the tiles you did not pick fade away, then the shorter list slides in
+    move(ctx, delta){
+      const host = ctx.body.querySelector('[data-vals]');
+      const go = () => { ctx.state.step += delta; B.values.redraw(ctx, true); ctx.save(); focusFirst(ctx.body.querySelector('[data-vals]')); };
+      if(delta > 0 && !reduceMotion() && host.querySelector('.ex-tile')){
+        host.querySelectorAll('.ex-tile:not(.is-picked)').forEach(t => t.classList.add('is-leaving'));
+        host.classList.add('is-leaving-round');
+        setTimeout(go, 380);
+      } else go();
+    },
     click(ctx, t){
       const d = ctx.def, s = ctx.state, a = t.dataset.act;
       if(a === 'pick'){
@@ -187,8 +217,8 @@
         ctx.body.querySelector('[data-act="next"]').disabled = arr.length !== max;
         ctx.save(); return true;
       }
-      if(a === 'next'){ s.step++; B.values.redraw(ctx); ctx.save(); focusFirst(ctx.body.querySelector('[data-vals]')); return true; }
-      if(a === 'prev'){ s.step--; B.values.redraw(ctx); ctx.save(); focusFirst(ctx.body.querySelector('[data-vals]')); return true; }
+      if(a === 'next'){ B.values.move(ctx, 1); return true; }
+      if(a === 'prev'){ B.values.move(ctx, -1); return true; }
       if(a === 'back'){ s.step = 3; B.values.redraw(ctx); ctx.save(); return true; }
     },
     input(ctx, t){ if(t.dataset.act === 'moment'){ ctx.state.moments[t.dataset.k] = t.value; ctx.save(); return true; } },
@@ -208,7 +238,7 @@
           ${g.items.map((it, i) => `
             <div class="ex-rate" role="group" aria-label="${esc(it)}">
               <span class="ex-rate-l">${esc(it)}</span>
-              <span class="ex-scale"><span aria-hidden="true">${d.scaleLow}</span>${[1,2,3,4,5].map(n => `<button type="button" class="ex-n" data-act="rate" data-i="${esc(it)}" data-n="${n}" aria-pressed="${s.rate[it] === n}" aria-label="${esc(it)}: ${n} of 5">${n}</button>`).join('')}<span aria-hidden="true">${d.scaleHigh}</span></span>
+              <span class="ex-scale" data-r="${s.rate[it] || 0}"><span aria-hidden="true">${d.scaleLow}</span>${[1,2,3,4,5].map(n => `<button type="button" class="ex-n ex-fl" data-act="rate" data-i="${esc(it)}" data-n="${n}" aria-pressed="${s.rate[it] === n}" aria-label="${esc(it)}: ${n} of 5">${flame(n)}</button>`).join('')}<span aria-hidden="true">${d.scaleHigh}</span></span>
             </div>`).join('')}</fieldset>`).join('')}
         <div data-results>${B.fires.results(d, s)}</div>`;
     },
@@ -233,6 +263,7 @@
         const n = +t.dataset.n, k = t.dataset.i;
         if(s.rate[k] === n) delete s.rate[k]; else s.rate[k] = n;
         t.parentNode.querySelectorAll('.ex-n').forEach(b => b.setAttribute('aria-pressed', String(s.rate[k] === +b.dataset.n)));
+        t.parentNode.dataset.r = String(s.rate[k] || 0);
         if(s.fire && !(s.rate[s.fire] >= 4)) s.fire = '';
         ctx.body.querySelector('[data-results]').innerHTML = B.fires.results(d, s);
         ctx.save(); return true;
