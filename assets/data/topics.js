@@ -39,17 +39,8 @@ YEARS["study-tips"] = {
   }
 };
 
-YEARS["parent-education"] = {
-  hub: "school",
-  label: "Education for Parents",
-  blurb: "Guidance, sessions, and resources to help families support their students at every stage.",
-  order: ["sessions","supporting","resources"],
-  sections: {
-    sessions: placeholderSection("Parent sessions & nights", "Upcoming and recorded sessions for families."),
-    supporting: placeholderSection("Supporting your student", "Practical ways to help with school, stress, and planning."),
-    resources: placeholderSection("Helpful resources", "Articles, guides, and tools for families.")
-  }
-};
+// Education for Parents is no longer a topic page. Its wording is in assets/data/parent-education.js
+// (hub, parent nights, books) and assets/data/pe-<guide>.js (one file per guide).
 
 /* ---------------- College Counseling topics ---------------- */
 

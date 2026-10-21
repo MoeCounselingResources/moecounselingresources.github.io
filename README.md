@@ -9,7 +9,7 @@ and both hubs share the same four class pages.
 index.html                  Moeller Counseling (main page)
 ├── school-counseling.html  School Counseling hub
 │   ├── study-tips.html
-│   ├── parent-education.html
+│   ├── parent-education.html   Education for Parents hub (beliefs, "which sounds like your house?", six guides, parent nights, books); one page per guide (pe-*.html) plus pe-sources.html
 │   ├── academic-support.html   Academic Support (study groups, Chem Block schedule with quarter filter and next-session highlight, tutors; wording and schedule in assets/data/academic-support.js)
 │   ├── gpa-calculator.html     GPA Calculator (yearly and cumulative, unweighted and weighted)
 │   ├── honor-roll.html         Honor Roll Calculator (quarterly, unweighted)
@@ -61,6 +61,7 @@ Links from the School Counseling hub open a class page in its School view
 | The AI page (do's and don'ts, rules, every copyable prompt) | `assets/data/ai.js` (instructions at the top; logic `assets/js/ai.js`, look `assets/css/ai.css`) |
 | Self-Discovery page (every exercise, prompt, and word) | `assets/data/self-discovery.js` (instructions at the top; the logic is `assets/js/self-discovery.js`, the look is `assets/css/self-discovery.css`) |
 | How to Learn hub and module wording | `assets/data/how-to-learn.js` (hub) and `assets/data/htl-<module>.js` (one per module); research claims, evidence labels and source links live ONLY in `assets/data/evidence.js`; logic is `assets/js/how-to-learn.js` (+ `assets/js/htl-<module>.js` for a module's tools); look is `assets/css/how-to-learn.css` |
+| Education for Parents (hub, parent nights, books, guide list) | `assets/data/parent-education.js` (instructions at the top); each guide's wording is `assets/data/pe-<guide>.js`; research claims, evidence labels and source links live ONLY in `assets/data/pe-evidence.js`; logic `assets/js/parent-education.js`; look `assets/css/how-to-learn.css` plus `assets/css/parent-education.css`. Nothing on these pages is saved. |
 | Course timelines and connections, and the pathway tiles in the Course Planner (courses, pathways, departments) | `assets/data/course-maps.js` (instructions at the top); page wording `assets/data/course-maps-text.js`; logic `assets/js/course-maps.js`; look `assets/css/course-maps.css` |
 | Course Planner wording, hero pills, status wording, and the list that matches pathway course names to the planner's course list (`pathwayMatch`) | `assets/data/course-planner.js` (instructions at the top); graduation rules and programs stay in `assets/data/course-rules.js`; courses in `assets/data/course-catalog.js` |
 | Academic Support page (study groups, Chem Block schedule, tutors, study tools) | `assets/data/academic-support.js` (instructions at the top); logic `assets/js/academic-support.js`; look `assets/css/academic-support.css` |

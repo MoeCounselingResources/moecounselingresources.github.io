@@ -351,10 +351,12 @@ YEARS.junior = {
         },
         forParents: {
           title: "For parents",
-          note: "Placeholder",
+          note: "For families",
           desc: "Ways families can support juniors this year.",
           items: [
-            {title:"Supporting your junior", desc:"Placeholder — parent guidance for junior year.", url:"parent-education.html"}
+            {title:"Average is okay", desc:"Grades, pressure, and what protects teens during the most demanding year.", url:"pe-pressure.html"},
+            {title:"When struggle isn't working", desc:"How to tell productive struggle from a student who needs more help.", url:"pe-step-in.html"},
+            {title:"All six parent guides", desc:"Short, research-checked guides for families, with one small thing to try each week.", url:"parent-education.html", go:"Open Education for Parents"}
           ]
         }
       }
