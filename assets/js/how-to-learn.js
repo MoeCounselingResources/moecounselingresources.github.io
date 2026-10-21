@@ -75,19 +75,19 @@
   function renderModule(){
     const X = HTL_MODULE;
     setText('htl-title', X.title); setBack(M.back);
-    setText('htl-intro', 'Module ' + X.n + ' of ' + D.modules.length);
+    setText('htl-stage', D.stage + ' · ' + M.moduleWord + ' ' + X.n + ' of ' + D.modules.length);
+    setText('htl-intro', X.hook);   // the hook sits in the navy hero
     document.title = X.title + ' · Moeller Counseling';
     const ids = X.evidence;
     const primary = EVIDENCE[ids[0]];
-    let h = '<section class="htl-sec"><h2>' + esc(M.hook) + '</h2><p class="htl-hook">' + esc(X.hook) + '</p></section>';
-    h += '<section class="htl-sec" id="quick"><h2>' + esc(M.quick) + '</h2><p>' + esc(X.quick.question) + '</p><ul class="htl-choices">' +
+    let h = '<section class="htl-sec htl-quick" id="quick"><h2>' + esc(M.quick) + '</h2><p>' + esc(X.quick.question) + '</p><ul class="htl-choices">' +
       X.quick.options.map((o, i) => '<li><button type="button" class="htl-choice" data-i="' + i + '" aria-pressed="false">' + esc(o.text) + '</button><div class="htl-result" role="status" aria-live="polite"></div></li>').join('') +
       '</ul></section>';
     h += '<section class="htl-sec" id="idea"><h2>' + esc(M.idea) + '</h2><p>' + esc(X.idea.text) + '</p><div class="htl-example"><strong>' + esc(X.idea.exampleLabel) + ':</strong> ' + esc(X.idea.example) + '</div></section>';
-    h += '<section class="htl-sec" id="try"><h2>' + esc(M.try) + '</h2><div id="htl-interactive"></div></section>';
-    h += '<section class="htl-sec" id="week"><h2>' + esc(M.week) + '</h2><div class="htl-gold"><p>' + esc(X.week) + '</p></div></section>';
+    h += '<section class="htl-sec htl-zone" id="try"><h2>' + esc(M.try) + '</h2><div id="htl-interactive"></div></section>';
+    h += '<section class="htl-sec htl-week" id="week"><h2>' + esc(M.week) + '</h2><div class="htl-gold htl-task"><span class="htl-task-tag">' + esc(M.taskTag) + '</span><p>' + esc(X.week) + '</p></div></section>';
     h += '<section class="htl-sec" id="supports"><h2>' + esc(M.supports) + '</h2><ul class="htl-list">' + X.supports.map(s => '<li>' + esc(s) + '</li>').join('') + '</ul></section>';
-    h += '<section class="htl-sec" id="research"><h2>' + esc(M.research) + '</h2><details class="htl-details"><summary>' + ids.map(id => esc(EVIDENCE[id].topic) + ': ' + labelHtml(EVIDENCE[id].label)).join(' · ') + '</summary>' +
+    h += '<section class="htl-sec" id="research"><h2>' + esc(M.research) + '</h2><details class="htl-details"><summary><span class="htl-sum-tag">' + esc(M.evidenceWord) + '</span> ' + ids.map(id => esc(EVIDENCE[id].topic) + ': ' + labelHtml(EVIDENCE[id].label)).join(' · ') + '</summary>' +
       '<p>' + esc(X.research.intro) + '</p>' + ids.map(id => '<p><strong>' + esc(EVIDENCE[id].topic) + '.</strong> ' + esc(EVIDENCE[id].says) + '</p><p class="htl-note">' + esc(EVIDENCE[id].labelNote) + '</p>').join('') +
       (X.research.extra ? '<p>' + esc(X.research.extra) + '</p>' : '') +
       '<h3>' + esc(M.sources) + '</h3><ul class="htl-sources">' + sourcesList(ids) + '</ul><p class="htl-privacy">' + esc(M.reviewed) + ': ' + esc(primary.lastReviewed) + ' · <a href="how-to-learn-sources.html">' + esc(D.sourcesLink) + '</a></p></details></section>';

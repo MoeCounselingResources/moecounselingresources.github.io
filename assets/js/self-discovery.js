@@ -115,15 +115,19 @@
               <option value="summary">${esc(D.summaryTitle)}</option>
             </select>
           </div>
-          <nav class="sd-nav" aria-label="Exercises">
-            ${t.sections.map(s => `
-              <div class="sd-nav-sec">
-                <h3 class="sd-nav-h">${esc(s.title)}</h3>
-                <ul>${s.exercises.map(e => `
-                  <li><a class="sd-nav-a" href="#${esc(e.id)}" data-ex="${esc(e.id)}"><span class="sd-dot" data-s="new" aria-hidden="true"></span><span class="sd-nav-t">${esc(e.title)}</span><span class="sd-vh"></span></a></li>`).join('')}
-                </ul>
-              </div>`).join('')}
-          </nav>
+          <details class="sd-mapwrap" id="sd-mapwrap"${window.matchMedia && window.matchMedia('(min-width:821px)').matches ? ' open' : ''}>
+            <summary class="sd-mapsum"><span id="sd-mapsum-t">${esc(D.mapTitle)}</span></summary>
+            <nav class="sd-map" aria-label="${esc(D.mapTitle)}">
+              <ol class="sd-stages">${t.sections.map((s, si) => `
+                <li class="sd-stage">
+                  <h3 class="sd-nav-h"><span class="sd-stage-n" aria-hidden="true">${si + 1}</span>${esc(s.title)}</h3>
+                  <ol class="sd-path">${s.exercises.map(e => `
+                    <li class="sd-node" data-s="new"><a class="sd-nav-a" href="#${esc(e.id)}" data-ex="${esc(e.id)}"><span class="sd-dot" data-s="new" aria-hidden="true"></span><span class="sd-nav-t">${esc(e.title)}</span><span class="sd-vh"></span></a></li>`).join('')}
+                  </ol>
+                </li>`).join('')}
+              </ol>
+            </nav>
+          </details>
           <button type="button" class="tool-btn secondary sd-mine" id="sd-mine">${esc(D.summaryTitle)}</button>
         </aside>
         <main class="sd-main" id="sd-main"></main>
@@ -139,6 +143,7 @@
     if(!a) return;
     const s = statusOf(ex);
     a.querySelector('.sd-dot').dataset.s = s;
+    if(a.parentElement) a.parentElement.dataset.s = s;
     a.querySelector('.sd-vh').textContent = ', ' + STATUS_WORDS[s];
     refreshProgress();
   }
@@ -150,6 +155,8 @@
     txt.textContent = `${n} of ${list.length} done`;
     document.getElementById('sd-fill').style.width = (list.length ? (n / list.length * 100) : 0) + '%';
     document.getElementById('sd-bar').setAttribute('aria-valuenow', String(n));
+    const mt = document.getElementById('sd-mapsum-t'); if(mt) mt.textContent = `${D.mapTitle}: ${n} of ${list.length} done`;
+    if(window.TP) window.TP.progress(list.length ? (n / list.length * 100) : 0);
   }
   function markNav(){
     root.querySelectorAll('.sd-nav-a').forEach(a => {
@@ -320,6 +327,7 @@
   /* ---------- an exercise ---------- */
   function closeOutHtml(ex){
     return `<section class="sd-close" aria-labelledby="sd-close-h">
+      <p class="sd-cp-tag"><span aria-hidden="true">⚑</span> ${esc(D.closeOut.tag)}</p>
       <h3 id="sd-close-h">${esc(D.closeOut.title)}</h3>
       ${D.closeOut.prompts.map(p => `
         <div class="sd-close-row"><label for="${uid(ex, p.id)}">${esc(p.label)}</label>
@@ -333,15 +341,19 @@
     const next = list[i + 1];
     const done = !!state.done[e.id];
     document.getElementById('sd-main').innerHTML = `
-      <article class="sd-ex">
-        <p class="sd-eyebrow">${esc(e.section)} <span aria-hidden="true">·</span> <span>${esc(e.minutes || '')}</span></p>
-        <h2 class="sd-h" id="sd-h" tabindex="-1">${esc(e.title)}</h2>
-        <div class="sd-why">${paras(e.why || '')}</div>
+      <article class="sd-ex sd-card">
+        <header class="sd-xhero">
+          <p class="sd-eyebrow">${esc(e.section)} <span aria-hidden="true">·</span> <span>${esc(e.minutes || '')}</span></p>
+          <h2 class="sd-h" id="sd-h" tabindex="-1">${esc(e.title)}</h2>
+          <div class="sd-why">${paras(e.why || '')}</div>
+        </header>
+        <div class="sd-xbody">
         ${e.blocks.map(b => blockHtml(e.id, b)).join('')}
         ${closeOutHtml(e.id)}
         <div class="sd-foot">
           <button type="button" class="tool-btn gold sd-donebtn" id="sd-done" aria-pressed="${done}"><span class="sd-check" aria-hidden="true"></span>Mark as done</button>
           ${next ? `<a class="sd-next" href="#${esc(next.id)}">Next: ${esc(next.title)} →</a>` : `<a class="sd-next" href="#summary">See all my answers →</a>`}
+        </div>
         </div>
       </article>`;
   }
@@ -549,8 +561,14 @@
     if(e.target.closest('#sd-done')){
       const ex = cur.ex;
       state.done[ex] = !state.done[ex];
-      e.target.closest('#sd-done').setAttribute('aria-pressed', String(!!state.done[ex]));
+      const doneBtn = e.target.closest('#sd-done');
+      doneBtn.setAttribute('aria-pressed', String(!!state.done[ex]));
       changed(ex);
+      if(state.done[ex] && window.TP){
+        window.TP.flash(doneBtn);
+        const node = root.querySelector(`.sd-nav-a[data-ex="${CSS.escape(ex)}"] .sd-dot`);
+        window.TP.flash(node);
+      }
       return;
     }
     const btn = e.target.closest('[data-act]');
