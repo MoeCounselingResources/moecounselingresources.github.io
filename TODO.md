@@ -24,3 +24,10 @@
 - Flashcard Studio: once the page is live, the Academic Support "Flashcard Studio" button turns from "Coming soon" to "Open" on its own; check it.
 - How to Learn sources: run `node scripts/check-source-links.mjs` on a computer with internet access (the build sandbox blocks these sites, so the 23 links in assets/data/evidence.js could not be fetched there). Fix any failing or redirected link, or add a TODO comment beside it.
 - Self-Discovery, Know Yourself and How to Learn modules (visual refresh): counseling team to look through every exercise and module on a phone and a laptop before launch. Check the Know Yourself values bracket labels ("All 30", "Top 10"...) and the 'Your task' tag on each module's This week card.
+- Education for Parents (parent-education.html and pe-*.html), counseling team to review before launch:
+  - Approve the new sources in assets/data/pe-evidence.js (Hill & Tyson 2009, Robinson & Harris 2014, Bureau et al. 2022, the Huberman Lab episode with Dr. Becky Kennedy, Bjork & Bjork 2011, Harvard Center on the Developing Child, Smart but Scattered Teens, Vigdal & Brønnick 2022, Darlow et al. 2017, Lebowitz et al. 2020, Child Mind Institute, Luthar et al. 2020, Ciciolla et al. 2017, ASU News). Sinha & Kapur 2021 and Langberg et al. 2018 are already approved in evidence.js.
+  - Guide 6 (assets/data/pe-stepin.js → "urgent"): verify the 988 and 911 wording, same as the Freshmen Quarter 4 card.
+  - Guide 6 "Find his counselor" now links to school-counseling.html#counselors (the Your Counseling Team panel).
+  - Guide 6 counselor link — update to a dedicated contact page if one is built.
+  - Approve the book list in assets/data/parent-education.js → "books".
+  - Add parent nights in assets/data/parent-education.js → "sessions" (the section stays hidden while the list is empty).

@@ -1,0 +1,104 @@
+/* =========================================================================
+   EDUCATION FOR PARENTS — extras on top of how-to-learn.css (load styles.css, tools.css,
+   how-to-learn.css first). Only .pe-* classes live here.
+   ========================================================================= */
+
+/* the one bold element: the three beliefs the guides are built on */
+.pe-belief{padding:22px 24px 18px; background:var(--navy); color:var(--paper); border-radius:14px; border-left:8px solid var(--gold);}
+.pe-belief h2{color:var(--gold); border-bottom:0; padding-bottom:0; margin-bottom:10px; font-size:1.05rem; font-family:var(--sans); font-weight:700;}
+.pe-belief ul{list-style:none; margin:0; padding:0; display:grid; gap:12px;}
+.pe-belief li{font-family:var(--serif); font-size:1.18rem; line-height:1.4; max-width:62ch;}
+
+.pe-evpair{display:inline-flex; align-items:center; gap:6px; flex-wrap:wrap;}
+.pe-modules .htl-ev{flex-direction:column; align-items:flex-start;}
+.pe-time{font-size:0.82rem; color:var(--slate);}
+.pe-gap{margin-top:14px;}
+.pe-k{font-weight:700; color:var(--navy);}
+
+/* parent nights */
+.pe-sessions{list-style:none; margin:0; padding:0; display:grid; gap:10px;}
+.pe-sessions li{display:flex; flex-direction:column; gap:2px; padding:12px 16px; border:1px solid var(--cloud); border-left:4px solid var(--sky); border-radius:0 10px 10px 0;}
+.pe-date{font-size:0.85rem; font-weight:700; color:var(--slate);}
+
+/* books */
+.pe-books{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:4px 24px;}
+.pe-books li{display:flex; flex-direction:column; gap:2px; padding:10px 0; border-top:1px solid var(--cloud);}
+.pe-books cite{font-family:var(--serif); font-style:italic; font-weight:700; color:var(--navy);}
+.pe-author{font-size:0.85rem; color:var(--slate);}
+.pe-books li > span:last-child{font-size:0.92rem;}
+
+/* Guide 1: swaps */
+.pe-filter{margin:0 0 4px;}
+.pe-swaps{list-style:none; margin:0 0 12px; padding:0; display:grid; gap:10px;}
+.pe-swap{padding:12px 16px; border:1px solid var(--cloud); border-radius:10px;}
+.pe-swap p{margin:0 0 6px;}
+.pe-swap p:last-child{margin:0;}
+.pe-swap-try{padding:8px 12px; background:var(--paper-soft); border-left:4px solid var(--gold); border-radius:0 8px 8px 0;}
+.pe-swap-why{font-size:0.9rem; color:var(--ink-soft);}
+
+/* Guide 2: scenarios. Each kind has a word and its own shape, never color alone. */
+.pe-scenarios{margin:0 0 16px; padding-left:1.4em; display:grid; gap:16px;}
+.pe-scn-q{font-weight:700; color:var(--navy); margin-bottom:8px;}
+.pe-kind{display:inline-flex; align-items:center; gap:6px; padding:1px 10px 1px 8px; margin-right:4px; border:2px solid var(--navy); border-radius:999px; font-size:0.78rem; font-weight:700; color:var(--navy); background:var(--paper);}
+.pe-kind::before{content:""; width:10px; height:10px; border:2px solid var(--navy);}
+.pe-kind-coach{background:var(--gold);}
+.pe-kind-coach::before{border-radius:50%; background:var(--navy);}
+.pe-kind-rescue::before{border-radius:2px; transform:rotate(45deg);}
+.pe-kind-away{border-style:dashed;}
+.pe-kind-away::before{border-radius:50%;}
+
+/* Guide 3: handoff weeks */
+.pe-weeks{list-style:none; margin:14px 0 8px; padding:0; display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:12px;}
+.pe-week{padding:12px 14px; border:1px solid var(--cloud); border-top:4px solid var(--sky); border-radius:10px;}
+.pe-week h4{margin-top:0;}
+.pe-week .tool-label{margin-top:8px;}
+
+/* Guides 4–6: fieldsets and checklists */
+.pe-fs{border:0; margin:0 0 14px; padding:0; min-width:0;}
+.pe-fs legend{padding:0; margin-bottom:6px;}
+.pe-fs .tool-input{margin-top:4px;}
+.pe-statement{font-size:1.02rem; min-height:110px;}
+.pe-checks{list-style:none; margin:0; padding:0; display:grid; gap:4px;}
+.pe-checks label{display:flex; align-items:flex-start; gap:10px; min-height:44px; padding:8px 10px; border-radius:8px; cursor:pointer;}
+.pe-checks label:hover{background:var(--paper-soft);}
+.pe-checks input{flex:none; width:20px; height:20px; margin:2px 0 0; accent-color:var(--navy);}
+
+/* Guide 5: balance bar (the sentence above it carries the numbers) */
+.pe-q-result{margin-top:12px; padding:14px 16px; background:var(--paper-soft); border-left:4px solid var(--gold); border-radius:0 10px 10px 0;}
+.pe-bar{display:flex; height:14px; margin:0 0 12px; border:2px solid var(--navy); border-radius:999px; overflow:hidden; background:var(--paper);}
+.pe-bar-r{background:repeating-linear-gradient(45deg, var(--navy), var(--navy) 3px, var(--paper) 3px, var(--paper) 6px);}
+.pe-bar-p{background:var(--gold);}
+.pe-qswaps{margin:0; padding-left:1.2em;}
+.pe-qswaps li{margin-bottom:6px;}
+.pe-qold{color:var(--slate);}
+
+/* Guide 6 */
+.pe-urgent{margin:0 0 18px; padding:12px 16px; border:2px solid var(--navy); border-radius:10px; background:var(--paper);}
+.pe-level{padding:12px 14px; border:1px solid var(--cloud); border-radius:10px;}
+.pe-level legend{font-family:var(--serif); font-weight:700; color:var(--navy); padding:0 6px;}
+.pe-level-help{border-left:4px solid var(--sky);}
+.pe-level-counselor{border-left:4px solid var(--navy);}
+.pe-ck-result{margin-top:12px; padding:14px 16px; background:var(--paper-soft); border-left:4px solid var(--gold); border-radius:0 10px 10px 0;}
+.pe-ck-result h4{margin-top:0;}
+.pe-ck-result a{display:inline-block; padding:10px 0; font-weight:700;}
+
+.pe-sheet{display:none;}
+
+@media (max-width:640px){
+  .pe-belief{padding:18px 18px 14px;}
+  .pe-belief li{font-size:1.06rem;}
+  .pe-weeks{grid-template-columns:1fr;}
+}
+
+/* printing: only the sheet built by a Print button */
+@media print{
+  body.pe-printing header, body.pe-printing .hero, body.pe-printing footer, body.pe-printing .htl-nav,
+  body.pe-printing .htl-sec:not(:has(.pe-sheet.is-printing)), body.pe-printing .htl-sec > h2,
+  body.pe-printing .htl-tool > :not(.pe-sheet){display:none !important;}
+  body.pe-printing .htl-tool{border:0; padding:0;}
+  body.pe-printing .pe-sheet.is-printing{display:block;}
+  .pe-sheet h2{font-family:var(--serif); font-size:1.3rem; margin:0 0 12px;}
+  .pe-ptable{width:100%; border-collapse:collapse;}
+  .pe-ptable th, .pe-ptable td{border:1px solid #666; padding:6px 8px; text-align:left; vertical-align:top;}
+  .pe-sheet .pe-swap{break-inside:avoid;}
+}
