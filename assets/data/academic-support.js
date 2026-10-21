@@ -60,7 +60,9 @@ const ACADEMIC_SUPPORT = {
       { q: 3, chapter: "Ch11", test: "Feb 17", session: "Feb 8", topic: "Electron Configurations" },
       { q: 3, chapter: "Ch12", test: "Mar 11", session: "Mar 4", topic: "VSEPR" },
       { q: 4, chapter: "Ch14", test: "Mar 24", session: "Mar 19", topic: "Heating and Cooling Curves" },
+      // VERIFY: confirm this early session date is intentional. (Mar 24 is about 5 weeks before the Apr 28 test.)
       { q: 4, chapter: "Ch13", test: "Apr 28", session: "Mar 24", topic: "Gas Laws" },
+      // VERIFY: session date may be wrong — it falls after the test. (Session May 14, test May 11.)
       { q: 4, chapter: "Ch15", test: "May 11", session: "May 14", topic: "Solution Stoichiometry" },
       { q: 4, chapter: "EOY", test: "Exam", session: "May 19", topic: "EOY Dimensional Analysis" }
     ]
