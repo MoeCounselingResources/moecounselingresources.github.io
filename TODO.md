@@ -23,3 +23,4 @@
 - Flashcard Studio: confirm the model ID `claude-sonnet-4-6` is the one to use (set in `api.model` and in the Worker's ALLOWED_MODELS).
 - Flashcard Studio: once the page is live, the Academic Support "Flashcard Studio" button turns from "Coming soon" to "Open" on its own; check it.
 - How to Learn sources: run `node scripts/check-source-links.mjs` on a computer with internet access (the build sandbox blocks these sites, so the 23 links in assets/data/evidence.js could not be fetched there). Fix any failing or redirected link, or add a TODO comment beside it.
+- Self-Discovery, Know Yourself and How to Learn modules (visual refresh): counseling team to look through every exercise and module on a phone and a laptop before launch. Check the Know Yourself values bracket labels ("All 30", "Top 10"...) and the 'Your task' tag on each module's This week card.

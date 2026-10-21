@@ -86,6 +86,9 @@ const HOW_TO_LEARN = {
   m: {
     back: { text: "← Back to How to Learn", href: "how-to-learn.html" },
     hook: "Sound familiar?",
+    moduleWord: "Module",
+    taskTag: "Your task",
+    evidenceWord: "Evidence",
     quick: "Which sounds like you?",
     idea: "The idea",
     try: "Try it",

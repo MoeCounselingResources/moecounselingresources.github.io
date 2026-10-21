@@ -62,6 +62,7 @@ const SELF_DISCOVERY = {
   storageBlocked: "This browser is blocking saving, so your answers will be lost when you close this page. Use \"Download as text\" under My answers to keep a copy.",
   tabsLabel: "Choose your grade level",
   jumpLabel: "Jump to an exercise",
+  mapTitle: "Your path",
   summaryTitle: "My answers",
   summaryEmpty: "You haven't answered anything on this track yet. Start with any exercise, and your answers will show up here.",
 
@@ -73,6 +74,7 @@ const SELF_DISCOVERY = {
 
   // ---------- The navy "Close it out" box at the end of every exercise ----------
   closeOut: {
+    tag: "Checkpoint",
     title: "Close it out",
     prompts: [
       { id: "close1", label: "Where did I notice something good about myself?" },

@@ -1,0 +1,81 @@
+/* =========================================================================
+   TOOL PAGES — shared look for Self-Discovery, Know Yourself, and the ten How to Learn modules.
+   Load AFTER styles.css, tools.css, and the page's own stylesheet. Page-specific rules stay in each page's own CSS.
+   These pages may step outside the school palette (as the Course Maps pathways do); each gets its own accent color.
+
+   WHAT LIVES HERE
+   - Navy hero block (full width): white serif h1, sky-blue subtitle
+   - Gold progress bar (4px) under the hero (.tp-progress, driven by assets/js/tool-pages.js)
+   - Tinted input areas with a gold left border
+   - Section headers with a gold left border
+   - Card hover lift, and the gold completion flash
+   - --tool-accent for each tool
+   ========================================================================= */
+
+/* the pages this file styles (kept in one list so a new page only needs adding here) */
+:is(body[data-page="self-discovery"], body[data-page="know-yourself"], body[data-htl-page="module"]){
+  --tool-accent:#4A90D9;
+  --tp-tint:#F0F4F8;
+  --tp-gold:var(--gold, #FFCD00);
+  --tp-navy:var(--navy, #0C2340);
+  --tp-sky:var(--sky, #69B3E7);
+}
+body[data-page="self-discovery"]{--tool-accent:#4A90D9;}
+body[data-page="know-yourself"]{--tool-accent:#7B68EE;}
+body[data-htl-page="module"]{--tool-accent:#2ECC71;}
+
+/* ---------- navy hero, full width ---------- */
+:is(body[data-page="self-discovery"], body[data-page="know-yourself"], body[data-htl-page="module"]) .hero{
+  max-width:none; margin:0; box-sizing:border-box;
+  padding:28px max(24px, calc(50% - 476px)) 30px;
+  background:var(--tp-navy); color:#fff;
+  border-bottom:4px solid var(--tool-accent);
+}
+:is(body[data-page="self-discovery"], body[data-page="know-yourself"], body[data-htl-page="module"]) .hero h1{color:#fff; margin-bottom:10px;}
+:is(body[data-page="self-discovery"], body[data-page="know-yourself"], body[data-htl-page="module"]) .hero p{color:var(--tp-sky); font-weight:600; max-width:66ch;}
+:is(body[data-page="self-discovery"], body[data-page="know-yourself"], body[data-htl-page="module"]) .hero .back-link{color:#fff; display:inline-block; padding:10px 0; min-height:44px; box-sizing:border-box; text-decoration-color:var(--tp-sky);}
+:is(body[data-page="self-discovery"], body[data-page="know-yourself"], body[data-htl-page="module"]) .hero .back-link:hover{color:var(--tp-sky);}
+:is(body[data-page="self-discovery"], body[data-page="know-yourself"], body[data-htl-page="module"]) .hero a:focus-visible{outline:3px solid #fff; outline-offset:3px; box-shadow:0 0 0 6px var(--tp-navy);}
+
+/* ---------- gold progress bar ---------- */
+.tp-progress{height:4px; background:rgba(12,35,64,.15); position:sticky; top:0; z-index:19;}
+@media (min-width:641px){ .tp-progress{top:85px;} }
+.tp-progress > span{display:block; height:100%; width:0; background:var(--tp-gold, #FFCD00); transition:width .3s ease;}
+@media (prefers-reduced-motion: reduce){ .tp-progress > span{transition:none;} }
+
+/* ---------- tinted inputs with a gold left border ---------- */
+:is(body[data-page="self-discovery"], body[data-page="know-yourself"], body[data-htl-page="module"]) :is(textarea.tool-textarea, input.tool-input, textarea.tool-input){
+  background:var(--tp-tint); border:1px solid var(--slate); border-left:3px solid var(--tp-gold, #FFCD00); border-radius:6px; color:var(--tp-navy);
+}
+:is(body[data-page="self-discovery"], body[data-page="know-yourself"], body[data-htl-page="module"]) :is(textarea.tool-textarea, input.tool-input):focus-visible{
+  outline:3px solid var(--tp-navy); outline-offset:2px; background:#fff;
+}
+
+/* ---------- section headers: gold left border, navy text, 20-24px bold ---------- */
+.tp-h, :is(body[data-htl-page="module"]) .htl-sec > h2{
+  font-family:var(--serif); font-size:clamp(1.25rem, 3.4vw, 1.5rem); font-weight:700; color:var(--tp-navy);
+  border:0; border-left:5px solid var(--tp-gold, #FFCD00); padding:2px 0 2px 12px; margin:0 0 14px;
+}
+
+/* ---------- card hover lift ---------- */
+.tp-card{transition:transform .2s ease, box-shadow .2s ease;}
+.tp-card:hover{transform:translateY(-2px); box-shadow:0 8px 22px rgba(12,35,64,.18);}
+@media (prefers-reduced-motion: reduce){ .tp-card{transition:none;} .tp-card:hover{transform:none;} }
+
+/* ---------- completion flash (gold pulse, 0.4s) ---------- */
+@keyframes tp-flash{0%{background-color:var(--tp-gold, #FFCD00); box-shadow:0 0 0 0 rgba(255,205,0,.8);} 100%{box-shadow:0 0 0 14px rgba(255,205,0,0);}}
+.tp-flash{animation:tp-flash .4s ease-out;}
+@media (prefers-reduced-motion: reduce){ .tp-flash{animation:none;} }
+
+/* ---------- shared helper ---------- */
+.tp-vh{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;}
+@media print{ .tp-progress{display:none;} }
+
+/* inputs on a navy block (the Self-Discovery checkpoint): a ring that shows on navy */
+.sd-close :is(textarea.tool-textarea, input.tool-input):focus-visible{outline:3px solid var(--tp-gold, #FFCD00); outline-offset:2px; background:#fff;}
+
+/* print: heroes and dark cards print as plain black on white */
+@media print{
+  :is(body[data-page="self-discovery"], body[data-page="know-yourself"], body[data-htl-page="module"]) .hero{background:#fff !important; color:#000 !important; border-bottom:2px solid #000;}
+  :is(body[data-page="self-discovery"], body[data-page="know-yourself"], body[data-htl-page="module"]) .hero :is(h1, p, a){color:#000 !important;}
+}
