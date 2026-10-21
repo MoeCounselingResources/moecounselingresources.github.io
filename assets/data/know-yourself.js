@@ -12,7 +12,7 @@ YEARS["know-yourself"] = {
   pointer: {text: "Looking for exercises on habits, goals, and asking for help?", linkText: "Try Self-Discovery.", url: "self-discovery.html"},
   layout: "indexed",
   // wording for the step indicator and the hero on each exercise (see assets/js/know-yourself-ui.js)
-  ui: {stepsLabel: "Exercise steps", stepOf: "Step {n} of {total}: {name}", exerciseOf: "Exercise {n} of {total}", back: "Back", next: "Next"},
+  ui: {stepsLabel: "Exercise steps", stepOf: "Step {n} of {total}: {name}", stepButton: "Step {n} of {total}: {name}", exerciseOf: "Exercise {n} of {total}", back: "Back", next: "Next"},
   order: ["roles","loveknow","values","fires"],
   sections: {
     roles: {navLabel: "What role do you play?", title: "What role do you play?", note: "Exercise 1", type: "exercise", exercise: "roles"},

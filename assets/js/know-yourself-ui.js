@@ -29,17 +29,21 @@
   mobile.querySelector('#ky-next').addEventListener('click', () => go(1));
   function go(d){
     const st = steps(), i = current(), to = st[i + d];
-    if(to){ to.click(); const h = content.querySelector('.ky-hero h2, h2'); if(h){ h.setAttribute('tabindex', '-1'); h.focus({preventScroll:true}); } window.scrollTo({top: Math.max(0, wrap.getBoundingClientRect().top + window.pageYOffset - 70), behavior:'auto'}); }
+    if(to){ to.click(); enhance(); focusHeading(); window.scrollTo({top: Math.max(0, wrap.getBoundingClientRect().top + window.pageYOffset - 70), behavior:'auto'}); }
   }
+  function focusHeading(){ const h = content.querySelector('.ky-hero h2, h2'); if(h){ h.setAttribute('tabindex', '-1'); h.focus({preventScroll:true}); } }
+  // choosing a step circle moves focus to the new exercise heading, like Back and Next do
+  nav.addEventListener('click', e => { if(e.target.closest('button[data-key]')){ enhance(); focusHeading(); } });
 
   function enhance(){
     const st = steps(), i = current(), n = st.length;
     if(i < 0) return;
-    st.forEach((b, j) => { b.classList.toggle('is-before', j < i); b.setAttribute('data-n', String(j + 1)); });
+    st.forEach((b, j) => { b.classList.toggle('is-before', j < i); b.setAttribute('data-n', String(j + 1)); b.setAttribute('aria-label', fmt(U.stepButton, {n: j + 1, total: n, name: b.textContent.trim()})); });
     const label = st[i].textContent.trim();
     document.getElementById('ky-mstep').textContent = fmt(U.stepOf, {n: i + 1, total: n, name: label});
     const bar = document.getElementById('ky-mbar');
     bar.setAttribute('aria-valuemax', String(n)); bar.setAttribute('aria-valuenow', String(i + 1));
+    bar.setAttribute('aria-valuetext', fmt(U.stepOf, {n: i + 1, total: n, name: label}));
     bar.firstChild.style.width = ((i + 1) / n * 100) + '%';
     document.getElementById('ky-prev').disabled = i === 0;
     document.getElementById('ky-next').disabled = i === n - 1;

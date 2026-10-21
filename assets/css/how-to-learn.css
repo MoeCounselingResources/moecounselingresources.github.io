@@ -169,6 +169,9 @@ body[data-htl-page="module"] .htl-task-tag{display:inline-block; margin-bottom:8
 body[data-htl-page="module"] .htl-details{border:2px solid var(--navy); border-radius:14px; padding:4px 16px 12px;}
 body[data-htl-page="module"] .htl-details summary{min-height:52px; gap:8px 10px; padding:6px 0;}
 body[data-htl-page="module"] .htl-sum-tag{display:inline-block; padding:2px 10px; border-radius:6px; background:var(--tool-accent); color:var(--navy); font:800 .72rem var(--sans); text-transform:uppercase; letter-spacing:.06em;}
+body[data-htl-page="module"] .htl-details summary{position:relative; padding-right:34px;}
+body[data-htl-page="module"] .htl-details summary::after{content:""; position:absolute; right:8px; top:50%; width:9px; height:9px; margin-top:-7px; border-right:3px solid var(--navy); border-bottom:3px solid var(--navy); transform:rotate(45deg);}
+body[data-htl-page="module"] .htl-details[open] summary::after{transform:rotate(-135deg); margin-top:-2px;}
 body[data-htl-page="module"] .htl-details summary:focus-visible{outline:3px solid var(--navy); outline-offset:3px; box-shadow:0 0 0 6px var(--gold);}
 body[data-htl-page="module"] .htl-navlink{border:2px solid var(--navy); border-radius:12px; transition:transform .2s ease, box-shadow .2s ease;}
 body[data-htl-page="module"] .htl-nav a.htl-navlink:hover{transform:translateY(-2px); box-shadow:0 8px 20px rgba(12,35,64,.18); border-color:var(--tool-accent);}
@@ -178,6 +181,8 @@ body[data-htl-page="module"] .htl-nav a.htl-navlink:hover{transform:translateY(-
   body[data-htl-page="module"] .htl-quick .htl-choice:hover, body[data-htl-page="module"] .htl-nav a.htl-navlink:hover{transform:none;}
 }
 @media print{
+  body[data-htl-page="module"] .htl-task{background:#fff !important; color:#000 !important; border:2px solid #000;}
+  body[data-htl-page="module"] .htl-task p{color:#000 !important;}
   body[data-htl-page="module"] .hero{background:#fff !important; color:#000 !important; border-bottom:2px solid #000;}
   body[data-htl-page="module"] .hero h1, body[data-htl-page="module"] .hero p{color:#000 !important;}
 }

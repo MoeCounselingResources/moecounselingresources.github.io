@@ -120,7 +120,7 @@
             <nav class="sd-map" aria-label="${esc(D.mapTitle)}">
               <ol class="sd-stages">${t.sections.map((s, si) => `
                 <li class="sd-stage">
-                  <h3 class="sd-nav-h"><span class="sd-stage-n" aria-hidden="true">${si + 1}</span>${esc(s.title)}</h3>
+                  <h2 class="sd-nav-h"><span class="sd-stage-n" aria-hidden="true">${si + 1}</span>${esc(s.title)}</h2>
                   <ol class="sd-path">${s.exercises.map(e => `
                     <li class="sd-node" data-s="new"><a class="sd-nav-a" href="#${esc(e.id)}" data-ex="${esc(e.id)}"><span class="sd-dot" data-s="new" aria-hidden="true"></span><span class="sd-nav-t">${esc(e.title)}</span><span class="sd-vh"></span></a></li>`).join('')}
                   </ol>
@@ -463,7 +463,12 @@
     markNav();
     if(cur.view === 'summary') renderSummary(); else renderExercise();
     document.title = (cur.view === 'summary' ? D.summaryTitle + ' · ' : '') + D.title + ' · Moeller Counseling';
-    if(userNav){ focusHeading(); scrollToTop(); }
+    if(userNav){
+      const phone = window.matchMedia && window.matchMedia('(max-width:820px)').matches, mw = document.getElementById('sd-mapwrap');
+      if(phone && mw) mw.open = false;   // on a phone the open map would push the exercise off screen
+      focusHeading(); scrollToTop();
+      if(phone){ const h = document.getElementById('sd-h'); if(h) h.scrollIntoView({block:'start', behavior:'auto'}); }
+    }
   }
 
   /* ---------- events ---------- */
@@ -616,6 +621,8 @@
     }
   });
 
+  // widening the window (a phone turned sideways) must not leave the map closed with its summary hidden
+  if(window.matchMedia){ const mq = window.matchMedia('(min-width:821px)'); const openMap = () => { const mw = document.getElementById('sd-mapwrap'); if(mw && mq.matches) mw.open = true; }; if(mq.addEventListener) mq.addEventListener('change', openMap); else if(mq.addListener) mq.addListener(openMap); }
   window.addEventListener('hashchange', () => route(true));
   window.addEventListener('popstate', () => route(true));
   window.addEventListener('pagehide', () => { if(saveTimer){ clearTimeout(saveTimer); saveNow(); } });

@@ -38,13 +38,14 @@ body[data-htl-page="module"]{--tool-accent:#2ECC71;}
 :is(body[data-page="self-discovery"], body[data-page="know-yourself"], body[data-htl-page="module"]) .hero a:focus-visible{outline:3px solid #fff; outline-offset:3px; box-shadow:0 0 0 6px var(--tp-navy);}
 
 /* ---------- gold progress bar ---------- */
-.tp-progress{height:4px; background:rgba(12,35,64,.15);}
+.tp-progress{height:4px; background:rgba(12,35,64,.15); position:sticky; top:0; z-index:19;}
+@media (min-width:641px){ .tp-progress{top:85px;} }
 .tp-progress > span{display:block; height:100%; width:0; background:var(--tp-gold, #FFCD00); transition:width .3s ease;}
 @media (prefers-reduced-motion: reduce){ .tp-progress > span{transition:none;} }
 
 /* ---------- tinted inputs with a gold left border ---------- */
 :is(body[data-page="self-discovery"], body[data-page="know-yourself"], body[data-htl-page="module"]) :is(textarea.tool-textarea, input.tool-input, textarea.tool-input){
-  background:var(--tp-tint); border-left:3px solid var(--tp-gold, #FFCD00); border-radius:6px; color:var(--tp-navy);
+  background:var(--tp-tint); border:1px solid var(--slate); border-left:3px solid var(--tp-gold, #FFCD00); border-radius:6px; color:var(--tp-navy);
 }
 :is(body[data-page="self-discovery"], body[data-page="know-yourself"], body[data-htl-page="module"]) :is(textarea.tool-textarea, input.tool-input):focus-visible{
   outline:3px solid var(--tp-navy); outline-offset:2px; background:#fff;
@@ -69,3 +70,12 @@ body[data-htl-page="module"]{--tool-accent:#2ECC71;}
 /* ---------- shared helper ---------- */
 .tp-vh{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;}
 @media print{ .tp-progress{display:none;} }
+
+/* inputs on a navy block (the Self-Discovery checkpoint): a ring that shows on navy */
+.sd-close :is(textarea.tool-textarea, input.tool-input):focus-visible{outline:3px solid var(--tp-gold, #FFCD00); outline-offset:2px; background:#fff;}
+
+/* print: heroes and dark cards print as plain black on white */
+@media print{
+  :is(body[data-page="self-discovery"], body[data-page="know-yourself"], body[data-htl-page="module"]) .hero{background:#fff !important; color:#000 !important; border-bottom:2px solid #000;}
+  :is(body[data-page="self-discovery"], body[data-page="know-yourself"], body[data-htl-page="module"]) .hero :is(h1, p, a){color:#000 !important;}
+}
