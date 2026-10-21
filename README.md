@@ -13,7 +13,7 @@ index.html                  Moeller Counseling (main page)
 │   ├── academic-support.html   Academic Support (study groups, Chem Block schedule with quarter filter and next-session highlight, tutors; wording and schedule in assets/data/academic-support.js)
 │   ├── gpa-calculator.html     GPA Calculator (yearly and cumulative, unweighted and weighted)
 │   ├── honor-roll.html         Honor Roll Calculator (quarterly, unweighted)
-│   ├── self-discovery.html     Self-Discovery (private, self-paced exercises; saves on the student's device)
+│   ├── self-discovery.html     Self-Discovery (private, self-paced exercises with a progress map; saves on the student's device)
 │   ├── freshman-foundations-q1.html  Freshman Foundations, Quarter 1 (study skills, 720 Days reflection, quiz)
 │   ├── freshman-foundations-q2.html  Freshman Foundations, Quarter 2 (learning, degrees, career game, bingo, glossary)
 │   ├── freshman-foundations-q3.html  Freshman Foundations, Quarter 3 (course registration and planning)
@@ -26,7 +26,7 @@ index.html                  Moeller Counseling (main page)
 │   ├── popular-colleges.html   Moeller Popular Colleges (test ranges, deadlines)
 │   ├── app-tracker.html        College Application Tracker
 │   ├── financial-aid.html      Financial Aid (FAFSA, CSS Profile, scholarships, award letters)
-│   ├── know-yourself.html      Know Yourself (four self-discovery exercises that feed essays and college lists)
+│   ├── know-yourself.html      Know Yourself (four exercises with a step indicator, a values bracket and a flame rating; feed essays and college lists; steps and heroes by assets/js/know-yourself-ui.js)
 │   ├── ai.html                 Using AI in Your College Process (do's and don'ts, copyable prompts)
 │   ├── college-exploration.html
 │   ├── military.html
@@ -56,7 +56,8 @@ Links from the School Counseling hub open a class page in its School view
 | Counselors, Upcoming Events, pop-ups, Common App guide | `assets/js/shared-content.js` |
 | The shared Essays page (prompts, brainstorm tool, writing guide, tips, supplemental guides) | `assets/data/essays.js` (the school list is `assets/data/essay-guides.js`) |
 | The seven interactive exercises (wording, lists, and credits) | `assets/data/exercises.js` (instructions at the top; logic `assets/js/exercises.js`, look `assets/css/exercises.css`). Know Yourself shows exercises 1-4, the Essays page shows 5, the Seniors page shows 6 and 7. Each saves in the student's browser under its own `moeller-ex-...` key, so don't change the keys. |
-| Which exercises are on the Know Yourself page | `assets/data/know-yourself.js` |
+| Which exercises are on the Know Yourself page, and the step-indicator wording (`ui`) | `assets/data/know-yourself.js`; look `assets/css/know-yourself.css` |
+| The shared look of Self-Discovery, Know Yourself and the ten How to Learn modules (navy hero, gold progress bar, tinted inputs, flash, accent colors) | `assets/css/tool-pages.css` (header comment explains it); the small helper is `assets/js/tool-pages.js`; module-only rules are at the bottom of `assets/css/how-to-learn.css` |
 | The AI page (do's and don'ts, rules, every copyable prompt) | `assets/data/ai.js` (instructions at the top; logic `assets/js/ai.js`, look `assets/css/ai.css`) |
 | Self-Discovery page (every exercise, prompt, and word) | `assets/data/self-discovery.js` (instructions at the top; the logic is `assets/js/self-discovery.js`, the look is `assets/css/self-discovery.css`) |
 | How to Learn hub and module wording | `assets/data/how-to-learn.js` (hub) and `assets/data/htl-<module>.js` (one per module); research claims, evidence labels and source links live ONLY in `assets/data/evidence.js`; logic is `assets/js/how-to-learn.js` (+ `assets/js/htl-<module>.js` for a module's tools); look is `assets/css/how-to-learn.css` |

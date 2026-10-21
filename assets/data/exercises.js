@@ -111,6 +111,9 @@ const EXERCISES = {
       "**Step 1:** Tap the 10 that matter most to you. **Step 2:** Narrow to 5. **Step 3:** Pick your top 3."
     ],
     rounds: [10, 5, 3],
+    bracketLabel: "Your values bracket",
+    bracketAll: "All {n}",
+    bracketTop: "Top {n}",
     roundTitles: ["Step 1: pick 10", "Step 2: narrow to 5", "Step 3: pick your top 3"],
     items: [
       { name: "Faith", desc: "Your relationship with God guides how you live." },
@@ -155,7 +158,7 @@ const EXERCISES = {
     credit: "inspired",
     intro: [
       "Some things you care about a little. Others get you fired up. Knowing the difference helps you choose service projects, activities, even a major, and gives your essays real energy.",
-      "**Rate each one:** 1 = 💥 a small spark (meh) → 5 = 🔥 a big blaze (I'd give up a Saturday for this)"
+      "**Rate each one:** 1 = a small spark (meh) → 5 = a big blaze (I'd give up a Saturday for this)"
     ],
     groups: [
       { id: "causes", title: "Causes", items: ["Kids who need mentors", "Veterans and military families", "Mental health", "The environment", "Hunger and food access", "Homelessness", "Sports access for kids", "People with disabilities", "Technology access", "Faith and community", "Elder care", "Animal welfare", "Education", "Disaster relief", "Addiction recovery"] },

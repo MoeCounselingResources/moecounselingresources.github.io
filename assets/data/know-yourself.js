@@ -11,6 +11,8 @@ YEARS["know-yourself"] = {
   blurb: "Four short exercises to help you see who you are, what you care about, and what gets you fired up. What you find here feeds your essays and your college list.",
   pointer: {text: "Looking for exercises on habits, goals, and asking for help?", linkText: "Try Self-Discovery.", url: "self-discovery.html"},
   layout: "indexed",
+  // wording for the step indicator and the hero on each exercise (see assets/js/know-yourself-ui.js)
+  ui: {stepsLabel: "Exercise steps", stepOf: "Exercise {n} of {total}: {name}", stepButton: "Step {n} of {total}: {name}", exerciseOf: "Exercise {n} of {total}", back: "Back", next: "Next"},
   order: ["roles","loveknow","values","fires"],
   sections: {
     roles: {navLabel: "What role do you play?", title: "What role do you play?", note: "Exercise 1", type: "exercise", exercise: "roles"},

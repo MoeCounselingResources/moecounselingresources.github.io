@@ -132,3 +132,59 @@
 .htl-byline a{color:var(--slate); text-decoration:underline; text-underline-offset:3px; display:inline-block; padding:10px 2px;}
 .htl-byline a:hover{color:var(--navy);}
 .htl-byline a:focus-visible{outline:3px solid var(--navy); outline-offset:2px;}
+
+/* =========================================================================
+   MODULE PAGES — the visual refresh (shared look: assets/css/tool-pages.css). Scoped to body[data-htl-page="module"].
+   ========================================================================= */
+body[data-htl-page="module"] .hero .hero-stage{background:var(--sky); border-color:var(--sky); color:var(--navy);}
+body[data-htl-page="module"] .htl-sec{margin-bottom:34px;}
+
+/* quick check: tappable cards */
+body[data-htl-page="module"] .htl-quick .htl-choices{gap:10px;}
+body[data-htl-page="module"] .htl-quick .htl-choice{
+  position:relative; padding:14px 44px 14px 16px; border:2px solid var(--navy); border-radius:14px; background:#fff; font-weight:700;
+  transition:transform .2s ease, box-shadow .2s ease, background-color .2s ease, border-color .2s ease;
+}
+body[data-htl-page="module"] .htl-quick .htl-choice::after{content:""; position:absolute; right:18px; top:50%; width:9px; height:9px; margin-top:-7px; border-right:3px solid var(--tool-accent); border-bottom:3px solid var(--navy); transform:rotate(-45deg);}
+body[data-htl-page="module"] .htl-quick .htl-choice:hover{transform:translateY(-2px); box-shadow:0 8px 20px rgba(12,35,64,.18); border-color:var(--tool-accent); background:#F4FBF7;}
+body[data-htl-page="module"] .htl-quick .htl-choice:focus-visible{outline:3px solid var(--navy); outline-offset:3px; box-shadow:0 0 0 6px var(--gold);}
+body[data-htl-page="module"] .htl-quick .htl-choice[aria-pressed="true"]{background:var(--navy); border-color:var(--navy); color:#fff; transform:none; box-shadow:none;}
+body[data-htl-page="module"] .htl-quick .htl-choice[aria-pressed="true"]::after{border-right-color:var(--gold); border-bottom-color:var(--gold); transform:rotate(45deg); margin-top:-9px;}
+body[data-htl-page="module"] .htl-quick .htl-result:not(:empty){border-left-color:var(--tool-accent); background:#F0F4F8;}
+
+/* the idea */
+body[data-htl-page="module"] .htl-example{border-left-color:var(--tool-accent); background:#F0F4F8;}
+
+/* Try it: the action zone */
+body[data-htl-page="module"] .htl-zone{padding:18px 18px 6px; background:#F0F4F8; border-left:6px solid var(--gold); border-radius:0 14px 14px 0;}
+body[data-htl-page="module"] .htl-zone > h2{margin-top:0;}
+body[data-htl-page="module"] .htl-zone .htl-tool{background:#fff; border-color:var(--navy);}
+
+/* This week: a task card */
+body[data-htl-page="module"] .htl-task{position:relative; padding:22px 20px 18px; background:var(--navy); color:#fff; border-radius:14px; border-top:5px solid var(--gold); font-weight:500; font-size:1.05rem;}
+body[data-htl-page="module"] .htl-task p{margin:0; color:#fff;}
+body[data-htl-page="module"] .htl-task-tag{display:inline-block; margin-bottom:8px; padding:2px 12px; border-radius:999px; background:var(--gold); color:var(--navy); font:800 .75rem var(--sans); text-transform:uppercase; letter-spacing:.06em;}
+
+/* What the research says: the evidence label shows before it opens */
+body[data-htl-page="module"] .htl-details{border:2px solid var(--navy); border-radius:14px; padding:4px 16px 12px;}
+body[data-htl-page="module"] .htl-details summary{min-height:52px; gap:8px 10px; padding:6px 0;}
+body[data-htl-page="module"] .htl-sum-tag{display:inline-block; padding:2px 10px; border-radius:6px; background:var(--tool-accent); color:var(--navy); font:800 .72rem var(--sans); text-transform:uppercase; letter-spacing:.06em;}
+body[data-htl-page="module"] .htl-details summary{position:relative; padding-right:34px;}
+body[data-htl-page="module"] .htl-details summary::after{content:""; position:absolute; right:8px; top:50%; width:9px; height:9px; margin-top:-7px; border-right:3px solid var(--navy); border-bottom:3px solid var(--navy); transform:rotate(45deg);}
+body[data-htl-page="module"] .htl-details[open] summary::after{transform:rotate(-135deg); margin-top:-2px;}
+body[data-htl-page="module"] .htl-details summary:focus-visible{outline:3px solid var(--navy); outline-offset:3px; box-shadow:0 0 0 6px var(--gold);}
+body[data-htl-page="module"] .htl-navlink{border:2px solid var(--navy); border-radius:12px; transition:transform .2s ease, box-shadow .2s ease;}
+body[data-htl-page="module"] .htl-nav a.htl-navlink:hover{transform:translateY(-2px); box-shadow:0 8px 20px rgba(12,35,64,.18); border-color:var(--tool-accent);}
+
+@media (prefers-reduced-motion: reduce){
+  body[data-htl-page="module"] .htl-quick .htl-choice, body[data-htl-page="module"] .htl-navlink{transition:none;}
+  body[data-htl-page="module"] .htl-quick .htl-choice:hover, body[data-htl-page="module"] .htl-nav a.htl-navlink:hover{transform:none;}
+}
+@media print{
+  body[data-htl-page="module"] .htl-task{background:#fff !important; color:#000 !important; border:2px solid #000;}
+  body[data-htl-page="module"] .htl-task p{color:#000 !important;}
+  body[data-htl-page="module"] .hero{background:#fff !important; color:#000 !important; border-bottom:2px solid #000;}
+  body[data-htl-page="module"] .hero h1, body[data-htl-page="module"] .hero p{color:#000 !important;}
+}
+
+@media (max-width:600px){ body[data-htl-page="module"] .htl-zone{padding:14px 10px 4px;} body[data-htl-page="module"] .htl-zone .htl-tool{padding:14px 12px;} }
