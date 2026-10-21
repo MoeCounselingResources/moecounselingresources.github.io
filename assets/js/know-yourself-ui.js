@@ -19,9 +19,10 @@
   /* phones: a progress bar with Back and Next replaces the step circles */
   const mobile = document.createElement('div');
   mobile.className = 'ky-mobile';
-  mobile.innerHTML = '<p class="ky-mstep" id="ky-mstep"></p><div class="ky-mbar" id="ky-mbar" role="progressbar" aria-valuemin="1" aria-valuemax="1" aria-valuenow="1" aria-label="' + U.stepsLabel.replace(/"/g, '&quot;') + '"><span></span></div>' +
+  mobile.innerHTML = '<p class="ky-mstep" id="ky-mstep"></p><div class="ky-mbar" id="ky-mbar" role="progressbar" aria-valuemin="1" aria-valuemax="1" aria-valuenow="1"><span></span></div>' +
     '<div class="ky-mbtns"><button type="button" class="tool-btn secondary" id="ky-prev"></button><button type="button" class="tool-btn" id="ky-next"></button></div>';
   wrap.insertBefore(mobile, wrap.firstChild);
+  mobile.querySelector('#ky-mbar').setAttribute('aria-label', U.stepsLabel);
   mobile.querySelector('#ky-prev').textContent = U.back;
   mobile.querySelector('#ky-next').textContent = U.next;
   mobile.querySelector('#ky-prev').addEventListener('click', () => go(-1));

@@ -194,8 +194,15 @@
     },
     // moving between rounds: the tiles you did not pick fade away, then the shorter list slides in
     move(ctx, delta){
+      if(ctx.moving) return;   // one move at a time: a quick double tap must not skip a round
       const host = ctx.body.querySelector('[data-vals]');
-      const go = () => { ctx.state.step += delta; B.values.redraw(ctx, true); ctx.save(); focusFirst(ctx.body.querySelector('[data-vals]')); };
+      const go = () => {
+        ctx.moving = false;
+        if(!host.isConnected) return;
+        ctx.state.step = Math.max(1, Math.min(4, ctx.state.step + delta)); B.values.redraw(ctx, true); ctx.save(); focusFirst(ctx.body.querySelector('[data-vals]'));
+      };
+      ctx.moving = true;
+      host.querySelectorAll('[data-act="next"], [data-act="prev"]').forEach(b => { b.disabled = true; });
       if(delta > 0 && !reduceMotion() && host.querySelector('.ex-tile')){
         host.querySelectorAll('.ex-tile:not(.is-picked)').forEach(t => t.classList.add('is-leaving'));
         host.classList.add('is-leaving-round');
@@ -238,7 +245,7 @@
           ${g.items.map((it, i) => `
             <div class="ex-rate" role="group" aria-label="${esc(it)}">
               <span class="ex-rate-l">${esc(it)}</span>
-              <span class="ex-scale" data-r="${s.rate[it] || 0}"><span aria-hidden="true">${d.scaleLow}</span>${[1,2,3,4,5].map(n => `<button type="button" class="ex-n ex-fl" data-act="rate" data-i="${esc(it)}" data-n="${n}" aria-pressed="${s.rate[it] === n}" aria-label="${esc(it)}: ${n} of 5">${flame(n)}</button>`).join('')}<span aria-hidden="true">${d.scaleHigh}</span></span>
+              <span class="ex-scale" data-r="${[1, 2, 3, 4, 5].includes(s.rate[it]) ? s.rate[it] : 0}"><span aria-hidden="true">${d.scaleLow}</span>${[1,2,3,4,5].map(n => `<button type="button" class="ex-n ex-fl" data-act="rate" data-i="${esc(it)}" data-n="${n}" aria-pressed="${s.rate[it] === n}" aria-label="${esc(it)}: ${n} of 5">${flame(n)}</button>`).join('')}<span aria-hidden="true">${d.scaleHigh}</span></span>
             </div>`).join('')}</fieldset>`).join('')}
         <div data-results>${B.fires.results(d, s)}</div>`;
     },
@@ -263,7 +270,7 @@
         const n = +t.dataset.n, k = t.dataset.i;
         if(s.rate[k] === n) delete s.rate[k]; else s.rate[k] = n;
         t.parentNode.querySelectorAll('.ex-n').forEach(b => b.setAttribute('aria-pressed', String(s.rate[k] === +b.dataset.n)));
-        t.parentNode.dataset.r = String(s.rate[k] || 0);
+        t.parentNode.dataset.r = String([1, 2, 3, 4, 5].includes(s.rate[k]) ? s.rate[k] : 0);
         if(s.fire && !(s.rate[s.fire] >= 4)) s.fire = '';
         ctx.body.querySelector('[data-results]').innerHTML = B.fires.results(d, s);
         ctx.save(); return true;
