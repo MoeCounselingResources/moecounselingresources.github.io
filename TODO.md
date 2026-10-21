@@ -24,3 +24,4 @@
 - Flashcard Studio: the PDF.js SRI fingerprints in assets/data/flashcard-studio.js were computed from the npm copy of pdfjs-dist 3.11.174. Open the page live, upload a PDF, and confirm it reads (a wrong fingerprint blocks PDF.js); if it fails, recompute from the cdnjs files.
 - Flashcard Studio: confirm the model ID `claude-sonnet-4-6` is the one to use (set in `api.model` and in the Worker's ALLOWED_MODELS).
 - Flashcard Studio: once the page is live, the Academic Support "Flashcard Studio" button turns from "Coming soon" to "Open" on its own; check it.
+- How to Learn sources: run `node scripts/check-source-links.mjs` on a computer with internet access (the build sandbox blocks these sites, so the 23 links in assets/data/evidence.js could not be fetched there). Fix any failing or redirected link, or add a TODO comment beside it.
