@@ -186,3 +186,5 @@ body[data-htl-page="module"] .htl-nav a.htl-navlink:hover{transform:translateY(-
   body[data-htl-page="module"] .hero{background:#fff !important; color:#000 !important; border-bottom:2px solid #000;}
   body[data-htl-page="module"] .hero h1, body[data-htl-page="module"] .hero p{color:#000 !important;}
 }
+
+@media (max-width:600px){ body[data-htl-page="module"] .htl-zone{padding:14px 10px 4px;} body[data-htl-page="module"] .htl-zone .htl-tool{padding:14px 12px;} }

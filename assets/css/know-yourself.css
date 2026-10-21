@@ -136,3 +136,6 @@ body[data-page="know-yourself"] .ex-n.ex-fl[aria-pressed="true"]{background:#FFF
 /* a check mark on the steps already passed, so it is not only a color */
 body[data-page="know-yourself"] .index-nav button.is-before::before{content:"\2713";}
 body[data-page="know-yourself"] .ex-tile-name, body[data-page="know-yourself"] .ex-tile-pick{min-height:44px;}
+
+/* on phones the card's own bar shows progress, so the thin gold bar under the hero would repeat it */
+@media (max-width:640px){ body[data-page="know-yourself"] .tp-progress{display:none;} }
