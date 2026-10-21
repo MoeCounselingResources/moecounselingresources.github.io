@@ -71,10 +71,6 @@
 .calc table.years th:first-child,.calc table.years td:first-child{text-align:left}
 .calc table.years thead th{font-size:.8rem;color:var(--ink-soft);font-weight:600;background:var(--paper-soft)}
 .calc table.years tfoot td{font-weight:800;font-family:var(--serif);font-size:1.1rem}
-.calc .tiers{margin-top:12px;display:grid;gap:6px}
-.calc .tier{display:grid;grid-template-columns:1fr auto;padding:9px 12px;border-radius:8px;background:var(--paper);border:1px solid var(--rule)}
-.calc .tier.on{border-color:var(--gold);border-left:6px solid var(--gold);background:var(--gold-soft);font-weight:700}
-.calc .tier span:last-child{color:var(--ink-soft);font-variant-numeric:tabular-nums}
 .calc .check{display:flex;gap:8px;align-items:center;margin-top:14px}
 .calc .check input{width:18px;height:18px}
 

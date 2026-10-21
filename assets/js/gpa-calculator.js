@@ -20,7 +20,7 @@ function cp2(g){ if(g>=96) return 4.3; if(g>=94) return 4.2; if(g>=92) return 4.
 function wt(g,level){ if(g<70) return 0; return cp2(g)+LEVELS[level].bonus; }
 const r1 = x => Math.round(x*10)/10;
 const trunc2 = x => Math.floor(x*100+1e-6)/100;
-/* GPAs are rounded to the nearest hundredth for display and for the Latin Honors comparison (2.765 -> 2.77). */
+/* GPAs are rounded to the nearest hundredth for display (2.765 -> 2.77). */
 const round2 = x => Math.round(x*100+1e-6)/100;
 const fmt = x => (x==null||isNaN(x)) ? "–" : round2(x).toFixed(2);
 const letter = g => g>=90?"A":g>=80?"B":g>=75?"C":g>=70?"D":"F";
@@ -49,7 +49,7 @@ let tab = state.tab || "9";
 let uid = Date.now();
 function load(){
   try{ const s = JSON.parse(localStorage.getItem(KEY)); if(s && s.years) return s; }catch(e){}
-  return {years:{"9":[],"10":[],"11":[],"12":[]}, capstone:false, tab:"9"};
+  return {years:{"9":[],"10":[],"11":[],"12":[]}, tab:"9"};
 }
 function save(){ state.tab = tab; try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
 
@@ -87,19 +87,6 @@ function honorRoll(s){
   if(u>=3.4) return {t:"Second Honors", n:"Unweighted 3.40–3.79, no failures.", c:"good"};
   return {t:"Not on honor roll yet", n:`Second Honors starts at 3.40 unweighted (you're ${(3.4-u).toFixed(2)} away).`, c:""};
 }
-const TIERS = [
-  {name:"Summa Cum Laude with High Honors", min:4.5, cap:true},
-  {name:"Summa Cum Laude", min:4.5},
-  {name:"Magna Cum Laude", min:4.25},
-  {name:"Cum Laude", min:4.0}
-];
-function latin(w){
-  if(w==null) return null;
-  const v = round2(w);
-  for(const t of TIERS){ if(t.cap && !state.capstone) continue; if(v>=t.min) return t; }
-  return null;
-}
-
 /* ---------- Render ---------- */
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -167,8 +154,6 @@ function renderYear(){
 function renderOverall(){
   const per = YEARS.map(y=>({y, s:summarize(state.years[y.key])}));
   const all = summarize(YEARS.flatMap(y=>state.years[y.key]));
-  const cur = latin(all.w);
-  const v = all.w==null?null:round2(all.w);
   $("#panel").innerHTML = `
     <div class="panel-head"><h2>Overall</h2></div>
     <p class="callout"><b>Your cumulative GPA is only as accurate as the grades you enter.</b> Fill in each year with the final grades from your transcript. Cumulative GPA combines every graded course from all four years, weighted by credits.</p>
@@ -177,14 +162,6 @@ function renderOverall(){
       <tbody>${per.map(p=>`<tr><td>${p.y.name}</td><td>${p.s.credits||"–"}</td><td>${fmt(p.s.uw)}</td><td>${fmt(p.s.w)}</td></tr>`).join("")}</tbody>
       <tfoot><tr><td>Cumulative</td><td>${all.credits||"–"}</td><td>${fmt(all.uw)}</td><td>${fmt(all.w)}</td></tr></tfoot>
     </table></div>
-    <h2 style="font-size:1.25rem;margin-top:26px">Latin Honors at graduation</h2>
-    <p class="hint">Based on cumulative weighted GPA.</p>
-    <div class="tiers">${TIERS.map(t=>{
-      const on = cur && cur.name===t.name;
-      let right = `${t.min.toFixed(2)}+${t.cap?" and Capstone":""}`;
-      if(!on && v!=null && v<t.min) right = `${(t.min-v).toFixed(2)} to go`;
-      return `<div class="tier ${on?"on":""}"><span>${t.name}</span><span>${right}</span></div>`;}).join("")}</div>
-    <label class="check"><input type="checkbox" id="capstone" ${state.capstone?"checked":""}> I've completed the Chaminade Global Scholars Capstone</label>
     <div class="actions"><button class="btn ghost" id="clearAll">Clear all four years</button></div>
     ${howHTML()}`;
 }
@@ -200,7 +177,7 @@ function howHTML(){
     <li>Decimal grades are dropped to the whole number (89.7 counts as 89).</li>
     <li>Grades below 70 earn 0 points and still count toward the GPA.</li>
     <li>Pass/fail courses earn credit but don't count in the GPA.</li>
-    <li>GPAs are rounded to the nearest hundredth, so 2.765 shows as 2.77. The same rounded number is used for Latin Honors.</li>
+    <li>GPAs are rounded to the nearest hundredth, so 2.765 shows as 2.77.</li>
     <li>Honor roll is figured each quarter with unweighted grades. Use the <a href="${HONOR_ROLL_URL}">Honor Roll Calculator</a> for that.</li>
   </ul></details>`;
 }
@@ -212,10 +189,7 @@ function renderReadout(){
   const s = summarize(rows);
   let status, note, cls="";
   if(tab==="all"){
-    const t = latin(s.w);
-    status = s.w==null ? "Enter grades to see Latin Honors" : t ? t.name : "Below Cum Laude (4.00)";
-    note = "Latin Honors use cumulative weighted GPA.";
-    cls = t ? "good" : "";
+    status = s.w==null ? "Enter grades to see your GPA" : `${s.credits} credits counted`; note = `Checking honor roll? It's figured each quarter. Use the <a href="${HONOR_ROLL_URL}">Honor Roll Calculator</a>.`; cls="";
   } else {
     status = s.w==null ? "Enter grades to see your GPA" : `${s.credits} credits counted`; note = `Checking honor roll? It's figured each quarter. Use the <a href="${HONOR_ROLL_URL}">Honor Roll Calculator</a>.`; cls="";
   }
@@ -251,13 +225,12 @@ document.addEventListener("click", e=>{
   if(e.target.id==="add"){ track("added-course"); state.years[tab].push(newRow()); save(); render(); const s=document.querySelectorAll(".row select[data-k='course']"); s[s.length-1]?.focus(); return; }
   if(e.target.id==="typical"){ track("used-typical-schedule"); state.years[tab] = TYPICAL[tab].map(n=>newRow(byName(n))); save(); render(); return; }
   if(e.target.id==="clearYear"){ if(confirm("Remove every course from this year?")){ state.years[tab]=[]; save(); render(); } return; }
-  if(e.target.id==="clearAll"){ if(confirm("Remove every course from all four years?")){ state.years={"9":[],"10":[],"11":[],"12":[]}; state.capstone=false; save(); render(); } return; }
+  if(e.target.id==="clearAll"){ if(confirm("Remove every course from all four years?")){ state.years={"9":[],"10":[],"11":[],"12":[]}; save(); render(); } return; }
   const d = e.target.closest("[data-del]");
   if(d){ state.years[tab] = state.years[tab].filter(r=>r.id!==d.dataset.del); save(); render(); }
 });
 document.addEventListener("change", e=>{
   if(!e.target.closest(".calc")) return;
-  if(e.target.id==="capstone"){ state.capstone=e.target.checked; save(); render(); return; }
   const rowEl = e.target.closest(".row"); if(!rowEl) return;
   const r = state.years[tab].find(x=>x.id===rowEl.dataset.id); const k = e.target.dataset.k;
   if(k==="course"){

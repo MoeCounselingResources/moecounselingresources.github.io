@@ -11,7 +11,7 @@ index.html                  Moeller Counseling (main page)
 │   ├── study-tips.html
 │   ├── parent-education.html
 │   ├── academic-support.html   Academic Support (study groups, Chem Block schedule with quarter filter and next-session highlight, tutors; wording and schedule in assets/data/academic-support.js)
-│   ├── gpa-calculator.html     GPA Calculator (yearly, cumulative, Latin Honors)
+│   ├── gpa-calculator.html     GPA Calculator (yearly and cumulative, unweighted and weighted)
 │   ├── honor-roll.html         Honor Roll Calculator (quarterly, unweighted)
 │   ├── self-discovery.html     Self-Discovery (private, self-paced exercises; saves on the student's device)
 │   ├── freshman-foundations-q1.html  Freshman Foundations, Quarter 1 (study skills, 720 Days reflection, quiz)

@@ -21,7 +21,7 @@ const HUBS = {
       {title:"Flashcard Studio", desc:"Turn your notes into smart flashcards. Study with timers, track your streak, and print your deck.", href:"flashcard-studio.html", grades:[9,10,11,12], accent:"sky", icon:"cards"},
       {title:"Course Planner", desc:"Map out all four years and track your graduation requirements.", href:"course-planner.html", grades:[9,10,11,12], accent:"navy", icon:"map"},
       {title:"Course timelines and connections", desc:"Browse pathway timelines and see how courses connect across four years.", href:"course-maps.html", grades:[9,10,11,12], accent:"gold", icon:"web"},
-      {title:"GPA Calculator", desc:"Figure your GPA and see where you stand for Latin Honors.", href:"gpa-calculator.html", grades:[9,10,11,12], accent:"sky", icon:"calc"},
+      {title:"GPA Calculator", desc:"Figure your GPA, weighted and unweighted.", href:"gpa-calculator.html", grades:[9,10,11,12], accent:"sky", icon:"calc"},
       {title:"Honor Roll Calculator", desc:"Check whether your quarter grades earn First or Second Honors.", href:"honor-roll.html", grades:[9,10,11,12], accent:"gold", icon:"star"},
       {title:"Academic Support", desc:"Study groups, Chem Block, and tutoring in school.", href:"academic-support.html", grades:[9,10,11,12], accent:"navy", icon:"people"},
       {title:"Education for Parents", desc:"Guidance and sessions to help families support their students.", href:"parent-education.html", grades:[9,10,11,12], accent:"sky", icon:"home"}
