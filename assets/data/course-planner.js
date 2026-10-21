@@ -355,6 +355,14 @@ const COURSE_PLANNER_TEXT = {
        "Name": null                      -> not in the planner's course list (shown as a note, no Add button)
      Keep the names exactly as they appear in assets/data/course-maps.js. */
   pathwayMatch: {
+    "Elective": { row: "Electives" },
+    "Math elective": { row: "Mathematics" },
+    "Science elective": { row: "Science" },
+    "English IV": { row: "English" },
+    "Algebra II and Trig": ["alg2-trig-cp1", "alg2-trig-h", "alg2-cp1-l1", "alg2-cp2"],
+    "Physics or Earth Science": { choose: ["physics-cp1", "earth-science-cp2"] },
+    "Government": ["us-gov-cp1"],
+    "World Language III": { choose: ["spanish-3-h", "french-3-h", "german-3-h", "latin-3-h"] },
     "Business Applications": ["business-apps-cp1", "business-apps-h"],
     "Portfolio Management Honors": "portfolio-mgmt-1-hp",
     "Portfolio Management Honors II": "portfolio-mgmt-2-hp",
