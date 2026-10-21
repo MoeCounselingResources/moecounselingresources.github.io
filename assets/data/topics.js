@@ -24,11 +24,18 @@ YEARS["study-tips"] = {
   hub: "school",
   label: "Study Tips & How to Study",
   blurb: "Ways to study smarter, take better notes, and walk into tests prepared.",
-  order: ["howToStudy","notes","tests"],
+  order: ["howToStudy","notes","tests","research"],
   sections: {
     howToStudy: placeholderSection("How to study", "Study methods that work, and how to build a routine."),
     notes: placeholderSection("Note-taking", "Methods for taking notes you'll actually use later."),
-    tests: placeholderSection("Preparing for tests", "Planning your review in the days and weeks before an exam.")
+    tests: placeholderSection("Preparing for tests", "Planning your review in the days and weeks before an exam."),
+    research: {
+      title: "Looking for the research?",
+      desc: "Looking for the research behind these strategies? See How to Learn for evidence-based explanations.",
+      items: [
+        {title:"How to Learn", desc:"Short, research-checked lessons on memory, focus, and sleep.", url:"how-to-learn.html", go:"Open How to Learn"}
+      ]
+    }
   }
 };
 
