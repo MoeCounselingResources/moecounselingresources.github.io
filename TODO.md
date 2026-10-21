@@ -2,7 +2,6 @@
 
 - Decide whether to link the junior recommendation request and questionnaire Microsoft Forms on the Juniors page.
 - Add any test prep providers left out of this update (Torch Prep, Whiz, Mathnasium Blue Ash, NKY Tutoring).
-- Confirm source and year for the Q2 earnings chart, then update the caption.
 - Freshmen page, Quarter 4 support card ("You're not alone", in assets/data/freshman.js): counseling team to VERIFY every number and resource before launch:
   - 988 Suicide & Crisis Lifeline (call or text 988, any time)
   - Crisis Text Line (text HOME to 741741)

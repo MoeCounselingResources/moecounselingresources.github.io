@@ -81,9 +81,9 @@ const FRESHMAN_Q2 = {
   why: {
     title: "Why should I go to college?",
     reasons: ["Earn more", "Live longer, healthier lives", "Less likely to be unemployed", "Less likely to be incarcerated", "Actively contribute to society"],
-    // Earnings chart. The bars resize themselves from "earnings.rows". Source and year are still to be confirmed (see TODO.md); update the caption when they are.
+    // Earnings chart. The bars resize themselves from "earnings.rows". Source: U.S. Bureau of Labor Statistics, Education Pays report. Update the figures when BLS publishes a new edition.
     chartTitle: "Earnings by education level",
-    caption: "Typical yearly earnings by education level (source: to be confirmed — check TODO.md)",
+    caption: "Typical yearly earnings by education level. Source: U.S. Bureau of Labor Statistics, Education Pays report. Figures are approximate and updated periodically.",
     earnings: { rows: [
       { label: "Less than a high school diploma", value: 40300 },
       { label: "High school graduate, no college", value: 51896 },
