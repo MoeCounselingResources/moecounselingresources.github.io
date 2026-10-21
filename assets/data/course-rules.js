@@ -7,7 +7,7 @@
    does not hold (for example "Organic Chem" on p.60).
 
    TO UPDATE EACH YEAR: check p.6 (credits and footnotes), p.7-8 (state requirements, honors diplomas,
-   service hours, NCAA), p.9 (typical plan), p.10 (Latin Honors), p.11 (registration), p.31 and p.39
+   service hours, NCAA), p.9 (typical plan), p.11 (registration), p.31 and p.39
    (math and science sequences), p.55 (Global Scholars), pp.56-57 (hub charts), pp.58-61 (pathways),
    p.64 (PE waiver sports list). Keep the ids in sync with the catalog.
    ========================================================================= */
@@ -301,8 +301,6 @@ const COURSE_RULES = {
       link: "https://education.ohio.gov/Topics/Ohio-s-Graduation-Requirements/Honors-Diplomas/Academic-Honors-Diploma" },
     { id: "ohio-seals", title: "Ohio graduation: competency and diploma seals", page: 7,
       summary: "Besides Moeller's 25 credits, Ohio requires students to show competency by passing the Math and English sections of the IOWA exam (students who do not pass get extra support and retake it), and to earn two diploma seals, at least one of them an Ohio seal: OhioMeansJobs Readiness, Industry-Recognized Credential, College-Ready (remediation-free ACT or SAT scores), Military Enlistment, Citizenship (Moeller students earn it by passing the American History and American Government sections of the IOWA exam), Science (passing the Biology section of the IOWA exam), Seal of Biliteracy, Technology, or the local Community Service seal (Moeller's service hours)." },
-    { id: "latin-honors", title: "Latin Honors (in place of class rank)", page: 10,
-      summary: "Recognition at graduation and the Senior Awards Ceremony is based on cumulative weighted GPA: Summa Cum Laude with High Honors is 4.5 or higher plus completion of the Chaminade Global Scholars Capstone; Summa Cum Laude is 4.5 or higher; Magna Cum Laude is 4.25 to 4.49; Cum Laude is 4.0 to 4.24. Honor roll uses unweighted GPA each quarter: first honors 3.8 to 4.0, second honors 3.4 to 3.79, with no class failures." },
     { id: "ncaa", title: "NCAA eligibility for student athletes", page: 8,
       summary: "Students who hope to play Division I or II college sports must meet NCAA rules. Register with the NCAA Eligibility Center (eligibilitycenter.org) at the end of junior year or in the fall of senior year, then ask the counseling office to send transcripts after junior and senior year. Eligibility uses 16 approved core courses with a minimum core GPA of 2.3 for Division I or 2.2 for Division II. Athletes should meet with their counselor early to plan course selection.",
       link: "https://www.eligibilitycenter.org" },
