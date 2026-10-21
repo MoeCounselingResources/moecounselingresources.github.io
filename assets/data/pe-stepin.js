@@ -59,7 +59,7 @@ const PE_MODULE = {
         "He's avoiding school or asking to stay home often",
         "Worry is getting in the way of everyday life",
         "He says things like \"What's the point?\""
-      ], advice: "These are signs to reach out, not to wait out. Call or email his counselor this week. You don't need to be sure something is wrong to ask.", links: [ { text: "Find his counselor", href: "school-counseling.html" } ] }
+      ], advice: "These are signs to reach out, not to wait out. Call or email his counselor this week. You don't need to be sure something is wrong to ask.", links: [ { text: "Find his counselor", href: "school-counseling.html#counselors" } ] }
     ],
     show: "Show a next step",
     none: "Check anything you've noticed first.",
