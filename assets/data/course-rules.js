@@ -14,6 +14,7 @@
 
 const COURSE_RULES = {
 
+  // MoeTerm is a separate graduation requirement — pass/fail, not counted in the 25.
   totalCredits: 25,
   totalCreditsPage: 6,
 
