@@ -23,3 +23,9 @@
 - Flashcard Studio: confirm the model ID `claude-sonnet-4-6` is the one to use (set in `api.model` and in the Worker's ALLOWED_MODELS).
 - Flashcard Studio: once the page is live, the Academic Support "Flashcard Studio" button turns from "Coming soon" to "Open" on its own; check it.
 - How to Learn sources: run `node scripts/check-source-links.mjs` on a computer with internet access (the build sandbox blocks these sites, so the 23 links in assets/data/evidence.js could not be fetched there). Fix any failing or redirected link, or add a TODO comment beside it.
+- Education for Parents (parent-education.html and pe-*.html), counseling team to review before launch:
+  - Approve the new sources in assets/data/pe-evidence.js (Hill & Tyson 2009, Robinson & Harris 2014, Bureau et al. 2022, the Huberman Lab episode with Dr. Becky Kennedy, Bjork & Bjork 2011, Harvard Center on the Developing Child, Smart but Scattered Teens, Vigdal & Brønnick 2022, Darlow et al. 2017, Lebowitz et al. 2020, Child Mind Institute, Luthar et al. 2020, Ciciolla et al. 2017, ASU News). Sinha & Kapur 2021 and Langberg et al. 2018 are already approved in evidence.js.
+  - Guide 6 (assets/data/pe-stepin.js → "urgent"): verify the 988 and 911 wording, same as the Freshmen Quarter 4 card.
+  - Guide 6 "Find his counselor" links to school-counseling.html. Point it somewhere better if counselor contact info lives elsewhere.
+  - Approve the book list in assets/data/parent-education.js → "books".
+  - Add parent nights in assets/data/parent-education.js → "sessions" (the section stays hidden while the list is empty).

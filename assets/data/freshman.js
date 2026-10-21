@@ -220,10 +220,12 @@ YEARS.freshman = {
         },
         forParents: {
           title: "For parents",
-          note: "Placeholder",
+          note: "For families",
           desc: "Ways families can support freshmen this year.",
           items: [
-            {title:"Supporting your freshman", desc:"Placeholder — parent guidance for the transition to high school.", url:"parent-education.html"}
+            {title:"Your role in high school", desc:"What kind of involvement helps now that he has seven teachers and a grade portal.", url:"pe-your-role.html"},
+            {title:"Coach, don't carry", desc:"Hand off one job you do for him, like tracking due dates, over four weeks.", url:"pe-coach.html"},
+            {title:"All six parent guides", desc:"Short, research-checked guides for families, with one small thing to try each week.", url:"parent-education.html", go:"Open Education for Parents"}
           ]
         }
       }

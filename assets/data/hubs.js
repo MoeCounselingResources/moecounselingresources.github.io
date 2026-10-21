@@ -24,7 +24,7 @@ const HUBS = {
       {title:"GPA Calculator", desc:"Figure your GPA, weighted and unweighted.", href:"gpa-calculator.html", grades:[9,10,11,12], accent:"sky", icon:"calc"},
       {title:"Honor Roll Calculator", desc:"Check whether your quarter grades earn First or Second Honors.", href:"honor-roll.html", grades:[9,10,11,12], accent:"gold", icon:"star"},
       {title:"Academic Support", desc:"Study groups, Chem Block, and tutoring in school.", href:"academic-support.html", grades:[9,10,11,12], accent:"navy", icon:"people"},
-      {title:"Education for Parents", desc:"Guidance and sessions to help families support their students.", href:"parent-education.html", grades:[9,10,11,12], accent:"sky", icon:"home"}
+      {title:"Education for Parents", desc:"Short guides for families on building independence, handling struggle, and keeping grades in perspective.", href:"parent-education.html", grades:[9,10,11,12], accent:"sky", icon:"home"}
     ],
     classHeading: "Your class",
     classIntro: "Each class page has a School & Academics view with support for that year.",

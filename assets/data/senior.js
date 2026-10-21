@@ -635,10 +635,12 @@ YEARS.senior = {
         },
         forParents: {
           title: "For parents",
-          note: "Placeholder",
+          note: "For families",
           desc: "Ways families can support seniors this year.",
           items: [
-            {title:"Supporting your senior", desc:"Placeholder — parent guidance for senior year.", url:"parent-education.html"}
+            {title:"Coach, don't carry", desc:"Hand off the jobs he'll do on his own next year, starting now.", url:"pe-coach.html"},
+            {title:"When stepping back is hard", desc:"Letting him own the college process, and what to say when he's anxious.", url:"pe-stepping-back.html"},
+            {title:"All six parent guides", desc:"Short, research-checked guides for families, with one small thing to try each week.", url:"parent-education.html", go:"Open Education for Parents"}
           ]
         }
       }

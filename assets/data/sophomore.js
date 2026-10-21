@@ -200,10 +200,12 @@ YEARS.sophomore = {
         },
         forParents: {
           title: "For parents",
-          note: "Placeholder",
+          note: "For families",
           desc: "Ways families can support sophomores this year.",
           items: [
-            {title:"Supporting your sophomore", desc:"Placeholder — parent guidance for sophomore year.", url:"parent-education.html"}
+            {title:"The learning space", desc:"What to do in the first minute after he gets frustrated, and why rescuing can backfire.", url:"pe-learning-space.html"},
+            {title:"Coach, don't carry", desc:"Build planning and organization skills by handing off one job at a time.", url:"pe-coach.html"},
+            {title:"All six parent guides", desc:"Short, research-checked guides for families, with one small thing to try each week.", url:"parent-education.html", go:"Open Education for Parents"}
           ]
         }
       }
