@@ -405,3 +405,6 @@
   .at-card, .at-row{break-inside:avoid;}
   .tool-input, .tool-select, .tool-textarea{border:none; padding:0;}
 }
+
+/* design refresh: stat tiles and note boxes on tool pages use the shared navy outline */
+.tool-wrap .tool-note{max-width:var(--read-max);}

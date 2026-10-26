@@ -70,3 +70,13 @@
 }
 @media (prefers-reduced-motion: reduce){.ai *{transition:none !important; animation:none !important; scroll-behavior:auto !important;}}
 @media print{#site-header, footer, .hero .back-link, .ai-tabs, .ai-copyrow{display:none !important;} .ai-panel[hidden]{display:block !important;}}
+
+/* design refresh: same navy outline and colored top bar as the shared cards */
+.ai-dd, .ai-card{border:2px solid var(--navy); border-top-width:10px; border-radius:16px;}
+.ai-dd-grid > .ai-dd:nth-child(3n+1){border-top-color:var(--navy);}
+.ai-dd-grid > .ai-dd:nth-child(3n+2){border-top-color:var(--gold);}
+.ai-dd-grid > .ai-dd:nth-child(3n+3){border-top-color:var(--sky);}
+.ai-card{border-left-width:2px; border-top-color:var(--gold);}
+.ai-dd{padding:18px 20px;}
+.ai-dd-grid{gap:18px;}
+.ai-dd h3, .ai-card h3{font-weight:800;}
