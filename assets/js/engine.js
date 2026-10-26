@@ -46,33 +46,39 @@ const CARD_ICONS = {
   moon:'<path d="M20 14A8 8 0 1 1 10 4a6.5 6.5 0 0 0 10 10z"/>'
 };
 const CARD_ICON_RULES = [
-  [/fafsa|financial aid|scholarship|\bcost|price|529|loan|grant|\broi\b|worth|merit|fee waiver|earnings|tuition|award letter|\baid\b|saving/i, 'money'],
-  [/military|rotc|academ(y|ies)|nominat|cadet/i, 'shield'],
+  [/senator|representative|congress|nominat.*(contact|office)/i, 'mail'],
+  [/west point|naval academy|air force|coast guard|merchant marine|military|rotc|academ(y|ies)|cadet|summer seminar/i, 'shield'],
+  [/fafsa|financial aid|scholarship|\bcost|price|529|loan|grant|\broi\b|merit|fee waiver|earnings|tuition|award letter|\baid\b|saving/i, 'money'],
   [/\bai\b|artificial/i, 'sparkle'],
   [/\bgpa\b|calculator|honor roll|converter|concordance|superscor/i, 'calc'],
   [/essay|writing|journal|brainstorm|prompt|story|brag|resume/i, 'pen'],
-  [/rep visit|college visit|campus visit|\bvisit|\btour|trip/i, 'plane'],
-  [/timeline|calendar|dates?\b|deadline|schedule|registration/i, 'calendar'],
-  [/\btest|\bsat\b|\bact\b|psat|preact|exam|score/i, 'test'],
-  [/career|\bjobs?\b|intern|co-op|\bwork\b|occupation|opportunit|college fair/i, 'briefcase'],
-  [/tutor|study group|chem block|peer|counselor|counseling team|mentor|\bteam\b|meeting|parent night|people|friend/i, 'people'],
-  [/parent|famil|\bhome\b|son\b/i, 'home'],
+  [/rep visit|college visit|campus visit|visit|tour|trip/i, 'plane'],
+  [/course (timelines|web)|connections|pathway|planner|four-year|choosing courses|course load/i, 'map'],
+  [/timeline|calendar|dates?\b|deadline|schedule|registration|early (action|decision)|regular decision|rolling/i, 'calendar'],
+  [/\btest|\bsat\b|\bact\b|psat|preact|exam|score|algebra/i, 'test'],
+  [/career|\bjobs?\b|intern|co-op|\bwork\b|occupation|opportunit|college fair|servers|driver|lifeguard|delivery|marketing|shelving/i, 'briefcase'],
+  [/tutor|study group|chem block|peer|counselor|counseling team|mentor|\bteam\b|meeting|parent night|people|friend|coach/i, 'people'],
   [/know yourself|self-discovery|values|roles?\b|goals?\b|strengths|interests/i, 'target'],
-  [/learn|study|memory|focus|sleep|habit|brain|mindset|retriev|spacing/i, 'bulb'],
-  [/course|class(es)?\b|pathway|planner|plan\b|four-year|degree|major/i, 'map'],
+  [/learn|study|memory|focus|sleep|habit|brain|mindset|retriev|spacing|flashcard/i, 'bulb'],
+  [/\bccp\b|\bap\b|college credit|credit/i, 'book'],
+  [/popular|tracker|track|spreadsheet|data|chart|\brange/i, 'chart'],
+  [/application|checklist|steps|guide|how to|set up|setting up|account|faq|question/i, 'checklist'],
+  [/course|class(es)?\b|plan\b|degree|major/i, 'map'],
   [/list|explor|research|search|find|lookup|ipeds|navigator|compare|fit\b|reach/i, 'search'],
-  [/college|universit|campus|admission|applica|common app|scoir|decision/i, 'cap'],
-  [/tracker|track|spreadsheet|popular|data|chart|range/i, 'chart'],
-  [/checklist|steps|guide|how to|set up|setting up|account|faq|question/i, 'checklist'],
-  [/support|help|wellness|mental|care|anxiety|stress|crisis|alone|988/i, 'heart'],
+  [/college|universit|campus|admission|common app|scoir|decision/i, 'cap'],
+  [/support|wellness|\bmental|anxiety|stress|crisis|alone|988|struggle|stepping back/i, 'heart'],
   [/email|contact|reach out|letter|recommend/i, 'mail'],
   [/video|webinar|virtual|watch/i, 'video'],
+  [/parent|famil|\bhome\b|\bson\b/i, 'home'],
   [/read|book|glossary|source|reference/i, 'book'],
   [/link|website|resource|site\b|more/i, 'globe']
 ];
+// Cards in a "For parents" section: a small set of fitting icons, then a house.
+const PARENT_ICON_RULES = [[/learning space/i, 'bulb'], [/coach|carry/i, 'people'], [/struggle|stepping back|step in/i, 'heart'], [/role|average|all six/i, 'home']];
 function cardIconName(item, sectionTitle){
-  const hit = txt => { for(const [re, name] of CARD_ICON_RULES){ if(re.test(txt)) return name; } return ''; };
-  return hit(item.title || '') || hit(item.desc || '') || hit(sectionTitle || '') || (item.url && isExternal(item.url) ? 'globe' : 'star');
+  const hit = (txt, rules) => { for(const [re, name] of (rules || CARD_ICON_RULES)){ if(re.test(txt)) return name; } return ''; };
+  if(/parent/i.test(sectionTitle || '')) return hit(item.title || '', PARENT_ICON_RULES) || 'home';
+  return hit(item.title || '') || hit(sectionTitle || '') || hit(item.desc || '') || (item.url && isExternal(item.url) ? 'globe' : 'star');
 }
 const CARD_BANDS = ['navy', 'gold', 'sky'];
 function cardBandHtml(item, itemIdx, sectionOffset, sectionTitle){
@@ -1884,7 +1890,7 @@ function renderOpportunitiesHtml(s){
     const mid = `opp-more-${s.category.replace(/[^a-z0-9]+/gi,'-')}-${i}`;
     return `
     <article class="opp-card">
-      ${cardBandHtml({title:o.name, desc:(o.desc || '') + ' ' + (o.org || '')}, i, (String(s.category).length) % 3, s.category)}
+      ${cardBandHtml({title:o.name, desc:''}, i, (String(s.category).length) % 3, s.category)}
       <div class="opp-body">
       <h3>${escapeHtml(o.name)}</h3>
       ${o.org ? `<div class="opp-org">${escapeHtml(o.org)}</div>` : ''}
