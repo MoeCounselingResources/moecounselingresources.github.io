@@ -145,7 +145,7 @@ body.cp-modal-open{overflow:hidden;}
 
 /* ---------- hero ---------- */
 .cp-hero{background:#0A1F44; background:linear-gradient(135deg, #0C2340 0%, #14335F 100%); color:#fff; padding:22px 16px 26px;}
-.cp-hero-in{max-width:1180px; margin:0 auto;}
+.cp-hero-in{max-width:var(--page-max); margin:0 auto;}
 .cp-hero-back{display:inline-block; padding:10px 0; min-height:44px; box-sizing:border-box; color:#fff; font-size:0.95rem;}
 .cp-hero-back:hover{color:var(--sky);}
 .cp-hero h1{font-family:var(--serif); font-size:clamp(2.2rem, 6vw, 3.4rem); line-height:1.08; margin:4px 0 10px; color:#fff;}
@@ -279,7 +279,7 @@ body.cp-modal-open{overflow:hidden;}
 @media print{ .cp-hero, .cp-panel, .cp-pbg{display:none !important;} }
 
 /* ---------- page width: the planner grid needs more room than the other tool pages ---------- */
-body[data-page="course-planner"] .tool-wrap{max-width:1240px;}
+body[data-page="course-planner"] .tool-wrap{max-width:var(--page-max);}
 .cp-jump{margin-top:20px;}
 .cp-chip-t{overflow-wrap:break-word; word-break:normal;}
 

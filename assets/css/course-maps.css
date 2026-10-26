@@ -1,7 +1,7 @@
 /* Explore Courses and Pathways. Scoped to .cm-* so nothing else changes.
    Brand: navy = structure and text, gold = highlights, sky = interactive. Pathway and department colors are used
    as bands, dots, borders and light tints; text is always navy or slate on white or a light tint. */
-.cm{max-width:1200px; margin:0 auto; color:var(--navy); min-width:0;}
+.cm{max-width:var(--page-max); margin:0 auto; color:var(--navy); min-width:0;}
 .cm *{min-width:0;}
 .cm-intro{margin:0 0 14px; font-size:1.05rem;}
 .cm-sr, .cm-sr-only{position:absolute; width:1px; height:1px; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap;}

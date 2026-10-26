@@ -27,7 +27,7 @@ body[data-htl-page="module"]{--tool-accent:#2ECC71;}
 /* ---------- navy hero, full width ---------- */
 :is(body[data-page="self-discovery"], body[data-page="know-yourself"], body[data-htl-page="module"]) .hero{
   max-width:none; margin:0; box-sizing:border-box;
-  padding:28px max(24px, calc(50% - 476px)) 30px;
+  padding:28px max(var(--page-pad), calc(50% - (var(--page-max) / 2) + var(--page-pad))) 30px;
   background:var(--tp-navy); color:#fff;
   border-bottom:4px solid var(--tool-accent);
 }

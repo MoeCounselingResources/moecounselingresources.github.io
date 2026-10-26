@@ -4,9 +4,9 @@
    ===================================================================== */
 
 .tool-wrap{
-  max-width:1000px;
+  max-width:var(--page-max);
   margin:0 auto 56px;
-  padding:0 24px;
+  padding:0 var(--page-pad);
 }
 .tool-note{
   font-size:0.88rem;

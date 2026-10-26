@@ -4,7 +4,7 @@
    ========================================================================= */
 .calc{
   --bad:#B3261E; --good:#1E6B3A; --gold-soft:#FFF4C2;
-  max-width:1000px; margin:0 auto; padding:0 24px 56px;
+  max-width:var(--page-max); margin:0 auto; padding:0 var(--page-pad) 56px;
 }
 .calc .calc-tabs{display:inline-flex;flex-wrap:wrap;gap:4px;background:var(--paper-soft);border:1px solid var(--rule);border-radius:12px;padding:5px;margin:0 0 24px}
 .calc .tab{font-family:var(--sans);font-weight:700;font-size:.95rem;color:var(--ink-soft);background:transparent;border:0;border-radius:8px;padding:8px 16px;cursor:pointer;text-align:left}

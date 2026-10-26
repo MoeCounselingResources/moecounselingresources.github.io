@@ -171,11 +171,15 @@ function renderHub(hubKey){
   if(h.design === 'cards' && window.renderSchoolHubCards){ window.renderSchoolHubCards(h); }
   else document.getElementById('dashboard').innerHTML = `
     <div class="dash-grid">
-      ${h.boxes.map(b=>`
+      ${h.boxes.map((b, i)=>`
         <a class="dash-box"${linkAttrs(b.href)}>
-          <h3>${escapeHtml(b.title)}</h3>
-          <p>${escapeHtml(b.desc)}</p>
-          ${b.leads ? `<span class="leads">${escapeHtml(b.leads)}</span>` : ''}
+          ${typeof cardBandHtml === 'function' ? cardBandHtml({title:b.title, desc:b.desc, url:b.href}, i, 0, h.title) : ''}
+          <span class="dash-main">
+            <h3>${escapeHtml(b.title)}</h3>
+            <p>${escapeHtml(b.desc)}</p>
+            ${b.leads ? `<span class="leads">${escapeHtml(b.leads)}</span>` : ''}
+            <span class="dash-go" aria-hidden="true">Open</span>
+          </span>
         </a>`).join('')}
     </div>`;
   document.getElementById('classes').innerHTML = `
