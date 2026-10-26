@@ -5,22 +5,32 @@ The calendar URL is read ONLY from the OUTLOOK_ICS_URL environment variable
 (a GitHub Actions secret). It is never written to any file or printed.
 Uses only the Python standard library.
 """
-import json, os, re, sys, urllib.request
+import json, os, re, sys, time, urllib.request
 from datetime import datetime, date, timedelta, timezone
 from zoneinfo import ZoneInfo
 
 TZ = ZoneInfo("America/New_York")
 OUT = os.path.join(os.path.dirname(__file__), "..", "assets", "data", "rep-visits.js")
 DAYS_AHEAD = 90
+TRIES = 3          # download attempts before giving up
+RETRY_WAIT = 5     # seconds to wait between attempts
 
 url = os.environ.get("OUTLOOK_ICS_URL", "").strip()
 if not url:
     sys.exit("OUTLOOK_ICS_URL secret is not set; leaving rep-visits.js unchanged.")
 
-try:
-    raw = urllib.request.urlopen(url, timeout=60).read().decode("utf-8", "replace")
-except Exception as ex:
-    sys.exit("Could not download the calendar (%s); leaving rep-visits.js unchanged." % type(ex).__name__)
+raw = None
+for attempt in range(1, TRIES + 1):
+    try:
+        raw = urllib.request.urlopen(url, timeout=60).read().decode("utf-8", "replace")
+        break
+    except Exception as ex:
+        # Print only the error type: the exception text can include the secret URL.
+        print("Calendar download attempt %d of %d failed (%s)." % (attempt, TRIES, type(ex).__name__), file=sys.stderr)
+        if attempt < TRIES:
+            time.sleep(RETRY_WAIT)
+if raw is None:
+    sys.exit("Could not download the calendar after %d tries; leaving rep-visits.js unchanged." % TRIES)
 
 if "BEGIN:VCALENDAR" not in raw:
     sys.exit("Download was not a calendar; leaving rep-visits.js unchanged.")
