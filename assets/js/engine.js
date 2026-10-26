@@ -13,6 +13,80 @@ function resourceLinkHtml(url, label){
   return `<a class="resource-link" href="${escapeHtml(url)}">${label ? escapeHtml(label) : 'Open'}</a>`;
 }
 
+/* ---------- Card icons (decorative; chosen from the card's own title and description, so no data file changes) ----------
+   Every resource card gets a colored band with one of these icons. To change which icon a topic gets,
+   edit CARD_ICON_RULES (first match wins: titles are checked first, then descriptions, then the section name). */
+const CARD_ICONS = {
+  calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  money:'<circle cx="12" cy="12" r="9"/><path d="M12 6.5v11M15 9.2c-.5-1-1.6-1.6-3-1.6-1.7 0-3 .9-3 2.2s1.3 1.8 3 2.1 3 .8 3 2.2-1.3 2.2-3 2.2c-1.4 0-2.6-.6-3-1.6"/>',
+  pen:'<path d="M4 20l1-4L16 5l3 3L8 19z"/><path d="M14 7l3 3"/>',
+  cap:'<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5"/>',
+  test:'<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM9 14l2 2 4-4"/>',
+  people:'<circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c2.5 0 4.5 2 4.5 5"/>',
+  briefcase:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/>',
+  calc:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/>',
+  shield:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/>',
+  book:'<path d="M12 6c-1.5-1.5-4-2-8-2v14c4 0 6.5.5 8 2 1.5-1.5 4-2 8-2V4c-4 0-6.5.5-8 2zM12 6v14"/>',
+  search:'<circle cx="11" cy="11" r="7"/><path d="M16 16l5 5"/>',
+  map:'<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
+  star:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',
+  bulb:'<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/>',
+  heart:'<path d="M12 20s-7-4.6-9-9.2C1.8 7.4 3.8 4.5 7 4.5c2 0 3.5 1 5 3 1.5-2 3-3 5-3 3.2 0 5.2 2.9 4 6.3C19 15.4 12 20 12 20z"/>',
+  mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
+  doc:'<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M9 13h6M9 17h6"/>',
+  video:'<rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3z"/>',
+  home:'<path d="M3 11l9-8 9 8M5 10v10h14V10M10 20v-6h4v6"/>',
+  globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',
+  chart:'<path d="M4 20V4M4 20h16M8 16v-4M12 16V8M16 16v-6"/>',
+  checklist:'<path d="M9 6h11M9 12h11M9 18h11M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/>',
+  plane:'<path d="M10 14L3 11l18-7-7 18-3-8z"/>',
+  sparkle:'<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/>',
+  target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
+  building:'<path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6M9 11h.01M15 11h.01"/>',
+  moon:'<path d="M20 14A8 8 0 1 1 10 4a6.5 6.5 0 0 0 10 10z"/>'
+};
+const CARD_ICON_RULES = [
+  [/senator|representative|congress|nominat.*(contact|office)/i, 'mail'],
+  [/west point|naval academy|air force|coast guard|merchant marine|military|rotc|academ(y|ies)|cadet|summer seminar/i, 'shield'],
+  [/fafsa|financial aid|scholarship|\bcost|price|529|loan|grant|\broi\b|merit|fee waiver|earnings|tuition|award letter|\baid\b|saving/i, 'money'],
+  [/\bai\b|artificial/i, 'sparkle'],
+  [/\bgpa\b|calculator|honor roll|converter|concordance|superscor/i, 'calc'],
+  [/essay|writing|journal|brainstorm|prompt|story|brag|resume/i, 'pen'],
+  [/rep visit|college visit|campus visit|visit|tour|trip/i, 'plane'],
+  [/course (timelines|web)|connections|pathway|planner|four-year|choosing courses|course load/i, 'map'],
+  [/timeline|calendar|dates?\b|deadline|schedule|registration|early (action|decision)|regular decision|rolling/i, 'calendar'],
+  [/\btest|\bsat\b|\bact\b|psat|preact|exam|score|algebra/i, 'test'],
+  [/career|\bjobs?\b|intern|co-op|\bwork\b|occupation|opportunit|college fair|servers|driver|lifeguard|delivery|marketing|shelving/i, 'briefcase'],
+  [/tutor|study group|chem block|peer|counselor|counseling team|mentor|\bteam\b|meeting|parent night|people|friend|coach/i, 'people'],
+  [/know yourself|self-discovery|values|roles?\b|goals?\b|strengths|interests/i, 'target'],
+  [/learn|study|memory|focus|sleep|habit|brain|mindset|retriev|spacing|flashcard/i, 'bulb'],
+  [/\bccp\b|\bap\b|college credit|credit/i, 'book'],
+  [/popular|tracker|track|spreadsheet|data|chart|\brange/i, 'chart'],
+  [/application|checklist|steps|guide|how to|set up|setting up|account|faq|question/i, 'checklist'],
+  [/course|class(es)?\b|plan\b|degree|major/i, 'map'],
+  [/list|explor|research|search|find|lookup|ipeds|navigator|compare|fit\b|reach/i, 'search'],
+  [/college|universit|campus|admission|common app|scoir|decision/i, 'cap'],
+  [/support|wellness|\bmental|anxiety|stress|crisis|alone|988|struggle|stepping back/i, 'heart'],
+  [/email|contact|reach out|letter|recommend/i, 'mail'],
+  [/video|webinar|virtual|watch/i, 'video'],
+  [/parent|famil|\bhome\b|\bson\b/i, 'home'],
+  [/read|book|glossary|source|reference/i, 'book'],
+  [/link|website|resource|site\b|more/i, 'globe']
+];
+// Cards in a "For parents" section: a small set of fitting icons, then a house.
+const PARENT_ICON_RULES = [[/learning space/i, 'bulb'], [/coach|carry/i, 'people'], [/struggle|stepping back|step in/i, 'heart'], [/role|average|all six/i, 'home']];
+function cardIconName(item, sectionTitle){
+  const hit = (txt, rules) => { for(const [re, name] of (rules || CARD_ICON_RULES)){ if(re.test(txt)) return name; } return ''; };
+  if(/parent/i.test(sectionTitle || '')) return hit(item.title || '', PARENT_ICON_RULES) || 'home';
+  return hit(item.title || '') || hit(sectionTitle || '') || hit(item.desc || '') || (item.url && isExternal(item.url) ? 'globe' : 'star');
+}
+const CARD_BANDS = ['navy', 'gold', 'sky'];
+function cardBandHtml(item, itemIdx, sectionOffset, sectionTitle){
+  const icon = cardIconName(item, sectionTitle);
+  const band = CARD_BANDS[(itemIdx + sectionOffset) % 3];
+  return `<div class="rc-band rc-${band}" data-icon="${icon}" aria-hidden="true"><svg viewBox="0 0 24 24" width="40" height="40" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${CARD_ICONS[icon] || CARD_ICONS.star}</svg></div>`;
+}
+
 function escapeHtml(str){
   const div = document.createElement('div');
   div.textContent = str;
@@ -207,17 +281,12 @@ function renderSectionBody(s, year, key){
   const accentCards = s.accentCards !== undefined ? s.accentCards : !!yr.accentCards;
   const goLabels = s.goLabels !== undefined ? s.goLabels : !!yr.goLabels;
   const maxCardLinks = s.maxCardLinks || yr.maxCardLinks || 2;
-  // Balanced grids have two columns. Work out which cards take a whole row, so a row never ends with a
-  // single stranded card: cards marked span:true, plus any card left alone at the end of a row.
+  // Cards marked span:true take the whole row. (The grid is 1-3 columns depending on the screen, so no card is forced to span.)
   const spanIdx = new Set();
-  if(compactCards && !s.stacked){
-    let col = 0, last = -1;
-    items.forEach((it, i)=>{
-      if(it.span){ if(col === 1) spanIdx.add(last); spanIdx.add(i); col = 0; }
-      else { col++; last = i; if(col === 2) col = 0; }
-    });
-    if(col === 1) spanIdx.add(last);
-  }
+  if(compactCards && !s.stacked) items.forEach((it, i)=>{ if(it.span) spanIdx.add(i); });
+  // Each section starts its band-color rotation at a different color, so neighboring sections differ but each stays consistent.
+  const sectionOffset = (String(key).split('').reduce((a, c) => a + c.charCodeAt(0), 0)) % 3;
+  const sectionTitle = s.title || s.navLabel || '';
   const cards = items.map((item, itemIdx)=>{
     const imgs = item.images || (item.image ? [item.image] : []);
     let mgHtml = '';
@@ -279,6 +348,8 @@ function renderSectionBody(s, year, key){
         ? `<div class="card-links">${item.url ? resourceLinkHtml(item.url, goLabel) : ''}${shown.map(b=>`<div class="card-link-line">${bulletHtml(b)}</div>`).join('')}</div>` : '';
       return `
     <div class="resource-card${s.stacked ? ' wide' : ''} compact${accentCards ? ' accent' : ''}${spanIdx.has(itemIdx) ? ' span-all' : ''}">
+      ${cardBandHtml(item, itemIdx, sectionOffset, sectionTitle)}
+      <div class="rc-main">
       ${imgs.length ? `<div class="resource-images">${imgs.map(src=>`<img src="${escapeHtml(src)}" alt="${escapeHtml(item.title)}">`).join('')}</div>` : ''}
       <div class="resource-text">
         <h3>${escapeHtml(item.title)}</h3>
@@ -291,11 +362,14 @@ function renderSectionBody(s, year, key){
         ${mgHtml}
         ${footer}
       </div>
+      </div>
     </div>
   `;
     }
     return `
     <div class="resource-card${s.stacked ? ' wide' : ''}">
+      ${cardBandHtml(item, itemIdx, sectionOffset, sectionTitle)}
+      <div class="rc-main">
       ${imgs.length ? `<div class="resource-images">${imgs.map(src=>`<img src="${escapeHtml(src)}" alt="${escapeHtml(item.title)}">`).join('')}</div>` : ''}
       <div class="resource-text">
         <h3>${escapeHtml(item.title)}</h3>
@@ -306,6 +380,7 @@ function renderSectionBody(s, year, key){
       ${tipHtml}
       ${mgHtml}
       ${item.url ? resourceLinkHtml(item.url, goLabel) : ''}
+      </div>
     </div>
   `;
   }).join('');
@@ -1815,6 +1890,8 @@ function renderOpportunitiesHtml(s){
     const mid = `opp-more-${s.category.replace(/[^a-z0-9]+/gi,'-')}-${i}`;
     return `
     <article class="opp-card">
+      ${cardBandHtml({title:o.name, desc:''}, i, (String(s.category).length) % 3, s.category)}
+      <div class="opp-body">
       <h3>${escapeHtml(o.name)}</h3>
       ${o.org ? `<div class="opp-org">${escapeHtml(o.org)}</div>` : ''}
       <dl class="opp-meta">
@@ -1823,6 +1900,7 @@ function renderOpportunitiesHtml(s){
       ${o.desc ? `<p class="opp-desc">${escapeHtml(o.desc)}</p>` : ''}
       ${o.more ? `<p class="opp-desc" id="${mid}" hidden>${escapeHtml(o.more)}</p><button type="button" class="opp-more" aria-expanded="false" aria-controls="${mid}">Read more</button>` : ''}
       ${(o.links || []).length ? `<div class="opp-links">${o.links.map(l=>`<a${linkAttrs(l.url)}>${escapeHtml(l.text)}${isExternal(l.url) ? ' ↗' : ''}</a>`).join('')}</div>` : ''}
+      </div>
     </article>`;
   }).join('')}</div>`;
 }

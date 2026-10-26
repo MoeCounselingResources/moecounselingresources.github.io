@@ -71,6 +71,8 @@ Links from the School Counseling hub open a class page in its School view
 | Freshmen Quarter 1 page (every word) | `assets/data/freshman-q1.js` (the logic is `assets/js/freshman-q1.js`, the look is `assets/css/freshman-q1.css`) |
 | Opportunities Board cards (college fairs, programs, career exploration, jobs) | `assets/data/opportunities.js` (instructions at the top of the file) |
 | Brand colors and fonts                     | top of `assets/css/styles.css`         |
+| How wide pages are (the content container and side padding) | `--page-max` and `--page-pad` at the top of `assets/css/styles.css`; every page's container reads them |
+| Which icon and band color a resource card gets | `CARD_ICON_RULES` and `CARD_BANDS` near the top of `assets/js/engine.js` (the icon is picked from the card's own title, then its description; first match wins). Cards need no icon field in the data files. |
 | Heading font files (Produkt / Bitter)      | `assets/fonts/` — see the note at the top of styles.css |
 | Images (Common App screenshots, house crests) | `assets/img/`                       |
 | Courses in the GPA / Honor Roll Calculators (update each year) | `assets/data/courses.js` |

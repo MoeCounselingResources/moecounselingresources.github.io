@@ -9,7 +9,7 @@ body[data-page="know-yourself"] .hero .hero-pointer a{color:#fff; text-decoratio
 body[data-page="know-yourself"] .hero .hero-pointer{color:var(--sky);}
 
 /* ---------- layout: one column, steps across the top ---------- */
-body[data-page="know-yourself"] .indexed-wrap.active{display:block; max-width:1000px; padding-top:26px;}
+body[data-page="know-yourself"] .indexed-wrap.active{display:block; max-width:var(--page-max); padding-top:26px;}
 body[data-page="know-yourself"] .index-content h2{font-family:var(--serif);}
 
 /* ---------- step indicator ---------- */

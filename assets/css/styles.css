@@ -36,6 +36,12 @@
   --rule:var(--cloud);
   --rule-soft:#E0E3E3;          /* half-tint of brand Cloud */
   --focus:var(--navy);
+  --gold-soft:#FFF4C2;           /* light gold tint for tip boxes (navy text on it) */
+
+  /* ---- Page width: one place to change how wide every page's content can be ---- */
+  --page-max:1320px;
+  --page-pad:clamp(16px, 3vw, 32px);
+  --read-max:70ch;               /* paragraphs and long text stay at a readable line length */
 
   /* ---- Type: free stand-ins for Produkt Bold / ITC Franklin Gothic LT ---- */
   --serif: 'Produkt', 'Bitter', Georgia, serif;   /* ALL titles & headings — Produkt Bold, with Bitter as the free stand-in */
@@ -69,9 +75,9 @@ header{
   border-bottom:1px solid var(--rule);
 }
 .header-inner{
-  max-width:1000px;
+  max-width:var(--page-max);
   margin:0 auto;
-  padding:18px 24px;
+  padding:18px var(--page-pad);
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -119,9 +125,9 @@ header{
 
 /* ---------- Updates box (Upcoming Events) ---------- */
 .updates-wrap{
-  max-width:1000px;
+  max-width:var(--page-max);
   margin:28px auto 0;
-  padding:0 24px;
+  padding:0 var(--page-pad);
 }
 .updates-heading{
   font-family:var(--sans);
@@ -263,9 +269,9 @@ header{
 
 /* ---------- Hero ---------- */
 .hero{
-  max-width:1000px;
+  max-width:var(--page-max);
   margin:0 auto;
-  padding:56px 24px 40px;
+  padding:56px var(--page-pad) 40px;
 }
 .hero-stage{
   display:inline-block;
@@ -305,9 +311,9 @@ header{
 
 /* ---------- Sections ---------- */
 .sections{
-  max-width:1000px;
+  max-width:var(--page-max);
   margin:0 auto;
-  padding:0 24px 64px;
+  padding:0 var(--page-pad) 64px;
 }
 .resource-section{
   border-top:1px solid var(--rule);
@@ -596,9 +602,9 @@ header{
 
 /* ---------- Counselor panel ---------- */
 .panel{
-  max-width:1000px;
+  max-width:var(--page-max);
   margin:0 auto 72px;
-  padding:0 24px;
+  padding:0 var(--page-pad);
 }
 .panel .panel-head h2{
   font-family:var(--sans);
@@ -751,14 +757,14 @@ header{
 /* ---------- Indexed layout (sidebar + single active section) ---------- */
 .indexed-wrap{
   display:none;
-  max-width:1000px;
+  max-width:var(--page-max);
   margin:0 auto;
-  padding:0 24px 56px;
-  gap:36px;
+  padding:0 var(--page-pad) 56px;
+  gap:32px;
 }
 .indexed-wrap.active{
   display:grid;
-  grid-template-columns:220px 1fr;
+  grid-template-columns:230px minmax(0, 1fr);
   align-items:start;
 }
 .index-nav{
@@ -1443,10 +1449,10 @@ header{
 /* ---------- Footer ---------- */
 footer{
   border-top:1px solid var(--rule);
-  padding:28px 24px 40px;
+  padding:28px var(--page-pad) 40px;
 }
 footer .footer-inner{
-  max-width:1000px;
+  max-width:var(--page-max);
   margin:0 auto;
   color:var(--ink-faint);
   font-size:0.85rem;
@@ -1497,9 +1503,9 @@ a.year-tab[aria-current="page"]{background:var(--ink); color:var(--paper);}
 
 /* ---------- Shared page blocks ---------- */
 .page-block{
-  max-width:1000px;
+  max-width:var(--page-max);
   margin:0 auto 56px;
-  padding:0 24px;
+  padding:0 var(--page-pad);
 }
 .block-head{margin:0 0 18px;}
 .block-head h2{
@@ -1512,9 +1518,9 @@ a.year-tab[aria-current="page"]{background:var(--ink); color:var(--paper);}
 
 /* ---------- Landing: two doorways joined by the class pages ---------- */
 .doorways{
-  max-width:1000px;
+  max-width:var(--page-max);
   margin:0 auto 56px;
-  padding:0 24px;
+  padding:0 var(--page-pad);
 }
 .door-pair{
   display:grid;
@@ -1665,9 +1671,9 @@ body[data-hub="college"]{--hub-color:var(--college);}
 
 /* ---------- Grade page: College / School view switch ---------- */
 .view-switch-wrap{
-  max-width:1000px;
+  max-width:var(--page-max);
   margin:-12px auto 32px;
-  padding:0 24px;
+  padding:0 var(--page-pad);
 }
 .view-switch{
   display:inline-flex;
@@ -1705,9 +1711,9 @@ body[data-hub="college"]{--hub-color:var(--college);}
 .view-switch-note{margin:10px 0 0; font-size:0.88rem; color:var(--ink-faint);}
 .view-pane[hidden]{display:none !important;}
 .school-pane-intro{
-  max-width:1000px;
+  max-width:var(--page-max);
   margin:0 auto 8px;
-  padding:0 24px;
+  padding:0 var(--page-pad);
   color:var(--ink-soft);
 }
 .school-pane-intro p{margin:0; max-width:65ch;}
@@ -1824,7 +1830,7 @@ a.resource-link{border-bottom-color:var(--sky);}
 .panel-card .more-info:hover{opacity:0.85;}
 
 /* ---------- Sidon page ---------- */
-.bio-page{max-width:1000px; margin:0 auto 72px; padding:0 24px;}
+.bio-page{max-width:var(--page-max); margin:0 auto 72px; padding:0 var(--page-pad);}
 .bio-page h2{font-family:var(--sans); font-weight:700; font-size:1.4rem; margin:32px 0 8px;}
 .bio-page p{max-width:65ch; color:var(--ink-soft);}
 .bio-top{display:flex; gap:24px; align-items:center; flex-wrap:wrap;}
@@ -2347,7 +2353,8 @@ a.resource-link{border-bottom-color:var(--sky);}
 @media (max-width:600px){ .check-card{margin-left:0;} }
 
 /* ---------- Small screens and 200% zoom: nothing in the header may push the page sideways ---------- */
-.header-inner, .site-brand, .hub-links, .year-tabs{min-width:0; max-width:100%;}
+.header-inner{min-width:0;}
+.site-brand, .hub-links, .year-tabs{min-width:0; max-width:100%;}
 @media (max-width:480px){
   .wordmark{white-space:normal;}
   .hub-links{flex-wrap:wrap; gap:4px 16px;}
@@ -2372,3 +2379,304 @@ a.resource-link{border-bottom-color:var(--sky);}
   .hero h1{overflow-wrap:anywhere; hyphens:auto;}
   .class-link span{overflow-wrap:anywhere;}
 }
+
+
+/* =========================================================================
+   DESIGN REFRESH — wider layout, colorful cards, bigger sections.
+   Everything below is shared by every page. Width comes from --page-max / --page-pad (top of this file);
+   card icons and band colors come from assets/js/engine.js (CARD_ICON_RULES). Contrast rule: navy text on
+   gold and sky, white text only on navy; gold is used as a background, never as text on white.
+   ========================================================================= */
+
+/* ---------- Readable line length (paragraphs stay narrow even on a wide page) ---------- */
+.hero p, .section-desc, .block-head p, .panel .panel-head p, .school-pane-intro p, .index-content .section-desc{max-width:var(--read-max);}
+.htl-sec > p, .htl-sec > details, .htl-sec > .htl-list, .htl-sec > .htl-sources{max-width:var(--read-max);}
+
+/* ---------- Bigger, bolder section headings with a gold accent ---------- */
+.section-titles h2, .index-content h2, .block-head h2, .panel .panel-head h2{
+  font-family:var(--serif);
+  font-weight:800;
+  font-size:clamp(1.55rem, 2.6vw, 2.15rem);
+  line-height:1.15;
+  letter-spacing:0.005em;
+}
+.section-titles h2, .block-head h2, .panel .panel-head h2{
+  padding-bottom:10px;
+  background:linear-gradient(var(--gold), var(--gold)) left bottom / 64px 5px no-repeat;
+}
+.index-content h2, .index-content[data-accent] h2{
+  display:block;
+  padding-bottom:12px;
+  margin-bottom:10px;
+  border-bottom:0;
+  background:linear-gradient(var(--gold), var(--gold)) left bottom / 72px 5px no-repeat;
+}
+.resource-section{padding:40px 0;}
+.section-note{font-weight:600;}
+.index-content .section-desc{margin-bottom:26px; font-size:1.05rem;}
+.resource-grid{margin-top:24px;}
+
+/* ---------- Left index: navy highlight with a gold edge on the current item ---------- */
+.index-nav{gap:4px;}
+.index-nav button{
+  min-height:44px;
+  padding:11px 14px;
+  font-size:0.95rem;
+  border-radius:10px;
+  line-height:1.25;
+}
+.index-nav button:hover{background:var(--paper-soft); color:var(--navy);}
+.index-nav button[aria-current="true"]{
+  background:var(--navy);
+  color:#fff;
+  box-shadow:inset 5px 0 0 var(--gold);
+  padding-left:19px;
+}
+.index-nav button:focus-visible{outline:3px solid var(--navy); outline-offset:2px; box-shadow:0 0 0 5px var(--gold);}
+.index-nav button[aria-current="true"]:focus-visible{box-shadow:inset 5px 0 0 var(--gold), 0 0 0 5px var(--gold);}
+.index-group.has-active > .index-parent{background:var(--paper-soft); box-shadow:inset 5px 0 0 var(--gold);}
+
+/* ---------- Colorful resource cards: colored band with a big icon, bold title, description, gold button ---------- */
+.resource-grid{grid-template-columns:repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap:20px;}
+.resource-grid.compact{grid-template-columns:repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap:20px;}
+.resource-grid.stacked, .resource-grid.compact.stacked{grid-template-columns:minmax(0, 1fr); gap:16px;}
+.resource-card, .resource-card.compact{
+  position:relative;
+  padding:0;
+  gap:0;
+  justify-content:flex-start;
+  border:2px solid var(--navy);
+  border-radius:16px;
+  overflow:hidden;
+  background:var(--paper);
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.resource-card.compact.accent{border-left:2px solid var(--navy);}
+.resource-card:hover, .resource-card.compact:hover{border-color:var(--navy); transform:translateY(-2px); box-shadow:0 8px 20px rgba(12,35,64,.16);}
+.rc-band{flex:0 0 auto; height:92px; display:flex; align-items:center; justify-content:center;}
+.rc-band svg{width:46px; height:46px;}
+.rc-navy{background:var(--navy); color:#fff;}
+.rc-gold{background:var(--gold); color:var(--navy);}
+.rc-sky{background:var(--sky); color:var(--navy);}
+.rc-main{flex:1; min-width:0; display:flex; flex-direction:column; gap:14px; padding:20px 24px 24px;}
+.resource-card.compact .rc-main{gap:12px;}
+.resource-text h3{
+  font-family:var(--serif);
+  font-weight:800;
+  font-size:1.22rem;
+  line-height:1.2;
+  color:var(--navy);
+  margin:0 0 8px;
+}
+.resource-text p{font-size:0.98rem; color:var(--navy); line-height:1.5;}
+.resource-card.compact .card-bottom{margin-top:auto;}
+.resource-card.span-all, .resource-grid.compact > .resource-card.span-all{grid-column:1 / -1;}
+
+/* the main link is a gold button */
+.resource-link{
+  align-self:flex-start;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:44px;
+  padding:10px 22px;
+  border:2px solid var(--navy);
+  border-radius:12px;
+  background:var(--gold);
+  color:var(--navy);
+  font-weight:800;
+  font-size:1rem;
+  line-height:1.2;
+  text-decoration:none;
+  white-space:normal;
+  text-align:center;
+  transition:background .12s ease, color .12s ease;
+}
+.resource-link:hover{background:var(--navy); color:#fff;}
+.resource-link:focus-visible{outline:3px solid var(--navy); outline-offset:3px; box-shadow:0 0 0 6px var(--gold);}
+.resource-card.compact .resource-link{white-space:normal;}
+.card-link-line{font-size:0.95rem;}
+.card-link-line a, .resource-text a{font-weight:700;}
+.card-links{gap:8px;}
+
+/* "Show more" panels and tip boxes inside cards */
+.card-panel{border:1.5px solid var(--cloud); border-radius:10px;}
+.card-panel-toggle{min-height:44px; padding:10px 14px;}
+.card-panel-toggle:focus-visible{outline:3px solid var(--navy); outline-offset:-3px;}
+.card-tip{
+  padding:10px 14px;
+  background:var(--gold-soft);
+  border-left:5px solid var(--gold);
+  border-radius:0 8px 8px 0;
+  color:var(--navy);
+}
+
+/* full-width (stacked) cards: band on the left, text on the right */
+.resource-card.wide{background:var(--paper); flex-direction:row; align-items:stretch;}
+.resource-card.wide .rc-band{flex:0 0 96px; height:auto; align-self:stretch;}
+.resource-card.wide .rc-band svg{width:40px; height:40px;}
+.resource-card.wide .rc-main{padding:20px 26px 22px;}
+.resource-card.wide .resource-text p, .resource-card.wide .resource-text ul, .resource-card.wide .resource-text ol{max-width:var(--read-max);}
+
+/* ---------- Callouts: navy for "good to know" blocks, gold-tint for tips ---------- */
+.section-links{
+  padding:18px 22px;
+  background:var(--navy);
+  color:#fff;
+  border-left:6px solid var(--gold);
+  border-radius:0 12px 12px 0;
+}
+.section-links h3{color:#fff;}
+.section-links a, .section-links a:visited{color:#fff; text-decoration:underline; text-underline-offset:3px; font-weight:700;}
+.section-links a:hover{color:var(--gold);}
+
+/* ---------- Tablets and phones ---------- */
+@media (max-width:820px){
+  .resource-section{padding:30px 0;}
+}
+@media (max-width:640px){
+  .resource-grid, .resource-grid.compact{grid-template-columns:minmax(0, 1fr);}
+  .rc-band{height:76px;}
+  .rc-band svg{width:40px; height:40px;}
+  .rc-main{padding:18px 18px 20px;}
+  .resource-card.wide{flex-direction:column;}
+  .resource-card.wide .rc-band{flex:0 0 auto; height:68px; width:auto;}
+  .resource-link{width:100%;}
+}
+@media (prefers-reduced-motion:reduce){
+  .resource-card, .resource-card:hover{transition:none; transform:none;}
+}
+@media print{
+  .resource-card{break-inside:avoid; box-shadow:none !important; transform:none !important;}
+  .rc-band{height:auto; padding:6px; background:none !important; color:var(--navy) !important;}
+}
+
+
+/* ---------- Hub dashboard boxes and class tiles: same colorful card style ---------- */
+.dash-grid{grid-template-columns:repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap:20px;}
+.dash-box, .dash-box:hover{
+  position:relative;
+  padding:0;
+  gap:0;
+  border:2px solid var(--navy);
+  border-radius:16px;
+  overflow:hidden;
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.dash-box:hover{transform:translateY(-2px); box-shadow:0 8px 20px rgba(12,35,64,.16);}
+.dash-box:focus-visible{outline:3px solid var(--navy); outline-offset:3px; box-shadow:0 0 0 6px var(--gold);}
+.dash-main{flex:1; display:flex; flex-direction:column; gap:8px; padding:20px 24px 24px;}
+.dash-box h3{font-family:var(--serif); font-weight:800; font-size:1.22rem; line-height:1.2; color:var(--navy);}
+.dash-box p{font-size:0.98rem; color:var(--navy);}
+.dash-box .leads{color:var(--navy); font-size:0.9rem;}
+.dash-go{
+  align-self:flex-start;
+  margin-top:auto;
+  display:inline-flex; align-items:center; justify-content:center;
+  min-height:44px; padding:10px 22px;
+  border:2px solid var(--navy); border-radius:12px;
+  background:var(--gold); color:var(--navy);
+  font-weight:800; font-size:1rem; line-height:1.2;
+}
+.dash-box:hover .dash-go{background:var(--navy); color:#fff;}
+.dash-main > p{margin-bottom:10px;}
+
+.class-row{gap:16px;}
+.class-link{
+  position:relative;
+  gap:4px;
+  padding:18px 20px;
+  border:2px solid var(--navy);
+  border-radius:16px;
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.class-link:hover{transform:translateY(-2px); box-shadow:0 8px 20px rgba(12,35,64,.16); border-color:var(--navy);}
+.class-link:focus-visible{outline:3px solid var(--navy); outline-offset:3px; box-shadow:0 0 0 6px var(--gold);}
+.class-link .grade{font-weight:800; font-size:1.3rem;}
+.class-link .classof, .class-link .program{color:inherit;}
+.class-link .classof{font-weight:600;}
+.class-link:nth-child(4n+1){background:var(--navy); color:#fff;}
+.class-link:nth-child(4n+2){background:var(--gold); color:var(--navy);}
+.class-link:nth-child(4n+3){background:var(--sky); color:var(--navy);}
+.class-link:nth-child(4n+4){background:var(--slate); color:#fff;}
+.class-link:nth-child(4n+1):hover, .class-link:nth-child(4n+4):hover{color:#fff;}
+.class-link:nth-child(4n+2):hover, .class-link:nth-child(4n+3):hover{color:var(--navy);}
+.class-link:nth-child(4n+1):focus-visible, .class-link:nth-child(4n+4):focus-visible{outline-color:#fff; box-shadow:0 0 0 6px var(--navy);}
+
+/* cross-links strip: navy callout */
+.cross-strip{background:var(--navy); color:#fff; border:0; border-left:6px solid var(--gold); border-radius:0 14px 14px 0; padding:24px 28px;}
+.cross-strip h2, .cross-strip > div > p{color:#fff;}
+.cross-strip h2{font-family:var(--serif); font-weight:800; font-size:1.2rem;}
+.cross-links a, .cross-links a:visited{color:#fff; text-decoration:underline; text-underline-offset:3px;}
+.cross-links a:hover{color:var(--gold);}
+.cross-links span{color:#fff;}
+@media (max-width:640px){ .dash-grid{grid-template-columns:minmax(0, 1fr);} .dash-go{width:100%;} }
+@media (prefers-reduced-motion:reduce){ .dash-box, .dash-box:hover, .class-link, .class-link:hover{transition:none; transform:none;} }
+
+
+/* ---------- Opportunities Board cards: same colored band, gold button ---------- */
+.opp-grid{grid-template-columns:repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap:20px;}
+.opp-card{padding:0; gap:0; border:2px solid var(--navy); border-left:2px solid var(--navy); border-radius:16px; overflow:hidden;}
+.opp-card .rc-band{height:76px;}
+.opp-body{flex:1; display:flex; flex-direction:column; gap:10px; padding:18px 22px 22px;}
+.opp-card h3{font-family:var(--serif); font-weight:800; font-size:1.2rem; line-height:1.2; color:var(--navy);}
+.opp-org{color:var(--navy); font-size:0.95rem; margin-top:-4px;}
+.opp-meta{font-size:0.95rem;}
+.opp-meta dd, .opp-desc{color:var(--navy);}
+.opp-desc{font-size:0.97rem;}
+.opp-more{min-height:44px; padding:0 2px; color:var(--navy);}
+.opp-links{gap:10px 16px; align-items:center;}
+.opp-links a{font-size:0.95rem;}
+.opp-links a:first-child{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-height:44px; padding:10px 20px;
+  border:2px solid var(--navy); border-radius:12px;
+  background:var(--gold); color:var(--navy);
+  font-weight:800; text-decoration:none;
+}
+.opp-links a:first-child:hover{background:var(--navy); color:#fff;}
+.opp-links a:first-child:focus-visible{outline:3px solid var(--navy); outline-offset:3px; box-shadow:0 0 0 6px var(--gold);}
+
+
+/* ---------- How to Learn / Education for Parents / module pages: use the width, same card look ---------- */
+.htl-sec h2{font-size:clamp(1.35rem, 2.2vw, 1.8rem);}
+#trouble .htl-choices{grid-template-columns:repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap:10px 14px; align-items:start;}
+.htl-modules{grid-template-columns:repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap:20px;}
+.htl-mod{
+  padding:18px 22px 22px;
+  border:2px solid var(--navy);
+  border-top-width:12px;
+  border-radius:16px;
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.htl-mod:hover{transform:translateY(-2px); box-shadow:0 8px 20px rgba(12,35,64,.16);}
+.pe-modules > .htl-mod:nth-child(3n+1){border-top-color:var(--navy);}
+.pe-modules > .htl-mod:nth-child(3n+2){border-top-color:var(--gold);}
+.pe-modules > .htl-mod:nth-child(3n+3){border-top-color:var(--sky);}
+.htl-mod-head h3{font-family:var(--serif); font-weight:800; font-size:1.15rem; line-height:1.25;}
+.htl-mod p{font-size:0.98rem; color:var(--navy);}
+@media (prefers-reduced-motion:reduce){ .htl-mod, .htl-mod:hover{transition:none; transform:none;} }
+
+
+/* ---------- Other card-style blocks pick up the same look (navy outline, rounded, colored top bar) ---------- */
+.ep-card, .ag-resource{
+  border:2px solid var(--navy);
+  border-top-width:10px;
+  border-radius:16px;
+  background:var(--paper);
+}
+.ep-list > .ep-card:nth-child(3n+1), .ag-resources > .ag-resource:nth-of-type(3n+1){border-top-color:var(--navy);}
+.ep-list > .ep-card:nth-child(3n+2), .ag-resources > .ag-resource:nth-of-type(3n+2){border-top-color:var(--gold);}
+.ep-list > .ep-card:nth-child(3n+3), .ag-resources > .ag-resource:nth-of-type(3n+3){border-top-color:var(--sky);}
+.ep-card h3, .ag-resource-title{font-family:var(--serif); font-weight:800;}
+.ep-card{padding:20px 24px;}
+.ag-resources{display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap:16px;}
+.ag-resources > .ag-h{grid-column:1 / -1; margin-bottom:0;}
+.ag-resource{max-width:none; margin:0; padding:16px 20px; transition:transform .12s ease, box-shadow .12s ease;}
+.ag-resource:hover{border-color:var(--navy); transform:translateY(-2px); box-shadow:0 8px 20px rgba(12,35,64,.16);}
+.ag-resource-desc, .ag-resource-src{color:var(--navy);}
+@media (prefers-reduced-motion:reduce){ .ag-resource, .ag-resource:hover{transition:none; transform:none;} }
+
+/* tap targets: links inside cards get a 44px-tall hit area */
+.card-link-line a{display:inline-block; padding:11px 0;}
+.card-link-line{line-height:1.2;}

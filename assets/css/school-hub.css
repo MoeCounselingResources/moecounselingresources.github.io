@@ -1,6 +1,6 @@
 /* School Counseling hub: grade selector and colorful cards. Scoped to .sh-* so nothing else changes.
    Colors: navy = structure, gold = highlights and the Open buttons, sky = interactive accents. One accent color per card. */
-.sh-wrap{margin:0 auto; max-width:1200px;}
+.sh-wrap{margin:0 auto; max-width:var(--page-max);}
 .sh-picker{background:var(--navy); color:#fff; border-radius:16px; padding:20px 18px; margin:0 0 18px;}
 .sh-picker h2{color:#fff; font-size:1.25rem; margin:0 0 4px;}
 .sh-pick-help{margin:0 0 12px; color:#fff;}

@@ -128,7 +128,7 @@
 .htl-privacy a{display:inline-block; padding:14px 0;}
 
 /* the Sources byline: a footnote, not navigation */
-.htl-byline{display:block; max-width:1000px; margin:0 auto; font-size:0.8rem; line-height:1.4; color:var(--slate); text-align:left;}
+.htl-byline{display:block; max-width:var(--page-max); margin:0 auto; font-size:0.8rem; line-height:1.4; color:var(--slate); text-align:left;}
 .htl-byline a{color:var(--slate); text-decoration:underline; text-underline-offset:3px; display:inline-block; padding:10px 2px;}
 .htl-byline a:hover{color:var(--navy);}
 .htl-byline a:focus-visible{outline:3px solid var(--navy); outline-offset:2px;}
