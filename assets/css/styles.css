@@ -2698,3 +2698,15 @@ body[data-kind="landing"] .door p{max-width:none;}
 @media (max-width:599px){
   #counselor-grid{grid-template-columns:minmax(0, 1fr);}
 }
+
+/* ---------- Freshman Foundations Q1 "Your house counselors": same 3 / 2 / 1 columns as the team grid ---------- */
+.panel-grid.fq-houses{grid-template-columns:repeat(3, minmax(0, 1fr));}
+@media (max-width:999px){ .panel-grid.fq-houses{grid-template-columns:repeat(2, minmax(0, 1fr));} }
+@media (max-width:599px){ .panel-grid.fq-houses{grid-template-columns:minmax(0, 1fr);} }
+
+/* ---------- Sidon's page: text runs the full content width; photo gallery in 3 / 2 / 1 columns ---------- */
+.bio-page p{max-width:none;}
+.gallery-grid{grid-template-columns:repeat(3, minmax(0, 1fr)); gap:16px; align-items:start;}
+.gallery-grid figure.portrait img{aspect-ratio:auto; height:auto;}   /* tall phone photos are shown whole, not cropped to 4:3 */
+@media (max-width:999px){ .gallery-grid{grid-template-columns:repeat(2, minmax(0, 1fr));} }
+@media (max-width:599px){ .gallery-grid{grid-template-columns:minmax(0, 1fr);} }
