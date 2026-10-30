@@ -2688,3 +2688,13 @@ body[data-kind="hub"] .hero p,
 body[data-kind="grade"] .hero p,
 body[data-kind="grade"] .school-pane-intro p,
 body[data-kind="landing"] .door p{max-width:none;}
+
+/* ---------- Your Counseling Team: 3 columns on wide screens, 2 on tablets, 1 on phones ---------- */
+#counselor-grid{grid-template-columns:repeat(3, minmax(0, 1fr));}
+@media (max-width:999px){
+  #counselor-grid{grid-template-columns:repeat(2, minmax(0, 1fr));}
+  #counselor-grid > :last-child:nth-child(odd){grid-column:1 / -1;}   /* an odd last card takes the row, so no grey cell is left */
+}
+@media (max-width:599px){
+  #counselor-grid{grid-template-columns:minmax(0, 1fr);}
+}
