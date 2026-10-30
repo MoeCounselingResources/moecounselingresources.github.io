@@ -2680,3 +2680,11 @@ a.resource-link{border-bottom-color:var(--sky);}
 /* tap targets: links inside cards get a 44px-tall hit area */
 .card-link-line a{display:inline-block; padding:11px 0;}
 .card-link-line{line-height:1.2;}
+
+/* ---------- Home, hub and class pages: intro text and hub boxes run the full content width ----------
+   Scoped by body[data-kind] so topic and tool pages keep their narrower reading width. */
+body[data-kind="landing"] .hero p,
+body[data-kind="hub"] .hero p,
+body[data-kind="grade"] .hero p,
+body[data-kind="grade"] .school-pane-intro p,
+body[data-kind="landing"] .door p{max-width:none;}
